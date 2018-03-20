@@ -3,7 +3,7 @@
 
 from flask import Flask, render_template, request, jsonify, Blueprint, send_from_directory, url_for, session
 from ruman.db import *
-from . import homePage
+from . import manipulate
 import json
 from ruman.config import *
 
@@ -12,7 +12,7 @@ from ruman.es import *
 @manipulate.route('/')
 def index():
 	
-	return render_template('homePage/homePage.html',username=username,role_id=role_id,uid=uid)
+	return render_template('homePage/homePage.html')
 
 @manipulate.route('/test/')
 def test():

@@ -10,7 +10,6 @@ import pymysql.cursors
 import time
 from ruman.config import *
 
-p = Pinyin()
 def defaultDatabase():
 	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=DEFAULT_DB,charset=CHARSET,cursorclass=pymysql.cursors.DictCursor)
 	conn.autocommit(True)

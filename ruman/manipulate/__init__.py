@@ -2,5 +2,5 @@
 #encoding: utf-8
 from flask import Blueprint
 
-homePage = Blueprint("manipulate",__name__)
+manipulate = Blueprint("manipulate",__name__)
 
