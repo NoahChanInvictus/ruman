@@ -1,0 +1,126 @@
+/*----------*/
+.demo-label{display:inline-block;cursor:pointer;font-weight:700;margin: 5px 10px;color: white;}
+.demo-radio{display:none!important;}
+.demo-radioInput{cursor:pointer;background-color:#eee;display:inline-block;height:16px;vertical-align:middle;width:16px;line-height:1;margin-top:-3px;}
+.demo-radio:checked + .demo-radioInput:after{background-color:#57ad68;content:"";display:inline-block;height:12px;margin:2px;width:12px}
+.demo-checkbox.demo-radioInput,.demo-radio:checked + .demo-checkbox.demo-radioInput:after{border-radius:0}
+.modal-header {
+    background: #09344e!important;
+    color: white!important;
+}
+.modal-body,.modal-footer {
+    background: #041b29!important;
+    color: white!important;
+}
+.modal-body,.modal-footer span {
+    background: #041b29!important;
+    color: white!important;
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: #2a556f!important;
+}
+.modal-header .close {
+    color:white!important;
+    opacity: 1!important;
+}
+.modal-footer .btn {
+    background-color: transparent;
+    border-color: silver;
+    color: white;
+}
+.modal-footer .btn:hover {
+    background-color: rgba(3, 8, 16, 0.61);
+    color: white;
+}
+@media screen and (min-width:1370px) and (max-width:1920px) {
+
+}
+
+
+/*模态框*/
+.modal-open .modal {
+    overflow-x: hidden;
+    /*overflow-y: hidden;*/
+}
+.modal.in .modal-dialog {
+    margin: 100px auto 0;
+}
+body.modal-open {
+    /*overflow-y: auto !important;*/
+    padding-right: 0 !important;
+}
+.modal {
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 9999999999999999999999999;
+}
+.modal-header {
+    background: #09344e!important;
+    color: white!important;
+}
+.modal-body,.modal-footer {
+    background: #041b29!important;
+    color: white!important;
+}
+.table-hover>tbody>tr:hover {
+    background-color: #2a556f!important;
+}
+.modal-header .close {
+    color:white!important;
+    opacity: 1!important;
+}
+.modal-footer .btn {
+    background-color: transparent;
+    border-color: silver;
+    color: white;
+}
+.modal-footer .btn:hover {
+    background-color: rgba(3, 8, 16, 0.61);
+    color: white;
+}
+
+/*表格中的样式*/
+.fixed-table-toolbar .search {width: 80%;}
+.form-control {
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 4px 7px;
+    background: rgba(8,23,44,0.35);
+}
+.fixed-table-container thead th .sortable {
+    padding-right: 12px;
+}
+.table:not(.table-condensed)>tbody>tr>td,
+.fixed-table-container thead th .both,
+.fixed-table-pagination .pagination-info{
+    color: white;
+}
+.table-hover>tbody>tr:hover {
+    background-color: #2a556f!important;
+}
+.fixed-table-container thead th .th-inner {
+    overflow: auto;
+    text-overflow: inherit;
+    white-space: normal;
+}
+.bootstrap-table .table>thead>tr>th {
+    width:6%;
+}
+.pagination>li>a {
+    background:rgba(8,23,44,0.35);
+    color: white;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover,
+.pagination>li>a:focus, .pagination>li>a:hover,.fixed-table-pagination li.disabled a {
+    background:#31708f;
+    border-color: silver;
+}
+.fixed-table-pagination li.disabled a {
+    color: white;
+}
+.pagination>li>a:focus, .pagination>li>a:hover {
+    color: white;
+}

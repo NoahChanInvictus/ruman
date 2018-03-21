@@ -1,0 +1,108 @@
+#container .section {
+    width: 80%;
+    margin: 0 auto;
+    padding-top:1.3rem;
+}
+/**/
+#container .firstScreen .topTitle {
+    text-align: center;
+}
+#container .firstScreen .topTitle dl{
+    display: inline-block;
+    margin: 0.1rem 0.15rem 0;
+    font-size: 0.22rem;
+    color: white;
+}
+#container .firstScreen .topTitle dl dt {
+    font-size: 0.26rem;
+    font-weight: 800;
+    color: #ff9645;
+}
+#container .firstScreen .search .searchWord {
+    padding: 0.03rem 0.06rem;
+    background: transparent;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    text-align: center;
+    font-size: 0.14rem;
+    vertical-align: middle;
+}
+#container .firstScreen .search{
+    float: right;
+}
+#container .firstScreen .search .searchWord:focus {
+    background: #f8f8f8;
+    color: #3c3c3c;
+}
+/**/
+#container .secondScreen .trendOpt .ct-tit,
+#container .thirdScreen .influeOpt .ct-tit{
+    display: inline-block;
+    font-size: 0.16rem;
+    font-weight: 700;
+    color: white;
+}
+#container .secondScreen .trendOpt,
+#container .thirdScreen .influeOpt{
+    display: inline-block;
+    font-size: 0.14rem;
+    margin-left: 0.3rem;
+}
+#container .secondScreen .trendOpt #second_select_1,
+#container .thirdScreen .influeOpt #third_select_1,
+#container .fourScreen #bar-2 #four_select,
+#container .fiveScreen #pie-2 #five_select,
+#container .sixScreen #pie-4 #six_select{
+    display: inline-block;
+    padding: 0.02rem 0.07rem;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    font-size: 0.12rem;
+    background: #005b6d;
+    color: white;
+}
+#container .fourScreen #bar-1,
+#container .fiveScreen #pie-1,
+#container .sixScreen #pie-3{
+    float: left;
+}
+#container .fourScreen #bar-2,
+#container .fiveScreen #pie-2,
+#container .sixScreen #pie-4{
+    float: right;
+}
+
+#container .fourScreen #bar-2 .barRank,#container .pieRank {
+    margin-top: 0.2rem;
+    width: 100%;
+    border: 1px solid #fff;
+}
+#container .fourScreen #bar-2 .barRank th,
+#container .pieRank th  {
+    font-size: 0.18rem;
+    font-weight: 700;
+}
+#container .fourScreen #bar-2 .barRank th,
+#container .fourScreen #bar-2 .barRank td,
+#container .pieRank th,
+#container .pieRank td {
+    display: inline-block;
+    padding: 0.08rem;
+    color: white;
+    font-size: 0.12rem;
+    text-align: center;
+    width: 48%;
+}
+#container .fourScreen #bar-2 .barRank tr,
+#container .pieRank tr {
+    border-bottom: 1px solid #fff;
+}
+#container .fourScreen #bar-2 .barRank thead th:nth-of-type(2),
+#container .fourScreen #bar-2 .barRank tbody td:nth-of-type(2),
+#container .pieRank thead th:nth-of-type(2),
+#container .pieRank tbody td:nth-of-type(2){
+    border-left: 1px solid #fff;
+}
+#container table thead {
+    background: rgba(17, 164, 226, 0.51);
+}

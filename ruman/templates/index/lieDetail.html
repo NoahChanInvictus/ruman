@@ -1,0 +1,437 @@
+{% extends "publicNav.html" %}
+{% block title %}<title>谣言详情</title>{% endblock %}
+
+{% block my_css %}
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/public_nav.css">
+    <link rel="stylesheet" href="/static/css/lie.css">
+    <style>
+        <!---->
+        /* #nav .nav_left h3 {color: #333!important;} */
+        #nav .nav_middle .main_li:nth-of-type(2) {
+            -webkit-transform: scale(1.3);
+            -moz-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+            -o-transform: scale(1.3);
+            transform: scale(1.3);
+        }
+        /*#nav .nav_middle .main_li:nth-of-type(4) a, #nav .nav_middle .main_li:nth-of-type(4) a i{*/
+            /*color: #08F!important;*/
+        /*}*/
+        .s1 {color: #08F!important;}
+        .s2 {color: #ff9645!important;}
+        #nav {background: #fff;box-shadow: 0 2px 5px rgba(41,46,51,0.15);color: #0e0e0e;}
+        #nav .nav_middle .main_li .li_a,#nav .nav_right span {color: #0e0e0e;}
+        #nav .nav_middle .main_li .line {background-color: #08F;}
+        #nav .nav_right span {border: 1px solid #787878;}
+        #nav .nav_middle, #nav .nav_right {display: block;}
+        #nav .nav_right span:hover {
+            background: #2ad1ff !important;
+            color: white!important;
+        }
+        <!---->
+        .riskValueTable .fixed-table-toolbar .search,.publicityTable .fixed-table-toolbar .search {
+            display: none;
+        }
+        .riskValueTable .bootstrap-table .table thead>tr>th,.publicityTable .bootstrap-table .table thead>tr>th{
+            width: 5%;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div id="container">
+        <div style="text-align: right;">
+            <span class="top-1 btn btn-primary">一键取证</span>
+        </div>
+        <div style="text-align: center;margin-bottom: 20px;">
+            <span id="title" style="font-size: 36px;">“<span id="title-1">万科建立新安小镇</span>”谣言预警报告</span>
+        </div>
+        <!-- 基本信息 -->
+        <div id="card">
+            <div class="infor">
+                <p class="infor-1 inforLine">
+                    <span>标题：</span>&nbsp;<b class="type-1">万科建立新安小镇</b>
+                </p>
+                <p class="infor-2 inforLine">
+                    <span>发布时间：</span>&nbsp;<b class="type-2">2017-05-01  00:00</b>
+                </p>
+                <p class="infor-3 inforLine">
+                    <span>发布者：</span>&nbsp;<b class="type-3">所长别开枪是我</b>
+                </p>
+                <p class="infor-4 inforLine">
+                    <span>发布渠道：</span>&nbsp;<b class="type-4">股吧</b>
+                </p>
+                <p class="infor-5 inforLine">
+                    <span>是否辟谣：</span>&nbsp;<b class="type-5">是</b>
+                </p>
+                <p class="infor-6 inforLine">
+                    <span>预警理由：</span>&nbsp;<b class="type-6">热点捏造</b>
+                </p>
+            </div>
+        </div>
+        <!-- Tap -->
+        <div id="mainContent" style="margin: 0.2rem 0;">
+            <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#word" role="tab" data-toggle="tab"><b class="icon icon-comment"></b>&nbsp;语义分析</a>
+                </li>
+                <li role="presentation">
+                    <a href="#spread" role="tab" data-toggle="tab"><b class="icon icon-rss"></b>&nbsp;传播分析</a>
+                </li>
+                <li role="presentation">
+                    <a href="#userImage" role="tab" data-toggle="tab"><b class="icon icon-user"></b>&nbsp;发布者画像</a>
+                </li>
+                <li role="presentation">
+                    <a href="#influnce" role="tab" data-toggle="tab"><b class="icon icon-lightbulb"></b>&nbsp;影响分析</a>
+                </li>
+                <li role="presentation">
+                    <a href="#judgment" role="tab" data-toggle="tab"><b class="icon icon-magic"></b>&nbsp;判别原因</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="content">
+                <!-- 语义分析 -->
+                <div role="tabpanel" class="_table tab-pane active" id="word">
+                    <div class="word-1">
+                        <p class="tit">
+                            <span class="tit-1"></span>
+                            <span style="font-size: 0.18rem;">原帖内容</span>
+                        </p>
+                        <div class="word-1-content clearfix">
+                            <h3><b style="color:red;display: inline-block;margin-right: 0.3rem;">关键词</b><span class="key-words">万科  雄安  新安小镇  协议</span></h3>
+                            <p class="word-content">【鲸快讯：万科将参与雄安新区6.5平方公里项目建设】7月11日讯，近日，万科已与雄安新区筹备工作委员会签署协议，协议中包含一个“新安小镇”计划。该小镇作为雄安新区落地的第一个大项目，致力于打造功能性创新型小镇新样板，将由万科联手深圳投资控股有限公司、中国节能环保集团公司共同投资建设，先期规划占地6.5平方公里。(网易房产)</p>
+                            <span class="moreInfo">查看原文</span>
+                        </div>
+                    </div>
+                    <div class="word-2">
+                        <p class="tit">
+                            <span class="tit-1"></span>
+                            <span style="font-size: 0.18rem;">观点聚类</span>
+                        </p>
+                        <div id="Viewpoint-clustering">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- 传播分析 -->
+                <div role="tabpanel" class="_table tab-pane " id="spread">
+                    <p class="tit">
+                        <span class="tit-1"></span>
+                        <span style="font-size: 0.18rem;">传播态势</span>
+                    </p>
+                    <div class="spread-info">
+                        <p>
+                            <b class="icon icon-lightbulb"></b>&nbsp;
+                            <span>截至当前</span>&nbsp;&nbsp;
+                            <span class="i-1">[<b style="color:#ff0000;">50000</b>]人浏览</span>
+                            <span class="i-1">[<b style="color:#ff0000;">83</b>]人转发</span>
+                            <span class="i-1">其中媒体[<b style="color:#ff0000;">30</b>]家</span>
+                            <span class="i-1">个人[<b style="color:#ff0000;">53</b>]家</span>
+                            <span class="i-1">[<b style="color:#ff0000;">56</b>]人评论</span>
+                            <span class="i-1">正面评论[<b style="color:#ff0000;">15</b>]条</span>
+                            <span class="i-1">负面评论[<b style="color:#ff0000;">35</b>]条</span>
+                        </p>
+                    </div>
+                    <div id="spread-pie-1" class="pie">
+
+                    </div>
+                    <div id="spread-pie-2" class="pie">
+
+                    </div>
+                    <p class="tit">
+                        <span class="tit-1"></span>
+                        <span style="font-size: 0.18rem;">多通道溯源</span>
+                    </p>
+                    <div class="fishBone" id="spread-pie-3">
+                        <a class="prev"></a>
+                        <a class="next"></a>
+                        <div class="line"></div>
+                        <div class="fish_box"></div>
+                    </div>
+                </div>
+                <!-- 发布者画像 -->
+                <div role="tabpanel" class="_table tab-pane clearfix " id="userImage">
+                    <div class="user-img">
+                        <img src="/static/images/unknown.png" alt="">
+                    </div>
+                    <!-- 整体评价 -->
+                    <div class="evaluate">
+                        <h4 class="evaluate-tit">整体评价</h4>
+                        <p class="clearfix" style="margin: 0.1rem;">
+                            <span class="evaluate-sp"><b>活跃度</b> 88.55 (NO.65/15784)  最高值90/最低值88 </span>
+                            <span class="evaluate-sp"><b>身份敏感度</b> 77.15 (NO.7564/15784)  最高值77/最低值73</span>
+                            <span class="evaluate-sp"><b>影响力</b> 79.62 (NO.173/15784)  最高值81/最低值70 </span>
+                            <span class="evaluate-sp"><b>言论敏感度</b> 0 (NO.15784/15784)  最高值34/最低值0</span>
+                        </p>
+                        <p style="text-indent:0.1rem;font-size: 0.16rem;border-top: 1px solid #94999e;padding-top:2%;">
+                            注：当前数值是通过计算近7日信息获得，最高、最低值统计范围为近30日。
+                        </p>
+                    </div>
+                    <!-- 背景信息特征 -->
+                    <div class="background-information">
+                        <h4 class="evaluate-tit">背景信息特征</h4>
+                        <div>
+                            <span title="微博">来源通道：<b>微博</b></span>
+                            <span title="华为花粉俱乐部">昵称：<b>华为花粉俱乐部</b></span>
+                            <span title="2776631980">id：<b>2776631980</b></span>
+                            <span title="2014.9.1">注册时间：<b>2014.9.1</b></span>
+                            <span title="3年1个月">注册时长：<b>3年1个月</b></span>
+                            <span title="北京">注册地：<b>北京</b></span>
+                            <span title="所长别开枪是我">关联账户：<b>所长别开枪是我</b></span>
+                            <span title="是">是否认证：<b>是</b></span>
+                            <span title="手机认证">认证类型：<b>手机认证</b></span>
+                            <span title="男">性别：<b>男</b></span>
+                            <span title="本科">教育经历：<b>本科</b></span>
+                            <span title="50000">粉丝数：<b>50000</b></span>
+                            <span title="100">关注数：<b>100</b></span>
+                            <span title="2345">发布信息数：<b>2345</b></span>
+                            <span title="http://cn.ui.vmall.com/emotiondownload.php">描述：<b>http://cn.ui.vmall.com/emotiondownload.php</b></span>
+                        </div>
+                    </div>
+                    <!-- 背景信息 右侧大盒子 -->
+                    <div class="background-right clearfix">
+                        <!-- 活动信息特征 -->
+                        <div class="activity">
+                            <h4 class="evaluate-tit">活动信息特征</h4>
+                            <p class="clearfix">
+                                <span class="activity-sp"><b>活跃时间</b><span class="c-1">2017.10.19  20:3</span></span>
+                                <span class="activity-sp"><b>活跃地点</b><span class="c-1">45.249.212.***(亚太地区 亚太地区)</span></span>
+                                <span class="activity-sp"><b>活跃频率</b><span class="c-1">本周7次</span></span>
+                                <span class="activity-sp"><b>异常位置</b><span class="c-1">121.35.2.***(中国 广东 深圳)</span></span>
+                            </p>
+                        </div>
+                        <!-- 活动信息特征  右侧盒子 -->
+                        <div class="activ-right">
+                            <!-- 内容特征 -->
+                            <div class="activ-right-top">
+                                <h4 class="evaluate-tit">内容特征</h4>
+                                <p class="clearfix" style="margin-top: 0.04rem;">
+                                    <span class="activity-sp"><b>身份</b><span class="c-2">境内机构</span></span>
+                                    <span class="activity-sp"><b>领域</b><span class="c-2">科技类</span></span>
+                                    <span class="activity-sp"><b>关键词</b><span class="c-2">抱抱 公证 憧憬 兔子 是不是 觉得 公正 笑笑</span></span>
+                                    <span class="activity-sp"><b>话题偏好</b><span class="c-2">极限少女养成营 孙杨 系列搭载 孙杨荣耀手机代</span></span>
+                                </p>
+                            </div>
+                            <!-- 性格特征 -->
+                            <div class="activ-right-bot">
+                                <h4 class="evaluate-tit">性格特征</h4>
+                                <p class="clearfix">
+                                    <span class="activity-sp"><b>情感极性</b><span class="c-3">喜欢发表正面的内容</span></span>
+                                    <span class="activity-sp"><b>性格倾向</b><span class="c-3">温和，真实</span></span>
+                                </p>
+                            </div>
+                        </div>
+                        <!-- 社交特征 -->
+                        <div class="social">
+                            <h4 class="evaluate-tit">社交特征</h4>
+                            <div class="clearfix" style="padding: 0.1rem;">
+                                <div class="activity-sp">
+                                    <b>被他转发及评论用户</b>
+                                    <img src="/static/images/chart-4.png" alt="">
+                                    <img src="/static/images/unknown.png" alt="">
+                                    <img src="/static/images/unknown.png" alt="">
+                                </div>
+                                <div class="activity-sp">
+                                    <b>转发及评论他的用户</b>
+                                    <img src="/static/images/unknown.png" alt="">
+                                    <img src="/static/images/logoDetail.png" alt="">
+                                    <img src="/static/images/unknown.png" alt="">
+                                </div>
+                                <div class="activity-sp">
+                                    <b>双向交互的用户</b>
+                                    <img src="/static/images/unknown.png" alt="">
+                                    <img src="/static/images/chart-1.png" alt="">
+                                    <img src="/static/images/unknown.png" alt="">
+                                </div>
+                                <div class="activity-sp">
+                                    <b>他@的相关用户</b>
+                                    <span>暂无数据</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 造谣特征 -->
+                    <div class="rumor cleafix">
+                        <h4 class="evaluate-tit">造谣特征</h4>
+                        <!-- 发布谣言 -->
+                        <div class="release">
+                            <h4 style="padding:0.05rem 0.2rem;">发布谣言</h4>
+                            <p class="clearfix" style="padding:0 0.2rem;">
+                                <span class="activity-sp"><b>发布次数</b><span class="r-1">10</span></span>
+                                <span class="activity-sp"><b>总浏览人数</b><span class="r-1">200000</span></span>
+                                <span class="activity-sp"><b>总转发量</b><span class="r-1">5000</span></span>
+                                <span class="activity-sp"><b>总评论量</b><span class="r-1">8000</span></span>
+                            </p>
+                            <table class="postRank" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <th>谣言标题</th>
+                                    <th>谣言时间</th>
+                                    <th>转发量</th>
+                                    <th>评论量</th>
+                                    <th>浏览人数</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>万科建立新安小镇</td>
+                                        <td>2017-05-01 00:00</td>
+                                        <td>23</td>
+                                        <td>23</td>
+                                        <td>50000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>万科发现锂矿产</td>
+                                        <td>2017-05-01 00:00</td>
+                                        <td>21</td>
+                                        <td>21</td>
+                                        <td>45000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 传播谣言 -->
+                        <div class="spread">
+                            <h4 style="padding:0.05rem 0.2rem;">传播谣言</h4>
+                            <p class="clearfix" style="padding:0 0.2rem;">
+                                <span class="activity-sp"><b>参与次数</b><span class="r-2">10</span></span>
+                                <span class="activity-sp"><b>总浏览人数</b><span class="r-2">200000</span></span>
+                                <span class="activity-sp"><b>总转发量</b><span class="r-2">5000</span></span>
+                                <span class="activity-sp"><b>总评论量</b><span class="r-2">8000</span></span>
+                            </p>
+                            <table class="spreadRank" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <th>谣言标题</th>
+                                <th>谣言时间</th>
+                                <th>转发量</th>
+                                <th>评论量</th>
+                                <th>浏览人数</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>万科建立新安小镇</td>
+                                    <td>2017-05-01 00:00</td>
+                                    <td>23</td>
+                                    <td>23</td>
+                                    <td>50000</td>
+                                </tr>
+                                <tr>
+                                    <td>万科发现锂矿产</td>
+                                    <td>2017-05-01 00:00</td>
+                                    <td>21</td>
+                                    <td>21</td>
+                                    <td>45000</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- 影响分析 -->
+                <div role="tabpanel" class="_table tab-pane " id="influnce">
+                    <div class="influnce-1">
+                        <p class="tit">
+                            <span class="tit-1"></span>
+                            <span style="font-size: 0.18rem;">波及人数</span>
+                            <span style="display: block;margin: 10px 0 10px 30px;"><b class="icon icon-desktop"></b>&nbsp;&nbsp;平均增长人数<span style="color:#d81e06;font-weight:700;margin-left:10px;">3000人/小时</span></span>
+                        </p>
+                        <div id="influnce_person" style="margin: 0.1rem 0;">
+
+                        </div>
+                    </div>
+                    <div class="influnce-2">
+                        <p class="tit">
+                            <span class="tit-1"></span>
+                            <span style="font-size: 0.18rem;">市场关联</span>
+                            <span style="display: block;margin: 10px 0 10px 30px;"><b class="icon icon-building"></b>&nbsp;&nbsp;相关公司<span style="color:#1f4e79;font-weight:700;margin-left:10px;">万科</span></span>
+                        </p>
+                        <div id="influnce_market">
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- 判别原因 -->
+                <div role="tabpanel" class="_table tab-pane " id="judgment">
+                    <p class="tit">
+                        <span class="tit-1"></span>
+                        <span style="font-size: 0.18rem;">疑似谣言特征图</span>
+                    </p>
+                    <div id="Features">
+
+                    </div>
+                    <p class="tit" style="margin:0.1rem 0;">
+                        <span class="tit-1"></span>
+                        <span style="font-size: 0.18rem;">质疑度过高</span>
+                    </p>
+                    <p style="text-indent:2em;">经模型判别发现在消息发布之后，评论中的质疑评论达60%，质疑度过高。</p>
+                    <p class="tit" style="margin:0.1rem 0;">
+                        <span class="tit-1"></span>
+                        <span style="font-size: 0.18rem;">波及人次过多</span>
+                    </p>
+                    <p style="text-indent:2em;">经模型判别发现在消息发布之后，在24小时内波及人次达5万人，波及人次过多。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block my_js %}
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/publicNav.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap-table.min.js"></script>
+    <script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/static/echarts/echarts.min.js"></script>
+    <script src="/static/js/lie.js"></script>
+    <script>
+        //===========================
+        $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+            $(this).siblings('.line').css({left:'0%'});
+            if ($(document).scrollTop()!=0){
+                $(this).css({color:'#ff9645'});
+                $(this).find('i').css({color:'#ff9645'});
+            }else {
+                $(this).css({color:'#08F'});
+                $(this).find('i').css({color:'#08F'});
+            }
+        }).on('mouseout',function () {
+            $(this).siblings('.line').css({left:'-100%'});
+            if ($(document).scrollTop()!=0){
+                $(this).css({color:'#fff'});
+                $(this).find('i').css({color:'#fff'});
+            }else {
+                $(this).css({color:'#000'});
+                $(this).find('i').css({color:'#000'});
+            }
+        });
+        $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+        $('#nav .nav_left h3').css({color:'#333'});
+        $('#nav .nav_middle .main_li .li_a').eq(1).addClass('s1');
+        $('#nav .nav_middle .main_li .li_a').eq(1).find('i').addClass('s1');
+        window.onscroll=function () {
+            $('#nav').css({backgroundColor:'#777'});
+            $('#nav .nav_left h3').css({color:'white'});
+            $('#nav .nav_left img').attr('src','/static/images/logo.png');
+            $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
+            $('#nav .nav_middle .main_li .li_a').css({color:'white'});
+            $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
+            $('#nav .nav_middle .main_li .li_a').eq(1).removeClass('s1').addClass('s2');
+            $('#nav .nav_middle .main_li .li_a').eq(1).find('i').removeClass('s1').addClass('s2');
+            $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
+            if ($(document).scrollTop()==0){
+                $('#nav').css({backgroundColor:'#fff'});
+                $('#nav .nav_left h3').css({color:'black'});
+                $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
+                $('#nav .nav_middle .main_li .li_a').css({color:'black'});
+                $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
+                $('#nav .nav_middle .main_li .li_a').eq(1).removeClass('s2').addClass('s1');
+                $('#nav .nav_middle .main_li .li_a').eq(1).find('i').removeClass('s2').addClass('s1');
+                $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+            }
+        };
+    </script>
+{% endblock %}

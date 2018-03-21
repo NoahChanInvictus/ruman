@@ -1,0 +1,192 @@
+/*清除默认样式*/
+html,body,div,img,h1,h2,h3,h4,h5,h6,input,button,span,p,b,strong,em,li,ul,ol,dl,dt,dd,
+th,tr,td,textarea,select,table,form {
+    margin: 0;
+    padding: 0;
+    font-family: '微软雅黑';
+}
+ul,li,ol {
+    list-style: none;
+}
+img {
+    border:none;
+}
+input,select,textarea,button {
+    outline: none;
+    border: none;
+}
+a,a:link,a:hover,a:visited,a:active {
+    text-decoration: none;
+}
+/**/
+body {
+    width: 100%;
+    height: 100%;
+}
+/*内容样式*/
+#nav {
+    position: fixed;
+    z-index: 9999999;
+    width: 100%;
+    padding: 0.2rem;
+    color: #fff;
+    top:0;
+    overflow: hidden;
+    /*background: rgba(8,23,44,0.25);*/
+    /*border-bottom: 1px solid rgba(255,255,255,0.1);*/
+}
+#container {
+    position: relative;
+    z-index: 999;
+    width: 100%;
+    background: url("../images/bodyPic.png") no-repeat rgba(19, 18, 18, 0.67);
+    background-size:cover;
+}
+#nav .nav_left {
+    margin:0 auto;
+}
+#nav .nav_left {
+    float: left;
+}
+#nav .nav_middle {
+    float: right;
+ }
+#nav .nav_middle .main_li .line {
+    position: relative;
+    left: -100%;
+    top: 0.05rem;
+    height: 0.02rem;
+    background-color:#ffbf1d;
+    transition: all linear 0.2s;
+}
+/**/
+#nav .nav_left h3 {
+    font-size: 0.3rem;
+}
+/*---------*/
+#nav .nav_middle {
+    width: 55%;
+    margin: 0.15rem 0 0 1%;
+}
+#nav .nav_middle,#nav .nav_right {
+    display: none;
+}
+#nav .nav_middle .main_li {
+    float: left;
+    text-align: center;
+    font-size: 0.16rem;
+    margin-left:5%;
+    overflow: hidden;
+    padding-bottom: 0.1rem;
+}
+#nav .nav_middle .main_li .li_a {
+    color: white;
+    cursor: pointer;
+}
+#nav .nav_middle .main_li:hover a,
+#nav .nav_middle .main_li:hover i {
+    /*color: #fae703;*/
+    color: #ffbf1d;
+    /*font-weight: 800;*/
+}
+/**/
+#nav .nav_right {
+    float: right;
+    margin-top: 0.1rem;
+}
+#nav .nav_right span {
+    display: inline-block;
+    color: white;
+    padding: 0.05rem 0.1rem;
+    font-size: 0.14rem;
+    border: 0.01rem solid seashell;
+    border-radius: 0.05rem;
+    margin-right: 0.1rem;
+    cursor: pointer;
+}
+#nav .nav_right span:hover {
+    background: white;
+    color: black;
+}
+/**/
+#fullPage-nav span, .fullPage-slidesNav span {
+    width: 0.15rem;
+    height: 0.15rem;
+}
+#fullPage-nav li .active span, .fullPage-slidesNav .active span {
+    background: #fff!important;
+}
+/**/
+.bootstrap-table .table:not(.table-condensed) {padding: 0;}
+/*******STYLE 4*******/
+.chk {
+    display: none;
+}
+.chk + label {
+    cursor: pointer;
+    margin: 0;
+    background-color: #FFF;
+    padding:0.09rem;
+    border-radius: 0.07rem;
+    display: inline-block;
+    position: relative;
+    /*margin-right: 30px;*/
+    background: #F7836D;
+    width: 0.44rem;
+    height: 0.1rem;
+    box-shadow: inset 0 0 0.2rem rgba(0, 0, 0, 0.1), 0 0 0.1rem rgba(245, 146, 146, 0.4);
+}
+
+.chk + label:before {
+    content: ' ';
+    position: absolute;
+    background: #FFF;
+    top: 0;
+    z-index: 99999;
+    left: 0;
+    width: 0.22rem;
+    color: #FFF;
+    height: 0.18rem;
+    border-radius: 0.07rem;
+    box-shadow: 0 0 0.01rem rgba(0,0,0,0.6);
+}
+
+.chk + label:after {
+    content: '否';
+    position: absolute;
+    top: 0.07rem;
+    left: 0.37rem;
+    font-size: 0.12rem;
+    color: white;
+    font-weight: bold;
+    /* left: 22px; */
+    /* padding: 5px; */
+    top: 0;
+    border-radius: 1.0rem;
+}
+
+.chk:checked + label {
+    background: #67A5DF;
+    box-shadow: inset 0 0 0.2rem rgba(0, 0, 0, 0.1), 0 0 0.1rem rgba(146, 196, 245, 0.4);
+}
+
+.chk:checked + label:after {
+    content: '是';
+    left: 0.05rem;
+}
+
+.chk:checked + label:before {
+    content: ' ';
+    position: absolute;
+    z-index: 99999;
+    left: 0.21rem;
+}
+
+.chk + label:after {
+    left: 0.25rem;
+}
+
+.chk + label:after, .chk + label:before, .chk label {
+    -webkit-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+}
