@@ -13,8 +13,8 @@
         {'a':'宏达新材（000000）','b':'2017-01-01','c':'至今','d':'伪市值管理','e':'材料','f':'50%',
             'g':'正在操纵'},
     ]
-    var earlyWarning_url='';
-    // public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+    var earlyWarning_url='/maniPulate/manipulateWarningText';
+    public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     function earlyWarning(data) {
         $('#recordingTable').bootstrapTable('load', data);
         $('#recordingTable').bootstrapTable({
@@ -37,22 +37,22 @@
             columns: [
                 {
                     title: "相关股票",//标题
-                    field: "a",//键名
+                    field: "stock",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.a==''||row.a=='null'||row.a=='unknown'||!row.a){
+                        if (row.stock==''||row.stock=='null'||row.stock=='unknown'||!row.stock){
                             return '未知';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.a+'\')" title="进入画像">'+row.a+'</span>';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\')" title="进入画像">'+row.stock+'</span>';
                         };
                     }
                 },
                 {
                     title: "开始时间",//标题
-                    field: "b",//键名
+                    field: "start_date",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -61,7 +61,7 @@
                 },
                 {
                     title: "结束时间",//标题
-                    field: "c",//键名
+                    field: "end_date",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -69,7 +69,7 @@
                 },
                 {
                     title: "操纵类型",//标题
-                    field: "d",//键名
+                    field: "manipulate_type",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -77,7 +77,7 @@
                 },
                 {
                     title: "所属行业",//标题
-                    field: "e",//键名
+                    field: "industry_name",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -86,15 +86,26 @@
                 },
                 {
                     title: "超涨比率",//标题
-                    field: "f",//键名
+                    field: "increase_ratio",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        var increaseRatio;
+                        if(row.increase_ratio === 0){
+                            return '0%';
+                        }else if (row.increase_ratio==''||row.increase_ratio=='null'||row.increase_ratio=='unknown'||!row.increase_ratio){
+                            return '未知';
+                        }else {
+                            increaseRatio = (row.increase_ratio *100).toFixed(2).toString() + '%';
+                            return increaseRatio;
+                        };
+                    }
                 },
                 {
                     title: "操纵状态",//标题
-                    field: "g",//键名
+                    field: "manipulate_state",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -108,7 +119,7 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1()" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
                 {
@@ -125,129 +136,228 @@
             ],
         });
     };
-    earlyWarning(earlyWarningdata);
+    // earlyWarning(earlyWarningdata);
 
     // 跳转详情页
-    function jumpFrame_1() {
-        var html='/index/setDetail';
+    function jumpFrame_1(stock,id) {
+        var html='/index/setDetail?stock='+stock+'&id='+id;
         // window.location.href=html;
         window.open(html);
     }
 
 //第二屏
-function get7DaysBefore(date,m){
-    var date = date || new Date(),
-        timestamp, newDate;
-    if(!(date instanceof Date)){
-        date = new Date(date);
+    var warningNum_url='/maniPulate/manipulateWarningNum?date=7';
+    public_ajax.call_request('get',warningNum_url,warningNum);
+    function warningNum(data){
+        var tit='疑似操纵预警次数';
+        var myChart = echarts.init(document.getElementById('trendLine'));
+        var date = data.date;
+        var times = data.times;
+        var option = {
+            backgroundColor:'transparent',
+            title: {
+                text: tit,
+                x:'center',
+                textStyle:{
+                    color:'#fff'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    lineStyle: {
+                        color: '#30c7ff'
+                    }
+                }
+            },
+            xAxis: [{
+                name:'时间',
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {
+                    lineStyle: {
+                        color: '#fff'
+                    }
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#fff',
+                    }
+                },
+                data: date,
+            }],
+            yAxis: {
+                name:'次数',
+                type: 'value',
+                axisLine: {
+                    lineStyle: {
+                        color: '#fff'
+                    }
+                },
+                nameTextStyle:{
+                    color:'#fff'
+                },
+                splitLine:{
+                    show:false
+                }
+            },
+            series: [
+                {
+                    name: '',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1,
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(137, 189, 27, 0.8)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(137, 189, 27, 0.2)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(137,189,27)',
+                            borderColor: 'rgba(137,189,2,0.27)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: times,
+                }
+            ]
+        };
+        myChart.setOption(option);
     }
-    timestamp = date.getTime();
-    newDate = new Date(timestamp - m * 24 * 3600 * 1000);
-    return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
-};
-var day30=[];
-for (var a=0;a < 30;a++){
-    day30.push(get7DaysBefore(new Date(),a));
-}
-var day30Data=[];
-for (var b=0;b< 30;b++){
-    day30Data.push(Math.round(Math.random()*(20-5)+5));
-}
-var option,tit;
-function _option() {
-    option = {
-        backgroundColor:'transparent',
-        title: {
-            text: tit,
-            x:'center',
-            textStyle:{
-                color:'#fff'
-            }
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                lineStyle: {
-                    color: '#30c7ff'
-                }
-            }
-        },
-        xAxis: [{
-            name:'时间',
-            type: 'category',
-            boundaryGap: false,
-            axisLine: {
-                lineStyle: {
-                    color: '#fff'
-                }
-            },
-            axisLabel: {
-                textStyle: {
-                    color: '#fff',
-                }
-            },
-            data: day30.reverse(),
-        }],
-        yAxis: {
-            name:'次数',
-            type: 'value',
-            axisLine: {
-                lineStyle: {
-                    color: '#fff'
-                }
-            },
-            nameTextStyle:{
-                color:'#fff'
-            },
-            splitLine:{
-                show:false
-            }
-        },
-        series: [
-            {
-                name: '',
-                type: 'line',
-                smooth: true,
-                symbol: 'circle',
-                symbolSize: 5,
-                showSymbol: false,
-                lineStyle: {
-                    normal: {
-                        width: 1,
-                    }
-                },
-                areaStyle: {
-                    normal: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(137, 189, 27, 0.8)'
-                        }, {
-                            offset: 1,
-                            color: 'rgba(137, 189, 27, 0.2)'
-                        }], false),
-                        shadowColor: 'rgba(0, 0, 0, 0.1)',
-                        shadowBlur: 10
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        color: 'rgb(137,189,27)',
-                        borderColor: 'rgba(137,189,2,0.27)',
-                        borderWidth: 12
-                    }
-                },
-                data: day30Data,
-            }
-        ]
-    };
-};
-function line_1() {
-    tit='疑似操纵预警次数';
-    var myChart = echarts.init(document.getElementById('trendLine'));
-    _option();
-    myChart.setOption(option);
-}
-line_1();
+    $('#second_select_1').change(function(){
+        var select_warningNum_val = $(this).val();
+        warningNum_url = '/maniPulate/manipulateWarningNum?date='+ select_warningNum_val;
+        public_ajax.call_request('get',warningNum_url,warningNum);
+    })
+    // function get7DaysBefore(date,m){
+    //     var date = date || new Date(),
+    //         timestamp, newDate;
+    //     if(!(date instanceof Date)){
+    //         date = new Date(date);
+    //     }
+    //     timestamp = date.getTime();
+    //     newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+    //     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
+    // };
+    // var day30=[];
+    // for (var a=0;a < 30;a++){
+    //     day30.push(get7DaysBefore(new Date(),a));
+    // }
+    // var day30Data=[];
+    // for (var b=0;b< 30;b++){
+    //     day30Data.push(Math.round(Math.random()*(20-5)+5));
+    // }
+    // var option,tit;
+    // function _option() {
+    //     option = {
+    //         backgroundColor:'transparent',
+    //         title: {
+    //             text: tit,
+    //             x:'center',
+    //             textStyle:{
+    //                 color:'#fff'
+    //             }
+    //         },
+    //         tooltip: {
+    //             trigger: 'axis',
+    //             axisPointer: {
+    //                 lineStyle: {
+    //                     color: '#30c7ff'
+    //                 }
+    //             }
+    //         },
+    //         xAxis: [{
+    //             name:'时间',
+    //             type: 'category',
+    //             boundaryGap: false,
+    //             axisLine: {
+    //                 lineStyle: {
+    //                     color: '#fff'
+    //                 }
+    //             },
+    //             axisLabel: {
+    //                 textStyle: {
+    //                     color: '#fff',
+    //                 }
+    //             },
+    //             data: day30.reverse(),
+    //         }],
+    //         yAxis: {
+    //             name:'次数',
+    //             type: 'value',
+    //             axisLine: {
+    //                 lineStyle: {
+    //                     color: '#fff'
+    //                 }
+    //             },
+    //             nameTextStyle:{
+    //                 color:'#fff'
+    //             },
+    //             splitLine:{
+    //                 show:false
+    //             }
+    //         },
+    //         series: [
+    //             {
+    //                 name: '',
+    //                 type: 'line',
+    //                 smooth: true,
+    //                 symbol: 'circle',
+    //                 symbolSize: 5,
+    //                 showSymbol: false,
+    //                 lineStyle: {
+    //                     normal: {
+    //                         width: 1,
+    //                     }
+    //                 },
+    //                 areaStyle: {
+    //                     normal: {
+    //                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+    //                             offset: 0,
+    //                             color: 'rgba(137, 189, 27, 0.8)'
+    //                         }, {
+    //                             offset: 1,
+    //                             color: 'rgba(137, 189, 27, 0.2)'
+    //                         }], false),
+    //                         shadowColor: 'rgba(0, 0, 0, 0.1)',
+    //                         shadowBlur: 10
+    //                     }
+    //                 },
+    //                 itemStyle: {
+    //                     normal: {
+    //                         color: 'rgb(137,189,27)',
+    //                         borderColor: 'rgba(137,189,2,0.27)',
+    //                         borderWidth: 12
+    //                     }
+    //                 },
+    //                 data: day30Data,
+    //             }
+    //         ]
+    //     };
+    // };
+    // function line_1() {
+    //     tit='疑似操纵预警次数';
+    //     var myChart = echarts.init(document.getElementById('trendLine'));
+    //     _option();
+    //     myChart.setOption(option);
+    // }
+    // line_1();
 //第三屏
 var industry=['农、林、牧、渔业','采矿业','制造业','电力、热力、燃气\n及水生产和供应业','建筑业','批发和零售业','交通运输、\n仓储和邮政业',
     '住宿和餐饮业','信息传输、软件\n和信息技术服务业','金融业','房地产业','租赁和\n商务服务业','科学研究\n和技术服务业',
