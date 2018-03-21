@@ -1,0 +1,122 @@
+{% extends "publicNav.html" %}
+{% block title %}<title>用户管理</title>{% endblock %}
+
+{% block my_css %}
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/public_nav.css">
+    <link rel="stylesheet" href="../static/css/modalANDtable.css">
+    <link rel="stylesheet" href="../static/css/userManage.css">
+    <style>
+        #nav .nav_middle .main_li:nth-of-type(6) {
+            -webkit-transform: scale(1.3);
+            -moz-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+            -o-transform: scale(1.3);
+            transform: scale(1.3);
+        }
+        #nav .nav_middle .main_li:nth-of-type(6) a, #nav .nav_middle .main_li:nth-of-type(6) a i{
+            color: #ffbf1d !important;
+        }
+        #nav {background: rgba(60, 118, 130, 0.52)}
+        #nav .nav_middle, #nav .nav_right {display: block;}
+        .userGroup .fixed-table-toolbar,.userGroup .fixed-table-pagination .page-list {
+            display: none;
+        }
+        /*.userGroup .fixed-table-container thead th:first-child {width: 2% !important;}*/
+        /*.userGroup .fixed-table-container .bs-checkbox {vertical-align: middle;}*/
+        /*.fixed-table-container tbody .selected td {background-color: #2a556f!important;}*/
+    </style>
+{% endblock %}
+
+{% block js %}
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <script>
+        !function() {
+            var html = document.documentElement;
+            var setFontSize = function() {
+                var width = html.offsetWidth;
+                html.style.fontSize = width / 13.66+ 'px';
+            };
+            var timer;
+            var setDelay = function() {
+                return clearTimeout(timer), (timer = setTimeout(setFontSize, 150));
+            }
+            window.addEventListener('pageshow', function(evt) {
+                return evt.persisted && setDelay();
+            });
+            window.addEventListener('resize', setDelay);
+            setFontSize();
+        }();
+    </script>
+{% endblock %}
+
+{% block main %}
+    <div id="container">
+        <div class="firstScreen">
+            <h3 style="color: white;margin-top: 30px;">
+                <i class="icon icon-user"></i>&nbsp;用户管理
+                <span class="addUser btn btn-primary" data-toggle="modal" data-target="#userModal"
+                      style="margin-left: 20px;vertical-align: middle;">添加用户</span>
+            </h3>
+            <div class="userGroup">
+                <div id="userGroup"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加用户</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="user-1 example">
+                        <span>账户名称</span><input type="text" class="u1_Val">
+                    </div>
+                    <div class="user-2 example">
+                        <span>账户密码</span><input type="text" class="u2_Val">
+                    </div>
+                    <div class="user-3 example">
+                        <span>用户邮箱</span><input type="text" class="u3_Val">
+                    </div>
+                    <div class="user-4 example">
+                        <span>用户角色</span>
+                        <select class="u4_Val">
+                            <option value="普通用户">普通用户</option>
+                            <option value="高级用户">高级用户</option>
+                            <option value="管理员">管理员</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block my_js %}
+    <script src="../static/js/publicNav.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap-table.min.js"></script>
+    <script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../static/js/userManage.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 通过该方法来为每次弹出的模态框设置最新的zIndex值，从而使最新的modal显示在最前面
+            $(document).on('show.bs.modal', '.modal', function() {
+            var zIndex = 1040 + (10 * $('.modal:visible').length);
+            $(this).css('z-index', zIndex);
+            setTimeout(function() {
+                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+            }, 0);
+        });
+        });
+        $('#container').height($(window).height());
+    </script>
+{% endblock %}

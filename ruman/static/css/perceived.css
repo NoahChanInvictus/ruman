@@ -1,0 +1,107 @@
+#container .section {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 1.3rem;
+}
+/**/
+#container .firstScreen .topTitle {
+    text-align: center;
+}
+#container .firstScreen .topTitle dl{
+    display: inline-block;
+    margin: 0.1rem 0.5rem 0;
+    font-size: 0.22rem;
+    color: white;
+}
+#container .firstScreen .topTitle dl dt {
+    font-size: 0.26rem;
+    font-weight: 800;
+    color: #ff9645;
+}
+#container .secondScreen #addClub {
+    color: white;
+    font-weight: 600;
+    width: 100%;
+    /*border: 3px solid #c0c0c0;*/
+}
+#container .secondScreen #addClub thead th {
+    width: 14%;
+    text-align: center;
+    padding:0.15rem 0.08rem;
+}
+#container .secondScreen #addClub thead th:nth-child(1){
+    width: 2%;
+}
+#container .secondScreen #addClub thead th:last-child{
+    width: 14%;
+}
+#container .secondScreen #addClub td {
+    text-align: center;
+    padding: 0.15rem 0.08rem;
+}
+#container .secondScreen #addClub td input.editing {
+    background: transparent;
+    color: #FFFFFF;
+    border:0.01rem solid #777777;
+    text-align: center;
+}
+/**/
+#container .secondScreen .newAdd {
+    width: 100%;
+    text-align: center;
+    margin: 0.15rem 0;
+}
+#container .secondScreen .newAdd input {
+    background: transparent;
+    border: 0.01rem solid seashell;
+    border-radius: 0.05rem;
+    padding: 0.04rem 0.06rem;
+    width: 1.26rem;
+    margin-right:0.13rem;
+    text-align: center;
+    color: white;
+}
+#container .secondScreen .newAddLie input {
+    width: 1.08rem;
+    margin-right:0;
+}
+#container .secondScreen .newAdd input::-webkit-input-placeholder { /* WebKit browsers */
+    color: #fff;
+}
+#container .secondScreen .newAdd input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #fff;
+}
+#container .secondScreen .newAdd input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #fff;
+}
+#container .secondScreen .newAdd input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #fff;
+}
+#container .secondScreen .newAdd input:focus {
+    background: #006a86;
+    color: #e7e7e7;
+}
+/**/
+#editRow .example {
+    margin-top: 0.2rem;
+    text-align: center;
+}
+#editRow .example span {
+    display: inline-block;
+    width: 1.0rem;
+    text-align: center;
+}
+#editRow .example input,#editRow .user-3 .u3_Val{
+    width: 2.5rem;
+    background: transparent;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    padding: 0.03rem 0.07rem;
+    color: white;
+    text-align: center;
+}
+#editRow .example input:focus,#editRow .user-3 .u3_Val:focus {
+    color:black;
+    background: #FFFFFF;
+}
+

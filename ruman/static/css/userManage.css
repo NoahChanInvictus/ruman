@@ -1,0 +1,30 @@
+#container .firstScreen {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 1.0rem;
+}
+#container .firstScreen .userGroup {
+    margin-top: 0.3rem;
+}
+#userModal .example {
+    margin-top: 0.2rem;
+    text-align: center;
+}
+#userModal .example span {
+    display: inline-block;
+    width: 1.0rem;
+    text-align: center;
+}
+#userModal .example input,#userModal .user-4 .u4_Val{
+    width: 2.5rem;
+    background: transparent;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    padding: 0.03rem 0.07rem;
+    color: white;
+    text-align: center;
+}
+#userModal .example input:focus,#userModal .user-4 .u4_Val:focus {
+    color:black;
+    background: #FFFFFF;
+}
