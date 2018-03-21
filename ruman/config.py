@@ -9,6 +9,7 @@ sys.setdefaultencoding('utf-8')
 TABLE_HOLDERS = 'holders'
 TABLE_DAY = 'manipulate_day'
 TABLE_WARNING = 'manipulate_warning'
+TABLE_MARKET_DAILY = 'market_daily_new'
 
 #es
 ES_HOST = '219.224.134.214'
@@ -35,3 +36,5 @@ DAY_INDUSTRY_NAME = 'industry_name'
 DAY_INCREASE_RATIO = 'increase_ratio'
 WARNING_DATE = 'date'
 WARNING_TIMES = 'times'
+MARKET_PRICE = 'price'
+MARKET_DATE = 'date'

@@ -6,6 +6,7 @@ sys.setdefaultencoding('utf-8')
 
 import pymysql as mysql
 import pymysql.cursors
+import pandas as pd
 
 import time
 from config import *
@@ -22,6 +23,11 @@ def testDatabase():
 	conn.autocommit(True)
 	cur = conn.cursor()
 	return cur
+
+def defaultDatabaseConn():
+	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=DEFAULT_DB,charset=CHARSET,cursorclass=pymysql.cursors.DictCursor)
+	conn.autocommit(True)
+	return conn
 
 def manipulateWarningText():
 	cur = defaultDatabase()
@@ -79,10 +85,47 @@ def manipulateWarningNum(date):
 		tradedaynew = tradelist[tradelist.index(tradeday) - 19]
 	else:
 		tradedaynew = tradelist[tradelist.index(tradeday) - 59]
-	sql = "SELECT * FROM " + TABLE_WARNING + " WHERE " + WARNING_DATE + " >= '%s' and " % (tradedaynew) + WARNING_DATE + " <= '%s'" % (tradeday)
+	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_WARNING,WARNING_DATE,tradedaynew,WARNING_DATE,tradeday)
 	cur.execute(sql)
 	results = cur.fetchall()
 	result = {'date':[thing[WARNING_DATE] for thing in results],'times':[thing[WARNING_TIMES] for thing in results]}
 	return result
 
 def manipulateInfluence(date):
+	return 0
+
+def manipulateHistory(stock_id):
+	cur = defaultDatabase()
+	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_DAY,DAY_STOCK_ID,stock_id)
+	cur.execute(sql)
+	results = cur.fetchall()
+	result = []
+	for i in results:
+		dic = {}
+		if i[DAY_IFEND]:
+			dic['end_date'] = i[DAY_END_DATE]
+			dic['manipulate_state'] = u'已完成操纵'
+		else:
+			dic['end_date'] = u'至今'
+			dic['manipulate_state'] = u'正在操纵'
+		dic['start_date'] = i[DAY_START_DATE]
+		if i[DAY_MANIPULATE_TYPE] == 1:
+			dic['manipulate_type'] = u'伪市值管理'
+		elif i[DAY_MANIPULATE_TYPE] == 2:
+			dic['manipulate_type'] = u'高送转'
+		elif i[DAY_MANIPULATE_TYPE] == 3:
+			dic['manipulate_type'] = u'定向增发'
+		else:
+			dic['manipulate_type'] = u'散布信息牟利'
+		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
+		result.append(dic)
+	return result
+
+def manipulatePrice(stock_id):
+	conn = defaultDatabaseConn()
+	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_MARKET_DAILY,MARKET_DATE,tradedaynew,MARKET_DATE,tradeday)
+	df = pd.read_sql(sql,conn)
+	results = cur.fetchall()
+
+if __name__=="__main__":
+	print len(manipulateHistory('002427'))

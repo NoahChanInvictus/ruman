@@ -48,3 +48,13 @@ def manipulate_ev():
 	date = int(request.args.get('date',''))
 	result = manipulateEv(date)
 	return json.dumps(result,ensure_ascii=False)
+
+@manipulate.route('/manipulatereport/history/',methods=['POST','GET'])
+def manipulate_history():
+	result = manipulateHistory(stock_id)
+	return json.dumps(result,ensure_ascii=False)
+
+@manipulate.route('/manipulatereport/price/',methods=['POST','GET'])
+def manipulate_price():
+	result = manipulatePrice(stock_id)
+	return json.dumps(result,ensure_ascii=False)
