@@ -14,8 +14,8 @@ from flask import Flask, render_template, request, jsonify, Blueprint
 
 def create_app():
 	app = Flask(__name__)
-	app.register_blueprint(homePage,url_prefix='/homepage')
-	app.register_blueprint(maniPulate,url_prefix='/manipulate')
+	app.register_blueprint(homePage,url_prefix='/homePage')
+	app.register_blueprint(maniPulate,url_prefix='/maniPulate')
 	app.register_blueprint(rumor,url_prefix='/rumor')
 	app.register_blueprint(perceivedLie,url_prefix='/perceivedLie')
 	app.register_blueprint(perceivedSet,url_prefix='/perceivedSet')

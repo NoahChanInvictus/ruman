@@ -13,36 +13,36 @@ from ruman.es import *
 def index():
 	return render_template('maniPulate/manipulate.html')
 
-@manipulate.route('/manipulateWarningText/',methods=['POST','GET'])
+@maniPulate.route('/manipulateWarningText/',methods=['POST','GET'])
 def manipulate_warning_text():
 	result = manipulateWarningText()
 	return json.dumps(result,ensure_ascii=False)
 
-@manipulate.route('/manipulateWarningNum/',methods=['POST','GET'])
+@maniPulate.route('/manipulateWarningNum/',methods=['POST','GET'])
 def manipulate_warning_num():
 	date = int(request.args.get('date',''))
 	result = manipulateWarningNum(date)
 	return json.dumps(result,ensure_ascii=False)
 
-@manipulate.route('/manipulateInfluence/',methods=['POST','GET'])
+@maniPulate.route('/manipulateInfluence/',methods=['POST','GET'])
 def manipulate_influence():
 	date = int(request.args.get('date',''))
 	result = manipulateInfluence(date)
 	return json.dumps(result,ensure_ascii=False)
 
-@manipulate.route('/manipulateIndustry/',methods=['POST','GET'])
+@maniPulate.route('/manipulateIndustry/',methods=['POST','GET'])
 def manipulate_industry():
 	date = int(request.args.get('date',''))
 	result = manipulateIndustry(date)
 	return json.dumps(result,ensure_ascii=False)
 
-@manipulate.route('/manipulateType/',methods=['POST','GET'])
+@maniPulate.route('/manipulateType/',methods=['POST','GET'])
 def manipulate_type():
 	date = int(request.args.get('date',''))
 	result = manipulateType(date)
 	return json.dumps(result,ensure_ascii=False)
 
-@manipulate.route('/manipulateEv/',methods=['POST','GET'])
+@maniPulate.route('/manipulateEv/',methods=['POST','GET'])
 def manipulate_ev():
 	date = int(request.args.get('date',''))
 	result = manipulateEv(date)
