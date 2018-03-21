@@ -7,6 +7,7 @@ sys.setdefaultencoding('utf-8')
 import pymysql as mysql
 import pymysql.cursors
 import pandas as pd
+from operator import itemgetter, attrgetter
 
 import time
 from config import *
@@ -56,6 +57,7 @@ def manipulateWarningText():
 		dic['industry_name'] = i[DAY_INDUSTRY_NAME]
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
 		result.append(dic)
+		result = sorted(result, key= lambda x:(x['end_date'], x['start_date']), reverse=True)
 	return result
 
 def manipulateWarningNum(date):
@@ -129,3 +131,5 @@ def manipulatePrice(stock_id):
 
 if __name__=="__main__":
 	print len(manipulateHistory('002427'))
+
+
