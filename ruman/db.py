@@ -84,5 +84,3 @@ def manipulateWarningNum(date):
 	results = cur.fetchall()
 	result = {'date':[thing[WARNING_DATE] for thing in results],'times':[thing[WARNING_TIMES] for thing in results]}
 	return result
-
-def manipulateInfluence(date):
