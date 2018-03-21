@@ -1,0 +1,299 @@
+{% extends "publicNav.html" %}
+{% block title %}<title>金融市场谣言识别与溯源系统</title>{% endblock %}
+{% block my_css %}
+    <meta charset="UTF-8">
+    <title>金融市场谣言识别与溯源系统</title>
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/public_nav.css">
+    <link rel="stylesheet" href="../static/css/homePage.css">
+{% endblock %}
+
+{% block js %}
+    <script>
+        !function() {
+            var html = document.documentElement;
+            var setFontSize = function() {
+                var width = html.offsetWidth;
+                html.style.fontSize = width / 13.66+ 'px';
+            };
+            var timer;
+            var setDelay = function() {
+                return clearTimeout(timer), (timer = setTimeout(setFontSize, 150));
+            }
+            window.addEventListener('pageshow', function(evt) {
+                return evt.persisted && setDelay();
+            });
+            window.addEventListener('resize', setDelay);
+            setFontSize();
+        }();
+    </script>
+{% endblock %}
+
+{% block main %}
+<div id="container">
+    <div id="picChart-1" class="map">
+        <div class="word-1">
+            <p class="option">
+                <span class="tit">热门谣言</span>
+                <span class="tit">时间</span>
+                <span class="tit">类型</span>
+                <span class="tit">是否辟谣</span>
+                <span class="tit">所在行业</span>
+                <span class="tit">处理</span>
+            </p>
+        </div>
+        <div class="word-2">
+            <div id="scroll">
+                <p>
+                    <span title="">国家发布雄安新区新资讯，新政策的颁布</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>无中生有</span>
+                    <span>是</span>
+                    <span>房地产</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d1" class="chk"/><label for="checkbox_d1"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">快递行业在政策促进下稳步前进，新政策的颁布</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>政策误读</span>
+                    <span>是</span>
+                    <span>运输</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d2" class="chk"/><label for="checkbox_d2"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">新能源汽车不断被尝试，多家公司涉足新</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>无中生有</span>
+                    <span>是</span>
+                    <span>房地产</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d3" class="chk"/><label for="checkbox_d3"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">北京市发布医疗改革新办法</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>热点捏造</span>
+                    <span>是</span>
+                    <span>医疗</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d4" class="chk"/><label for="checkbox_d4"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">传统煤炭产业再度进入大众视线，能源产</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>无中生有</span>
+                    <span>是</span>
+                    <span>房地产</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d5" class="chk"/><label for="checkbox_d5"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">北京市发布医疗改革新办法，医改给人们</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>无中生有</span>
+                    <span>是</span>
+                    <span>房地产</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d6" class="chk"/><label for="checkbox_d6"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">国家发布雄安新区新资讯，新政策的颁布，新政策的颁布</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>无中生有</span>
+                    <span>是</span>
+                    <span>房地产</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d7" class="chk"/><label for="checkbox_d7"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">快递行业在政策促进下稳步前进，快递业，新政策的颁布</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>无中生有</span>
+                    <span>是</span>
+                    <span>房地产</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d8" class="chk"/><label for="checkbox_d8"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">锂矿产形势大好，或将成为今后主流趋势，新政策的颁布</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>无中生有</span>
+                    <span>是</span>
+                    <span>房地产</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d9" class="chk"/><label for="checkbox_d9"></label>
+                    </span>
+                </p>
+                <p>
+                    <span title="">快递行业在政策促进下稳步前进，新政策的颁布</span>
+                    <span title="">2017-11-11 11:22</span>
+                    <span>无中生有</span>
+                    <span>是</span>
+                    <span>房地产</span>
+                    <span>
+                        <input type="checkbox" id="checkbox_d10" class="chk"/><label for="checkbox_d10"></label>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="top_mid">
+        <div class="mid-1">
+            <div class="title" style="text-align: center;">
+                <img src="../static/images/chart-2.png" style="width:0.25rem;height:0.25rem;">
+                <span style="font-size:0.2rem;vertical-align: middle;">疑似谣言数</span>
+            </div>
+            <div class="picChart-top" style="margin-top:0.15rem;">
+                <dl>
+                    <dt>本周</dt>
+                    <dd class="company-1">11</dd>
+                </dl>
+                <dl>
+                    <dt>本月</dt>
+                    <dd class="company-2">22</dd>
+                </dl>
+                <dl>
+                    <dt>本季度</dt>
+                    <dd class="company-3">33</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="mid-2">
+            <div class="title" style="text-align: center;">
+                <img src="../static/images/chart-2.png" style="width:0.25rem;height:0.25rem;">
+                <span style="font-size:0.2rem;vertical-align: middle;">疑似操纵数</span>
+            </div>
+            <div class="picChart-top" style="margin-top:0.15rem;">
+                <dl>
+                    <dt>本周</dt>
+                    <dd class="company-1">11</dd>
+                </dl>
+                <dl>
+                    <dt>本月</dt>
+                    <dd class="company-2">22</dd>
+                </dl>
+                <dl>
+                    <dt>本季度</dt>
+                    <dd class="company-3">33</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="left_top">
+        <div class="title">
+            <img src="../static/images/chart-3.png">
+            <span>谣言态势</span>
+        </div>
+        <div class="picChart-2">
+            <div id="picChart-2"></div>
+        </div>
+    </div>
+    <div class="left_mid">
+        <div class="title">
+            <img src="../static/images/chart-1.png">
+            <span>谣言发布者</span>
+        </div>
+        <div class="picChart-3">
+            <div id="picChart-3"></div>
+        </div>
+    </div>
+    <div class="bottom_left">
+        <div class="title">
+            <img src="../static/images/chart-5.png">
+            <span>谣言波及行业分布</span>
+        </div>
+        <div class="picChart-4">
+            <div id="picChart-4">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="top_right">
+        <div class="title" style="text-align: right;padding-right:0.3rem;">
+            <img src="../static/images/chart-4.png">
+            <span>谣言热词</span>
+        </div>
+        <div class="picChart-5">
+            <div id="picChart-5">
+
+            </div>
+        </div>
+    </div>
+    <div class="right_mid">
+        <div class="title" style="text-align: right;padding-right:0.3rem;">
+            <img src="../static/images/chart-6.png">
+            <span>操纵态势</span>
+        </div>
+        <div class="picChart-6">
+            <div id="picChart-6">
+            </div>
+        </div>
+    </div>
+    <div class="bottom_right">
+        <div class="title" style="text-align: right;padding-right:0.3rem;">
+            <img src="../static/images/chart-7.png">
+            <span>操纵板块分布</span>
+        </div>
+        <div class="picChart-7">
+            <div id="picChart-7">
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="promptInfor" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="coverbody">
+                    <p style="text-align: center;font-size: 18px;color: #fff;font-weight: 900;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block my_js %}
+<script src="../static/js/publicNav.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/echarts/echarts.min.js"></script>
+<script src="../static/js/chalk.js"></script>
+<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
+<script src="../static/js/homePage.js"></script>
+<script>
+    $('#container').height($(window).height());
+    $('#nav').hover(function () {
+        $('#nav .nav_middle').slideDown(300);
+        $('#nav .nav_right').slideDown(300);
+        $(this).css({background:'rgba(25, 107, 123, 0.7)'});//rgba(19, 18, 18, 0.67)
+        $(this).css({borderBottom:'1px solid rgba(255,255,255,0.1)'});
+    },function () {
+        $('#nav .nav_middle').slideUp(100);
+        $('#nav .nav_right').slideUp(100);
+        $(this).css({background:''});
+        $(this).css({borderBottom:'none'});
+    })
+</script>
+{% endblock %}

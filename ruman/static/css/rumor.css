@@ -1,0 +1,225 @@
+#container .section {
+    width: 80%;
+    margin: 0 auto;
+    padding-top:1.3rem;
+}
+/**/
+#container .firstScreen .topTitle {
+    text-align: center;
+}
+#container .firstScreen .topTitle dl{
+    display: inline-block;
+    margin: 0.1rem 0.15rem 0;
+    font-size: 0.22rem;
+    color: white;
+}
+#container .firstScreen .topTitle dl dt {
+    font-size: 0.26rem;
+    font-weight: 800;
+    color: #ff9645;
+}
+#container .firstScreen .search .searchWord {
+    padding: 0.03rem 0.06rem;
+    background: transparent;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    text-align: center;
+    font-size: 0.14rem;
+    vertical-align: middle;
+}
+#container .firstScreen .search{
+    float: right;
+}
+#container .firstScreen .search .searchWord:focus {
+    background: #f8f8f8;
+    color: #3c3c3c;
+}
+/**/
+/**/
+#container .sevenScreen .left,
+#container .sevenScreen .right,
+#container .secondScreen .left,
+#container .secondScreen .right {
+    width: 49%;
+}
+#container .sevenScreen .left,
+#container .secondScreen .left {
+    float: left;
+}
+#container .sevenScreen .right,
+#container .secondScreen .right {
+    float: right;
+}
+#container .influeOpt .ct-tit,
+#container .proOpt .ct-tit,
+#container .lieOpt .ct-tit,
+#container .trendOpt .ct-tit,
+#container .placeOpt .ct-tit {
+    display: inline-block;
+    font-size: 0.16rem;
+    font-weight: 700;
+    color: white;
+}
+#container .sevenScreen .influeOpt,
+#container .sevenScreen .proOpt,
+#container .fiveScreen .lieOpt,
+#container .secondScreen .trendOpt,
+#container .secondScreen .placeOpt {
+    display: inline-block;
+    font-size: 0.14rem;
+    margin-left: 0.3rem;
+}
+#container .influeOpt #seven_select_1,
+#container .proOpt #seven_select_2,
+#container .trendOpt #second_select_1,
+#container .placeOpt #second_select_2{
+    display: inline-block;
+    padding: 0.02rem 0.07rem;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    font-size: 0.12rem;
+    background: #005b6d;
+    color: white;
+}
+/**/
+#container .thirdScreen #third_select,
+#container .fiveScreen #five_select,
+#container .fourScreen #four_select {
+    display: inline-block;
+    padding: 0.02rem 0.07rem;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    font-size: 0.12rem;
+    background: #005b6d;
+    color: white;
+    margin-left: 0.3rem;
+}
+#container .fiveScreen #five_select {
+    margin: 0;
+}
+#container .thirdScreen #bar-1,
+#container .fourScreen #pie-1 {
+    float: left;
+}
+#container .thirdScreen #bar-2,
+#container .fourScreen #pie-2 {
+    float: right;
+}
+#container .thirdScreen .barRank,
+#container .fourScreen .pieRank {
+    margin-top: 0.2rem;
+    width: 100%;
+    border: 1px solid #fff;
+}
+#container .thirdScreen .barRank th,
+#container .fourScreen .pieRank th {
+    font-size: 0.18rem;
+    font-weight: 700;
+}
+#container .thirdScreen .barRank th,
+#container .thirdScreen .barRank td,
+#container .fourScreen .pieRank th,
+#container .fourScreen .pieRank td {
+    display: inline-block;
+    padding: 0.08rem;
+    color: white;
+    font-size: 0.12rem;
+    text-align: center;
+    width: 48%;
+}
+#container .thirdScreen .barRank tr,
+#container .fourScreen .pieRank tr {
+    border-bottom: 1px solid #fff;
+}
+#container .thirdScreen .barRank th:nth-of-type(2),
+#container .thirdScreen .barRank tr td:nth-of-type(2),
+#container .fourScreen .pieRank tr td:nth-of-type(2),
+#container .fourScreen .pieRank th:nth-of-type(2){
+    border-left: 1px solid #fff;
+}
+/**/
+#container .fiveScreen #spread-1 {
+    float: left;
+}
+#container .fiveScreen #spread .spreadRank {
+    margin-top: 0.2rem;
+    width: 100%;
+    border: 1px solid #fff;
+}
+#container .fiveScreen #spread .spreadRank th {
+    font-size: 0.18rem;
+    font-weight: 700;
+}
+#container .fiveScreen #spread .spreadRank th,
+#container .fiveScreen #spread .spreadRank td {
+    display: inline-block;
+    padding: 0.08rem;
+    color: white;
+    font-size: 0.12rem;
+    text-align: center;
+    width: 32%;
+}
+#container .fiveScreen #spread-2 {
+    float: right;
+}
+#container .fiveScreen #spread .spreadRank tr {
+    border-bottom: 1px solid #fff;
+}
+#container .fiveScreen #spread .spreadRank thead th:nth-of-type(2),
+#container .fiveScreen #spread .spreadRank tr td:nth-of-type(2) {
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+}
+#container .fiveScreen #spread-2 .spreadRank tr td:nth-of-type(4),
+#container .fiveScreen #spread-2 .spreadRank thead th:nth-of-type(4){
+    border-left: 1px solid #fff;
+}
+#container .fiveScreen #spread-2 .spreadRank th,
+#container .fiveScreen #spread-2 .spreadRank td {
+    width: 24%;
+}
+/**/
+#container .sixScreen #six_select{
+    display: inline-block;
+    padding: 0.02rem 0.07rem;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    font-size: 0.12rem;
+    background: #005b6d;
+    color: white;
+    margin-left: 0.3rem;
+}
+#container .sixScreen #word-1 {
+    float: left;
+}
+#container .sixScreen #word-2 {
+    float: right;
+}
+#container .sixScreen #word-2 .wordRank {
+    margin-top: 0.2rem;
+    width: 100%;
+    border: 1px solid #fff;
+}
+#container .sixScreen #word-2 .wordRank th {
+    font-size: 0.18rem;
+    font-weight: 700;
+}
+#container .sixScreen #word-2 .wordRank th,
+#container .sixScreen #word-2 .wordRank td {
+    display: inline-block;
+    padding: 0.08rem;
+    color: white;
+    font-size: 0.12rem;
+    text-align: center;
+    width: 48%;
+}
+#container .sixScreen #word-2 .wordRank tr {
+    border-bottom: 1px solid #fff;
+}
+#container .sixScreen #word-2 .wordRank thead th:nth-of-type(2),
+#container .sixScreen #word-2 .wordRank tbody td:nth-of-type(2){
+    border-left: 1px solid #fff;
+}
+#container thead {
+    background: rgba(17, 164, 226, 0.51);
+}

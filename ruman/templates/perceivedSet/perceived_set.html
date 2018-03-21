@@ -1,0 +1,157 @@
+{% extends "publicNav.html" %}
+{% block title %}<title>操纵入库</title>{% endblock %}
+
+{% block my_css %}
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../static/css/jquery.fullPage.css">
+    <link rel="stylesheet" href="../static/css/public_nav.css">
+    <link rel="stylesheet" href="../static/css/modalANDtable.css">
+    <link rel="stylesheet" href="../static/css/perceived.css">
+    <style>
+        #nav .nav_middle .main_li:nth-of-type(5) {
+            -webkit-transform: scale(1.3);
+            -moz-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+            -o-transform: scale(1.3);
+            transform: scale(1.3);
+        }
+        #nav .nav_middle .main_li:nth-of-type(5) a, #nav .nav_middle .main_li:nth-of-type(5) a i{
+            color: #ffbf1d !important;
+        }
+        #nav {top:0;}
+        #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
+        #fullPage-nav span, .fullPage-slidesNav span {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #fcf8e3;
+        }
+        #fullPage-nav li, .fullPage-slidesNav li {margin: 12px 7px;}
+        #nav {background: rgba(60, 118, 130, 0.52)}
+        #nav .nav_middle, #nav .nav_right {display: block;}
+        .fellTable .fixed-table-toolbar,.fellTable .fixed-table-pagination .page-list {
+            display: none;
+        }
+        .fellTable .fixed-table-container thead th:first-child {width: 2% !important;}
+        .fellTable .fixed-table-container .bs-checkbox {vertical-align: middle;}
+        .fixed-table-container tbody .selected td {background-color: #2a556f!important;}
+        .addClub .fixed-table-pagination .pagination-info {display: none;}
+    </style>
+{% endblock %}
+
+{% block js %}
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+    <script>
+        !function() {
+            var html = document.documentElement;
+            var setFontSize = function() {
+                var width = html.offsetWidth;
+                html.style.fontSize = width / 13.66+ 'px';
+            };
+            var timer;
+            var setDelay = function() {
+                return clearTimeout(timer), (timer = setTimeout(setFontSize, 150));
+            }
+            window.addEventListener('pageshow', function(evt) {
+                return evt.persisted && setDelay();
+            });
+            window.addEventListener('resize', setDelay);
+            setFontSize();
+        }();
+    </script>
+{% endblock %}
+
+{% block main %}
+    <div id="container" class="fullpage">
+        <div class="section firstScreen" style="padding-top: 1rem;">
+            <div>
+                <!--<div class="title" style="text-align: center;color: white;">-->
+                <!--<img src="../static/images/chart-2.png" style="width: 40px;height: 40px;">-->
+                <!--<span style="font-size:32px;vertical-align: middle;">谣言感知推荐</span>-->
+                <!--</div>-->
+                <div class="topTitle" style="margin: 0 auto;">
+                    <dl>
+                        <dd>谣言</dd>
+                        <dt class="com-1">32</dt>
+                    </dl>
+                    <dl>
+                        <dd>操纵</dd>
+                        <dt class="com-2">43</dt>
+                    </dl>
+                </div>
+            </div>
+            <div class="felling">
+                <h3 style="color: white;display: inline-block;">
+                    <i class="icon icon-cogs"></i>&nbsp;操纵感知推荐
+                    <span class="oneLibrary btn btn-primary" disabled="disabled" title="请勾选后再添加入库"
+                          style="margin-left: 20px;vertical-align: middle;">一键入库</span>
+                </h3>
+                <div class="fellTable" style="margin-top: 20px;">
+                    <div id="fellTable"></div>
+                </div>
+            </div>
+        </div>
+        <div class="section secondScreen">
+            <h3 style="color: white;margin-top: 20px;">
+                <i class="icon icon-cloud-upload"></i>&nbsp;添加入库
+                <span class="oneAdd btn btn-primary" disabled="disabled" title="请添加后再入库"
+                      style="margin-left:20px;vertical-align: middle;">一键入库</span>
+                <span class="oneAdd btn btn-primary" title="导入文件"
+                      style="margin-left:20px;vertical-align: middle;">批量添加</span>
+            </h3>
+            <div class="newAdd">
+                <input type="text" class="add-1" placeholder="相关股票">
+                <input type="text" class="add-2 form_datetime" placeholder="开始时间">
+                <input type="text" class="add-3 form_datetime" placeholder="结束时间">
+                <input type="text" class="add-4" placeholder="操纵类型">
+                <input type="text" class="add-5" placeholder="所属行业">
+                <input type="text" class="add-6" placeholder="超涨比率">
+                <input type="text" class="add-7" placeholder="操纵状态">
+                <span id="add" class="newRow btn btn-primary" title="请输入内容在添加"
+                      style="vertical-align: bottom;">新增一行</span>
+            </div>
+            <div class="addClub" style="width: 100%;">
+                <div id="addClub">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block my_js %}
+    <script src="../static/js/publicNav.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap-table.min.js"></script>
+    <script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../static/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../static/js/moment.min.js"></script>
+    <script src="../static/js/jquery.fullPage.min.js"></script>
+    <script src="../static/js/perceived-set.js"></script>
+    <script>
+        <!---->
+        $('.fullpage').fullpage({
+            'verticalCentered': false,
+            'css3': true,
+            'anchors': ['page1', 'page2','page3','page4','page5','page6'],
+            'navigation': 'true',
+            'loopBottom':'true',
+            'navigationPosition': 'right',
+            'fixedElements':'#nav',
+            'navigationTooltips': ['操纵感知推荐','添加入库']
+        });
+        $(".form_datetime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: true,
+            todayBtn: true,
+            pickerPosition: "bottom-left"
+        });
+        $('.add-2').on('changeDate', function(ev){
+            $('.add-3').datetimepicker('setStartDate',ev.date);
+        });
+        $('.add-3').on('changeDate', function(ev){
+            $('.add-2').datetimepicker('setEndDate',ev.date);
+        });
+    </script>
+{% endblock %}

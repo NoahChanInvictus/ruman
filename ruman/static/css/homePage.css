@@ -1,0 +1,173 @@
+#container #picChart-1 {
+    width: 50%;
+    height: 60%;
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    margin-left: -25%;
+    /*background: #eee;*/
+}
+#container .left_top,#container .top_mid,#container .right_mid,
+#container .top_right,#container .left_mid{
+    padding: 0.1rem;
+    position: absolute;
+    top: 0.9rem;
+}
+#container .left_mid,#container .right_mid {
+    top: 2.8rem;
+}
+#container .top_mid .mid-1 {
+    float: left;
+    margin-left: 0.5rem;
+}
+#container .top_mid .mid-2 {
+    float: right;
+    margin-right: 0.5rem;
+}
+#container .bottom_left,#container .bottom_right {
+    position: absolute;
+    bottom: 0;
+    padding: 0.1rem;
+}
+#container .left_top,#container .bottom_left,#container .left_mid {
+    left: 0.2rem;
+}
+#container .top_mid {
+    width: 50%;
+    left: 25%;
+    transition: all linear 0.3s;
+}
+#container .top_right,#container .bottom_right,#container .right_mid {
+    right: 0.2rem;
+}
+#container .title img {
+    width: 0.25rem;
+    height: 0.25rem;
+}
+#container .title span {
+    color: #f5f5f5;
+    font-size: 0.14rem;
+    font-weight: 600;
+}
+#container .picChart-2,#container .picChart-3,#container .picChart-4,
+#container .picChart-5,#container .picChart-6,#container .picChart-7 {
+    width: 3.0rem;
+    height: 1.5rem;
+    background: url("../images/chartBG.png") no-repeat;
+    background-size: 100% 100%;
+}
+#container #picChart-2,#container #picChart-3,#container #picChart-4,
+#container #picChart-5,#container #picChart-6,#container #picChart-7 {
+    width: 100%;
+    height: 100%;
+    padding: 0.1rem;
+}
+#container .picChart-7,#container .picChart-5,#container .picChart-6 {
+    background: url("../images/chartBG_2.png") no-repeat;
+    background-size: 100% 100%;
+}
+#container .picChart-4 img {
+    vertical-align: middle;
+}
+#container .picChart-4 p {
+    margin-bottom: 0.05rem;
+    padding-left: 10%;
+    text-align: left;
+}
+#container #picChart-4-4 {
+    width: 100%;
+    height: 50%;
+}
+#container .picChart-top {
+    margin: 0 auto;
+    text-align: center;
+    transition: all linear 0.3s;
+}
+#container .picChart-top dl {
+    display: inline-block;
+    color: white;
+    font-size:0.18rem;
+    margin:0 0.1rem;
+}
+#container .picChart-top dl dd{
+    font-size: 0.16rem;
+    color: #ff9645;
+}
+
+#container #picChart-1 .word-1 .news {
+    /*width: 90%;*/
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 0.05rem;
+    position: relative;
+    z-index: 50;
+}
+#container #picChart-1 .option .tit {
+    display: inline-block;
+    padding: 0.05rem;
+    width: 12%;
+    text-align: center;
+    color: #fff;
+    font-weight: 900;
+    font-size: 0.12rem;
+    border-bottom: 0.03rem solid #fff;
+}
+#container #picChart-1 .option span:nth-of-type(1) {
+    width:40%;
+}
+#container #picChart-1 .option span:nth-of-type(2) {
+    width:14%;
+}
+#container #picChart-1 .option span:nth-of-type(4),
+#container #picChart-1 .option span:last-of-type {
+    width:9%;
+}
+#container #picChart-1 .word-2 {
+    overflow: hidden;
+}
+#container #scroll {
+    width: 100%;
+    /*padding: 5px;*/
+}
+#container #scroll p {
+    padding: 0.1rem 0 0.05rem 0;
+}
+#container #scroll p:hover span {
+    color: #76f2f2;
+}
+#container #scroll p span {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    font-size: 0.12rem;
+    color: white;
+    width: 12%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*background: #ee5f5b;*/
+}
+#container #scroll p span:nth-of-type(1) {
+    padding: 0 0.05rem;
+    width:40%;
+}
+#container #scroll p span:nth-of-type(2) {
+    width:14%;
+}
+#container #scroll p span:nth-of-type(4),
+#container #scroll p span:last-of-type{
+    width: 9%;
+}
+#container #scroll p span:last-of-type {
+    vertical-align: bottom;
+}
+#nav .nav_middle .main_li:nth-of-type(1) {
+    -webkit-transform: scale(1.3);
+    -moz-transform: scale(1.3);
+    -ms-transform: scale(1.3);
+    -o-transform: scale(1.3);
+    transform: scale(1.3);
+}
+#nav .nav_middle .main_li:nth-of-type(1) a {
+    color: #ffbf1d;
+}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- head标签开始 -->
+    {% block head_meta %}
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    {% block title %}<title></title>{% endblock %}
+
+    {% endblock %}
+    <!-- head标签结束 -->
+
+    <!-- css标签 -->
+    {% block css %}
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/public_nav.css">
+    {% endblock %}
+    <!-- css结束 -->
+
+    <!-- 自己的css -->
+    {% block my_css %}
+    {% endblock %}
+</head>
+<body>
+<!-- 导航开始 -->
+
+{% block header %}
+<div id="nav">
+    <div class="nav_left">
+        <h3 style="color:#fff;">
+            <img src="/static/images/logo.png">&nbsp;&nbsp;金融市场谣言识别与溯源系统
+        </h3>
+    </div>
+    <ul class="nav_middle">
+        <li class="main_li">
+            <a class="list_one li_a" href="/homePage">
+                <i class="icon icon-home"></i>&nbsp;首页
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_two li_a" href="/rumor">
+                <i class="icon icon-bullhorn"></i>&nbsp;谣言监测
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_three li_a" href="/maniPulate">
+                <i class="icon icon-cog"></i>&nbsp;操纵监测
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_four li_a" href="/perceivedLie">
+                <i class="icon icon-cloud-upload"></i>&nbsp;谣言入库
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_three li_a" href="/perceivedSet">
+                <i class="icon icon-upload-alt"></i>&nbsp;操纵入库
+            </a>
+            <p class="line"></p>
+        </li>
+        <li class="main_li">
+            <a class="list_four li_a" href="/userManage">
+                <i class="icon icon-user-md"></i>&nbsp;用户管理
+            </a>
+            <p class="line"></p>
+        </li>
+    </ul>
+    <div class="nav_right">
+        <span class="login">登录</span>
+        <span class="registered">注册</span>
+    </div>
+</div>
+<div class="modal fade" id="promptInfor" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="coverbody">
+                    <p style="text-align: center;font-size: 18px;color: #fff;font-weight: 900;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+<!-- 导航结束 -->
+
+<!-- 主要内容 -->
+{% block main %}
+
+{% endblock %}
+
+
+<!-- JS文件 -->
+{% block js %}
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script>
+    !function() {
+        var html = document.documentElement;
+        var setFontSize = function() {
+            var width = html.offsetWidth;
+            html.style.fontSize = width / 13.66+ 'px';
+        };
+        var timer;
+        var setDelay = function() {
+            return clearTimeout(timer), (timer = setTimeout(setFontSize, 150));
+        }
+        window.addEventListener('pageshow', function(evt) {
+            return evt.persisted && setDelay();
+        });
+        window.addEventListener('resize', setDelay);
+        setFontSize();
+    }();
+</script>
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap-table.min.js"></script>
+<script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/echarts/echarts.min.js"></script>
+<script src="/static/echarts/china.js"></script>
+{% endblock %}
+
+
+{% block write_js %}
+<script>
+    $(document).ready(function() {
+        $(document).on('show.bs.modal', '.modal', function() {
+            var zIndex = 1040 + (10 * $('.modal:visible').length);
+            $(this).css('z-index', zIndex);
+            setTimeout(function() {
+                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+            }, 0);
+        });
+    });
+    //几天前的时间戳
+    //    function getDaysBefore(m){
+    //        var date = new Date(),
+    //            timestamp, newDate;
+    //        if(!(date instanceof Date)){
+    //            date = new Date(date);
+    //        }
+    //        timestamp = date.getTime();
+    //        newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+    //        return Number(Date.parse(newDate).toString().substring(0,10));
+    //    };
+    function getDaysBefore($time) {
+        var a=new Date(new Date(new Date().setDate(new Date().getDate()-Number($time))).setHours(0,0,0,0));
+        var b=Date.parse(a)/1000;
+        return b;
+    }
+    //当天零点的时间戳
+    function todayTimetamp() {
+        var start=new Date();
+        start.setHours(0);
+        start.setMinutes(0);
+        start.setSeconds(0);
+        start.setMilliseconds(0);
+        var todayStartTime=Date.parse(start)/1000;
+        return todayStartTime;
+    }
+    //时间戳转时间
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日|上午|下午/g, " ");
+    }
+    //去除空格
+    function delSpace(str){
+        var str=str.replace(/<\/?[^>]*>/gim,"");//去掉所有的html标记
+        var result=str.replace(/(^\s+)|(\s+$)/g,"");//去掉前后空格
+        return  result.replace(/\s/g,"");//去除文章中间空格
+    }
+    //判断字符串中某个字符出现的次数
+    function patch(re,s){ //参数1正则式，参数2字符串
+        re=eval("/"+re+"/ig"); //不区分大小写，如须则去掉i,改为 re=eval_r("/"+re+"/g")
+        var len = s.match(re).length;
+        return len;
+    }
+    //判断空对象
+    function isEmptyObject(e) {
+        var t;
+        for (t in e)
+            return !1;
+        return !0
+    }
+    //删除数组指定项
+    Array.prototype.removeByValue = function(val) {
+        for(var i=0; i<this.length; i++) {
+            if(this[i] == val) {
+                this.splice(i, 1);
+                break;
+            }
+        }
+    };
+    //ajax请求
+    var public_ajax={
+        call_request:function(ajax_method,url,callback) {
+            $.ajax({
+                type:ajax_method,
+                url:url,
+                async:true,
+                //timeout:300,
+                //data:{"name":"xm"},//传参数
+                dataType:"json",
+                success:callback,
+                error:function (xhr,textStatus,errorThrown) {
+                    //请求失败执行的函数
+                    console.log("请求失败",textStatus,errorThrown);
+                },
+                global:false//是否触发全局请求,需要触发就是true,不需要false
+            });
+        },
+    };
+
+    //存  localStorage.setItem('TYPE','1');
+    //取  var typeNum=localStorage.getItem('TYPE');
+    //删除 localStorage.removeItem(i);
+
+    //<!---->
+    $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+        $(this).siblings('.line').css({left:'0%'});
+    }).on('mouseout',function () {
+        $(this).siblings('.line').css({left:'-100%'});
+    });
+    // 首页需要
+    // $('#nav').hover(function () {
+    //     $('#nav .nav_middle').slideDown(300);
+    //     $('#nav .nav_right').slideDown(300);
+    //     $(this).css({background:'rgba(25, 107, 123, 0.7)'});//rgba(19, 18, 18, 0.67)
+    //     $(this).css({borderBottom:'1px solid rgba(255,255,255,0.1)'});
+    // },function () {
+    //     $('#nav .nav_middle').slideUp(100);
+    //     $('#nav .nav_right').slideUp(100);
+    //     $(this).css({background:''});
+    //     $(this).css({borderBottom:'none'});
+    // })
+</script>
+{% endblock %}
+
+<!-- 自己的JS -->
+{% block my_js %}
+
+{% endblock %}
+
+</body>
+</html>
