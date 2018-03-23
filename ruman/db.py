@@ -192,6 +192,7 @@ def manipulateHistory(id):   #给出该股票的历史操纵数据
 		else:
 			dic['manipulate_type'] = u'散布信息牟利'
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
+		dic['name'] = i[DAY_STOCK_NAME] + u'(' + i[DAY_STOCK_ID] + u')'
 		result.append(dic)
 		result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
 	return result
