@@ -66,7 +66,7 @@
             <span class="top btn btn-primary">一键报告</span>
         </div>
         <div style="text-align: center; margin-bottom:20px;">
-            <span style="font-size: 36px;">“<span id="title-1">万科[000002]</span>”操纵预警报告</span>
+            <span style="font-size: 36px;">“<span id="title-1"></span>”操纵预警报告</span>
         </div>
         <!-- 基本信息 -->
         <div id="card">
@@ -107,13 +107,13 @@
         <!-- 价格与收益率 -->
         <div id="Price">
             <h3><i class="icon icon-signin"></i>&nbsp;价格与收益率</h3>
-            <select class="_time">
+            <!-- <select class="_time">
                 <option value="7">近一周</option>
                 <option value="30">近一个月</option>
                 <option value="90">近三个月</option>
                 <option value="90">近半年</option>
                 <option value="365">近一年</option>
-            </select>
+            </select> -->
             <div class="clearfix">
                 <div id="Price_1" class="half"></div>
                 <div id="Price_2" class="half"></div>
@@ -130,18 +130,20 @@
         <div id="Transaction_analysis" class="main_content">
             <h3><i class="icon icon-random"></i>&nbsp;交易分析</h3>
             <div class="anaDown">
-                <b>万科前十大股东</b>
+                <!-- <b>万科前十大股东</b> -->
+                <b class="stock-name">万科</b><b>前十大股东</b>
                 <select class="_time2">
-                    <option value="1">2017年第一季度</option>
+                    <!-- <option value="1">2017年第一季度</option>
                     <option value="2">2017年第二季度</option>
-                    <option value="3">2017年第三季度</option>
+                    <option value="3">2017年第三季度</option> -->
                 </select>
             </div>
             <div class="Transaction-1">
                 <div id="Transaction-1"></div>
             </div>
             <div class="anaDown">
-                <b>万科大宗交易</b>
+                <!-- <b>万科大宗交易</b> -->
+                <b class="stock-name">万科</b><b>大宗交易</b>
             </div>
             <div class="Transaction-2">
                 <div id="Transaction-2"></div>
@@ -178,8 +180,15 @@
     <script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
     <script src="/static/echarts/echarts.min.js"></script>
     <script src="/static/js/chalk.js"></script>
-    <script src="/static/js/set.js"></script>
+
     <script>
+        var stock = '{{stock}}';
+        $('#title-1').text(unescape(stock));
+        stock = unescape(stock);
+        $('b.stock-name').text(stock)
+        var id = '{{id}}';
+        console.log(id);
+
         $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
             $(this).siblings('.line').css({left:'0%'});
             if ($(document).scrollTop()!=0){
@@ -228,4 +237,5 @@
         };
 
     </script>
+    <script src="/static/js/set.js"></script>
 {% endblock %}

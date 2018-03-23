@@ -1,84 +1,14 @@
-function tableHeight() {
-    return $(window).height() - 540;
-}
-//请求服务数据时所传参数
-    function queryParams(params){
-        return{
-            pageSize: params.limit,
-            pageIndex:params.pageNumber,
-            // Name:$('#search_name').val(),
-            // Tel:$('#search_tel').val()
+
+// 预警数
+    var warningNumber_url='/maniPulate/manipulateWarning';
+    public_ajax.call_request('get',warningNumber_url,warningNumber);
+    function warningNumber(data){
+        if(data){
+            $('#container .firstScreen .com-1').text(data.weeknum);
+            $('#container .firstScreen .com-2').text(data.monthnum);
+            $('#container .firstScreen .com-3').text(data.seasonnum);
         }
     }
-//生成用户数据
-    $('#mytab').bootstrapTable({
-        method: 'get',
-        contentType: "application/x-www-form-urlencoded",
-        url:"/maniPulate/manipulateWarningText",
-        height:tableHeight(),//高度调整
-        // toolbar: '#toolbar',
-        striped: true, //是否显示行间隔色
-        dataField: "res",
-        pageNumber: 1, //初始化加载第一页，默认第一页
-        pagination:true,//是否分页
-        queryParamsType:'limit',
-        queryParams:queryParams,
-        sidePagination:'server',
-        pageSize:10,//单页记录数
-        pageList:[5,10,20,30],//分页步进值
-        showRefresh:true,//刷新按钮
-        showColumns:true,
-        clickToSelect: true,//是否启用点击选中行
-        toolbarAlign:'right',
-        buttonsAlign:'right',//按钮对齐方式
-        toolbar:'#toolbar',//指定工作栏
-        columns:[
-            {
-                title:'全选',
-                field:'',
-                checkbox:true,
-                width:25,
-                align:'center',
-                valign:'middle'
-            },
-            {
-                title:'ID',
-                field:'stock',
-                visible:false
-            },
-            {
-                title:'登录名',
-                field:'start_date',
-                sortable:true
-            },
-            {
-                title:'姓名',
-                field:'end_date',
-                sortable:true
-            },
-            {
-                title:'手机号',
-                field:'manipulate_type',
-            },
-            {
-                title:'邮箱',
-                field:'Email'
-            },
-            {
-                title:'注册日期',
-                field:'CreateTime',
-                sortable:true
-            },
-            {
-                title:'状态',
-                field:'Attribute',
-                align:'center',
-                // formatter:operateFormatter
-            }
-        ],
-        locale:'zh-CN',//中文支持,
-    })
-
 //第一屏
     var earlyWarningdata=[
         {'a':'万科（000000）','b':'2017-01-01','c':'2017-10-01','d':'伪市值管理','e':'房地产','f':'50%',
@@ -98,6 +28,7 @@ function tableHeight() {
     public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     function earlyWarning(data) {
         $('#recordingTable').bootstrapTable('load', data);
+        $('#recordingTable').bootstrapTable('showLoading');
         $('#recordingTable').bootstrapTable({
             data:data,
             search: true,//是否搜索
@@ -250,13 +181,21 @@ function tableHeight() {
                     }
                 },
             ],
+            formatNoMatches: function(){
+                return "没有相关的匹配结果";
+            },
+            formatLoadingMessage: function(){
+                return "请稍等，正在加载中。。。";
+            }
         });
     };
     // earlyWarning(earlyWarningdata);
 
     // 跳转详情页
     function jumpFrame_1(stock,id) {
-        var html='/index/setDetail?stock='+stock+'&id='+id;
+        var html = '';
+        stock=escape(stock);
+        html='/index/setDetail?stock='+stock+'&id='+id;
         // window.location.href=html;
         window.open(html);
     }

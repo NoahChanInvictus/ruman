@@ -224,6 +224,22 @@
                 global:false//是否触发全局请求,需要触发就是true,不需要false
             });
         },
+        call_request_1:function(ajax_method,url,callback) {
+            $.ajax({
+                type:ajax_method,
+                url:url,
+                async:false,
+                //timeout:300,
+                //data:{"name":"xm"},//传参数
+                dataType:"json",
+                success:callback,
+                error:function (xhr,textStatus,errorThrown) {
+                    //请求失败执行的函数
+                    console.log("请求失败",textStatus,errorThrown);
+                },
+                global:false//是否触发全局请求,需要触发就是true,不需要false
+            });
+        },
     };
 
     //存  localStorage.setItem('TYPE','1');

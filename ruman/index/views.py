@@ -15,7 +15,9 @@ def lieDetail():
 
 @index.route('/setDetail/')
 def setDetail():
-    return render_template('index/setDetail.html')
+	stock = request.args.get('stock','')
+	id = request.args.get('id','')
+	return render_template('index/setDetail.html',stock=stock,id=id)
 
 @index.route('/test/')
 def test():
