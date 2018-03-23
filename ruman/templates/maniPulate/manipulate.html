@@ -40,28 +40,6 @@
     </style>
 {% endblock %}
 
-{% block js %}
-    <script src="../static/js/jquery-3.2.1.min.js"></script>
-    <script>
-        !function() {
-            var html = document.documentElement;
-            var setFontSize = function() {
-                var width = html.offsetWidth;
-                html.style.fontSize = width / 13.66+ 'px';
-            };
-            var timer;
-            var setDelay = function() {
-                return clearTimeout(timer), (timer = setTimeout(setFontSize, 150));
-            }
-            window.addEventListener('pageshow', function(evt) {
-                return evt.persisted && setDelay();
-            });
-            window.addEventListener('resize', setDelay);
-            setFontSize();
-        }();
-    </script>
-{% endblock %}
-
 {% block main %}
 
     <div id="container" class="fullpage">
@@ -204,6 +182,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="section _firstScreen" style="padding-top: 1rem;">
+            <div style="color: white;font-weight:700;font-size:0.24rem;position: relative;">
+                <h3 style="color: white;display: inline-block;"><i class="icon icon-eye-open"></i>&nbsp;疑似操纵预警-----测试</h3>
+                <div class="search">
+                    <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/>
+                    <button type="button" class="btn btn-primary btn-sm">确定</button>
+                </div>
+            </div>
+            <div class="recordingTable" style="margin-top: 0.1rem;">
+                <table id="mytab"></table>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
@@ -224,12 +215,12 @@
         $('.fullpage').fullpage({
             'verticalCentered': false,
             'css3': true,
-            'anchors': ['page1', 'page2','page3','page4','page5','page6'],
+            'anchors': ['page1', 'page2','page3','page4','page5','page6','page7'],
             'navigation': 'true',
             'loopBottom':'true',
             'navigationPosition': 'right',
             'fixedElements':'#nav',
-            'navigationTooltips': ['疑似操纵预警','预警态势','操纵影响','行业分布','操纵类型','市值分布']
+            'navigationTooltips': ['疑似操纵预警','预警态势','操纵影响','行业分布','操纵类型','市值分布','测试']
         });
     </script>
 
