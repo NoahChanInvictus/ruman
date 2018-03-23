@@ -13,6 +13,11 @@ from ruman.es import *
 def index():
 	return render_template('maniPulate/manipulate.html')
 
+@maniPulate.route('/manipulateWarning/',methods=['POST','GET'])
+def manipulate_warning():
+	result = manipulateWarning()
+	return json.dumps(result,ensure_ascii=False)
+
 @maniPulate.route('/manipulateWarningText/',methods=['POST','GET'])
 def manipulate_warning_text():
 	result = manipulateWarningText()
@@ -46,4 +51,41 @@ def manipulate_type():
 def manipulate_ev():
 	date = int(request.args.get('date',''))
 	result = manipulateEv(date)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/history/',methods=['POST','GET'])
+def manipulate_history():
+	id = int(request.args.get('id',''))
+	result = manipulateHistory(id)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/price/',methods=['POST','GET'])
+def manipulate_price():
+	id = int(request.args.get('id',''))
+	result = manipulatePrice(id)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/announcement/',methods=['POST','GET'])
+def manipulate_announcement():
+	id = int(request.args.get('id',''))
+	result = manipulateAnnouncement(id)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/seasonBox/',methods=['POST','GET'])
+def manipulate_seasonbox():
+	id = int(request.args.get('id',''))
+	result = manipulateSeasonbox(id)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/top10holders/',methods=['POST','GET'])
+def manipulate_top10holders():
+	id = int(request.args.get('id',''))
+	seasonid = request.args.get('seasonid','')
+	result = manipulateTop10holders(id,seasonid)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/holderspct/',methods=['POST','GET'])
+def manipulate_holderspct():
+	id = int(request.args.get('id',''))
+	result = manipulateHolderspct(id)
 	return json.dumps(result,ensure_ascii=False)
