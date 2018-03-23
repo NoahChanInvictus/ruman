@@ -33,14 +33,14 @@ def defaultDatabaseConn():
 
 def get_season(year1,month1,day1,year2,month2,day2):   #获得给定日期内包含的季度第一天，之后再在前面延续一个季度
 	l = []
-	for year in range(year1,year2 + 1):
+	for year in range(year1,year2 + 1):   #加入一年四个季度的季初日期
 		l.append("%d-01-01" % (year))
 		l.append("%d-04-01" % (year))
 		l.append("%d-07-01" % (year))
 		l.append("%d-10-01" % (year))
 	datelist = get_datelist(year1,month1,day1,year2,month2,day2)
-	listnew = sorted(list(set(datelist).intersection(set(l))))
-	if len(listnew) == 0:
+	listnew = sorted(list(set(datelist).intersection(set(l))))   #去掉不在该时间段内的日期
+	if len(listnew) == 0:   #如果没有则添加该段时间所在的季度季初日期
 		if month2 in [1,2,3]:
 			listnew = ['%s-01-01' % (year2)]
 		elif month2 in [4,5,6]:
@@ -52,7 +52,7 @@ def get_season(year1,month1,day1,year2,month2,day2):   #获得给定日期内包
 	y = int(listnew[0].split('-')[0])
 	m = int(listnew[0].split('-')[1])
 	d = int(listnew[0].split('-')[2])
-	if m == 1:
+	if m == 1:   #添加该段时间的前一季度
 		listnew.append("%d-10-01" % (y - 1))
 		listnew.sort()
 	else:
@@ -60,7 +60,7 @@ def get_season(year1,month1,day1,year2,month2,day2):   #获得给定日期内包
 		listnew.sort()
 	return listnew
 
-def get_stock(id):
+def get_stock(id):   #通过day的id获取股票代码等数据
 	cur = defaultDatabase()
 	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_DAY,DAY_ID,id)
 	cur.execute(stocksql)
@@ -68,10 +68,10 @@ def get_stock(id):
 	dic = {DAY_STOCK_ID:thing[DAY_STOCK_ID],DAY_START_DATE:thing[DAY_START_DATE],DAY_END_DATE:thing[DAY_END_DATE],DAY_INDUSTRY_CODE:thing[DAY_INDUSTRY_CODE]}
 	return dic
 
-def manipulateWarning():
+def manipulateWarning():   #预警数合计总览
 	cur = defaultDatabase()
 	conn = defaultDatabaseConn()
-	theday = '2016-11-27'
+	theday = '2016-11-27'   #需改为today()
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -82,7 +82,7 @@ def manipulateWarning():
 		except:
 			pass
 	datelist = get_datelist(2012,1,1,year,month,day)
-	if theday in tradelist:
+	if theday in tradelist:   #如果今天不为交易日则向前推最近的交易日
 		tradeday = theday
 	else:
 		num = datelist.index(theday)
@@ -90,22 +90,22 @@ def manipulateWarning():
 			if datelist[num - i] in tradelist:
 				tradeday = datelist[num - i]
 				break
-	tradedaynew = tradelist[tradelist.index(tradeday) - 59]
+	tradedaynew = tradelist[tradelist.index(tradeday) - 59]   #获取一季度的数据
 	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_WARNING,WARNING_DATE,tradedaynew,WARNING_DATE,tradeday)
 	df = pd.read_sql(sql,conn)
-	weeknum = sum(df.iloc[-5:][WARNING_TIMES])
+	weeknum = sum(df.iloc[-5:][WARNING_TIMES])   #搜索后分别对周、月、季加和
 	monthnum = sum(df.iloc[-20:][WARNING_TIMES])
 	seasonnum = sum(df[WARNING_TIMES])
 	result = {'weeknum':weeknum,'monthnum':monthnum,'seasonnum':seasonnum}
 	return result
 
-def manipulateWarningText():
+def manipulateWarningText():   #列出预警文本
 	cur = defaultDatabase()
 	sql = "SELECT * FROM " + TABLE_DAY
 	cur.execute(sql)
 	results = cur.fetchall()
 	result = []
-	for i in results:
+	for i in results:   #选取所有文本并展示
 		dic = {}
 		dic['stock'] = i[DAY_STOCK_NAME] + u'(' + i[DAY_STOCK_ID] + u')'
 		dic['start_date'] = i[DAY_START_DATE]
@@ -127,10 +127,10 @@ def manipulateWarningText():
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
 		dic['id'] = i[DAY_ID]
 		result.append(dic)
-	result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)
+	result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
 	return result
 
-def manipulateWarningNum(date):
+def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数并画图展示，方法类似Warning
 	cur = defaultDatabase()
 	theday = '2016-11-27'
 	year = theday.split('-')[0]
@@ -166,10 +166,10 @@ def manipulateWarningNum(date):
 def manipulateInfluence(date):
 	return 0
 
-def manipulateHistory(id):
+def manipulateHistory(id):   #给出该股票的历史操纵数据
 	cur = defaultDatabase()
 	stock_id = get_stock(id)[DAY_STOCK_ID]
-	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_DAY,DAY_STOCK_ID,stock_id)
+	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_DAY,DAY_STOCK_ID,stock_id)   #从列表中选出该股票的数据并展示
 	cur.execute(sql)
 	results = cur.fetchall()
 	result = []
@@ -192,11 +192,12 @@ def manipulateHistory(id):
 		else:
 			dic['manipulate_type'] = u'散布信息牟利'
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
+		dic['name'] = i[DAY_STOCK_NAME] + u'(' + i[DAY_STOCK_ID] + u')'
 		result.append(dic)
-		result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)
+		result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
 	return result
 
-def manipulatePrice(id):
+def manipulatePrice(id):   #获取本次操作期间的股价和收益率
 	conn = defaultDatabaseConn()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
@@ -205,57 +206,58 @@ def manipulatePrice(id):
 	industry = stock[DAY_INDUSTRY_CODE]
 	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_MARKET_DAILY,MARKET_DATE,lasttradedate(start_date),MARKET_DATE,end_date)
 	df = pd.read_sql(sql,conn)
-	datelist = sorted(list(set(df[MARKET_DATE])))
+	datelist = sorted(list(set(df[MARKET_DATE])))   #获取日期列表
 	industryprice = []
 	price = []
 	for date in datelist:
-		industryprice.append(mean(df[(df[MARKET_DATE] == date) & (df[MARKET_INDUSTRY_CODE] == industry)][MARKET_PRICE]))
-		price.append(float(df[(df[MARKET_DATE] == date) & (df[MARKET_STOCK_ID] == stock_id)][MARKET_PRICE]))
+		industryprice.append(mean(df[(df[MARKET_DATE] == date) & (df[MARKET_INDUSTRY_CODE] == industry)][MARKET_PRICE]))   #获取同行业价格平均值列表
+		price.append(float(df[(df[MARKET_DATE] == date) & (df[MARKET_STOCK_ID] == stock_id)][MARKET_PRICE]))   #获取本股票价格列表
 	industry_ratio = []
 	ratio = []
 	D_value = []
 	for num in range(1,len(price)):
-		a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]
-		b = (price[num] - price[num - 1]) / price[num - 1]
+		a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
+		b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
 		industry_ratio.append(a)
 		ratio.append(b)
-		D_value.append(b - a)
-	result = {'date':datelist[1:],'industryprice':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
+		D_value.append(abs(b - a))   #差值绝对值
+	result = {'date':datelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
 	return result
 
-def manipulateSeasonbox(id):
+def manipulateSeasonbox(id):   #获得季度下拉框
 	conn = defaultDatabaseConn()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
 	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_HOLDERS_SHOW,HOLDERS_SHOW_STOCK_ID,stock_id)
 	df = pd.read_sql(sql,conn)
-	datelist = sorted(list(set(df[HOLDERS_SHOW_DATE])))
+	datelist = sorted(list(set(df[HOLDERS_SHOW_DATE])))   #获取数据库存在数据的季度
 	datelistcopy = datelist[:]
-	for date in datelistcopy:
+	for date in datelistcopy:   #若该季度数据前两大股东为None则不显示
 		a = df[(df[HOLDERS_SHOW_STOCK_ID] == stock_id) & (df[HOLDERS_SHOW_DATE] == date)]
 		if a.iloc[0][HOLDERS_SHOW_HOLDER_NAME] == u'None' and a.iloc[1][HOLDERS_SHOW_HOLDER_NAME] == u'None':
 			datelist.remove(date)
 	result = []
-	for date in datelist:
-		year = int(date.split('-')[0])
-		month = int(date.split('-')[1])
-		day = int(date.split('-')[2])
-		if month == 1:
-			season = '%s年第一季度' % (year)
-			seasonid = date
-		elif month == 4:
-			season = '%s年第二季度' % (year)
-			seasonid = date
-		elif month == 7:
-			season = '%s年第三季度' % (year)
-			seasonid = date
-		elif month == 10:
-			season = '%s年第四季度' % (year)
-			seasonid = date
-		result.append({'season':season,'seasonid':seasonid})
+	if len(datelist):   #如果里面有的话返回对应的标签
+		for date in datelist:
+			year = int(date.split('-')[0])
+			month = int(date.split('-')[1])
+			day = int(date.split('-')[2])
+			if month == 1:
+				season = '%s年第一季度' % (year)
+				seasonid = date
+			elif month == 4:
+				season = '%s年第二季度' % (year)
+				seasonid = date
+			elif month == 7:
+				season = '%s年第三季度' % (year)
+				seasonid = date
+			elif month == 10:
+				season = '%s年第四季度' % (year)
+				seasonid = date
+			result.append({'season':season,'seasonid':seasonid})
 	return result
 
-def manipulateTop10holders(id,seasonid):
+def manipulateTop10holders(id,seasonid):   #对应季度搜索展示股东数据
 	cur = defaultDatabase()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
@@ -271,7 +273,7 @@ def manipulateTop10holders(id,seasonid):
 	result = sorted(result, key= lambda x:(x[HOLDERS_SHOW_RANKING]))
 	return result
 
-def manipulateHolderspct(id):
+def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比例的数据
 	cur = defaultDatabase()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
