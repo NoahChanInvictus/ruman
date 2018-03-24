@@ -122,7 +122,7 @@
         var date_data = data.date || [];
 
         var price_data = data.price || [];
-        var industry_price_data = data.industryprice || []; //一会儿改
+        var industry_price_data = data.industry_price || []; //一会儿改
         for(var i=0;i<industry_price_data.length;i++){
             industry_price_data[i] = industry_price_data[i].toFixed(2);
         }
