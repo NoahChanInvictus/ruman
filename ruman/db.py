@@ -71,7 +71,7 @@ def get_stock(id):   #通过day的id获取股票代码等数据
 def manipulateWarning():   #预警数合计总览
 	cur = defaultDatabase()
 	conn = defaultDatabaseConn()
-	theday = '2016-11-27'   #需改为today()
+	theday = '2016-12-30'   
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -82,7 +82,7 @@ def manipulateWarning():   #预警数合计总览
 		except:
 			pass
 	datelist = get_datelist(2012,1,1,year,month,day)
-	if theday in tradelist:   #如果今天不为交易日则向前推最近的交易日
+	if theday in tradelist:
 		tradeday = theday
 	else:
 		num = datelist.index(theday)
@@ -90,12 +90,22 @@ def manipulateWarning():   #预警数合计总览
 			if datelist[num - i] in tradelist:
 				tradeday = datelist[num - i]
 				break
-	tradedaynew = tradelist[tradelist.index(tradeday) - 59]   #获取一季度的数据
+	tradedaynew = tradelist[tradelist.index(tradeday) - 59]
+	'''
 	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_WARNING,WARNING_DATE,tradedaynew,WARNING_DATE,tradeday)
 	df = pd.read_sql(sql,conn)
-	weeknum = sum(df.iloc[-5:][WARNING_TIMES])   #搜索后分别对周、月、季加和
+	weeknum = sum(df.iloc[-5:][WARNING_TIMES])
 	monthnum = sum(df.iloc[-20:][WARNING_TIMES])
 	seasonnum = sum(df[WARNING_TIMES])
+	result = {'weeknum':weeknum,'monthnum':monthnum,'seasonnum':seasonnum}
+	return result'''
+	tradedaynew7 = tradelist[tradelist.index(tradeday) - 4]
+	tradedaynew30 = tradelist[tradelist.index(tradeday) - 19]
+	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_DAY,DAY_END_DATE,tradedaynew,DAY_END_DATE,tradeday)   #寻找在预警条目内的结束日期在5、20、60交易日内的数据
+	df = pd.read_sql(sql,conn)
+	weeknum = len(df[df[DAY_END_DATE] >= tradedaynew7])
+	monthnum = len(df[df[DAY_END_DATE] >= tradedaynew30])
+	seasonnum = len(df)
 	result = {'weeknum':weeknum,'monthnum':monthnum,'seasonnum':seasonnum}
 	return result
 
@@ -132,7 +142,7 @@ def manipulateWarningText():   #列出预警文本
 
 def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数并画图展示，方法类似Warning
 	cur = defaultDatabase()
-	theday = '2016-11-27'
+	theday = '2016-11-27'   #需改为today()
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -143,7 +153,7 @@ def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数
 		except:
 			pass
 	datelist = get_datelist(2012,1,1,year,month,day)
-	if theday in tradelist:
+	if theday in tradelist:   #如果今天不为交易日则向前推最近的交易日
 		tradeday = theday
 	else:
 		num = datelist.index(theday)
@@ -156,7 +166,7 @@ def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数
 	elif date == 30:
 		tradedaynew = tradelist[tradelist.index(tradeday) - 19]
 	else:
-		tradedaynew = tradelist[tradelist.index(tradeday) - 59]
+		tradedaynew = tradelist[tradelist.index(tradeday) - 59]   #获取一季度的数据
 	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_WARNING,WARNING_DATE,tradedaynew,WARNING_DATE,tradeday)
 	cur.execute(sql)
 	results = cur.fetchall()
@@ -255,22 +265,28 @@ def manipulateSeasonbox(id):   #获得季度下拉框
 				season = '%s年第四季度' % (year)
 				seasonid = date
 			result.append({'season':season,'seasonid':seasonid})
+	else:
+		season = '无'
+		seasonid = 'Nodata'
 	return result
 
 def manipulateTop10holders(id,seasonid):   #对应季度搜索展示股东数据
 	cur = defaultDatabase()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
-	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_SHOW,HOLDERS_SHOW_STOCK_ID,stock_id,HOLDERS_SHOW_DATE,seasonid)
-	cur.execute(sql)
-	results = cur.fetchall()
-	result = []
-	for thing in results:
-		thing.pop(HOLDERS_SHOW_STOCK_ID)
-		thing.pop(HOLDERS_SHOW_DATE)
-		thing.pop(HOLDERS_SHOW_ID)
-		result.append(thing)
-	result = sorted(result, key= lambda x:(x[HOLDERS_SHOW_RANKING]))
+	if seasonid == 'Nodata':
+		result ={}
+	else:
+		sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_SHOW,HOLDERS_SHOW_STOCK_ID,stock_id,HOLDERS_SHOW_DATE,seasonid)
+		cur.execute(sql)
+		results = cur.fetchall()
+		result = []
+		for thing in results:
+			thing.pop(HOLDERS_SHOW_STOCK_ID)
+			thing.pop(HOLDERS_SHOW_DATE)
+			thing.pop(HOLDERS_SHOW_ID)
+			result.append(thing)
+		result = sorted(result, key= lambda x:(x[HOLDERS_SHOW_RANKING]))
 	return result
 
 def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比例的数据
