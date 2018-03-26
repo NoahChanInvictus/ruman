@@ -182,7 +182,7 @@ def manipulateHistory(id):   #给出该股票的历史操纵数据
 	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_DAY,DAY_STOCK_ID,stock_id)   #从列表中选出该股票的数据并展示
 	cur.execute(sql)
 	results = cur.fetchall()
-	result = []
+	resultother = []
 	for i in results:
 		dic = {}
 		dic['id'] = i[DAY_ID]
@@ -203,8 +203,15 @@ def manipulateHistory(id):   #给出该股票的历史操纵数据
 			dic['manipulate_type'] = u'散布信息牟利'
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
 		dic['name'] = i[DAY_STOCK_NAME] + u'(' + i[DAY_STOCK_ID] + u')'
-		result.append(dic)
-		result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
+		if id ==dic['id']:
+			dic['ifthis'] = 1
+			dicthis = dic
+		else:
+			dic['ifthis'] = 0
+			resultother.append(dic)
+	resultother = sorted(resultother, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
+	result = [dicthis]
+	result.extend(resultother)
 	return result
 
 def manipulatePrice(id):   #获取本次操作期间的股价和收益率
