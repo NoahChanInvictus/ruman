@@ -173,7 +173,7 @@ def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数
 	result = {'date':[thing[WARNING_DATE] for thing in results],'times':[thing[WARNING_TIMES] for thing in results]}
 	return result
 
-def manipulateInfluence(date):
+def manipulateInfluence(date):   #根据day表统计不同收益率的股票并展示
 	cur = defaultDatabase()
 	theday = '2016-09-04'
 	year = theday.split('-')[0]
@@ -188,62 +188,65 @@ def manipulateInfluence(date):
 	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_INFLUENCE,INFLUENCE_DATE,theday,INFLUENCE_FREQUENCY,frequency)
 	cur.execute(sql)
 	results = cur.fetchone()
-	results.pop(INFLUENCE_ID)
-	results.pop(INFLUENCE_DATE)
-	results.pop(INFLUENCE_FREQUENCY)
-	dic = {}
-	dic["0%~-5%"] = results[INFLUENCE_1]
-	dic["-5%~-10%"] = results[INFLUENCE_2]
-	dic["-10%~-15%"] = results[INFLUENCE_3]
-	dic["-15%~-20%"] = results[INFLUENCE_4]
-	dic["-20%~-25%"] = results[INFLUENCE_5]
-	dic["-25%~-30%"] = results[INFLUENCE_6]
-	dic["-30%~-35%"] = results[INFLUENCE_7]
-	dic["-35%~-40%"] = results[INFLUENCE_8]
-	dic["-40%~-45%"] = results[INFLUENCE_9]
-	dic["-45%~-50%"] = results[INFLUENCE_10]
-	dic["-50%~-55%"] = results[INFLUENCE_11]
-	dic["-55%~-60%"] = results[INFLUENCE_12]
-	dic["-60%~-65%"] = results[INFLUENCE_13]
-	dic["-65%~-70%"] = results[INFLUENCE_14]
-	dic["-70%~-75%"] = results[INFLUENCE_15]
-	dic["0%~5%"] = results[INFLUENCE_16]
-	dic["5%~10%"] = results[INFLUENCE_17]
-	dic["10%~15%"] = results[INFLUENCE_18]
-	dic["15%~20%"] = results[INFLUENCE_19]
-	dic["20%~25%"] = results[INFLUENCE_20]
-	dic["25%~30%"] = results[INFLUENCE_21]
-	dic["30%~35%"] = results[INFLUENCE_22]
-	dic["35%~40%"] = results[INFLUENCE_23]
-	dic["40%~45%"] = results[INFLUENCE_24]
-	dic["45%~50%"] = results[INFLUENCE_25]
-	dic["50%~55%"] = results[INFLUENCE_26]
-	dic["55%~60%"] = results[INFLUENCE_27]
-	dic["60%~65%"] = results[INFLUENCE_28]
-	dic["65%~70%"] = results[INFLUENCE_29]
-	dic["70%~75%"] = results[INFLUENCE_30]
-	dic["75%~80%"] = results[INFLUENCE_31]
-	dic["80%~85%"] = results[INFLUENCE_32]
-	dic["85%~90%"] = results[INFLUENCE_33]
-	dic["90%~95%"] = results[INFLUENCE_34]
-	dic["95%~100%"] = results[INFLUENCE_35]	
-	ratio = []
-	num = []
-	keylist = sorted(dic.keys())
-	keylist.remove('-5%~-10%')
-	keylist1 = sorted(keylist[:keylist.index('0%~-5%')],reverse=True)
-	keylist2 = ['-5%~-10%']
-	keylist3 = keylist[keylist.index('0%~-5%'):]
-	keylistnew = []
-	keylistnew.extend(keylist1)
-	keylistnew.extend(keylist2)
-	keylistnew.extend(keylist3)
-	for k in keylistnew:
-		ratio.append(k)
-		num.append(dic[k])
-	return {"ratio":ratio,"num":num}
+	if results is not None:
+		results.pop(INFLUENCE_ID)
+		results.pop(INFLUENCE_DATE)
+		results.pop(INFLUENCE_FREQUENCY)
+		dic = {}
+		dic["0%~-5%"] = results[INFLUENCE_1]
+		dic["-5%~-10%"] = results[INFLUENCE_2]
+		dic["-10%~-15%"] = results[INFLUENCE_3]
+		dic["-15%~-20%"] = results[INFLUENCE_4]
+		dic["-20%~-25%"] = results[INFLUENCE_5]
+		dic["-25%~-30%"] = results[INFLUENCE_6]
+		dic["-30%~-35%"] = results[INFLUENCE_7]
+		dic["-35%~-40%"] = results[INFLUENCE_8]
+		dic["-40%~-45%"] = results[INFLUENCE_9]
+		dic["-45%~-50%"] = results[INFLUENCE_10]
+		dic["-50%~-55%"] = results[INFLUENCE_11]
+		dic["-55%~-60%"] = results[INFLUENCE_12]
+		dic["-60%~-65%"] = results[INFLUENCE_13]
+		dic["-65%~-70%"] = results[INFLUENCE_14]
+		dic["-70%~-75%"] = results[INFLUENCE_15]
+		dic["0%~5%"] = results[INFLUENCE_16]
+		dic["5%~10%"] = results[INFLUENCE_17]
+		dic["10%~15%"] = results[INFLUENCE_18]
+		dic["15%~20%"] = results[INFLUENCE_19]
+		dic["20%~25%"] = results[INFLUENCE_20]
+		dic["25%~30%"] = results[INFLUENCE_21]
+		dic["30%~35%"] = results[INFLUENCE_22]
+		dic["35%~40%"] = results[INFLUENCE_23]
+		dic["40%~45%"] = results[INFLUENCE_24]
+		dic["45%~50%"] = results[INFLUENCE_25]
+		dic["50%~55%"] = results[INFLUENCE_26]
+		dic["55%~60%"] = results[INFLUENCE_27]
+		dic["60%~65%"] = results[INFLUENCE_28]
+		dic["65%~70%"] = results[INFLUENCE_29]
+		dic["70%~75%"] = results[INFLUENCE_30]
+		dic["75%~80%"] = results[INFLUENCE_31]
+		dic["80%~85%"] = results[INFLUENCE_32]
+		dic["85%~90%"] = results[INFLUENCE_33]
+		dic["90%~95%"] = results[INFLUENCE_34]
+		dic["95%~100%"] = results[INFLUENCE_35]	
+		ratio = []
+		num = []
+		keylist = sorted(dic.keys())
+		keylist.remove('-5%~-10%')
+		keylist1 = sorted(keylist[:keylist.index('0%~-5%')],reverse=True)
+		keylist2 = ['-5%~-10%']
+		keylist3 = keylist[keylist.index('0%~-5%'):]
+		keylistnew = []
+		keylistnew.extend(keylist1)
+		keylistnew.extend(keylist2)
+		keylistnew.extend(keylist3)
+		for k in keylistnew:
+			ratio.append(k)
+			num.append(dic[k])
+		return {"ratio":ratio,"num":num}
+	else:
+		return {}
 
-def manipulateIndustry(date):
+def manipulateIndustry(date):   #根据day表统计不同行业的股票并展示
 	cur = defaultDatabase()
 	theday = '2016-09-04'
 	year = theday.split('-')[0]
@@ -258,39 +261,41 @@ def manipulateIndustry(date):
 	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_INDUSTRY,INDUSTRY_DATE,theday,INDUSTRY_FREQUENCY,frequency)
 	cur.execute(sql)
 	results = cur.fetchone()
-	results.pop(INDUSTRY_ID)
-	results.pop(INDUSTRY_DATE)
-	results.pop(INDUSTRY_FREQUENCY)
-	print results
-	dic = {}
-	dic["农、林、牧、渔业"] = results[INDUSTRY_A]
-	dic["采矿业"] = results[INDUSTRY_B]
-	dic["制造业"] = results[INDUSTRY_C]
-	dic["电力、热力、燃气及水生产和供应业"] = results[INDUSTRY_D]
-	dic["建筑业"] = results[INDUSTRY_E]
-	dic["批发和零售业"] = results[INDUSTRY_F]
-	dic["交通运输、仓储和邮政业"] = results[INDUSTRY_G]
-	dic["住宿和餐饮业"] = results[INDUSTRY_H]
-	dic["信息传输、软件和信息技术服务业"] = results[INDUSTRY_I]
-	dic["金融业"] = results[INDUSTRY_J]
-	dic["房地产业"] = results[INDUSTRY_K]
-	dic["租赁和商务服务业"] = results[INDUSTRY_L]
-	dic["科学研究和技术服务业"] = results[INDUSTRY_M]
-	dic["水利、环境和公共设施管理业"] = results[INDUSTRY_N]
-	dic["居民服务、修理和其他服务业"] = results[INDUSTRY_O]
-	dic["教育"] = results[INDUSTRY_P]
-	dic["卫生和社会工作"] = results[INDUSTRY_Q]
-	dic["文化、体育和娱乐业"] = results[INDUSTRY_R]
-	dic["综合"] = results[INDUSTRY_S]
-	industry = []
-	num = []
-	for k in dic.keys():
-		industry.append(k)
-		num.append(dic[k])
-	print industry,num
-	return {"industry":industry,"num":num}
+	if results is not None:
+		results.pop(INDUSTRY_ID)
+		results.pop(INDUSTRY_DATE)
+		results.pop(INDUSTRY_FREQUENCY)
+		dic = {}
+		dic["农、林、牧、渔业"] = results[INDUSTRY_A]
+		dic["采矿业"] = results[INDUSTRY_B]
+		dic["制造业"] = results[INDUSTRY_C]
+		dic["电力、热力、燃气及水生产和供应业"] = results[INDUSTRY_D]
+		dic["建筑业"] = results[INDUSTRY_E]
+		dic["批发和零售业"] = results[INDUSTRY_F]
+		dic["交通运输、仓储和邮政业"] = results[INDUSTRY_G]
+		dic["住宿和餐饮业"] = results[INDUSTRY_H]
+		dic["信息传输、软件和信息技术服务业"] = results[INDUSTRY_I]
+		dic["金融业"] = results[INDUSTRY_J]
+		dic["房地产业"] = results[INDUSTRY_K]
+		dic["租赁和商务服务业"] = results[INDUSTRY_L]
+		dic["科学研究和技术服务业"] = results[INDUSTRY_M]
+		dic["水利、环境和公共设施管理业"] = results[INDUSTRY_N]
+		dic["居民服务、修理和其他服务业"] = results[INDUSTRY_O]
+		dic["教育"] = results[INDUSTRY_P]
+		dic["卫生和社会工作"] = results[INDUSTRY_Q]
+		dic["文化、体育和娱乐业"] = results[INDUSTRY_R]
+		dic["综合"] = results[INDUSTRY_S]
+		industry = []
+		num = []
+		dicsort = sorted(dic.items(),key=lambda x:x[1],reverse=True)
+		for k in dicsort:
+			industry.append(k[0])
+			num.append(k[1])
+		return {"industry":industry,"num":num,'industrymax':industry[:5],'nummax':num[:5]}
+	else:
+		return {}
 
-def manipulateType(date):
+def manipulateType(date):   #根据day表统计不同操纵类型的股票并展示
 	cur = defaultDatabase()
 	theday = '2016-09-04'
 	year = theday.split('-')[0]
@@ -305,23 +310,27 @@ def manipulateType(date):
 	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_TYPE,TYPE_DATE,theday,TYPE_FREQUENCY,frequency)
 	cur.execute(sql)
 	results = cur.fetchone()
-	results.pop(TYPE_ID)
-	results.pop(TYPE_DATE)
-	results.pop(TYPE_FREQUENCY)
-	dic = {}
-	dic["高送转"] = results[TYPE1]
-	dic["定向增发"] = results[TYPE2]
-	dic["伪市值管理"] = results[TYPE3]
-	dic["散步牟利消息"] = results[TYPE4]
-	dic["其它"] = results[TYPE5]
-	typelist = []
-	num = []
-	for k in dic.keys():
-		typelist.append(k)
-		num.append(dic[k])
-	return {"type":typelist,"num":num}
+	if results is not None:
+		results.pop(TYPE_ID)
+		results.pop(TYPE_DATE)
+		results.pop(TYPE_FREQUENCY)
+		dic = {}
+		dic["高送转"] = results[TYPE1]
+		dic["定向增发"] = results[TYPE2]
+		dic["伪市值管理"] = results[TYPE3]
+		dic["散步牟利消息"] = results[TYPE4]
+		dic["其它"] = results[TYPE5]
+		typelist = []
+		num = []
+		dicsort = sorted(dic.items(),key=lambda x:x[1],reverse=True)
+		for k in dicsort:
+			typelist.append(k[0])
+			num.append(k[1])
+		return {"type":typelist,"num":num}
+	else:
+		return {}
 
-def manipulatePanel(date):
+def manipulatePanel(date):   #根据day表统计不同板块的股票并展示
 	cur = defaultDatabase()
 	theday = '2016-09-04'
 	year = theday.split('-')[0]
@@ -336,20 +345,38 @@ def manipulatePanel(date):
 	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_PANEL,PANEL_DATE,theday,PANEL_FREQUENCY,frequency)
 	cur.execute(sql)
 	results = cur.fetchone()
-	results.pop(PANEL_ID)
-	results.pop(PANEL_DATE)
-	results.pop(PANEL_FREQUENCY)
-	dic = {}
-	dic["主板"] = results[PANEL1]
-	dic["中小板"] = results[PANEL2]
-	dic["创业板"] = results[PANEL3]
-	panel = []
-	num = []
-	for k in dic.keys():
-		panel.append(k)
-		num.append(dic[k])
-	print panel,num
-	return {"PANEL":panel,"num":num}
+	if results is not None:
+		results.pop(PANEL_ID)
+		results.pop(PANEL_DATE)
+		results.pop(PANEL_FREQUENCY)
+		dic = {}
+		dic["主板"] = results[PANEL1]
+		dic["中小板"] = results[PANEL2]
+		dic["创业板"] = results[PANEL3]
+		panel = []
+		num = []
+		dicsort = sorted(dic.items(),key=lambda x:x[1],reverse=True)
+		for k in dicsort:
+			panel.append(k[0])
+			num.append(k[1])
+		print panel,num
+		return {"PANEL":panel,"num":num}
+	else:
+		return {}
+
+def manipulateGongshang(id):   #给出该股票的工商数据
+	cur = defaultDatabase()
+	stock_id = get_stock(id)[DAY_STOCK_ID]
+	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_GONGSHANG,GONGSHANG_STOCK_ID,stock_id)
+	cur.execute(sql)
+	results = cur.fetchone()
+	if results is not None:
+		results.pop(GONGSHANG_ID)
+		results.pop(GONGSHANG_STOCK_ID)
+		results.pop(GONGSHANG_STOCK_NAME)
+		return results
+	else:
+		return {GONGSHANG_PLACE:u'未知',GONGSHANG_START_DATE:u'未知',GONGSHANG_NAME:u'未知',GONGSHANG_MONEY:u'未知',GONGSHANG_PERSON:u'未知',GONGSHANG_KIND:u'未知',GONGSHANG_INDUSTRY:u'未知',GONGSHANG_PLATE:u'未知'}
 
 def manipulateHistory(id):   #给出该股票的历史操纵数据
 	cur = defaultDatabase()
@@ -471,7 +498,7 @@ def manipulateTop10holders(id,seasonid):   #对应季度搜索展示股东数据
 		result = sorted(result, key= lambda x:(x[HOLDERS_SHOW_RANKING]))
 	return result
 
-def manipulateLargetrans(id):
+def manipulateLargetrans(id):   #展示大宗交易记录
 	cur = defaultDatabase()
 	conn = defaultDatabaseConn()
 	stock = get_stock(id)
