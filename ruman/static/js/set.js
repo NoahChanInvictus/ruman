@@ -94,7 +94,7 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;" onclick="jumpFrame_1(\''+row.name+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
             ],
@@ -102,10 +102,9 @@
     }
     // table1(t1_data);
     // 跳转详情页
-        function jumpFrame_1(stock,id) {
+        function jumpFrame_1(name,id) {
             var html = '';
-            stock=escape(stock);
-            html='/index/setDetail?stock='+stock+'&id='+id;
+            html='/index/setDetail?stock='+name+'&id='+id;
 
             window.open(html);
         }
@@ -116,7 +115,7 @@
     var myChart_2 = echarts.init(document.getElementById('Price_2'));
     myChart_2.showLoading();
 
-    var price_url = '/maniPulate/manipulateReport/price/?id=1';
+    var price_url = '/maniPulate/manipulateReport/price/?id=' + id;//id=1 测试
     public_ajax.call_request('get',price_url,Price);
     function Price(data){
         var date_data = data.date || [];
@@ -554,7 +553,6 @@
     });
 
     function table3(data) {
-        $('#Transaction-1').showLoading();
         $('#Transaction-1').bootstrapTable('load', data);
         $('#Transaction-1').bootstrapTable({
             data:data,
@@ -685,7 +683,7 @@
     }
     // table3(t3_data);
 
-    // 万宗交易
+    // 大宗交易
     var t4_data=[{'a':'2017/11/1','b':'9.15','c':'7.36','d':'214.54','e':'0.12','f':'海通证券威海高山街','g':'机构专用'},
         {'a':'2017/11/1','b':'9.15','c':'7.5','d':'218.63','e':'0.12','f':'中信证券上海环球金融中心','g':'机构专用'},
         {'a':'2017/9/21','b':'8.4','c':'11.8','d':'335.12','e':'0.22','f':'中信证券上海中信广场','g':'机构专用'},
@@ -826,7 +824,7 @@
     var myChart_4 = echarts.init(document.getElementById('Stock_2'),'chalk');
     myChart_4.showLoading();
 
-    var holderspct_url = '/maniPulate/manipulateReport/holderspct?id=16';
+    var holderspct_url = '/maniPulate/manipulateReport/holderspct?id=' + id;//id=16测试
     public_ajax.call_request('get',holderspct_url,Stock);
     function Stock(data){
         var holder_pctbyinst_data = data.holder_pctbyinst;      //机构投资者持股
@@ -953,6 +951,7 @@
         myChart_4.hideLoading();
         myChart_4.setOption(option_4);
     }
+
     function Stock_1(){
         var myChart = echarts.init(document.getElementById('Stock_1'),'chalk');
         var option = {
@@ -1072,101 +1071,101 @@
     // Stock_2()
 
 //舆情分析
-var t5_data=[{'a':'2017.10.01 13:23','b':'微博','c':'所长别开枪是我','d':'国家发布雄安新区新资讯，新政策的颁布'},
-    {'a':'2017.09.01 13:23','b':'股吧','c':'机智达人','d':'新能源汽车不断被尝试，多家公司涉足新'},
-    {'a':'2017.08.01 13:23','b':'知乎','c':'沈小司司','d':'快递行业在政策促进下稳步前进，快递业'},
-    {'a':'2017.07.01 13:23','b':'贴吧','c':'所长别开枪是我','d':'传统煤炭产业再度进入大众视线，能源产'},
-    {'a':'2017.06.01 13:23','b':'微博','c':'机智达人','d':'北京市发布医疗改革新办法，医改给人们'},
-];
-function table5(data) {
-    $('#opinion').bootstrapTable('load', data);
-    $('#opinion').bootstrapTable({
-        data:data,
-        search: true,//是否搜索
-        pagination: true,//是否分页
-        pageSize: 5,//单页记录数
-        pageList: [15,20,25],//分页步进值
-        sidePagination: "client",//服务端分页
-        searchAlign: "left",
-        searchOnEnterKey: false,//回车搜索
-        showRefresh: false,//刷新按钮
-        showColumns: false,//列选择按钮
-        buttonsAlign: "right",//按钮对齐方式
-        locale: "zh-CN",//中文支持
-        detailView: false,
-        showToggle:false,
-        sortName:'bci',
-        sortOrder:"desc",
-        columns: [
-            {
-                title: "时间",//标题
-                field: "a",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-            },
-            {
-                title: "渠道",//标题
-                field: "b",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    if (row.b==''||row.b=='null'||row.b=='unknown'||!row.b){
-                        return '未知';
-                    }else {
-                        return row.b;
-                    };
-                }
-            },
-            {
-                title: "发布者",//标题
-                field: "c",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    if (row.c==''||row.c=='null'||row.c=='unknown'||!row.c){
-                        return '-';
-                    }else {
-                        return row.c;
-                    };
-                }
-            },
-            {
-                title: "内容",//标题
-                field: "d",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    if (row.d==''||row.d=='null'||row.d=='unknown'||!row.d){
-                        return '-';
-                    }else {
-                        if(row.d.length>50){
-                            return '<span title="'+row.d+'">'+row.d.substring(0,150)+'...</span>';
+    var t5_data=[{'a':'2017.10.01 13:23','b':'微博','c':'所长别开枪是我','d':'国家发布雄安新区新资讯，新政策的颁布'},
+        {'a':'2017.09.01 13:23','b':'股吧','c':'机智达人','d':'新能源汽车不断被尝试，多家公司涉足新'},
+        {'a':'2017.08.01 13:23','b':'知乎','c':'沈小司司','d':'快递行业在政策促进下稳步前进，快递业'},
+        {'a':'2017.07.01 13:23','b':'贴吧','c':'所长别开枪是我','d':'传统煤炭产业再度进入大众视线，能源产'},
+        {'a':'2017.06.01 13:23','b':'微博','c':'机智达人','d':'北京市发布医疗改革新办法，医改给人们'},
+    ];
+    function table5(data) {
+        $('#opinion').bootstrapTable('load', data);
+        $('#opinion').bootstrapTable({
+            data:data,
+            search: true,//是否搜索
+            pagination: true,//是否分页
+            pageSize: 5,//单页记录数
+            pageList: [15,20,25],//分页步进值
+            sidePagination: "client",//服务端分页
+            searchAlign: "left",
+            searchOnEnterKey: false,//回车搜索
+            showRefresh: false,//刷新按钮
+            showColumns: false,//列选择按钮
+            buttonsAlign: "right",//按钮对齐方式
+            locale: "zh-CN",//中文支持
+            detailView: false,
+            showToggle:false,
+            sortName:'bci',
+            sortOrder:"desc",
+            columns: [
+                {
+                    title: "时间",//标题
+                    field: "a",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                },
+                {
+                    title: "渠道",//标题
+                    field: "b",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.b==''||row.b=='null'||row.b=='unknown'||!row.b){
+                            return '未知';
                         }else {
-                            return row.d;
-                        }
-                    };
-                }
-            },
-            {
-                title: "查看详情",//标题
-                field: "e",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-file-alt"></i></span>';
-                }
-            },
-        ],
-    });
-}
-table5(t5_data)
+                            return row.b;
+                        };
+                    }
+                },
+                {
+                    title: "发布者",//标题
+                    field: "c",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.c==''||row.c=='null'||row.c=='unknown'||!row.c){
+                            return '-';
+                        }else {
+                            return row.c;
+                        };
+                    }
+                },
+                {
+                    title: "内容",//标题
+                    field: "d",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.d==''||row.d=='null'||row.d=='unknown'||!row.d){
+                            return '-';
+                        }else {
+                            if(row.d.length>50){
+                                return '<span title="'+row.d+'">'+row.d.substring(0,150)+'...</span>';
+                            }else {
+                                return row.d;
+                            }
+                        };
+                    }
+                },
+                {
+                    title: "查看详情",//标题
+                    field: "e",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                    }
+                },
+            ],
+        });
+    }
+    table5(t5_data)
