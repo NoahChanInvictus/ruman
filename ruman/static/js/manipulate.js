@@ -481,11 +481,11 @@
         myChart_3.setOption(option);
 
         // 前五名
-        var num_Max = data.num_Max;
-        var industry_Max = data.industry_Max;
+        var nummax = data.nummax;
+        var industrymax = data.industrymax;
         var table_html = '';
-        for(vari=0;i<num_Max.length;i++){
-            table_html += '<tr><td>'+industry_Max[i]+'</td><td>'+num_Max[i]+'</td></tr>';
+        for(var i=0;i<nummax.length;i++){
+            table_html += '<tr><td>'+industrymax[i]+'</td><td>'+nummax[i]+'</td></tr>';
         }
         $('.barRank tbody').empty().append(table_html);
     }
@@ -517,7 +517,6 @@
     function manipulateType(data){
         var type = data.type;
         var num = data.num;
-        var num_1 = data.num;
         var seriesData = [];
         for(var i=0;i<num.length;i++){
             seriesData.push({name:type[i],value:num[i]})
@@ -568,6 +567,13 @@
         };
         myChart_4.hideLoading();
         myChart_4.setOption(option);
+
+        // 前五名
+        var table_html = '';
+        for(var i=0;i<num.length;i++){
+            table_html += '<tr><td>'+type[i]+'</td><td>'+num[i]+'</td></tr>';
+        }
+        $('.pieRank_1 tbody').empty().append(table_html);
     }
     // 更改下拉框时
     $('#five_select').change(function(){
@@ -647,6 +653,13 @@
         };
         myChart_5.hideLoading();
         myChart_5.setOption(option);
+
+        // 前五名
+        var table_html = '';
+        for(var i=0;i<num.length;i++){
+            table_html += '<tr><td>'+PANEL[i]+'</td><td>'+num[i]+'</td></tr>';
+        }
+        $('.pieRank_2 tbody').empty().append(table_html);
     }
     // 更改下拉框时
     $('#six_select').change(function(){

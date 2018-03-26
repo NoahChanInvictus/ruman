@@ -1,4 +1,40 @@
 
+// 基本信息
+    var gongshang_url = '/maniPulate/manipulateReport/gongshang/?id=' + id;
+    public_ajax.call_request('get',gongshang_url,gongshang);
+    function gongshang(data){
+        if(data){
+            var name = '未知';
+            var place = '未知';
+            var start_date = '未知';
+            var industry = '未知';
+
+            var money = '未知';
+            var person = '未知';
+            var kind = '未知';
+            var plate = '未知';
+
+            if(data.name && data.name!= '' && data.name!=null){name = data.name};
+            if(data.place && data.place!= '' && data.place!=null){place = data.place};
+            if(data.start_date && data.start_date!= '' && data.start_date!=null){start_date = data.start_date};
+            if(data.industry && data.industry!= '' && data.industry!=null){industry = data.industry};
+
+            if(data.money && data.money!= '' && data.money!=null){money = data.money};
+            if(data.person && data.person!= '' && data.person!=null){person = data.person};
+            if(data.kind && data.kind!= '' && data.kind!=null){kind = data.kind};
+            if(data.plate && data.plate!= '' && data.plate!=null){plate = data.plate};
+
+            $('#card .type-1').text(name).attr('title',name);
+            $('#card .type-2').text(place).attr('title',place);
+            $('#card .type-3').text(start_date).attr('title',start_date);
+            $('#card .type-4').text(industry).attr('title',industry);
+            $('#card .type-5').text(money).attr('title',money);
+            $('#card .type-6').text(person).attr('title',person);
+            $('#card .type-7').text(kind).attr('title',kind);
+            $('#card .type-8').text(plate).attr('title',plate);
+        }
+    }
+
 // 操纵详情   历史记录
     // var loadingHtml = '<center class="loading">正在加载中...</center>';
     // $('#Manipulating_details_content').append(loadingHtml);
@@ -401,6 +437,8 @@
                 },
             ],
         });
+
+        $('#Bulletin_content center.loading').hide();
     }
     // 查看原文
     function originalText(url){
@@ -561,6 +599,8 @@
                     },
                 ],
             });
+
+            $('#Transaction-1 center.loading').hide();
         }
 
     // 大宗交易
@@ -693,6 +733,8 @@
                     },
                 ],
             });
+
+            $('#Transaction-2 center.loading').hide();
         }
 
 // 股权分析

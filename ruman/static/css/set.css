@@ -30,7 +30,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 1.8rem;
+    // max-width: 1.8rem;
+    max-width: 60%;
     text-align: left;
     position: relative;
     top: 0.05rem;
