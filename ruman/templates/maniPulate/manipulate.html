@@ -37,6 +37,10 @@
         #nav {background: rgba(18, 146, 175, 0.52);}
         #nav .nav_middle, #nav .nav_right {display: block;}
         /*======*/
+        .loading {
+            color:#fff;
+            text-align:center;
+        }
     </style>
 {% endblock %}
 
@@ -107,20 +111,19 @@
                 <div id="bar-2" style="width:33%;">
                     <h4 style="color: white;display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;行业排行</h4>
                     <select id="four_select">
-                        <option value="最近一周">最近一周</option>
-                        <option value="最近一个月">最近一个月</option>
-                        <option value="最近三个月">最近三个月</option>
-                        <option value="最近半年">最近半年</option>
-                        <option value="最近一年">最近一年</option>
+                        <option value="7">最近一周</option>
+                        <option value="30">最近一个月</option>
+                        <option value="90">最近三个月</option>
                     </select>
                     <table class="barRank" cellpadding="0" cellspacing="0">
                         <thead><th>行业</th><th>预警</th></thead>
                         <tbody>
-                            <tr><td>批发</td><td>25</td></tr>
+                            <!-- <tr><td>批发</td><td>25</td></tr>
                             <tr><td>材料</td><td>20</td></tr>
                             <tr><td>运输设备</td><td>18</td></tr>
                             <tr><td>建筑</td><td>15</td></tr>
-                            <tr><td>旅游酒店</td><td>15</td></tr>
+                            <tr><td>旅游酒店</td><td>15</td></tr> -->
+                            <tr><td class="loading" style="width:100%;" colspan="2" rowspan="" headers="">正在加载中...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -134,24 +137,23 @@
                 <div id="pie-2" style="width:33%;">
                     <h4 style="color: white;display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;操纵类型分布</h4>
                     <select id="five_select">
-                        <option value="最近一周">最近一周</option>
-                        <option value="最近一个月">最近一个月</option>
-                        <option value="最近三个月">最近三个月</option>
-                        <option value="最近半年">最近半年</option>
-                        <option value="最近一年">最近一年</option>
+                        <option value="7">最近一周</option>
+                        <option value="30">最近一个月</option>
+                        <option value="90">最近三个月</option>
                     </select>
-                    <table class="pieRank" cellpadding="0" cellspacing="0">
+                    <table class="pieRank pieRank_1" cellpadding="0" cellspacing="0">
                         <!--<div id="barRank"></div>-->
                         <thead>
                             <th>类别</th>
                             <th>预警</th>
                         </thead>
                         <tbody>
-                            <tr><td>高送转</td><td>324</td></tr>
+                            <!-- <tr><td>高送转</td><td>324</td></tr>
                             <tr><td>定向增发</td><td>252</td></tr>
                             <tr><td>伪市值管理</td><td>431</td></tr>
                             <tr><td>散布信息牟利</td><td>123</td></tr>
-                            <tr><td>其他</td><td>231</td></tr>
+                            <tr><td>其他</td><td>231</td></tr> -->
+                            <tr><td class="loading" style="width:100%;" colspan="2" rowspan="" headers="">正在加载中...</td></tr>
                         </tbody>
 
                     </table>
@@ -166,18 +168,22 @@
                 <div id="pie-4" style="width:33%;">
                     <h4 style="color: white;display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;操纵公司市值分布</h4>
                     <select id="six_select">
-                        <option value="最近一周">最近一周</option>
-                        <option value="最近一个月">最近一个月</option>
-                        <option value="最近三个月">最近三个月</option>
-                        <option value="最近半年">最近半年</option>
-                        <option value="最近一年">最近一年</option>
+                        <option value="7">最近一周</option>
+                        <option value="30">最近一个月</option>
+                        <option value="90">最近三个月</option>
                     </select>
-                    <table class="pieRank">
+                    <table class="pieRank pieRank_2">
                         <!--<div id="barRank"></div>-->
-                        <thead><th>类别</th><th>预警</th></thead>
-                        <tr><td>主板</td><td>335</td></tr>
-                        <tr><td>创业板</td><td>310</td></tr>
-                        <tr><td>中小板</td><td>234</td></tr>
+                        <thead>
+                            <th>类别</th>
+                            <th>预警</th>
+                        </thead>
+                        <tbody>
+                            <!-- <tr><td>主板</td><td>335</td></tr>
+                            <tr><td>创业板</td><td>310</td></tr>
+                            <tr><td>中小板</td><td>234</td></tr> -->
+                            <tr><td class="loading" style="width:100%;" colspan="2" rowspan="" headers="">正在加载中...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
