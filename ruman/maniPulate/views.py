@@ -53,6 +53,12 @@ def manipulate_panel():
 	result = manipulatePanel(date)
 	return json.dumps(result,ensure_ascii=False)
 
+@maniPulate.route('/manipulateReport/gongshang/',methods=['POST','GET'])
+def manipulate_gongshang():
+	id = int(request.args.get('id',''))
+	result = manipulateGongshang(id)
+	return json.dumps(result,ensure_ascii=False)
+
 @maniPulate.route('/manipulateReport/history/',methods=['POST','GET'])
 def manipulate_history():
 	id = int(request.args.get('id',''))

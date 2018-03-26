@@ -17,6 +17,7 @@ TABLE_INDUSTRY="manipulate_industry"
 TABLE_TYPE="manipulate_type"
 TABLE_PANEL="manipulate_panel"
 TABLE_TRANCE="large_trans"
+TABLE_GONGSHANG = 'gongshang'
 
 #es
 ES_HOST = '219.224.134.214'
@@ -143,3 +144,14 @@ TRAN_AMOUNT="transaction_amount"
 TRAN_RATIO="discount_ratio"
 TRAN_BUYER="buyer"
 TRAN_SELLER="seller"
+GONGSHANG_STOCK_ID = "stock_id"
+GONGSHANG_ID = "id"
+GONGSHANG_STOCK_NAME = "stock_name"
+GONGSHANG_PLACE = "place"
+GONGSHANG_START_DATE = "start_date"
+GONGSHANG_NAME = "name"
+GONGSHANG_MONEY = "money"
+GONGSHANG_PERSON = "person"
+GONGSHANG_KIND = "kind"
+GONGSHANG_INDUSTRY = "industry"
+GONGSHANG_PLATE = "plate"
