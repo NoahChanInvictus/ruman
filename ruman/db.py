@@ -174,7 +174,182 @@ def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数
 	return result
 
 def manipulateInfluence(date):
-	return 0
+	cur = defaultDatabase()
+	theday = '2016-09-04'
+	year = theday.split('-')[0]
+	month = theday.split('-')[1]
+	day = theday.split('-')[2]
+	if date == 7:
+		frequency = "week"
+	elif date == 30:
+		frequency = "month"
+	else:
+		frequency = "season"
+	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_INFLUENCE,INFLUENCE_DATE,theday,INFLUENCE_FREQUENCY,frequency)
+	cur.execute(sql)
+	results = cur.fetchone()
+	results.pop(INFLUENCE_ID)
+	results.pop(INFLUENCE_DATE)
+	results.pop(INFLUENCE_FREQUENCY)
+	dic = {}
+	dic["0%~-5%"] = results[INFLUENCE_1]
+	dic["-5%~-10%"] = results[INFLUENCE_2]
+	dic["-10%~-15%"] = results[INFLUENCE_3]
+	dic["-15%~-20%"] = results[INFLUENCE_4]
+	dic["-20%~-25%"] = results[INFLUENCE_5]
+	dic["-25%~-30%"] = results[INFLUENCE_6]
+	dic["-30%~-35%"] = results[INFLUENCE_7]
+	dic["-35%~-40%"] = results[INFLUENCE_8]
+	dic["-40%~-45%"] = results[INFLUENCE_9]
+	dic["-45%~-50%"] = results[INFLUENCE_10]
+	dic["-50%~-55%"] = results[INFLUENCE_11]
+	dic["-55%~-60%"] = results[INFLUENCE_12]
+	dic["-60%~-65%"] = results[INFLUENCE_13]
+	dic["-65%~-70%"] = results[INFLUENCE_14]
+	dic["-70%~-75%"] = results[INFLUENCE_15]
+	dic["0%~5%"] = results[INFLUENCE_16]
+	dic["5%~10%"] = results[INFLUENCE_17]
+	dic["10%~15%"] = results[INFLUENCE_18]
+	dic["15%~20%"] = results[INFLUENCE_19]
+	dic["20%~25%"] = results[INFLUENCE_20]
+	dic["25%~30%"] = results[INFLUENCE_21]
+	dic["30%~35%"] = results[INFLUENCE_22]
+	dic["35%~40%"] = results[INFLUENCE_23]
+	dic["40%~45%"] = results[INFLUENCE_24]
+	dic["45%~50%"] = results[INFLUENCE_25]
+	dic["50%~55%"] = results[INFLUENCE_26]
+	dic["55%~60%"] = results[INFLUENCE_27]
+	dic["60%~65%"] = results[INFLUENCE_28]
+	dic["65%~70%"] = results[INFLUENCE_29]
+	dic["70%~75%"] = results[INFLUENCE_30]
+	dic["75%~80%"] = results[INFLUENCE_31]
+	dic["80%~85%"] = results[INFLUENCE_32]
+	dic["85%~90%"] = results[INFLUENCE_33]
+	dic["90%~95%"] = results[INFLUENCE_34]
+	dic["95%~100%"] = results[INFLUENCE_35]	
+	ratio = []
+	num = []
+	keylist = sorted(dic.keys())
+	keylist.remove('-5%~-10%')
+	keylist1 = sorted(keylist[:keylist.index('0%~-5%')],reverse=True)
+	keylist2 = ['-5%~-10%']
+	keylist3 = keylist[keylist.index('0%~-5%'):]
+	keylistnew = []
+	keylistnew.extend(keylist1)
+	keylistnew.extend(keylist2)
+	keylistnew.extend(keylist3)
+	for k in keylistnew:
+		ratio.append(k)
+		num.append(dic[k])
+	return {"ratio":ratio,"num":num}
+
+def manipulateIndustry(date):
+	cur = defaultDatabase()
+	theday = '2016-09-04'
+	year = theday.split('-')[0]
+	month = theday.split('-')[1]
+	day = theday.split('-')[2]
+	if date == 7:
+		frequency = "week"
+	elif date == 30:
+		frequency = "month"
+	else:
+		frequency = "season"
+	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_INDUSTRY,INDUSTRY_DATE,theday,INDUSTRY_FREQUENCY,frequency)
+	cur.execute(sql)
+	results = cur.fetchone()
+	results.pop(INDUSTRY_ID)
+	results.pop(INDUSTRY_DATE)
+	results.pop(INDUSTRY_FREQUENCY)
+	print results
+	dic = {}
+	dic["农、林、牧、渔业"] = results[INDUSTRY_A]
+	dic["采矿业"] = results[INDUSTRY_B]
+	dic["制造业"] = results[INDUSTRY_C]
+	dic["电力、热力、燃气及水生产和供应业"] = results[INDUSTRY_D]
+	dic["建筑业"] = results[INDUSTRY_E]
+	dic["批发和零售业"] = results[INDUSTRY_F]
+	dic["交通运输、仓储和邮政业"] = results[INDUSTRY_G]
+	dic["住宿和餐饮业"] = results[INDUSTRY_H]
+	dic["信息传输、软件和信息技术服务业"] = results[INDUSTRY_I]
+	dic["金融业"] = results[INDUSTRY_J]
+	dic["房地产业"] = results[INDUSTRY_K]
+	dic["租赁和商务服务业"] = results[INDUSTRY_L]
+	dic["科学研究和技术服务业"] = results[INDUSTRY_M]
+	dic["水利、环境和公共设施管理业"] = results[INDUSTRY_N]
+	dic["居民服务、修理和其他服务业"] = results[INDUSTRY_O]
+	dic["教育"] = results[INDUSTRY_P]
+	dic["卫生和社会工作"] = results[INDUSTRY_Q]
+	dic["文化、体育和娱乐业"] = results[INDUSTRY_R]
+	dic["综合"] = results[INDUSTRY_S]
+	industry = []
+	num = []
+	for k in dic.keys():
+		industry.append(k)
+		num.append(dic[k])
+	print industry,num
+	return {"industry":industry,"num":num}
+
+def manipulateType(date):
+	cur = defaultDatabase()
+	theday = '2016-09-04'
+	year = theday.split('-')[0]
+	month = theday.split('-')[1]
+	day = theday.split('-')[2]
+	if date == 7:
+		frequency="week"
+	elif date == 30:
+		frequency = "month"
+	else:
+		frequency = "season"
+	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_TYPE,TYPE_DATE,theday,TYPE_FREQUENCY,frequency)
+	cur.execute(sql)
+	results = cur.fetchone()
+	results.pop(TYPE_ID)
+	results.pop(TYPE_DATE)
+	results.pop(TYPE_FREQUENCY)
+	dic = {}
+	dic["高送转"] = results[TYPE1]
+	dic["定向增发"] = results[TYPE2]
+	dic["伪市值管理"] = results[TYPE3]
+	dic["散步牟利消息"] = results[TYPE4]
+	dic["其它"] = results[TYPE5]
+	typelist = []
+	num = []
+	for k in dic.keys():
+		typelist.append(k)
+		num.append(dic[k])
+	return {"type":typelist,"num":num}
+
+def manipulatePanel(date):
+	cur = defaultDatabase()
+	theday = '2016-09-04'
+	year = theday.split('-')[0]
+	month = theday.split('-')[1]
+	day = theday.split('-')[2]
+	if date == 7:
+		frequency="week"
+	elif date == 30:
+		frequency = "month"
+	else:
+		frequency = "season"
+	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_PANEL,PANEL_DATE,theday,PANEL_FREQUENCY,frequency)
+	cur.execute(sql)
+	results = cur.fetchone()
+	results.pop(PANEL_ID)
+	results.pop(PANEL_DATE)
+	results.pop(PANEL_FREQUENCY)
+	dic = {}
+	dic["主板"] = results[PANEL1]
+	dic["中小板"] = results[PANEL2]
+	dic["创业板"] = results[PANEL3]
+	panel = []
+	num = []
+	for k in dic.keys():
+		panel.append(k)
+		num.append(dic[k])
+	print panel,num
+	return {"PANEL":panel,"num":num}
 
 def manipulateHistory(id):   #给出该股票的历史操纵数据
 	cur = defaultDatabase()
@@ -294,6 +469,33 @@ def manipulateTop10holders(id,seasonid):   #对应季度搜索展示股东数据
 			thing.pop(HOLDERS_SHOW_ID)
 			result.append(thing)
 		result = sorted(result, key= lambda x:(x[HOLDERS_SHOW_RANKING]))
+	return result
+
+def manipulateLargetrans(id):
+	cur = defaultDatabase()
+	conn = defaultDatabaseConn()
+	stock = get_stock(id)
+	stock_id = stock[DAY_STOCK_ID]
+	start_date = stock[DAY_START_DATE]
+	end_date = stock[DAY_END_DATE]
+	stock_id = '002211'
+	start_date = '2014-11-01'
+	end_date = '2014-11-30'
+	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_TRANCE,TRAN_STOCK_ID,stock_id)
+	df = pd.read_sql(sql,conn)
+	a = df[(df[TRAN_DATE] <= end_date) & (df[TRAN_DATE] >= start_date)]
+	result=[]
+	for num in range(len(a)):
+		dic = {}
+		dic['date'] = a.iloc[num][TRAN_DATE]
+		dic['price'] = a.iloc[num][TRAN_PRICE]
+		dic['number'] = a.iloc[num][TRAN_NUMBER]
+		dic['amount'] = a.iloc[num][TRAN_AMOUNT]
+		dic['ratio'] = a.iloc[num][TRAN_RATIO]
+		dic['buyer'] = a.iloc[num][TRAN_BUYER]
+		dic['seller'] = a.iloc[num][TRAN_SELLER]
+		result.append(dic)
+	result = sorted(result, key= lambda x:(x['date']), reverse=True)
 	return result
 
 def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比例的数据
