@@ -9,7 +9,8 @@
             $('#container .firstScreen .com-3').text(data.seasonnum);
         }
     }
-//第一屏
+
+//第一屏   疑似操纵预警
     var earlyWarningdata=[
         {'a':'万科（000000）','b':'2017-01-01','c':'2017-10-01','d':'伪市值管理','e':'房地产','f':'50%',
             'g':'已完成操纵'},
@@ -24,11 +25,15 @@
         {'a':'宏达新材（000000）','b':'2017-01-01','c':'至今','d':'伪市值管理','e':'材料','f':'50%',
             'g':'正在操纵'},
     ]
+    var loadingHtml = '<center class="loading">正在加载中...</center>';
+    // $('#recordingTable').append(loadingHtml);
+    // $('#recordingTable').bootstrapTable('showLoading');
+
     var earlyWarning_url='/maniPulate/manipulateWarningText';
     public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     function earlyWarning(data) {
         $('#recordingTable').bootstrapTable('load', data);
-        $('#recordingTable').bootstrapTable('showLoading');
+
         $('#recordingTable').bootstrapTable({
             data:data,
             search: true,//是否搜索
@@ -46,6 +51,7 @@
             showToggle:false,
             sortName:'bci',
             sortOrder:"desc",
+            // showLoading:true,
             columns: [
                 {
                     title: "相关股票",//标题
@@ -188,6 +194,7 @@
                 return "请稍等，正在加载中。。。";
             }
         });
+        $('#recordingTable center.loading').hide();
     };
     // earlyWarning(earlyWarningdata);
 
@@ -200,7 +207,7 @@
         window.open(html);
     }
 
-//第二屏
+//第二屏   预警态势
     var myChart = echarts.init(document.getElementById('trendLine'));
     myChart.showLoading({
         text: '加载中...',
@@ -215,7 +222,6 @@
     public_ajax.call_request('get',warningNum_url,warningNum);
     function warningNum(data){
         var tit='疑似操纵预警次数';
-        // var myChart = echarts.init(document.getElementById('trendLine'));
         var date = data.date;
         var times = data.times;
         var option = {
@@ -436,7 +442,101 @@
         line_1();
      */
 
-//第三屏
+//第三屏   操纵影响
+    // var myChart_2 = echarts.init(document.getElementById('influnce'),'chalk');
+    // myChart_2.showLoading({
+    //     text: '加载中...',
+    //     color: '#c23531',
+    //     textColor: '#000',
+    //     maskColor: 'transparent',
+    //     zlevel: 0
+    // });
+    // var influnce_url='/maniPulate/manipulateWarningNum?date=7';
+    // public_ajax.call_request('get',influnce_url,influnce);
+    // function influnce(data){
+    //     var date = data.date;
+    //     var times = data.times;
+    //     var option = {
+    //         backgroundColor:'transparent',
+    //         title: {
+    //             text: '疑似操纵影响',
+    //             x: 'center'
+    //         },
+    //         tooltip: {
+    //             trigger: 'axis',
+    //             axisPointer: {
+    //                 type: 'shadow'
+    //             }
+    //         },
+    //         grid: {
+    //             left: '0%',
+    //             right: '9%',
+    //             bottom: '0%',
+    //             top:'7%',
+    //             containLabel: true
+    //         },
+    //         yAxis: {
+    //             name:'数量',
+    //             type: 'value',
+    //             boundaryGap: [0, 0.01],
+    //         },
+    //         xAxis: {
+    //             name:'股价涨幅',
+    //             type: 'category',
+    //             data: ['0%~10%','10%~20%','20%~30%','30%~40%','40%~50%','50%~60%','60%~70%','70%~80%','80%~90%','100%~110%','110%~120%',
+    //                 '120%~130%','130%~140%','140%~150%','150%~160%','160%~170%','170%~180%','180%~190%','190%~200%'],
+    //             axisLabel:{
+    //                 interval:0,
+    //                 rotate:90,//倾斜度 -90 至 90 默认为0
+    //                 margin:2,
+    //                 textStyle:{
+    //                     fontSize:8
+    //                 }
+    //             },
+    //         },
+    //         series: [
+    //             {
+    //                 name: '行业数量',
+    //                 type: 'bar',
+    //                 itemStyle:{
+    //                     normal:{color:'#2eade3'},
+    //                 },
+    //                 label: {
+    //                     normal:{
+    //                         show: true,
+    //                         textStyle: {
+    //                             fontWeight:'bolder',
+    //                             fontSize : '12',
+    //                             color:'#f5f5f5'
+    //                         }
+    //                     }
+    //                 },
+    //                 data: [132, 345, 342, 534, 222,199, 444, 222,234,444,345, 222,234, 222,234,444,345, 222,234],
+    //             },
+
+    //         ]
+    //     };
+    //     myChart_2.hideLoading();
+    //     myChart_2.setOption(option);
+    // }
+    // // 更改下拉框时
+    // $('#third_select_1').change(function(){
+    //     var select_influnce_val = $(this).val();
+    //     myChart_2.showLoading({
+    //         text: '加载中...',
+    //         color: '#c23531',
+    //         textColor: '#000',
+    //         maskColor: 'transparent',
+    //         zlevel: 0
+    //     });
+    //     influnce_url = '/maniPulate/manipulateWarningNum?date='+ select_influnce_val;
+    //     // public_ajax.call_request('get',influnce_url,influnce);
+    // })
+
+    /*
+
+     */
+
     var industry=['农、林、牧、渔业','采矿业','制造业','电力、热力、燃气\n及水生产和供应业','建筑业','批发和零售业','交通运输、\n仓储和邮政业',
         '住宿和餐饮业','信息传输、软件\n和信息技术服务业','金融业','房地产业','租赁和\n商务服务业','科学研究\n和技术服务业',
         '水利、环境和\n公共设施管理业','居民服务、修理和\n其他服务业','教育','卫生和\n社会工作','文化、体育和\n娱乐业','综合',];
@@ -506,7 +606,96 @@
     }
     bar_1();
 
-//第四屏
+//第四屏   行业分布
+    // var myChart_3 = echarts.init(document.getElementById('bar-1'),'chalk');
+    // myChart_3.showLoading({
+    //     text: '加载中...',
+    //     color: '#c23531',
+    //     textColor: '#000',
+    //     maskColor: 'transparent',
+    //     zlevel: 0
+    // });
+    // var influnce_url='/maniPulate/manipulateWarningNum?date=7';
+    // public_ajax.call_request('get',influnce_url,influnce);
+    // function influnce(data){
+    //     var date = data.date;
+    //     var times = data.times;
+    //     var option = {
+    //         backgroundColor:'transparent',
+    //         title: {
+    //             text: '疑似操纵行业分布',
+    //             x: 'center'
+    //         },
+    //         tooltip: {
+    //             trigger: 'axis',
+    //             axisPointer: {
+    //                 type: 'shadow'
+    //             }
+    //         },
+    //         grid: {
+    //             left: '0%',
+    //             right: '9%',
+    //             bottom: '0%',
+    //             top:'7%',
+    //             containLabel: true
+    //         },
+    //         yAxis: {
+    //             name:'数量',
+    //             type: 'value',
+    //             boundaryGap: [0, 0.01]
+    //         },
+    //         xAxis: {
+    //             name:'行业',
+    //             type: 'category',
+    //             data: industry,
+    //             axisLabel:{
+    //                 interval:0,
+    //                 rotate:90,//倾斜度 -90 至 90 默认为0
+    //                 margin:2,
+    //                 textStyle:{
+    //                     fontSize:8
+    //                 }
+    //             },
+    //         },
+    //         series: [
+    //             {
+    //                 name: '行业数量',
+    //                 type: 'bar',
+    //                 itemStyle:{
+    //                     normal:{color:'#ee9080'},
+    //                 },
+    //                 label: {
+    //                     normal:{
+    //                         show: true,
+    //                         textStyle: {
+    //                             fontWeight:'bolder',
+    //                             fontSize : '12',
+    //                             color:'#f5f5f5'
+    //                         }
+    //                     }
+    //                 },
+    //                 data: [132, 345, 342, 534, 333,199, 444, 222,234,199, 444, 222,234, 222,234,444,345, 222,234],
+    //             },
+
+    //         ]
+    //     };
+    //     myChart_3.hideLoading();
+    //     myChart_3.setOption(option);
+    // }
+    // // 更改下拉框时
+    // $('#four_select').change(function(){
+    //     var select_influnce_val = $(this).val();
+    //     myChart_3.showLoading({
+    //         text: '加载中...',
+    //         color: '#c23531',
+    //         textColor: '#000',
+    //         maskColor: 'transparent',
+    //         zlevel: 0
+    //     });
+    //     influnce_url = '/maniPulate/manipulateWarningNum?date='+ select_influnce_val;
+    //     // public_ajax.call_request('get',influnce_url,influnce);
+    // })
+
     function bar_2() {
         var myChart = echarts.init(document.getElementById('bar-1'),'chalk');
         var option = {
@@ -572,7 +761,8 @@
     }
     bar_2();
 
-//第五屏
+//第五屏   操纵类型
+
     function pie_1() {
         var myChart = echarts.init(document.getElementById('pie-1'),'chalk');
         var option = {
@@ -629,7 +819,7 @@
     }
     pie_1();
 
-//第六屏
+//第六屏   市值分布
     function pie_2() {
         var myChart = echarts.init(document.getElementById('pie-3'),'chalk');
         var option = {

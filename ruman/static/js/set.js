@@ -6,6 +6,7 @@
     var history_url = '/maniPulate/manipulateReport/history/?id=' + id;
     public_ajax.call_request('get',history_url,table1);
     function table1(data) {
+        // $('#Manipulating_details_content').bootstrapTable('showLoading');
         $('#Manipulating_details_content').bootstrapTable('load', data);
         $('#Manipulating_details_content').bootstrapTable({
             data:data,
@@ -99,6 +100,8 @@
                 },
             ],
         });
+        // console.log($('#Manipulating_details_content').bootstrapTable('getOptions'));
+
     }
     // table1(t1_data);
     // 跳转详情页
@@ -121,7 +124,7 @@
         var date_data = data.date || [];
 
         var price_data = data.price || [];
-        var industry_price_data = data.industry_price || []; //一会儿改
+        var industry_price_data = data.industry_price || [];
         for(var i=0;i<industry_price_data.length;i++){
             industry_price_data[i] = industry_price_data[i].toFixed(2);
         }
@@ -196,9 +199,12 @@
         myChart_1.hideLoading();
         myChart_1.setOption(option_1);
 
-        var radtio_data = data.ratio || [];
+        var ratio_data = data.ratio || [];
         var industry_ratio_data = data.industry_ratio || [];
         var D_value_data = data.D_value || [];
+        for(var i=0;i<ratio_data.length;i++){
+            ratio_data[i] = ratio_data[i].toFixed(4);
+        }
         for(var i=0;i<industry_ratio_data.length;i++){
             industry_ratio_data[i] = industry_ratio_data[i].toFixed(4);
         }
@@ -261,7 +267,7 @@
                     name: stock,
                     type:'line',
                     // data:[1, 2, 2, 5, 3, 2, 0,4],
-                    data: radtio_data,
+                    data: ratio_data,
                     showSymbol: false,
                     hoverAnimation: false,
                 },
