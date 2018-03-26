@@ -11,29 +11,13 @@
     }
 
 //第一屏   疑似操纵预警
-    var earlyWarningdata=[
-        {'a':'万科（000000）','b':'2017-01-01','c':'2017-10-01','d':'伪市值管理','e':'房地产','f':'50%',
-            'g':'已完成操纵'},
-        {'a':'安硕信息（000000）','b':'2017-01-01','c':'至今','d':'高送转','e':'信息','f':'50%',
-            'g':'正在操纵'},
-        {'a':'新洋丰（000000）','b':'2017-01-01','c':'2017-10-01','d':'定向增发','e':'农业','f':'50%',
-            'g':'已完成操纵'},
-        {'a':'匹凸匹（000000）','b':'2017-01-01','c':'至今','d':'散布信息牟利','e':'金融','f':'50%',
-            'g':'正在操纵'},
-        {'a':'恒康医疗（000000）','b':'2017-01-01','c':'2017-10-01','d':'其他','e':'医疗','f':'50%',
-            'g':'已完成操纵'},
-        {'a':'宏达新材（000000）','b':'2017-01-01','c':'至今','d':'伪市值管理','e':'材料','f':'50%',
-            'g':'正在操纵'},
-    ]
     var loadingHtml = '<center class="loading">正在加载中...</center>';
-    // $('#recordingTable').append(loadingHtml);
-    // $('#recordingTable').bootstrapTable('showLoading');
+    $('#recordingTable').append(loadingHtml);
 
     var earlyWarning_url='/maniPulate/manipulateWarningText';
     public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     function earlyWarning(data) {
         $('#recordingTable').bootstrapTable('load', data);
-
         $('#recordingTable').bootstrapTable({
             data:data,
             search: true,//是否搜索
@@ -64,7 +48,7 @@
                         if (row.stock==''||row.stock=='null'||row.stock=='unknown'||!row.stock){
                             return '未知';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\')" title="进入预警报告">'+row.stock+'</span>';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="进入预警报告">'+row.stock+'</span>';
                         };
                     }
                 },
@@ -196,7 +180,6 @@
         });
         $('#recordingTable center.loading').hide();
     };
-    // earlyWarning(earlyWarningdata);
 
     // 跳转详情页
     function jumpFrame_1(stock,id) {
@@ -326,222 +309,21 @@
         warningNum_url = '/maniPulate/manipulateWarningNum?date='+ select_warningNum_val;
         public_ajax.call_request('get',warningNum_url,warningNum);
     })
-    /*  //【假数据】
-        function get7DaysBefore(date,m){
-            var date = date || new Date(),
-                timestamp, newDate;
-            if(!(date instanceof Date)){
-                date = new Date(date);
-            }
-            timestamp = date.getTime();
-            newDate = new Date(timestamp - m * 24 * 3600 * 1000);
-            return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
-        };
-        var day30=[];
-        for (var a=0;a < 30;a++){
-            day30.push(get7DaysBefore(new Date(),a));
-        }
-        var day30Data=[];
-        for (var b=0;b< 30;b++){
-            day30Data.push(Math.round(Math.random()*(20-5)+5));
-        }
-        var option,tit;
-        function _option() {
-            option = {
-                backgroundColor:'transparent',
-                title: {
-                    text: tit,
-                    x:'center',
-                    textStyle:{
-                        color:'#fff'
-                    }
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        lineStyle: {
-                            color: '#30c7ff'
-                        }
-                    }
-                },
-                xAxis: [{
-                    name:'时间',
-                    type: 'category',
-                    boundaryGap: false,
-                    axisLine: {
-                        lineStyle: {
-                            color: '#fff'
-                        }
-                    },
-                    axisLabel: {
-                        textStyle: {
-                            color: '#fff',
-                        }
-                    },
-                    data: day30.reverse(),
-                }],
-                yAxis: {
-                    name:'次数',
-                    type: 'value',
-                    axisLine: {
-                        lineStyle: {
-                            color: '#fff'
-                        }
-                    },
-                    nameTextStyle:{
-                        color:'#fff'
-                    },
-                    splitLine:{
-                        show:false
-                    }
-                },
-                series: [
-                    {
-                        name: '',
-                        type: 'line',
-                        smooth: true,
-                        symbol: 'circle',
-                        symbolSize: 5,
-                        showSymbol: false,
-                        lineStyle: {
-                            normal: {
-                                width: 1,
-                            }
-                        },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                    offset: 0,
-                                    color: 'rgba(137, 189, 27, 0.8)'
-                                }, {
-                                    offset: 1,
-                                    color: 'rgba(137, 189, 27, 0.2)'
-                                }], false),
-                                shadowColor: 'rgba(0, 0, 0, 0.1)',
-                                shadowBlur: 10
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: 'rgb(137,189,27)',
-                                borderColor: 'rgba(137,189,2,0.27)',
-                                borderWidth: 12
-                            }
-                        },
-                        data: day30Data,
-                    }
-                ]
-            };
-        };
-        function line_1() {
-            tit='疑似操纵预警次数';
-            var myChart = echarts.init(document.getElementById('trendLine'));
-            _option();
-            myChart.setOption(option);
-        }
-        line_1();
-     */
 
 //第三屏   操纵影响
-    // var myChart_2 = echarts.init(document.getElementById('influnce'),'chalk');
-    // myChart_2.showLoading({
-    //     text: '加载中...',
-    //     color: '#c23531',
-    //     textColor: '#000',
-    //     maskColor: 'transparent',
-    //     zlevel: 0
-    // });
-    // var influnce_url='/maniPulate/manipulateWarningNum?date=7';
-    // public_ajax.call_request('get',influnce_url,influnce);
-    // function influnce(data){
-    //     var date = data.date;
-    //     var times = data.times;
-    //     var option = {
-    //         backgroundColor:'transparent',
-    //         title: {
-    //             text: '疑似操纵影响',
-    //             x: 'center'
-    //         },
-    //         tooltip: {
-    //             trigger: 'axis',
-    //             axisPointer: {
-    //                 type: 'shadow'
-    //             }
-    //         },
-    //         grid: {
-    //             left: '0%',
-    //             right: '9%',
-    //             bottom: '0%',
-    //             top:'7%',
-    //             containLabel: true
-    //         },
-    //         yAxis: {
-    //             name:'数量',
-    //             type: 'value',
-    //             boundaryGap: [0, 0.01],
-    //         },
-    //         xAxis: {
-    //             name:'股价涨幅',
-    //             type: 'category',
-    //             data: ['0%~10%','10%~20%','20%~30%','30%~40%','40%~50%','50%~60%','60%~70%','70%~80%','80%~90%','100%~110%','110%~120%',
-    //                 '120%~130%','130%~140%','140%~150%','150%~160%','160%~170%','170%~180%','180%~190%','190%~200%'],
-    //             axisLabel:{
-    //                 interval:0,
-    //                 rotate:90,//倾斜度 -90 至 90 默认为0
-    //                 margin:2,
-    //                 textStyle:{
-    //                     fontSize:8
-    //                 }
-    //             },
-    //         },
-    //         series: [
-    //             {
-    //                 name: '行业数量',
-    //                 type: 'bar',
-    //                 itemStyle:{
-    //                     normal:{color:'#2eade3'},
-    //                 },
-    //                 label: {
-    //                     normal:{
-    //                         show: true,
-    //                         textStyle: {
-    //                             fontWeight:'bolder',
-    //                             fontSize : '12',
-    //                             color:'#f5f5f5'
-    //                         }
-    //                     }
-    //                 },
-    //                 data: [132, 345, 342, 534, 222,199, 444, 222,234,444,345, 222,234, 222,234,444,345, 222,234],
-    //             },
-
-    //         ]
-    //     };
-    //     myChart_2.hideLoading();
-    //     myChart_2.setOption(option);
-    // }
-    // // 更改下拉框时
-    // $('#third_select_1').change(function(){
-    //     var select_influnce_val = $(this).val();
-    //     myChart_2.showLoading({
-    //         text: '加载中...',
-    //         color: '#c23531',
-    //         textColor: '#000',
-    //         maskColor: 'transparent',
-    //         zlevel: 0
-    //     });
-    //     influnce_url = '/maniPulate/manipulateWarningNum?date='+ select_influnce_val;
-    //     // public_ajax.call_request('get',influnce_url,influnce);
-    // })
-
-    /*
-
-     */
-
-    var industry=['农、林、牧、渔业','采矿业','制造业','电力、热力、燃气\n及水生产和供应业','建筑业','批发和零售业','交通运输、\n仓储和邮政业',
-        '住宿和餐饮业','信息传输、软件\n和信息技术服务业','金融业','房地产业','租赁和\n商务服务业','科学研究\n和技术服务业',
-        '水利、环境和\n公共设施管理业','居民服务、修理和\n其他服务业','教育','卫生和\n社会工作','文化、体育和\n娱乐业','综合',];
-    function bar_1() {
-        var myChart = echarts.init(document.getElementById('influnce'),'chalk');
+    var myChart_2 = echarts.init(document.getElementById('influnce'),'chalk');
+    myChart_2.showLoading({
+        text: '加载中...',
+        color: '#c23531',
+        textColor: '#000',
+        maskColor: 'transparent',
+        zlevel: 0
+    });
+    var influnce_url='/maniPulate/manipulateInfluence?date=7';
+    public_ajax.call_request('get',influnce_url,influnce);
+    function influnce(data){
+        var ratio = data.ratio;
+        var num = data.num;
         var option = {
             backgroundColor:'transparent',
             title: {
@@ -569,14 +351,13 @@
             xAxis: {
                 name:'股价涨幅',
                 type: 'category',
-                data: ['0%~10%','10%~20%','20%~30%','30%~40%','40%~50%','50%~60%','60%~70%','70%~80%','80%~90%','100%~110%','110%~120%',
-                    '120%~130%','130%~140%','140%~150%','150%~160%','160%~170%','170%~180%','180%~190%','190%~200%'],
+                data: ratio,
                 axisLabel:{
                     interval:0,
                     rotate:90,//倾斜度 -90 至 90 默认为0
                     margin:2,
                     textStyle:{
-                        fontSize:8
+                        fontSize: 14
                     }
                 },
             },
@@ -594,110 +375,46 @@
                                 fontWeight:'bolder',
                                 fontSize : '12',
                                 color:'#f5f5f5'
-                            }
+                            },
+                            position: 'top',
                         }
                     },
-                    data: [132, 345, 342, 534, 222,199, 444, 222,234,444,345, 222,234, 222,234,444,345, 222,234],
+                    data: num,
                 },
 
             ]
         };
-        myChart.setOption(option);
+        myChart_2.hideLoading();
+        myChart_2.setOption(option);
     }
-    bar_1();
+    // 更改下拉框时
+    $('#third_select_1').change(function(){
+        var select_influnce_val = $(this).val();
+        myChart_2.showLoading({
+            text: '加载中...',
+            color: '#c23531',
+            textColor: '#000',
+            maskColor: 'transparent',
+            zlevel: 0
+        });
+        influnce_url = '/maniPulate/manipulateInfluence?date='+ select_influnce_val;
+        public_ajax.call_request('get',influnce_url,influnce);
+    })
 
 //第四屏   行业分布
-    // var myChart_3 = echarts.init(document.getElementById('bar-1'),'chalk');
-    // myChart_3.showLoading({
-    //     text: '加载中...',
-    //     color: '#c23531',
-    //     textColor: '#000',
-    //     maskColor: 'transparent',
-    //     zlevel: 0
-    // });
-    // var influnce_url='/maniPulate/manipulateWarningNum?date=7';
-    // public_ajax.call_request('get',influnce_url,influnce);
-    // function influnce(data){
-    //     var date = data.date;
-    //     var times = data.times;
-    //     var option = {
-    //         backgroundColor:'transparent',
-    //         title: {
-    //             text: '疑似操纵行业分布',
-    //             x: 'center'
-    //         },
-    //         tooltip: {
-    //             trigger: 'axis',
-    //             axisPointer: {
-    //                 type: 'shadow'
-    //             }
-    //         },
-    //         grid: {
-    //             left: '0%',
-    //             right: '9%',
-    //             bottom: '0%',
-    //             top:'7%',
-    //             containLabel: true
-    //         },
-    //         yAxis: {
-    //             name:'数量',
-    //             type: 'value',
-    //             boundaryGap: [0, 0.01]
-    //         },
-    //         xAxis: {
-    //             name:'行业',
-    //             type: 'category',
-    //             data: industry,
-    //             axisLabel:{
-    //                 interval:0,
-    //                 rotate:90,//倾斜度 -90 至 90 默认为0
-    //                 margin:2,
-    //                 textStyle:{
-    //                     fontSize:8
-    //                 }
-    //             },
-    //         },
-    //         series: [
-    //             {
-    //                 name: '行业数量',
-    //                 type: 'bar',
-    //                 itemStyle:{
-    //                     normal:{color:'#ee9080'},
-    //                 },
-    //                 label: {
-    //                     normal:{
-    //                         show: true,
-    //                         textStyle: {
-    //                             fontWeight:'bolder',
-    //                             fontSize : '12',
-    //                             color:'#f5f5f5'
-    //                         }
-    //                     }
-    //                 },
-    //                 data: [132, 345, 342, 534, 333,199, 444, 222,234,199, 444, 222,234, 222,234,444,345, 222,234],
-    //             },
-
-    //         ]
-    //     };
-    //     myChart_3.hideLoading();
-    //     myChart_3.setOption(option);
-    // }
-    // // 更改下拉框时
-    // $('#four_select').change(function(){
-    //     var select_influnce_val = $(this).val();
-    //     myChart_3.showLoading({
-    //         text: '加载中...',
-    //         color: '#c23531',
-    //         textColor: '#000',
-    //         maskColor: 'transparent',
-    //         zlevel: 0
-    //     });
-    //     influnce_url = '/maniPulate/manipulateWarningNum?date='+ select_influnce_val;
-    //     // public_ajax.call_request('get',influnce_url,influnce);
-    // })
-
-    function bar_2() {
-        var myChart = echarts.init(document.getElementById('bar-1'),'chalk');
+    var myChart_3 = echarts.init(document.getElementById('bar-1'),'chalk');
+    myChart_3.showLoading({
+        text: '加载中...',
+        color: '#c23531',
+        textColor: '#000',
+        maskColor: 'transparent',
+        zlevel: 0
+    });
+    var Industry_url='/maniPulate/manipulateIndustry?date=7';
+    public_ajax.call_request('get',Industry_url,Industry);
+    function Industry(data){
+        var industry = data.industry;
+        var num = data.num;
         var option = {
             backgroundColor:'transparent',
             title: {
@@ -731,7 +448,7 @@
                     rotate:90,//倾斜度 -90 至 90 默认为0
                     margin:2,
                     textStyle:{
-                        fontSize:8
+                        fontSize:14
                     }
                 },
             },
@@ -748,23 +465,63 @@
                             textStyle: {
                                 fontWeight:'bolder',
                                 fontSize : '12',
-                                color:'#f5f5f5'
-                            }
+                                color:'#f5f5f5',
+                            },
+                            position: 'top',
+
+
                         }
                     },
-                    data: [132, 345, 342, 534, 333,199, 444, 222,234,199, 444, 222,234, 222,234,444,345, 222,234],
+                    data: num,
                 },
 
             ]
         };
-        myChart.setOption(option);
+        myChart_3.hideLoading();
+        myChart_3.setOption(option);
+
+        // 前五名
+        var num_Max = data.num_Max;
+        var industry_Max = data.industry_Max;
+        var table_html = '';
+        for(vari=0;i<num_Max.length;i++){
+            table_html += '<tr><td>'+industry_Max[i]+'</td><td>'+num_Max[i]+'</td></tr>';
+        }
+        $('.barRank tbody').empty().append(table_html);
     }
-    bar_2();
+    // 更改下拉框时
+    $('#four_select').change(function(){
+        var select_influnce_val = $(this).val();
+        myChart_3.showLoading({
+            text: '加载中...',
+            color: '#c23531',
+            textColor: '#000',
+            maskColor: 'transparent',
+            zlevel: 0
+        });
+        Industry_url = '/maniPulate/manipulateIndustry?date='+ select_influnce_val;
+        public_ajax.call_request('get',Industry_url,Industry);
+    })
 
 //第五屏   操纵类型
-
-    function pie_1() {
-        var myChart = echarts.init(document.getElementById('pie-1'),'chalk');
+    var myChart_4 = echarts.init(document.getElementById('pie-1'),'chalk');
+    myChart_4.showLoading({
+        text: '加载中...',
+        color: '#c23531',
+        textColor: '#000',
+        maskColor: 'transparent',
+        zlevel: 0
+    });
+    var manipulateType_url='/maniPulate/manipulateType?date=7';
+    public_ajax.call_request('get',manipulateType_url,manipulateType);
+    function manipulateType(data){
+        var type = data.type;
+        var num = data.num;
+        var num_1 = data.num;
+        var seriesData = [];
+        for(var i=0;i<num.length;i++){
+            seriesData.push({name:type[i],value:num[i]})
+        }
         var option = {
             backgroundColor:'transparent',
             title : {
@@ -778,7 +535,7 @@
             legend: {
                 orient: 'vertical',
                 left: 'left',
-                data: ['高送转','定向增发','伪市值管理','散布信息牟利','其他']
+                data: type
             },
             series : [
                 {
@@ -786,13 +543,7 @@
                     type: 'pie',
                     radius : '55%',
                     center: ['50%', '50%'],
-                    data:[
-                        {value:335, name:'高送转'},
-                        {value:310, name:'定向增发'},
-                        {value:234, name:'散布信息牟利'},
-                        {value:135, name:'伪市值管理'},
-                        {value:1548, name:'其他'},
-                    ],
+                    data: seriesData,
                     label: {
                         normal:{
                             show: true,
@@ -815,17 +566,45 @@
                 }
             ]
         };
-        myChart.setOption(option);
+        myChart_4.hideLoading();
+        myChart_4.setOption(option);
     }
-    pie_1();
+    // 更改下拉框时
+    $('#five_select').change(function(){
+        var select_type_val = $(this).val();
+        myChart_4.showLoading({
+            text: '加载中...',
+            color: '#c23531',
+            textColor: '#000',
+            maskColor: 'transparent',
+            zlevel: 0
+        });
+        manipulateType_url = '/maniPulate/manipulateType?date='+ select_type_val;
+        public_ajax.call_request('get',manipulateType_url,manipulateType);
+    })
 
 //第六屏   市值分布
-    function pie_2() {
-        var myChart = echarts.init(document.getElementById('pie-3'),'chalk');
+    var myChart_5 = echarts.init(document.getElementById('pie-3'),'chalk');
+    myChart_5.showLoading({
+        text: '加载中...',
+        color: '#c23531',
+        textColor: '#000',
+        maskColor: 'transparent',
+        zlevel: 0
+    });
+    var Panel_url='/maniPulate/manipulatePanel?date=7';
+    public_ajax.call_request('get',Panel_url,Panel);
+    function Panel(data){
+        var PANEL = data.PANEL;
+        var num = data.num;
+        var seriesData = [];
+        for(var i=0;i<num.length;i++){
+            seriesData.push({name:PANEL[i],value:num[i]})
+        }
         var option = {
             backgroundColor:'transparent',
             title : {
-                text: '疑似操纵公司市值分布',
+                text: '疑似操纵类型分布',
                 x:'center'
             },
             tooltip : {
@@ -835,7 +614,7 @@
             legend: {
                 orient: 'vertical',
                 left: 'left',
-                data: ['主板','创业板','中小板']
+                data: PANEL
             },
             series : [
                 {
@@ -843,11 +622,7 @@
                     type: 'pie',
                     radius : '55%',
                     center: ['50%', '50%'],
-                    data:[
-                        {value:335, name:'主板'},
-                        {value:310, name:'创业板'},
-                        {value:234, name:'中小板'},
-                    ],
+                    data: seriesData,
                     label: {
                         normal:{
                             show: true,
@@ -870,6 +645,19 @@
                 }
             ]
         };
-        myChart.setOption(option);
+        myChart_5.hideLoading();
+        myChart_5.setOption(option);
     }
-    pie_2();
+    // 更改下拉框时
+    $('#six_select').change(function(){
+        var select_PANEL_val = $(this).val();
+        myChart_5.showLoading({
+            text: '加载中...',
+            color: '#c23531',
+            textColor: '#000',
+            maskColor: 'transparent',
+            zlevel: 0
+        });
+        Panel_url = '/maniPulate/manipulatePanel?date='+ select_PANEL_val;
+        public_ajax.call_request('get',Panel_url,Panel);
+    })

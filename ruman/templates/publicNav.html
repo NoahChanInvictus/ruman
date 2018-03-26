@@ -264,6 +264,21 @@
     //     $(this).css({background:''});
     //     $(this).css({borderBottom:'none'});
     // })
+
+    // 获取数组中的最大值（n个）
+    var arr = [1,5,3,2,10,15];
+    function maxarr(arr,len){
+        var max = [];
+        arr.sort(function(a,b){
+            return a-b;
+        });
+        for(var i=0;i<len;i++){
+            max.push(arr.pop());
+        }
+        return max.reverse();
+    }
+    // console.log(maxarr(arr,4));
+
 </script>
 {% endblock %}
 
