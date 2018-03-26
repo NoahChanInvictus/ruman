@@ -552,5 +552,3 @@ def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比�
 if __name__=="__main__":
 	#print len(manipulateHistory('002427'))
 	manipulateAnnouncement(14)
-
-
