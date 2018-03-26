@@ -47,10 +47,10 @@ def manipulate_type():
 	result = manipulateType(date)
 	return json.dumps(result,ensure_ascii=False)
 
-@maniPulate.route('/manipulateEv/',methods=['POST','GET'])
-def manipulate_ev():
+@maniPulate.route('/manipulatePanel/',methods=['POST','GET'])
+def manipulate_panel():
 	date = int(request.args.get('date',''))
-	result = manipulateEv(date)
+	result = manipulatePanel(date)
 	return json.dumps(result,ensure_ascii=False)
 
 @maniPulate.route('/manipulateReport/history/',methods=['POST','GET'])
@@ -82,6 +82,12 @@ def manipulate_top10holders():
 	id = int(request.args.get('id',''))
 	seasonid = request.args.get('seasonid','')
 	result = manipulateTop10holders(id,seasonid)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/Largetrans/',methods=['POST','GET'])
+def manipulate_Largetrans():
+	id = int(request.args.get('id',''))
+	result = manipulateLargetrans(id)
 	return json.dumps(result,ensure_ascii=False)
 
 @maniPulate.route('/manipulateReport/holderspct/',methods=['POST','GET'])
