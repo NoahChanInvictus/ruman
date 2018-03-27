@@ -439,7 +439,7 @@ def manipulatePrice(id):   #获取本次操作期间的股价和收益率
 		b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
 		industry_ratio.append(a)
 		ratio.append(b)
-		D_value.append(abs(b - a))   #差值绝对值
+		D_value.append(b - a)   #差值绝对值
 	result = {'date':datelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
 	return result
 
@@ -505,9 +505,6 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 	stock_id = stock[DAY_STOCK_ID]
 	start_date = stock[DAY_START_DATE]
 	end_date = stock[DAY_END_DATE]
-	stock_id = '002211'
-	start_date = '2014-11-01'
-	end_date = '2014-11-30'
 	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_TRANCE,TRAN_STOCK_ID,stock_id)
 	df = pd.read_sql(sql,conn)
 	a = df[(df[TRAN_DATE] <= end_date) & (df[TRAN_DATE] >= start_date)]
