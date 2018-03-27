@@ -230,11 +230,27 @@
                     type: 'value',
                     axisLabel: {
                         // formatter: '{value} °C'
-                    }
+                    },
+                    // min:'dataMin',
+                    // max:'dataMax'
+                    min:function(value) {
+                        return value.min - 2;
+                    },
+                    max:function(value) {
+                        return value.max + 2;
+                    },
                 },
                 {
                     name:'',
                     type: 'value',
+                    // min:'dataMin',
+                    // max:'dataMax'
+                    min:function(value) {
+                        return value.min - 2;
+                    },
+                    max:function(value) {
+                        return value.max + 2;
+                    },
                 },
             ],
             series: [
@@ -284,7 +300,7 @@
             },
             legend: {
                 // data:['大盘指数','万科','差值'],
-                data:['同行业平均值',stock,'差值'],
+                data:[stock,'同行业平均值','差值'],
                 orient:'horizontal',//horizontal
                 // zlevel:99
                 top:'7%',
@@ -314,22 +330,23 @@
                     // formatter: '{value} °C'
                 }
             },
+            color:['#c23531','#749f83','#2f4554'],
             series: [
-                {
-                    // name:'大盘指数',
-                    name: '同行业平均值',
-                    type:'line',
-                    // data:[11, 11, 15, 13, 12, 13,11, 10],
-                    data: industry_ratio_data,
-                    showSymbol: true,
-                    hoverAnimation: true,
-                },
                 {
                     // name:'万科',
                     name: stock,
                     type:'line',
                     // data:[1, 2, 2, 5, 3, 2, 0,4],
                     data: ratio_data,
+                    showSymbol: true,
+                    hoverAnimation: true,
+                },
+                {
+                    // name:'大盘指数',
+                    name: '同行业平均值',
+                    type:'line',
+                    // data:[11, 11, 15, 13, 12, 13,11, 10],
+                    data: industry_ratio_data,
                     showSymbol: true,
                     hoverAnimation: true,
                 },
@@ -357,7 +374,7 @@
             search: true,//是否搜索
             pagination: true,//是否分页
             pageSize: 5,//单页记录数
-            pageList: [15,20,25],//分页步进值
+            pageList: [5,15,25],//分页步进值
             sidePagination: "client",//服务端分页
             searchAlign: "left",
             searchOnEnterKey: false,//回车搜索
