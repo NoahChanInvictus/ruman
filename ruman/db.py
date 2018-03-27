@@ -209,7 +209,7 @@ def manipulateInfluence(date):   #根据day表统计不同收益率的股票并�
 		dic["-65%~-70%"] = results[INFLUENCE_14]
 		dic["-70%~-75%"] = results[INFLUENCE_15]
 		dic["0%~5%"] = results[INFLUENCE_16]
-		dic["5%~10%"] = results[INFLUENCE_17]
+		dic["05%~10%"] = results[INFLUENCE_17]
 		dic["10%~15%"] = results[INFLUENCE_18]
 		dic["15%~20%"] = results[INFLUENCE_19]
 		dic["20%~25%"] = results[INFLUENCE_20]
@@ -240,7 +240,10 @@ def manipulateInfluence(date):   #根据day表统计不同收益率的股票并�
 		keylistnew.extend(keylist2)
 		keylistnew.extend(keylist3)
 		for k in keylistnew:
-			ratio.append(k)
+			if k == '05%~10%':
+				ratio.append('5%~10%')
+			else:
+				ratio.append(k)
 			num.append(dic[k])
 		return {"ratio":ratio,"num":num}
 	else:
