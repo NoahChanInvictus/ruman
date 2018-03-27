@@ -176,9 +176,10 @@
             },
             formatLoadingMessage: function(){
                 return "请稍等，正在加载中。。。";
-            }
+            },
         });
         $('#recordingTable center.loading').hide();
+        $('.recordingTable .fixed-table-toolbar .search input').attr('placeholder','请输入查询内容');
     };
 
     // 跳转详情页

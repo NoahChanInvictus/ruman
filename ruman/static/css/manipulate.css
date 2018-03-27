@@ -86,7 +86,7 @@
 #container .fourScreen #bar-2 .barRank td,
 #container .pieRank th,
 #container .pieRank td {
-    display: inline-block;
+    // display: inline-block;
     padding: 0.08rem;
     color: white;
     font-size: 0.12rem;
