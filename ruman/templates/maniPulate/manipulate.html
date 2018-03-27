@@ -29,7 +29,8 @@
             background: #dff0d8;
         }
         #fullPage-nav li, .fullPage-slidesNav li {margin: 12px 7px;}
-        .recordingTable .fixed-table-toolbar,.recordingTable .fixed-table-pagination .page-list,
+        /* .recordingTable .fixed-table-toolbar, */
+        .recordingTable .fixed-table-pagination .page-list,
         .placeRank .fixed-table-toolbar,.placeRank .fixed-table-pagination .page-list {
             display: none;
         }
@@ -40,6 +41,31 @@
         .loading {
             color:#fff;
             text-align:center;
+        }
+        /* 显示搜索框 */
+        .recordingTable .fixed-table-toolbar{
+            display:block;
+        }
+        .recordingTable .fixed-table-toolbar .search {
+            width:20%;
+            position:absolute;
+            top:14px;
+            right:100px;
+            margin:0;
+        }
+        .recordingTable .fixed-table-toolbar .search input{
+            height:30px;
+            padding: 3px 6px;
+            background: transparent;
+            border: 1px solid silver;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        .recordingTable .fixed-table-toolbar .search input:focus{
+            background: #f8f8f8;
+            color: #3c3c3c;
         }
     </style>
 {% endblock %}
@@ -62,15 +88,112 @@
                     <dt class="com-3">加载中...</dt>
                 </dl>
             </div>
-            <div style="color: white;font-weight:700;font-size:0.24rem;position: relative;">
-                <h3 style="color: white;display: inline-block;"><i class="icon icon-eye-open"></i>&nbsp;疑似操纵预警</h3>
-                <div class="search">
-                    <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/>
-                    <button type="button" class="btn btn-primary btn-sm">确定</button>
+
+            <div style="position:relative;">
+
+                <div style="color: white;font-weight:700;font-size:0.24rem;position: relative;">
+                    <h3 style="color: white;display: inline-block;"><i class="icon icon-eye-open"></i>&nbsp;疑似操纵预警</h3>
+                    <div class="search">
+                        <!-- <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/> -->
+                        <button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm">确定</button>
+                    </div>
                 </div>
-            </div>
-            <div class="recordingTable" style="margin-top: 0.1rem;">
-                <div id="recordingTable"></div>
+                <div class="content" style="display: none;margin:5px 0 0 40px;">
+                    <div class="content-1 conLeft" style="margin-top:20px;">
+                        <span class="ct-tit">预警时间：</span>
+                        <select id="select-1" class="selectLab">
+                            <option value="1">近一天</option>
+                            <option value="7" selected>近一周</option>
+                            <option value="30">近一个月</option>
+                            <option value="90">近三个月</option>
+                            <option value="365">近一年</option>
+                        </select>
+                    </div>
+                    <div class="content-2 conLeft">
+                        <span class="ct-tit">运营模式：</span>
+                        <select id="select-2" class="selectLab">
+                            <option value="0" >全部</option>
+                            <!-- <option value="P2P理财">P2P理财</option>
+                            <option value="投资项目">投资项目</option>
+                            <option value="游戏">游戏</option>
+                            <option value="任务奖励">任务奖励</option>
+                            <option value="股权私募基金">股权私募基金</option> -->
+                        </select>
+                    </div>
+                    <div class="content-3 conLeft">
+                        <span class="ct-tit">预警类型：</span>
+                        <select id="select-3" class="selectLab">
+                            <option value="0" selected>全部</option>
+                            <!-- <option value="舆情预警">舆情预警</option> -->
+                            <!-- 改为动态生成的 -->
+                            <!-- <option value="模型预警">模型预警</option>
+                            <option value="指标预警">指标预警</option> -->
+                        </select>
+                    </div>
+                    <div class="content-4 conLeft">
+                        <span class="ct-tit">相关问题：</span>
+                        <select id="select-5" class="selectLab">
+                            <option value="all" selected>全部</option>
+                            <!-- <option value="舆情预警">舆情预警</option> -->
+                            <!-- 改为动态生成的 -->
+                            <!-- <option value="模型预警">模型预警</option>
+                            <option value="指标预警">指标预警</option> -->
+                        </select>
+                    </div>
+                    <div class="content-4 conLeft">
+                        <span class="ct-tit">实体类型：</span>
+                        <select id="select-4" class="selectLab">
+                            <option value="0" selected>全部</option>
+                            <option value="1">平台</option>
+                            <option value="2">公司</option>
+                            <option value="3">项目</option>
+                        </select>
+                    </div>
+                    <div class="content-5 conLeft">
+                        <span style="display: inline-block;" class="ct-tit">预警分布：</span>
+                        <select id="city34" class="selectLab">
+                            <option value="all" selected>全部</option>
+                            <option value='北京'>北京</option>
+                            <option value='天津'>天津</option>
+                            <option value='安徽'>安徽</option>
+                            <option value='澳门'>澳门</option>
+                            <option value='福建'>福建</option>
+                            <option value='甘肃'>甘肃</option>
+                            <option value='广东'>广东</option>
+                            <option value='广西'>广西</option>
+                            <option value='贵州'>贵州</option>
+                            <option value='海南'>海南</option>
+                            <option value='河北'>河北</option>
+                            <option value='河南'>河南</option>
+                            <option value='黑龙江'>黑龙江</option>
+                            <option value='湖北'>湖北</option>
+                            <option value='湖南'>湖南</option>
+                            <option value='吉林'>吉林</option>
+                            <option value='江苏'>江苏</option>
+                            <option value='江西'>江西</option>
+                            <option value='辽宁'>辽宁</option>
+                            <option value='内蒙古'>内蒙古</option>
+                            <option value='青海'>青海</option>
+                            <option value='山东'>山东</option>
+                            <option value='山西'>山西</option>
+                            <option value='陕西'>陕西</option>
+                            <option value='上海'>上海</option>
+                            <option value='四川'>四川</option>
+                            <option value='台湾'>台湾</option>
+                            <option value='西藏'>西藏</option>
+                            <option value='香港'>香港</option>
+                            <option value='新疆'>新疆</option>
+                            <option value='云南'>云南</option>
+                            <option value='浙江'>浙江</option>
+                            <option value='重庆'>重庆</option>
+                            <option value='宁夏'>宁夏</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="recordingTable" style="margin-top: 0.1rem;">
+                    <div id="recordingTable"></div>
+                </div>
             </div>
         </div>
 
