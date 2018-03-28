@@ -115,7 +115,29 @@
 }
 
 /* lvlei_1-11 */
-
+/* 操纵详情 历史记录 高亮显示 */
 #Manipulating_details_content .this-stock {
     color:#ff6d70;
+}
+/* 表格 分页步进值隐藏 */
+.Manipulating_details_content .page-list ,
+.Bulletin_content .page-list ,
+.Transaction-1 .page-list ,
+.Transaction-2 .page-list ,
+.opinion .page-list
+{
+    display:none;
+}
+
+.fixed-table-container{
+    border-bottom: none;
+}
+/* 表格表头上边框 */
+.Manipulating_details_content thead tr th ,
+.Bulletin_content thead tr th ,
+.Transaction-1 thead tr th ,
+.Transaction-2 thead tr th ,
+.opinion thead tr th
+{
+    border-top:none;
 }

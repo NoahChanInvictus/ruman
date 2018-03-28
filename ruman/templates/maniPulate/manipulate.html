@@ -191,7 +191,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="recordingTable" style="margin-top: 0.1rem;">
+                <div class="recordingTable" style="margin-top: 0.1rem;font-size: 0.14rem!important;">
                     <div id="recordingTable"></div>
                 </div>
             </div>
@@ -327,7 +327,6 @@
     <script src="../static/js/jquery.fullPage.min.js"></script>
     <script src="../static/js/manipulate.js"></script>
     <script>
-        <!---->
         $('.fullpage').fullpage({
             'verticalCentered': false,
             'css3': true,
@@ -338,6 +337,7 @@
             'fixedElements':'#nav',
             'navigationTooltips': ['疑似操纵预警','预警态势','操纵影响','行业分布','操纵类型','市值分布']
         });
+        // $('.recordingTable').css({'fontSize':'auto'});
     </script>
 
 {% endblock %}
