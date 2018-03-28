@@ -362,7 +362,7 @@ def manipulatePanel(date):   #根据day表统计不同板块的股票并展示
 		for k in dicsort:
 			panel.append(k[0])
 			num.append(k[1])
-		print panel,num
+		#print panel,num
 		return {"PANEL":panel,"num":num}
 	else:
 		return {}
