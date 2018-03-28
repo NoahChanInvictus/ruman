@@ -218,6 +218,7 @@
                 name:'时间',
                 type: 'category',
                 boundaryGap: false,
+                nameGap:40,
                 // data: ['2017-3-1','2017-3-8','2017-3-15','2017-3-22','2017-3-29','2017-4-5','2017-4-12','2017-2-19'],
                 data: date_data,
                 axisLabel:{
@@ -246,10 +247,10 @@
                     // min:'dataMin',
                     // max:'dataMax'
                     min:function(value) {
-                        return value.min - 2;
+                        return (value.min - 2).toFixed(2);
                     },
                     max:function(value) {
-                        return value.max + 2;
+                        return (value.max + 2).toFixed(2);
                     },
                 },
             ],
@@ -374,7 +375,7 @@
             search: true,//是否搜索
             pagination: true,//是否分页
             pageSize: 5,//单页记录数
-            pageList: [5,15,25],//分页步进值
+            pageList: [15,20,25],//分页步进值
             sidePagination: "client",//服务端分页
             searchAlign: "left",
             searchOnEnterKey: false,//回车搜索
@@ -484,11 +485,14 @@
 
         // 更新下拉框时
         $('._time2').change(function(){
+            $('#Transaction-1 center.loading').show();
             top10holders_url = '/maniPulate/manipulateReport/top10holders?id=' + id +'&seasonid=' + $(this).val();
             public_ajax.call_request('get',top10holders_url,table3);
         });
 
         function table3(data) {
+            $('#Transaction-1 center.loading').show();
+
             $('#Transaction-1').bootstrapTable('load', data);
             $('#Transaction-1').bootstrapTable({
                 data:data,
@@ -532,7 +536,7 @@
                         align: "center",//水平
                         valign: "middle",//垂直
                         formatter: function (value, row, index) {
-                            if (row.holder_name==''||row.holder_name=='null'||row.holder_name=='unknown'||!row.holder_name||row.holder_name=='none'){
+                            if (row.holder_name==''||row.holder_name=='null'||row.holder_name=='unknown'||!row.holder_name||row.holder_name=='none' || row.holder_name=='None'){
                                 return '-';
                             }else {
                                 return row.holder_name;
@@ -592,7 +596,7 @@
                         align: "center",//水平
                         valign: "middle",//垂直
                         formatter: function (value, row, index) {
-                            if (row.holder_pct==''||row.holder_pct=='null'||row.holder_pct=='unknown'||!row.holder_pct){
+                            if (row.holder_pct==''||row.holder_pct=='null'||row.holder_pct=='unknown'){
                                 return '-';
                             }else {
                                 return row.holder_pct;
