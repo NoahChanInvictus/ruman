@@ -65,8 +65,8 @@ body {
 }
 /*---------*/
 #nav .nav_middle {
-    width: 55%;
-    margin: 0.15rem 0 0 1%;
+    /*width: 55%;*/
+    margin: 0.15rem 0 0 0.1rem;
 }
 #nav .nav_middle,#nav .nav_right {
     display: none;
@@ -75,7 +75,7 @@ body {
     float: left;
     text-align: center;
     font-size: 0.16rem;
-    margin-left:5%;
+    margin-left:0.25rem;
     overflow: hidden;
     padding-bottom: 0.1rem;
 }
