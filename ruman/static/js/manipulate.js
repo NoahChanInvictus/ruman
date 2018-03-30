@@ -10,6 +10,14 @@
         }
     }
 
+// 适配分辨率
+    var pageData=6;
+    if (screen.width <= 1536){
+        pageData=6;
+    }else {
+        pageData=10;
+    }
+
 //第一屏   疑似操纵预警
     var loadingHtml = '<center class="loading">正在加载中...</center>';
     $('#recordingTable').append(loadingHtml);
@@ -22,7 +30,7 @@
             data:data,
             search: true,//是否搜索
             pagination: true,//是否分页
-            pageSize: 7,//单页记录数
+            pageSize: pageData,//单页记录数
             pageList: [15,20,25],//分页步进值
             sidePagination: "client",//服务端分页
             searchAlign: "left",
@@ -45,10 +53,16 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
+                        var stock = '';
+
                         if (row.stock==''||row.stock=='null'||row.stock=='unknown'||!row.stock){
                             return '未知';
+                        }else if(row.stock.length >=5){
+                            stock = row.stock.slice(0,5)+'...';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="'+row.stock+'">'+stock+'</span>';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="进入预警报告">'+row.stock+'</span>';
+                            stock = row.stock;
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="'+row.stock+'">'+stock+'</span>';
                         };
                     }
                 },
@@ -106,13 +120,18 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
+                        var industryName = '';
+
                         if (row.industry_name==''||row.industry_name=='null' || row.industry_name==null ||row.industry_name=='unknown'||!row.industry_name){
                             return '未知';
+                        }else if(row.industry_name.length >=5){
+                            industryName = row.industry_name.slice(0,5)+'...';
+                            return '<span style="cursor:pointer;color:white;" title="'+row.industry_name+'">'+industryName+'</span>';
                         }else {
-                            return row.industry_name;
+                            industryName = row.industry_name;
+                            return '<span style="cursor:pointer;color:white;" title="'+row.industry_name+'">'+industryName+'</span>';
                         };
                     }
-
                 },
                 {
                     title: "超涨比率",//标题
@@ -172,7 +191,7 @@
                 },
             ],
             formatNoMatches: function(){
-                return "没有相关的匹配结果";
+                return "没有相关的匹配结果";  //没 效果
             },
             formatLoadingMessage: function(){
                 return "请稍等，正在加载中。。。";
