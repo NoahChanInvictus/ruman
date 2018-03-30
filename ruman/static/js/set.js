@@ -200,11 +200,11 @@
                 trigger: 'axis'
             },
             grid: {
-                left: '0%',
+                left: '5%',
                 right: '9%',
-                bottom: '0%',
+                bottom: '15%',
                 top:'17%',
-                containLabel: true
+                // containLabel: true
             },
             legend: {
                 // data:['收盘价（元）','大盘'],
@@ -215,10 +215,11 @@
                 left:'center'
             },
             xAxis:  {
-                name:'时间',
+                // name:'时间',
+                name:'',
                 type: 'category',
-                boundaryGap: false,
-                nameGap:40,
+                boundaryGap: true,
+                // nameGap:40,
                 // data: ['2017-3-1','2017-3-8','2017-3-15','2017-3-22','2017-3-29','2017-4-5','2017-4-12','2017-2-19'],
                 data: date_data,
                 axisLabel:{
@@ -235,10 +236,10 @@
                     // min:'dataMin',
                     // max:'dataMax'
                     min:function(value) {
-                        return value.min - 2;
+                        return Math.floor(value.min - 2);//向下取整
                     },
                     max:function(value) {
-                        return value.max + 2;
+                        return Math.ceil(value.max + 2);//向上取整
                     },
                 },
                 {
@@ -566,7 +567,7 @@
                         align: "center",//水平
                         valign: "middle",//垂直
                         formatter: function (value, row, index) {
-                            if (row.holder_quantity==''||row.holder_quantity=='null'||row.holder_quantity=='unknown'||!row.holder_quantity){
+                            if (row.holder_quantity=='null'||row.holder_quantity=='unknown'){
                                 return '-';
                             }else {
                                 return row.holder_quantity;
