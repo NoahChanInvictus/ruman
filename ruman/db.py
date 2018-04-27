@@ -209,7 +209,7 @@ def manipulateInfluence(date):   #根据day表统计不同收益率的股票并�
 		dic["-65%~-70%"] = results[INFLUENCE_14]
 		dic["-70%~-75%"] = results[INFLUENCE_15]
 		dic["0%~5%"] = results[INFLUENCE_16]
-		dic["5%~10%"] = results[INFLUENCE_17]
+		dic["05%~10%"] = results[INFLUENCE_17]
 		dic["10%~15%"] = results[INFLUENCE_18]
 		dic["15%~20%"] = results[INFLUENCE_19]
 		dic["20%~25%"] = results[INFLUENCE_20]
@@ -240,7 +240,10 @@ def manipulateInfluence(date):   #根据day表统计不同收益率的股票并�
 		keylistnew.extend(keylist2)
 		keylistnew.extend(keylist3)
 		for k in keylistnew:
-			ratio.append(k)
+			if k == '05%~10%':
+				ratio.append('5%~10%')
+			else:
+				ratio.append(k)
 			num.append(dic[k])
 		return {"ratio":ratio,"num":num}
 	else:
@@ -359,7 +362,7 @@ def manipulatePanel(date):   #根据day表统计不同板块的股票并展示
 		for k in dicsort:
 			panel.append(k[0])
 			num.append(k[1])
-		print panel,num
+		#print panel,num
 		return {"PANEL":panel,"num":num}
 	else:
 		return {}
@@ -497,7 +500,7 @@ def manipulateTop10holders(id,seasonid):   #对应季度搜索展示股东数据
 			result.append(thing)
 		result = sorted(result, key= lambda x:(x[HOLDERS_SHOW_RANKING]))
 	return result
-
+'''
 def manipulateLargetrans(id):   #展示大宗交易记录
 	cur = defaultDatabase()
 	conn = defaultDatabaseConn()
@@ -520,7 +523,7 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 		dic['seller'] = a.iloc[num][TRAN_SELLER]
 		result.append(dic)
 	result = sorted(result, key= lambda x:(x['date']), reverse=True)
-	return result
+	return result'''
 
 def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比例的数据
 	cur = defaultDatabase()

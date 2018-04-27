@@ -16,8 +16,11 @@ TABLE_INFLUENCE="manipulate_influence"
 TABLE_INDUSTRY="manipulate_industry"
 TABLE_TYPE="manipulate_type"
 TABLE_PANEL="manipulate_panel"
-TABLE_TRANCE="large_trans"
 TABLE_GONGSHANG = 'gongshang'
+
+#esdic
+DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
+DIC_LARGE_TRANS = {'index':'east_money','type':'type1'}
 
 #es
 ES_HOST = '219.224.134.214'
