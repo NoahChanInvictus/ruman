@@ -27,7 +27,7 @@ def get_stock(id):
 	dic = {DAY_STOCK_ID:thing[DAY_STOCK_ID],DAY_START_DATE:thing[DAY_START_DATE],DAY_END_DATE:thing[DAY_END_DATE],DAY_INDUSTRY_CODE:thing[DAY_INDUSTRY_CODE]}
 	return dic
 
-def manipulateAnnouncement(id):
+def manipulateAnnouncement(id):   #展示操纵期内公告详情
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
 	start_time = datetimestr2ts(stock[DAY_START_DATE])
@@ -37,7 +37,7 @@ def manipulateAnnouncement(id):
 		"filter":{"range":{"publish_time":{"gte": start_time,"lte": end_time}}}
 	}}}
 
-	res = es.search(index="announcement", doc_type="basic_info", body=query_body,request_timeout=100)
+	res = es.search(index=DIC_ANNOUNCEMENT['index'], doc_type=DIC_ANNOUNCEMENT['type'], body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 	result = []
 	if(len(hits)):
@@ -68,6 +68,35 @@ def manipulateAnnouncement(id):
 				announcement_type = u'其他'
 			dic = {'publish_time':ts2datetimestr(res['publish_time']),'title':res['title'],'url':res['url'],'type':announcement_type}
 			result.append(dic)
+	return result
+
+def manipulateLargetrans(id):   #展示大宗交易记录
+	stock = get_stock(id)
+	stock_id = stock[DAY_STOCK_ID]
+	start_date = stock[DAY_START_DATE]
+	end_date = stock[DAY_END_DATE]
+
+	query_body = {"size":2000,"query":{ "filtered": {
+		"query":{"match":{"stock_id":stock_id}},
+		"filter":{"range":{"date":{"gte": start_date,"lte": end_date}}}
+	}}}
+	res = es.search(index=DIC_LARGE_TRANS['index'], doc_type=DIC_LARGE_TRANS['type'], body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+
+	result=[]
+	if(len(hits)):
+		for item in hits:
+			res = item['_source']
+			dic = {}
+			dic['date'] = res['date']
+			dic['price'] = res['transaction_price']
+			dic['number'] = res['transaction_number']
+			dic['amount'] = res['transaction_amount']
+			dic['ratio'] = res['Discount_ratio']
+			dic['buyer'] = res['Buyer']
+			dic['seller'] = res['Seller']
+			result.append(dic)
+	result = sorted(result, key= lambda x:(x['date']), reverse=True)
 	return result
 
 if __name__=="__main__":

@@ -500,7 +500,7 @@ def manipulateTop10holders(id,seasonid):   #对应季度搜索展示股东数据
 			result.append(thing)
 		result = sorted(result, key= lambda x:(x[HOLDERS_SHOW_RANKING]))
 	return result
-
+'''
 def manipulateLargetrans(id):   #展示大宗交易记录
 	cur = defaultDatabase()
 	conn = defaultDatabaseConn()
@@ -523,7 +523,7 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 		dic['seller'] = a.iloc[num][TRAN_SELLER]
 		result.append(dic)
 	result = sorted(result, key= lambda x:(x['date']), reverse=True)
-	return result
+	return result'''
 
 def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比例的数据
 	cur = defaultDatabase()
