@@ -158,3 +158,8 @@ GONGSHANG_PERSON = "person"
 GONGSHANG_KIND = "kind"
 GONGSHANG_INDUSTRY = "industry"
 GONGSHANG_PLATE = "plate"
+
+# 多通道溯源
+TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1'}
+TOPIC_ABOUT_INDEX = 'topic_about'
+TOPIC_ABOUT_DOCTYPE = 'message'
