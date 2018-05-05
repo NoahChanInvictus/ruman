@@ -17,6 +17,7 @@ TABLE_INDUSTRY="manipulate_industry"
 TABLE_TYPE="manipulate_type"
 TABLE_PANEL="manipulate_panel"
 TABLE_GONGSHANG = 'gongshang'
+TABLE_PROPAGATE = 'all_source_propagate'
 
 #esdic
 DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
@@ -162,4 +163,4 @@ GONGSHANG_PLATE = "plate"
 # 多通道溯源
 TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1'}
 TOPIC_ABOUT_INDEX = 'topic_about'
-TOPIC_ABOUT_DOCTYPE = 'message'
+TOPIC_ABOUT_DOCTYPE = ['bbs','forum','webo','wechat','zhihu']

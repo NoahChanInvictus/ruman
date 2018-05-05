@@ -8,14 +8,14 @@ from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
 from elasticsearch.helpers import bulk
 
-def match_topic_kw(keywords_list,source,doc_type,size=1000):
+def match_topic_kw(keywords_list,source,doc_type,size=10000):
     result = []
     keyword_str = ''.join(keywords_list)
     # 通过一组关键词查找相关文本
     query_body = {
         "query":{
             "match":{
-                "content":keyword_str
+                "content":keyword_str       #这个可能还得改，争取用一个list
             }
         },
         "size":size
@@ -32,7 +32,7 @@ def match_topic_kw(keywords_list,source,doc_type,size=1000):
         result.append(new_item)
     return result
 
-def save_topic_es(data,index=TOPIC_ABOUT_INDEX,doc_type=TOPIC_ABOUT_DOCTYPE):
+def save_topic_es(data,index,doc_type):
     ACTIONS = []
     count = 0
     for item in data:
@@ -41,21 +41,25 @@ def save_topic_es(data,index=TOPIC_ABOUT_INDEX,doc_type=TOPIC_ABOUT_DOCTYPE):
                     "_index":index,  
                     "_type":doc_type,
                     # "_id":doc_id,  
-                    "doc":item
+                    "_source":item
                     }
         ACTIONS.append(action)
         count += 1
         if count % 100 == 0:
             success, _ = bulk(es, ACTIONS, raise_on_error=True, request_timeout=400)
             ACTIONS = []
-            print 'in',index,count,'has been inserted!'
+            print 'in',doc_type,count,'has been inserted!'
     # 最后把余下的也bulk进去
     if ACTIONS != []:
         success, _ = bulk(es, ACTIONS, raise_on_error=True, request_timeout=400)
         ACTIONS = []
-
+def all_source_match(keywords_list):
+    for source,doc_type in TYPE1_DICT.iteritems():
+        result = match_topic_kw(keywords_list,source,doc_type)
+        save_topic_es(result,index=TOPIC_ABOUT_INDEX,doc_type=source)
 if __name__ == '__main__':
     # main()
-    result = match_topic_kw(['今天','人民币','担忧'],'bbs','type1')
-    save_topic_es(result)
+    # result = match_topic_kw(['今天','人民币','担忧'],'forum','type1')
+    # save_topic_es(result,index=TOPIC_ABOUT_INDEX,doc_type='forum')
+    all_source_match(['今天','人民币','担忧'])
     # print result[1]
