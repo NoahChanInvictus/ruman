@@ -18,6 +18,7 @@ TABLE_TYPE="manipulate_type"
 TABLE_PANEL="manipulate_panel"
 TABLE_GONGSHANG = 'gongshang'
 TABLE_PROPAGATE = 'all_source_propagate'
+TABLE_WORDCLOUD = 'wordcloud'
 
 #esdic
 DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
