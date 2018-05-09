@@ -80,7 +80,7 @@ body.modal-open {
 }
 
 /*表格中的样式*/
-.fixed-table-toolbar .search {width: 80%;}
+.fixed-table-toolbar .search {width:100%;}
 .form-control {
     text-align: center;
     font-size: 14px;

@@ -47,7 +47,7 @@
     padding: 0.1rem 0.2rem;
 }
 #container #mainContent #content ._table {
-    // padding: 0.1rem;
+    /* padding: 0.1rem; */
     background:rgba(245, 243, 243, 0.71);
 }
 #container #mainContent #content ._table.active {

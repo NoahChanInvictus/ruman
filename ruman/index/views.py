@@ -19,6 +19,12 @@ def setDetail():
 	id = request.args.get('id','')
 	return render_template('index/setDetail.html',stock=stock,id=id)
 
+@index.route('/hotDetail/')
+def hotDetail():
+    stock = request.args.get('stock','')
+    id = request.args.get('id','')
+    return render_template('index/hotDetail.html',stock=stock,id=id)
+
 @index.route('/test/')
 def test():
 	result = 'Hello World!'
