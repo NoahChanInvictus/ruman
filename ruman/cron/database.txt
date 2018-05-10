@@ -1,0 +1,57 @@
+需要的数据：
+
+	公告（日度，全日期）：mysql统计数据：announcement；   #用于模型
+			es原始数据：announcement    #前台展示
+
+	黑名单：mysql原始数据：black_list   #用于模型
+
+	工商数据：mysql原始数据：gongshang   #用于前台展示
+
+	股东数据（日度，全日期）：mysql原始数据：holders   #用于模型
+
+	股东数据1（季度）：mysql统计数据：holders_pct   #用于前台展示
+
+	股东数据2（季度）：mysql统计数据：holders_show   #用于前台展示
+
+	股价换手率（日度，交易日）：mysql原始数据：market_daily   #用于模型，前台展示
+
+	监控名单：mysql原始数据：stock_list   #用于模型
+
+	大宗交易：mysql统计数据：transaction_stat   #用于模型
+			es原始数据：east_money   #用于前台展示
+
+	解禁信息：mysql原始数据：jiejin   #用于模型
+
+	
+模型输出后展示：（每个交易日模型输出后统计）
+
+	模型输出初始结果：manipulate_result   #用于统计条数
+
+	按条展示的操纵：manipulate_day   #用于展示表格，提供id
+
+	操纵态势统计：manipulate_warning   #用于前台展示
+
+	操纵影响统计：manipulate_influence   #用于前台展示
+
+	操纵行业统计：manipulate_industry   #用于前台展示
+
+	操纵类型统计：manipulate_type   #用于前台展示
+
+	操纵板块分布：manipulate_panel   #用于前台展示
+
+
+每天需要更新数据：
+
+	公告（导入加统计）、股东数据、大宗交易（导入加统计）、解禁信息
+
+每个交易日需要更新数据：
+	
+	股价换手率、监控名单
+
+每个季度需要更新数据：
+
+	股东数据1、股东数据2、净利润
+
+如果有新的就更新：
+
+	黑名单、工商数据

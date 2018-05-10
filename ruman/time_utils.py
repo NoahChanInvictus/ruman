@@ -64,7 +64,12 @@ def get_datelist(year1,month1,day1,year2,month2,day2):
     return date_list
 
 def get_tradelist(year1,month1,day1,year2,month2,day2):
-    a = ts.trade_cal()
+    while 1:
+        try:
+            a = ts.trade_cal()
+            break
+        except:
+            pass
     l = get_datelist(year1,month1,day1,year2,month2,day2)
     index = a[a.calendarDate == l[0]].index.tolist()[0]
     li = []
@@ -73,12 +78,15 @@ def get_tradelist(year1,month1,day1,year2,month2,day2):
             li.append(a.loc[i]['calendarDate'])
     return li
 
+def get_tradelist_all():
+    while 1:
+        try:
+            a = ts.trade_cal()
+            break
+        except:
+            pass
+    df = a[a['isOpen'] == 1]
+    return list(df['calendarDate'])
+
 def int2datestr(year,month,day):
     return datetime.datetime.strptime(tostr(year,month,day), "%Y-%m-%d").strftime("%Y-%m-%d")
-
-def lasttradedate(theday):   #theday为'2016-05-05'格式
-    trade_before = ts2datetimestr(datetimestr2ts(theday) - 2592000).split('-')
-    trade_after = ts2datetimestr(datetimestr2ts(theday) + 2592000).split('-')
-    trade_list = get_tradelist(int(trade_before[0]),int(trade_before[1]),int(trade_before[2]),int(trade_after[0]),int(trade_after[1]),int(trade_after[2]))
-    index = trade_list.index(theday)
-    return trade_list[index - 1]
