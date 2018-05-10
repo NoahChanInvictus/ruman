@@ -1,15 +1,32 @@
 #-*-coding: utf-8-*-
 from createframe import *
 
-table = [['market_daily_new','price_fu'],['holders','holder_top10byinst'],['announce','Investment_announcement'],['announce','Pledge_announcement'],['announce','Reducing_announcement'],['transaction_stat','frequency']]#
+table1 = [[TABLE_MARKET_DAILY,MARKET_PRICE_FU],[ES_TABLE_HOLDERS,ES_HOLDERS_HOLDER_TOP10BYINST],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_INVESTMENT],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PLEDGE],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_REDUCING],[TABLE_TRANSACTION_STAT,TRANSACTION_STAT_FREQUENCY]]#
+table2 = [[TABLE_MARKET_DAILY,MARKET_PRICE_FU],[TABLE_MARKET_DAILY,MARKET_TURNOVER_RATE],[TABLE_JIEJIN,JIEJIN_DATE],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PLEDGE],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_REDUCING],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PROFIT],[TABLE_TRANSACTION_STAT,TRANSACTION_STAT_FREQUENCY]]   #[TABLE_NETPROFIT,NETPROFIT_NETPROFIT],[TABLE_HOLDERS_PCT,HOLDERS_PCT_HOLDER_TOP10PCT],[TABLE_HOLDERS_PCT,HOLDERS_PCT_HOLDER_PCTBYINST],
+table = [[TABLE_MARKET_DAILY,MARKET_PRICE_FU],[TABLE_MARKET_DAILY,MARKET_TURNOVER_RATE],[ES_TABLE_HOLDERS,ES_HOLDERS_HOLDER_TOP10BYINST],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_INVESTMENT],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PLEDGE],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_REDUCING],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PROFIT],[TABLE_TRANSACTION_STAT,TRANSACTION_STAT_FREQUENCY],[TABLE_JIEJIN,JIEJIN_DATE],[TABLE_NETPROFIT,NETPROFIT_NETPROFIT],[TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_HOLDER_TOP10PCT],[TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_HOLDER_PCTBYINST]]
+daytable = [[TABLE_MARKET_DAILY,MARKET_PRICE_FU],[TABLE_MARKET_DAILY,MARKET_TURNOVER_RATE],[ES_TABLE_HOLDERS,ES_HOLDERS_HOLDER_TOP10BYINST],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_INVESTMENT],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PLEDGE],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_REDUCING],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PROFIT],[TABLE_TRANSACTION_STAT,TRANSACTION_STAT_FREQUENCY]]
+quartertable = [[TABLE_NETPROFIT,NETPROFIT_NETPROFIT],[TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_HOLDER_TOP10PCT],[TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_HOLDER_PCTBYINST]]
+jiejintable = [[TABLE_JIEJIN,JIEJIN_DATE]]
+holderstable = [[ES_TABLE_HOLDERS,ES_HOLDERS_HOLDER_TOP10BYINST]]
+#需要的数据：股价、换手率、私募、对外投资公告、股票质押公告、增减持公告、利润分配公告、大宗交易、解禁、净利润、机构持股比例、前十大股东持股比例
 
 def get_frame():
-    for l in table:
-        #get_sql_frame_bendi(l[0],l[1],2013,1,1,2013,1,4)
-        for day in get_tradelist(2016,2,1,2016,12,31):
-            print day,l[1]
-            get_sql_frame_theday(l[0],l[1],day)
-        #get_sql_frame_today(l[0],l[1])['market_daily','price'],['holders','holder_top10byinst'],['announce','Investment_announcement'],['announce','Pledge_announcement'],
+    for l in daytable:
+        get_sql_frame_bendi_day(l[0],l[1],2013,1,1,2013,1,31)
+    for l in quartertable:
+        get_sql_frame_bendi_quarter(l[0],l[1],2012,1,2013,4)
+    for l in jiejintable:
+        get_sql_frame_bendi_jiejin(l[0],l[1],2013,1,1,2013,1,31)
+    #for l in holderstable:
+    #    get_sql_frame_bendi_holders(l[0],l[1],2013,1,1,2013,1,31)
+
+def get_frame_theday(theday):
+    for l in daytable:
+        get_sql_frame_day_theday(l[0],l[1],theday)
+    for l in quartertable:
+        get_sql_frame_quarter_theday(l[0],l[1],theday)
+    for l in jiejintable:
+        get_sql_frame_jiejin_theday(l[0],l[1],theday)
 
 if __name__=="__main__":
     get_frame()

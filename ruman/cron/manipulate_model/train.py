@@ -1,24 +1,35 @@
 #-*-coding: utf-8-*-
+import sys
+reload(sys)
+sys.path.append("../../")
 import pandas as pd
 from config import *
 from time_utils import *
 from sql_utils import *
 from elasticsearch import Elasticsearch
+from create import *
+from calculate import *
 from deal import *
 import numpy as np
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
+from sklearn import metrics
 
-def get_training_data():
+def get_training_data(reason,year1,month1,day1,year2,month2,day2):
     print 'Ready to prepare training...'
-    dfx = deal_data()
-    dfy = pd.DataFrame([[0]]*len(dfx),columns=['y'])
-    black_list = get_black_list()
+    if reason == 1:
+        dfx = deal_data(1,year1,month1,day1,year2,month2,day2)
+        dfy = pd.DataFrame([[0]]*len(dfx),columns=['y'])
+        black_list = get_black_list(1)
+    elif reason == 2:
+        dfx = deal_data(2,year1,month1,day1,year2,month2,day2)
+        dfy = pd.DataFrame([[0]]*len(dfx),columns=['y'])
+        black_list = get_black_list(2)
     indexs = []
     for blackcode in black_list:   #对于在黑名单中的公司的时间进行匹配，在对应的位置标签改为1
-        blackframe = dfx[dfx['code'] == blackcode['stock_id']]
-        blackframe = blackframe[blackframe['date'] <= ts2datetime(blackcode['end_ts'])]
-        index = blackframe[blackframe['date'] >= ts2datetime(blackcode['start_ts'])].index.tolist()
+        blackframe = dfx[dfx['code'] == blackcode[BLACK_LIST_STOCK_ID]]
+        blackframe = blackframe[blackframe['date'] <= ts2datetime(blackcode[BLACK_LIST_END_TS])]
+        index = blackframe[blackframe['date'] >= ts2datetime(blackcode[BLACK_LIST_START_TS])].index.tolist()
         indexs.extend(index)
     indexs = set(indexs)
     dfy.loc[indexs] = 1
@@ -26,11 +37,11 @@ def get_training_data():
     #
     #dfy.to_csv(r'/home/lfz/python/dfy.csv',encoding='utf_8_sig')
     dfx['label'] = dfy['y']
-    dfx.to_csv(r'/home/lfz/python/yaoyan/modelcode/csv/dfx20155.csv',encoding='utf_8_sig')
+    dfx.to_csv('dfx%d.csv' % (reason),encoding='utf_8_sig')
     print 'Finish getting training DataFrame!'
     return dfx
 
-def training(inputuple):
+def training(inputuple,reason):
     print 'Start training...'
     train = inputuple.drop(['date','code'],axis=1)    #读入数据
     train_xy,val = train_test_split(train, test_size = 0.2,random_state=1)  #用sklearn.cross_validation进行训练数据集划分，这里训练集和交叉验证集比例为7：3，可以自己根据需要设置
@@ -69,56 +80,113 @@ def training(inputuple):
     #训练模型并保存
     # early_stopping_rounds 当设置的迭代次数较大时，early_stopping_rounds 可在一定的迭代次数内准确率没有提升就停止训练
     model = xgb.train(plst, xgb_train, num_rounds, watchlist,early_stopping_rounds=100)
-    model.save_model('./model/xgb20155.model')    # 用于存储训练出的模型
+    '''
+    predicted = model.predict(xgb.DMatrix(val_X)) 
+
+    print "预测完毕!!!"  
+
+    print '精度:{0:.3f}'.format(metrics.precision_score(xgb_val['label'], predicted,average='weighted'))  
+    print '召回:{0:0.3f}'.format(metrics.recall_score(xgb_val['label'], predicted,average='weighted'))  
+    print 'f1-score:{0:.3f}'.format(metrics.f1_score(xgb_val['label'], predicted,average='weighted')) '''
+
+    if reason == 1:
+        model.save_model('./model/xgbwsz.model')    # 用于存储训练出的模型
+    elif reason == 2:
+        model.save_model('./model/xgbgsz.model')
     print "best best_ntree_limit",model.best_ntree_limit
 
-def predict(inputuple):
-    conn = default_db()
-    cur = conn.cursor()
-    sql = "SELECT * FROM stock_list"
-    cur.execute(sql)
-    results = cur.fetchall()
-    stock_dict = {}
-    for result in results:
-        stock_dict[result['stock_id']] = [result['stock_name'],result['industry_name'],result['industry_code']]
-    
-    df = pd.DataFrame()
-    df['date'] = inputuple['date']
-    df['code'] = inputuple['code']
-    tests = inputuple.drop(['date','code'],axis=1)
-    #print tests
-    model = xgb.Booster(model_file='./model/xgb.model')
-    xgb_test = xgb.DMatrix(tests)
-    preds = model.predict(xgb_test)#,ntree_limit=model.best_ntree_limit
-    df['probability'] = preds
+def train(reason):
+    if reason == 1:
+        training(get_training_data(1,2013,5,1,2015,6,30),reason)
+    elif reason == 2:
+        training(get_training_data(2,2014,12,1,2015,1,31),reason)
 
-    for num in range(len(df)):
-        print num
-        stock_id = df.iloc[num]['code']
-        date = df.iloc[num]['date']
-        stock_name = stock_dict[stock_id][0]
-        manipulate_type = 1
-        industry_name = stock_dict[stock_id][1]
-        industry_code = stock_dict[stock_id][2]
-        probability = float(df.iloc[num]['probability'])
-        if probability >= 0.5:
-            result = 1
-        else:
-            result = 0
-        order = 'insert into manipulate_result_test ( stock_id,date,stock_name,manipulate_type,industry_name,industry_code,probability,result)values("%s", "%s","%s","%d","%s","%s","%f","%d")' % (stock_id,date,stock_name,manipulate_type,industry_name,industry_code,probability,result)
-        try:
-            cur.execute(order)
-            conn.commit()
-        except Exception, e:
-            print e
-    #return result
-    #result.to_csv('/home/lfz/python/yaoyan/modelcode/csv/result.csv',encoding='utf_8_sig')
-    #print preds,type(preds)
-    #np.savetxt('./csv/xgb_submission.csv',np.c_[range(1,len(tests)+1),preds],delimiter=',',header='ImageId,Label',comments='',fmt='%d')
+def predict(theday):
+    #get_frame_theday(theday)
+    print 'Finish update json...'
+    if theday in get_tradelist_all():
+        conn = default_db()
+        cur = conn.cursor()
+        reasonlist = [1]
+        sql = "SELECT * FROM %s WHERE %s = '%d'" % (TABLE_STOCK_LIST,STOCK_LIST_LISTED,1)
+        cur.execute(sql)
+        results = cur.fetchall()
+        stock_dict = {}
+        for result in results:
+            stock_dict[result[STOCK_LIST_STOCK_ID]] = [result[STOCK_LIST_STOCK_NAME],result[STOCK_LIST_INDUSTRY_NAME],result[STOCK_LIST_INDUSTRY_CODE]]
+        
+        #print tests
+        df = pd.DataFrame()
+        preds = []
+        types = []
+        datelist = []
+        codelist = []
+        for reason in reasonlist:
+            inputuple = deal_data_theday(reason,theday)
+            tests = inputuple.drop(['date','code'],axis=1)
+            if reason == 1:
+                model = xgb.Booster(model_file='./model/xgbwsz.model')
+            elif reason == 2:
+                model = xgb.Booster(model_file='./model/xgbgsz.model')
+            xgb_test = xgb.DMatrix(tests)
+            pred = model.predict(xgb_test)
+            datelist.extend(list(inputuple['date']))
+            codelist.extend(list(inputuple['code']))
+            preds.extend(pred)#,ntree_limit=model.best_ntree_limit
+            types.extend([reason]*len(pred))
+
+        df['date'] = datelist
+        df['code'] = codelist
+        df['probability'] = preds
+        df['type'] = types
+        #inputuple.to_csv('2.csv')
+        #df.to_csv('22.csv')
+        print inputuple
+
+        for code in sorted(list(set(df['code']))):
+            stock_id = code
+            stock_name = stock_dict[stock_id][0]
+            industry_name = stock_dict[stock_id][1]
+            industry_code = stock_dict[stock_id][2]
+            codedf = df[df['code'] == code]
+            if len(codedf) == 1:
+                date = codedf.iloc[0]['date']
+                probability = float(codedf.iloc[0]['probability'])
+                if probability >= 0.5:
+                    manipulate_type = codedf.iloc[0]['type']
+                    result = 1
+                else:
+                    manipulate_type = 0
+                    result = 0
+            else:
+                date = codedf.iloc[0]['date']
+                probability = max(codedf['probability'])
+                if probability >= 0.5:
+                    manipulate_type = codedf[codedf['probability'] == probability].iloc[0]['type']
+                    result = 1
+                else:
+                    manipulate_type = 0
+                    result = 0
+            
+            order = 'insert into manipulate_result_test ( stock_id,date,stock_name,manipulate_type,industry_name,industry_code,probability,result)values("%s", "%s","%s","%d","%s","%s","%f","%d")' % (stock_id,date,stock_name,manipulate_type,industry_name,industry_code,probability,result)
+            try:
+                cur.execute(order)
+                conn.commit()
+            except Exception, e:
+                print e
+        #return result
+        #result.to_csv('/home/lfz/python/yaoyan/modelcode/csv/result.csv',encoding='utf_8_sig')
+        #print preds,type(preds)
+        #np.savetxt('./csv/xgb_submission.csv',np.c_[range(1,len(tests)+1),preds],delimiter=',',header='ImageId,Label',comments='',fmt='%d')
 
 if __name__=="__main__":
-    #get_training_data()
+    #get_training_data(1,2013,5,1,2015,6,30)
+    #predict('2016-01-04')
+    #for day in get_datelist(2016,1,5,2016,12,31):
+    #    predict(day)
+    train(1)
     #training(get_training_data())
+    '''
     frame = pd.DataFrame()
     f = open(r'/home/lfz/python/yaoyan/modelcode/wrong201412.txt','w')
     for day in get_tradelist(2015,7,1,2015,7,1):
@@ -129,4 +197,10 @@ if __name__=="__main__":
             print e
             pass
     #frame.to_csv('/home/lfz/python/yaoyan/modelcode/csv/result20157-12.csv',encoding='utf_8_sig')
-    f.close()
+    f.close()'''
+
+
+'''
+伪市值案例时间区间：2013-05-09~2015-06-09
+高送转案例时间区间：2014-12-24~2015-01-30
+'''
