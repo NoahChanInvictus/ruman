@@ -5,6 +5,7 @@
 from ruman.homePage.views import homePage
 from ruman.maniPulate.views import maniPulate
 from ruman.hotSpot.views import hotSpot
+from ruman.hotSpotweibo.views import hotSpotweibo
 from ruman.rumor.views import rumor
 from ruman.perceivedLie.views import perceivedLie
 from ruman.perceivedSet.views import perceivedSet
@@ -18,6 +19,7 @@ def create_app():
 	app.register_blueprint(homePage,url_prefix='/homePage')
 	app.register_blueprint(maniPulate,url_prefix='/maniPulate')
 	app.register_blueprint(hotSpot,url_prefix='/hotSpot')
+	app.register_blueprint(hotSpotweibo,url_prefix='/hotSpotweibo')
 	app.register_blueprint(rumor,url_prefix='/rumor')
 	app.register_blueprint(perceivedLie,url_prefix='/perceivedLie')
 	app.register_blueprint(perceivedSet,url_prefix='/perceivedSet')

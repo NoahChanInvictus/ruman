@@ -1,13 +1,13 @@
 {% extends "publicNav.html" %}
 {% block title %}<title>谣言监测</title>{% endblock %}
 {% block my_css %}
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/jquery.fullPage.css">
-    <link rel="stylesheet" href="../static/css/public_nav.css">
-    <link rel="stylesheet" href="../static/css/modalANDtable.css">
-    <link rel="stylesheet" href="../static/css/rumor.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.fullPage.css">
+    <link rel="stylesheet" href="/static/css/public_nav.css">
+    <link rel="stylesheet" href="/static/css/modalANDtable.css">
+    <link rel="stylesheet" href="/static/css/rumor.css">
     <style>
         #nav .nav_middle .main_li:nth-of-type(2) {
             -webkit-transform: scale(1.3);
@@ -19,7 +19,7 @@
         #nav .nav_middle .main_li:nth-of-type(2) a, #nav .nav_middle .main_li:nth-of-type(2) a i{
             color: #ffbf1d !important;
         }
-        #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
+        /* #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
         #fullPage-nav span, .fullPage-slidesNav span {
             width: 10px;
             height: 10px;
@@ -28,7 +28,7 @@
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {
             background: #dff0d8;
         }
-        #fullPage-nav li, .fullPage-slidesNav li {margin: 12px 7px;}
+        #fullPage-nav li, .fullPage-slidesNav li {margin: 12px 7px;} */
         .recordingTable .fixed-table-toolbar,.recordingTable .fixed-table-pagination .page-list,
         .placeRank .fixed-table-toolbar,.placeRank .fixed-table-pagination .page-list {
             display: none;
@@ -78,7 +78,7 @@
                     <dd>本季度预警数</dd>
                     <dt class="com-3">213</dt>
                 </dl>
-                <dl>
+                <!-- <dl>
                     <dd>本周波及人数</dd>
                     <dt class="com-4">222</dt>
                 </dl>
@@ -89,7 +89,7 @@
                 <dl>
                     <dd>本季度波及人数</dd>
                     <dt class="com-6">732</dt>
-                </dl>
+                </dl> -->
             </div>
             <div style="color: white;font-weight:700;font-size:0.24rem;position: relative;">
                 <h3 style="color: white;display: inline-block;"><i class="icon icon-eye-open"></i>&nbsp;疑似谣言预警</h3>
@@ -104,134 +104,9 @@
             </div>
         </div>
 
-        <div class="section secondScreen" style="overflow:hidden;">
-            <div class="left">
-                <div style="color: white;font-size: 0.24rem;position: relative;">
-                    <h3 style="color: white;display: inline-block;font-weight:700;"><i class="icon icon-dashboard"></i>&nbsp;预警态势</h3>
-                    <div class="trendOpt">
-                        <span class="ct-tit">呈现方式：</span>
-                        <select id="second_select_1">
-                            <option value="按季度">按季度</option>
-                            <option value="按月">按月</option>
-                            <option value="按周">按周</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="trendLine" style="width:100%;height: 4.5rem;margin-top: 0.3rem;"></div>
-            </div>
-            <div class="right">
-                <div style="color: white;font-size: 0.24rem;position: relative;">
-                    <h3 style="color: white;display: inline-block;font-weight:700;"><i class="icon icon-globe"></i>&nbsp;波及范围</h3>
-                    <div class="placeOpt">
-                        <span class="ct-tit">呈现方式：</span>
-                        <select id="second_select_2">
-                            <option value="按季度">按季度</option>
-                            <option value="按月">按月</option>
-                            <option value="按周">按周</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="place" style="width:100%;height: 4.5rem;margin-top: 0.3rem;"></div>
-            </div>
-        </div>
-
-        <div class="section thirdScreen" style="overflow: hidden;">
-            <h3 style="color: white;text-align: left;"><i class="icon icon-stethoscope"></i>&nbsp;行业分布</h3>
-            <div class="barContent" style="width:100%;margin-top:0.4rem;">
-                <div id="bar-1" style="width:65%;height: 4.5rem;"></div>
-                <div id="bar-2" style="width:33%;">
-                    <h4 style="color: white;display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;行业排行</h4>
-                    <select id="third_select">
-                        <option value="最近一周">最近一周</option>
-                        <option value="最近一个月">最近一个月</option>
-                        <option value="最近三个月">最近三个月</option>
-                        <option value="最近半年">最近半年</option>
-                        <option value="最近一年">最近一年</option>
-                    </select>
-                    <table class="barRank" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <th>行业</th>
-                            <th>预警</th>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>批发</td>
-                            <td>21</td>
-                        </tr>
-                        <tr>
-                            <td>材料</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>运输设备</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>建筑</td>
-                            <td>19</td>
-                        </tr>
-                        <tr>
-                            <td>旅游酒店</td>
-                            <td>18</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="section fourScreen" style="overflow: hidden;">
-            <h3 style="color: white;text-align: left;"><i class="icon icon-user"></i>&nbsp;发布者类型</h3>
-            <div class="pieContent" style="width:100%;margin-top:0.4rem;">
-                <div id="pie-1" style="width:65%;height: 4.5rem;"></div>
-                <div id="pie-2" style="width:33%;">
-                    <h4 style="color: white;display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;行业排行</h4>
-                    <select id="four_select">
-                        <option value="最近一周">最近一周</option>
-                        <option value="最近一个月">最近一个月</option>
-                        <option value="最近三个月">最近三个月</option>
-                        <option value="最近半年">最近半年</option>
-                        <option value="最近一年">最近一年</option>
-                    </select>
-                    <table class="pieRank" cellspacing="0" cellpadding="0">
-                        <thead>
-                        <th>类别</th>
-                        <th>预警</th>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>财经门户</td>
-                            <td>335</td>
-                        </tr>
-                        <tr>
-                            <td>金融监管机构</td>
-                            <td>310</td>
-                        </tr>
-                        <tr>
-                            <td>财经媒体</td>
-                            <td>234</td>
-                        </tr>
-                        <tr>
-                            <td>金融机构</td>
-                            <td>135</td>
-                        </tr>
-                        <tr>
-                            <td>特定企业</td>
-                            <td>848</td>
-                        </tr>
-                        <tr>
-                            <td>自媒体</td>
-                            <td>454</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="section fiveScreen">
+        <div class="section fiveScreen" style="padding-bottom: .3rem;">
             <div class="liar">
-                <h3 style="color: white;display: inline-block;font-weight:700;"><i class="icon icon-signal"></i>&nbsp;十大造谣/传谣者</h3>
+                <h3 style="color: white;display: inline-block;font-weight:700;"><i class="icon icon-user-md"></i>&nbsp;造谣/传谣者</h3>
                 <div class="lieOpt">
                     <span class="ct-tit">呈现方式：</span>
                     <select id="five_select">
@@ -243,219 +118,14 @@
                     </select>
                 </div>
             </div>
-            <div id="spread" style="overflow: hidden;margin-top: 0.3rem;">
-                <div id="spread-1" style="width:48%;">
-                    <h4 style="color: white;display: inline-block;"><i class="icon icon-comment"></i>&nbsp;十大造谣者</h4>
-                    <table class="spreadRank" cellpadding="0" cellspacing="0">
-                        <thead>
-                            <th>排名</th>
-                            <th>发布者ID</th>
-                            <th>疑似谣言发布数</th>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>所长别开枪是我</td>
-                            <td>23</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>机智达人</td>
-                            <td>21</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>沈小司司</td>
-                            <td>18</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>华为何刚</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>段郎说事</td>
-                            <td>14</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>美呆头</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>媒救了你</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>大芒果123</td>
-                            <td>9</td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>摄影微吧</td>
-                            <td>7</td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td>至诚大兵</td>
-                            <td>6</td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <div id="spread" style="overflow: hidden;margin-top:0.1rem;">
+                <div id="spread-1" style="width:48%;float: left;">
+                    <!--<h4 style="color: white;display: inline-block;"><i class="icon icon-comment"></i>&nbsp;十大造谣者</h4>-->
+                    <div id="spreadRank"></div>
                 </div>
-                <div id="spread-2" style="width:48%;">
-                    <h4 style="color: white;display: inline-block;"><i class="icon icon-comments"></i>&nbsp;十大传谣者</h4>
-                    <table class="spreadRank" cellpadding="0" cellspacing="0">
-                        <thead>
-                        <th>排名</th>
-                        <th>发布者ID</th>
-                        <th>疑似谣言转发数</th>
-                        <th>疑似谣言评论数</th>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>所长别开枪是我</td>
-                            <td>23</td>
-                            <td>33</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>机智达人</td>
-                            <td>21</td>
-                            <td>25</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>沈小司司</td>
-                            <td>18</td>
-                            <td>43</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>华为何刚</td>
-                            <td>15</td>
-                            <td>43</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>段郎说事</td>
-                            <td>14</td>
-                            <td>32</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>美呆头</td>
-                            <td>12</td>
-                            <td>23</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>媒救了你</td>
-                            <td>10</td>
-                            <td>44</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>大芒果123</td>
-                            <td>9</td>
-                            <td>23</td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>摄影微吧</td>
-                            <td>7</td>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td>至诚大兵</td>
-                            <td>6</td>
-                            <td>11</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div id="propagation" style="width:48%;height: 4.5rem;float: right"></div>
             </div>
-        </div>
 
-        <div class="section sixScreen" style="overflow: hidden;">
-            <h3 style="color: white;text-align: left;"><i class="icon icon-star"></i>&nbsp;热点词</h3>
-            <div class="wordContent" style="width:100%;margin-top:0.4rem;">
-                <div id="word-1" style="width:65%;height: 4.5rem;"></div>
-                <div id="word-2" style="width:33%;">
-                    <h4 style="color: white;display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;热点词频率排行</h4>
-                    <select id="six_select">
-                        <option value="最近一周">最近一周</option>
-                        <option value="最近一个月">最近一个月</option>
-                        <option value="最近三个月">最近三个月</option>
-                        <option value="最近半年">最近半年</option>
-                        <option value="最近一年">最近一年</option>
-                    </select>
-                    <table class="wordRank" cellspacing="0" cellpadding="0">
-                        <thead>
-                        <th>词语</th>
-                        <th>频率</th>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>回应</td>
-                            <td>21</td>
-                        </tr>
-                        <tr>
-                            <td>视频</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>父母</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>女子</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>发现</td>
-                            <td>8</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="section sevenScreen" style="overflow:hidden;">
-            <div class="left">
-                <div style="color: white;font-size: 0.24rem;position: relative;">
-                    <h3 style="color: white;display: inline-block;font-weight:700;"><i class="icon icon-asterisk"></i>&nbsp;影响力</h3>
-                    <div class="influeOpt">
-                        <span class="ct-tit">呈现方式：</span>
-                        <select id="seven_select_1">
-                            <option value="按季度">按季度</option>
-                            <option value="按月">按月</option>
-                            <option value="按周">按周</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="influe" style="width:100%;height: 4.5rem;margin-top: 0.3rem;"></div>
-            </div>
-            <div class="right">
-                <div style="color: white;font-size: 0.24rem;position: relative;">
-                    <h3 style="color: white;display: inline-block;font-weight:700;"><i class="icon icon-rss"></i>&nbsp;传播力</h3>
-                    <div class="proOpt">
-                        <span class="ct-tit">呈现方式：</span>
-                        <select id="seven_select_2">
-                            <option value="按季度">按季度</option>
-                            <option value="按月">按月</option>
-                            <option value="按周">按周</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="propagation" style="width:100%;height: 4.5rem;margin-top: 0.3rem;"></div>
-            </div>
         </div>
     </div>
 {% endblock %}
@@ -472,15 +142,15 @@
     <script src="../static/js/rumor.js"></script>
     <script>
         <!---->
-        $('.fullpage').fullpage({
-            'verticalCentered': false,
-            'css3': true,
-            'anchors': ['page1', 'page2','page3','page4','page5','page6','page7','page8'],
-            'navigation': 'true',
-            'loopBottom':'true',
-            'navigationPosition': 'right',
-            'fixedElements':'#nav',
-            'navigationTooltips': ['疑似谣言预警','预警态势与波及范围','行业分布','发布者类型','十大造谣/传谣者','热点词','影响力与传播力']
-        });
+        // $('.fullpage').fullpage({
+        //     'verticalCentered': false,
+        //     'css3': true,
+        //     'anchors': ['page1', 'page2','page3','page4','page5','page6','page7','page8'],
+        //     'navigation': 'true',
+        //     'loopBottom':'true',
+        //     'navigationPosition': 'right',
+        //     'fixedElements':'#nav',
+        //     'navigationTooltips': ['疑似谣言预警','预警态势与波及范围','行业分布','发布者类型','十大造谣/传谣者','热点词','影响力与传播力']
+        // });
     </script>
 {% endblock %}

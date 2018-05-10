@@ -46,6 +46,7 @@
                 right: '3%',
                 bottom: '0%',
                 top:'6%',
+                // width:'80%',
                 containLabel: true
             },
             xAxis: [{
@@ -92,19 +93,19 @@
                             width: 1,
                         }
                     },
-                    areaStyle: {
-                        normal: {
-                            // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            //     offset: 0,
-                            //     color: 'rgba(137, 189, 27, 0.8)'
-                            // }, {
-                            //     offset: 1,
-                            //     color: 'rgba(137, 189, 27, 0.2)'
-                            // }], false),
-                            // shadowColor: 'rgba(0, 0, 0, 0.1)',
-                            // shadowBlur: 10
-                        }
-                    },
+                    // areaStyle: {
+                    //     normal: {
+                    //         // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    //         //     offset: 0,
+                    //         //     color: 'rgba(137, 189, 27, 0.8)'
+                    //         // }, {
+                    //         //     offset: 1,
+                    //         //     color: 'rgba(137, 189, 27, 0.2)'
+                    //         // }], false),
+                    //         // shadowColor: 'rgba(0, 0, 0, 0.1)',
+                    //         // shadowBlur: 10
+                    //     }
+                    // },
                     // itemStyle: {
                     //     normal: {
                     //         color: 'rgb(137,189,27)',
@@ -127,6 +128,7 @@
         myChart.hideLoading();
         myChart.setOption(option);
     }
+
     line_1();
 
     function line_2() {
@@ -140,6 +142,19 @@
         myChart.setOption(option);
     }
     line_2();
+    // $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    //     // 获取已激活的标签页的名称
+    //     var activeTab = $(e.target).text();
+    //     // 获取前一个激活的标签页的名称
+    //     var previousTab = $(e.relatedTarget).text();
+    //     // $(".active-tab span").html(activeTab);
+    //     // $(".previous-tab span").html(previousTab);
+    //     console.log(activeTab);
+    //     if(activeTab){
+    //         console.log(activeTab);
+    //     }
+    //     console.log(activeTab);
+    // });
 
 
 // 语义分析

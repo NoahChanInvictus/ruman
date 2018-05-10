@@ -9,397 +9,42 @@
 
 // 热点监测 表格
     var hotSpotData = [
-        {
-        increase_ratio: 0.032568,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-30",
-        id: 903,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "长园集团(600525)"
-        },
-        {
-        increase_ratio: 0.031488,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-30",
-        id: 905,
-        industry_name: "农、林、牧、渔业",
-        manipulate_state: "正在操纵",
-        stock: "天山生物(300313)"
-        },
-        {
-        increase_ratio: 0.015496,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-30",
-        id: 902,
-        industry_name: "租赁和商务服务业",
-        manipulate_state: "正在操纵",
-        stock: "中青旅(600138)"
-        },
-        {
-        increase_ratio: 0.004798,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-30",
-        id: 906,
-        industry_name: "文化、体育和娱乐业",
-        manipulate_state: "正在操纵",
-        stock: "宋城演艺(300144)"
-        },
-        {
-        increase_ratio: 0.00069,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-30",
-        id: 901,
-        industry_name: "租赁和商务服务业",
-        manipulate_state: "正在操纵",
-        stock: "易见股份(600093)"
-        },
-        {
-        increase_ratio: 0,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-30",
-        id: 904,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "沙钢股份(002075)"
-        },
-        {
-        increase_ratio: 0.017131,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-29",
-        id: 896,
-        industry_name: "文化、体育和娱乐业",
-        manipulate_state: "正在操纵",
-        stock: "唐德影视(300426)"
-        },
-        {
-        increase_ratio: 0.010799,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-29",
-        id: 894,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "*ST嘉陵(600877)"
-        },
-        {
-        increase_ratio: 0.009818,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-29",
-        id: 893,
-        industry_name: "金融业",
-        manipulate_state: "正在操纵",
-        stock: "中国太保(601601)"
-        },
-        {
-        increase_ratio: 0,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-29",
-        id: 895,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "亚光科技(300123)"
-        },
-        {
-        increase_ratio: 0,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-29",
-        id: 897,
-        industry_name: "文化、体育和娱乐业",
-        manipulate_state: "正在操纵",
-        stock: "长城影视(002071)"
-        },
-        {
-        increase_ratio: -0.023898,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-29",
-        id: 898,
-        industry_name: "文化、体育和娱乐业",
-        manipulate_state: "正在操纵",
-        stock: "上海电影(601595)"
-        },
-        {
-        increase_ratio: -0.027913,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-29",
-        id: 899,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "东港股份(002117)"
-        },
-        {
-        increase_ratio: -0.08657,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-29",
-        id: 900,
-        industry_name: "农、林、牧、渔业",
-        manipulate_state: "正在操纵",
-        stock: "仙坛股份(002746)"
-        },
-        {
-        increase_ratio: 0.004127,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-28",
-        id: 892,
-        industry_name: "农、林、牧、渔业",
-        manipulate_state: "正在操纵",
-        stock: "罗牛山(000735)"
-        },
-        {
-        increase_ratio: -0.000314,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-28",
-        id: 891,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "歌力思(603808)"
-        },
-        {
-        increase_ratio: -0.000958,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-28",
-        id: 887,
-        industry_name: "文化、体育和娱乐业",
-        manipulate_state: "正在操纵",
-        stock: "天舟文化(300148)"
-        },
-        {
-        increase_ratio: -0.002675,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-28",
-        id: 890,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "步森股份(002569)"
-        },
-        {
-        increase_ratio: -0.007394,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-28",
-        id: 886,
-        industry_name: "金融业",
-        manipulate_state: "正在操纵",
-        stock: "吴江银行(603323)"
-        },
-        {
-        increase_ratio: -0.018125,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-28",
-        id: 889,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "爱迪尔(002740)"
-        },
-        {
-        increase_ratio: -0.029035,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-28",
-        id: 888,
-        industry_name: "农、林、牧、渔业",
-        manipulate_state: "正在操纵",
-        stock: "开创国际(600097)"
-        },
-        {
-        increase_ratio: 0.028486,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-27",
-        id: 885,
-        industry_name: "电力、热力、燃气及水生产和供应业",
-        manipulate_state: "正在操纵",
-        stock: "中天能源(600856)"
-        },
-        {
-        increase_ratio: 0.002053,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-27",
-        id: 882,
-        industry_name: "金融业",
-        manipulate_state: "正在操纵",
-        stock: "北京银行(601169)"
-        },
-        {
-        increase_ratio: -0.017921,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-27",
-        id: 883,
-        industry_name: "金融业",
-        manipulate_state: "正在操纵",
-        stock: "无锡银行(600908)"
-        },
-        {
-        increase_ratio: -0.036132,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-27",
-        id: 884,
-        industry_name: "交通运输、仓储和邮政业",
-        manipulate_state: "正在操纵",
-        stock: "中储股份(600787)"
-        },
-        {
-        increase_ratio: 0.026531,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-26",
-        id: 879,
-        industry_name: "科学研究和技术服务业",
-        manipulate_state: "正在操纵",
-        stock: "天海防务(300008)"
-        },
-        {
-        increase_ratio: 0.017336,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-26",
-        id: 881,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "沃施股份(300483)"
-        },
-        {
-        increase_ratio: -0.00277,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-26",
-        id: 880,
-        industry_name: "租赁和商务服务业",
-        manipulate_state: "正在操纵",
-        stock: "轻纺城(600790)"
-        },
-        {
-        increase_ratio: -0.099951,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-23",
-        id: 878,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "上海凤凰(600679)"
-        },
-        {
-        increase_ratio: 0.610394,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-22",
-        id: 873,
-        industry_name: "科学研究和技术服务业",
-        manipulate_state: "正在操纵",
-        stock: "贝瑞基因(000710)"
-        },
-        {
-        increase_ratio: 0.006329,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-22",
-        id: 876,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "易尚展示(002751)"
-        },
-        {
-        increase_ratio: -0.004926,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-22",
-        id: 874,
-        industry_name: "科学研究和技术服务业",
-        manipulate_state: "正在操纵",
-        stock: "苏交科(300284)"
-        },
-        {
-        increase_ratio: -0.009587,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-22",
-        id: 877,
-        industry_name: "交通运输、仓储和邮政业",
-        manipulate_state: "正在操纵",
-        stock: "恒通股份(603223)"
-        },
-        {
-        increase_ratio: -0.034153,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-22",
-        id: 875,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "恒天海龙(000677)"
-        },
-        {
-        increase_ratio: 0.026949,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-21",
-        id: 869,
-        industry_name: "科学研究和技术服务业",
-        manipulate_state: "正在操纵",
-        stock: "合诚股份(603909)"
-        },
-        {
-        increase_ratio: -0.015864,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-21",
-        id: 868,
-        industry_name: "科学研究和技术服务业",
-        manipulate_state: "正在操纵",
-        stock: "能科股份(603859)"
-        },
-        {
-        increase_ratio: -0.019039,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-21",
-        id: 871,
-        industry_name: "农、林、牧、渔业",
-        manipulate_state: "正在操纵",
-        stock: "獐子岛(002069)"
-        },
-        {
-        increase_ratio: -0.03791,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-21",
-        id: 870,
-        industry_name: "制造业",
-        manipulate_state: "正在操纵",
-        stock: "康欣新材(600076)"
-        },
-        {
-        increase_ratio: 0,
-        manipulate_type: "伪市值管理",
-        end_date: "至今",
-        start_date: "2016-12-20",
-        id: 867,
-        industry_name: "采矿业",
-        manipulate_state: "正在操纵",
-        stock: "盛屯矿业(600711)"
-        },
-
+        {'a':'2017-05-01 00:00','b':'万科建立新安小镇','c':'论坛','d':'股吧','e':'65','f':'53',
+            'g':'50000','h':'房地产,达赖,维权','i':'是'},
+        {'a':'2017-06-01 00:00','b':'万科发现锂矿产','c':'App','d':'微博','e':'53','f':'44',
+            'g':'40000','h':'矿产,煤老板,瓦斯爆炸','i':'否'},
+        {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'知乎','d':'知乎','e':'44','f':'30',
+            'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
+        {'a':'2017-05-01 00:00','b':'万科建立新安小镇','c':'论坛','d':'股吧','e':'65','f':'53',
+            'g':'50000','h':'房地产,达赖,维权','i':'是'},
+        {'a':'2017-06-01 00:00','b':'万科发现锂矿产','c':'App','d':'微博','e':'53','f':'44',
+            'g':'40000','h':'矿产,煤老板,瓦斯爆炸','i':'否'},
+        {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'知乎','d':'知乎','e':'44','f':'30',
+            'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
+        {'a':'2017-05-01 00:00','b':'万科建立新安小镇','c':'论坛','d':'股吧','e':'65','f':'53',
+            'g':'50000','h':'房地产,达赖,维权','i':'是'},
+        {'a':'2017-06-01 00:00','b':'万科发现锂矿产','c':'App','d':'微博','e':'53','f':'44',
+            'g':'40000','h':'矿产,煤老板,瓦斯爆炸','i':'否'},
+        {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'知乎','d':'知乎','e':'44','f':'30',
+            'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
+        {'a':'2017-05-01 00:00','b':'万科建立新安小镇','c':'论坛','d':'股吧','e':'65','f':'53',
+            'g':'50000','h':'房地产,达赖,维权','i':'是'},
+        {'a':'2017-06-01 00:00','b':'万科发现锂矿产','c':'App','d':'微博','e':'53','f':'44',
+            'g':'40000','h':'矿产,煤老板,瓦斯爆炸','i':'否'},
+        {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'知乎','d':'知乎','e':'44','f':'30',
+            'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
+        {'a':'2017-05-01 00:00','b':'万科建立新安小镇','c':'论坛','d':'股吧','e':'65','f':'53',
+            'g':'50000','h':'房地产,达赖,维权','i':'是'},
+        {'a':'2017-06-01 00:00','b':'万科发现锂矿产','c':'App','d':'微博','e':'53','f':'44',
+            'g':'40000','h':'矿产,煤老板,瓦斯爆炸','i':'否'},
+        {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'知乎','d':'知乎','e':'44','f':'30',
+            'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
+        {'a':'2017-05-01 00:00','b':'万科建立新安小镇','c':'论坛','d':'股吧','e':'65','f':'53',
+            'g':'50000','h':'房地产,达赖,维权','i':'是'},
+        {'a':'2017-06-01 00:00','b':'万科发现锂矿产','c':'机智达人','d':'微博','e':'53','f':'44',
+            'g':'40000','h':'矿产,煤老板,瓦斯爆炸','i':'否'},
+        {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'沈小司司','d':'知乎','e':'44','f':'30',
+            'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
     ]
     function hotSpot(data) {
         $('#hotspotTable p.loading').show();
@@ -424,136 +69,69 @@
             // showLoading:true,
             columns: [
                 {
-                    title: "相关股票",//标题
-                    field: "stock",//键名
+                    title: "主题",//标题
+                    field: "b",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        var stock = '';
 
-                        if (row.stock==''||row.stock=='null'||row.stock=='unknown'||!row.stock){
-                            return '未知';
-                        }else if(row.stock.length >=5){
-                            stock = row.stock.slice(0,5)+'...';
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="'+row.stock+'">'+stock+'</span>';
-                        }else {
-                            stock = row.stock;
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="'+row.stock+'">'+stock+'</span>';
-                        };
-                    }
                 },
                 {
-                    title: "开始时间",//标题
-                    field: "start_date",//键名
+                    title: "发布时间",//标题
+                    field: "a",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.start_date==''||row.start_date=='null' || row.start_date==null ||row.start_date=='unknown'||!row.start_date){
+                        if (row.a==''||row.a=='null' || row.a==null ||row.a=='unknown'||!row.a){
                             return '未知';
                         }else {
-                            return row.start_date;
+                            return row.a;
                         };
                     }
 
                 },
                 {
-                    title: "结束时间",//标题
-                    field: "end_date",//键名
+                    title: "发布渠道",//标题
+                    field: "c",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.end_date==''||row.end_date=='null' || row.end_date==null ||row.end_date=='unknown'||!row.end_date){
+                        if (row.c==''||row.c=='null' || row.c==null ||row.c=='unknown'||!row.c){
                             return '未知';
                         }else {
-                            return row.end_date;
+                            return row.c;
                         };
                     }
                 },
                 {
-                    title: "热点类型",//标题
-                    field: "manipulate_type",//键名
+                    title: "关键词",//标题
+                    field: "h",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.manipulate_type==''||row.manipulate_type=='null' || row.manipulate_type==null ||row.manipulate_type=='unknown'||!row.manipulate_type){
+                        if (row.h==''||row.h=='null' || row.h==null ||row.h=='unknown'||!row.h){
                             return '未知';
                         }else {
-                            return row.manipulate_type;
+                            return row.h;
                         };
                     }
                 },
                 {
-                    title: "所属行业",//标题
-                    field: "industry_name",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        var industryName = '';
-
-                        if (row.industry_name==''||row.industry_name=='null' || row.industry_name==null ||row.industry_name=='unknown'||!row.industry_name){
-                            return '未知';
-                        }else if(row.industry_name.length >=5){
-                            industryName = row.industry_name.slice(0,5)+'...';
-                            return '<span style="cursor:pointer;color:white;" title="'+row.industry_name+'">'+industryName+'</span>';
-                        }else {
-                            industryName = row.industry_name;
-                            return '<span style="cursor:pointer;color:white;" title="'+row.industry_name+'">'+industryName+'</span>';
-                        };
-                    }
-                },
-                {
-                    title: "超涨比率",//标题
-                    field: "increase_ratio",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        var increaseRatio;
-                        if(row.increase_ratio === 0){
-                            return '0%';
-                        }else if (row.increase_ratio==''||row.increase_ratio=='null'||row.increase_ratio=='unknown'||!row.increase_ratio){
-                            return '未知';
-                        }else {
-                            increaseRatio = (row.increase_ratio *100).toFixed(2).toString() + '%';
-                            return increaseRatio;
-                        };
-                    }
-                },
-                {
-                    title: "热点状态",//标题
-                    field: "manipulate_state",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.manipulate_state==''||row.manipulate_state=='null' || row.manipulate_state==null ||row.manipulate_state=='unknown'||!row.manipulate_state){
-                            return '未知';
-                        }else {
-                            return row.manipulate_state;
-                        };
-                    }
-                },
-                {
-                    title: "监测详情",//标题
+                    title: "热点详情",//标题
                     field: "",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.b+'\',\''+row.a+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
                 {

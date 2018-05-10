@@ -105,7 +105,7 @@
 #container #picChart-1 .option .tit {
     display: inline-block;
     padding: 0.05rem;
-    width: 12%;
+    width: 16%;
     text-align: center;
     color: #fff;
     font-weight: 900;
@@ -115,10 +115,10 @@
 #container #picChart-1 .option span:nth-of-type(1) {
     width:40%;
 }
-#container #picChart-1 .option span:nth-of-type(2) {
-    width:14%;
-}
-#container #picChart-1 .option span:nth-of-type(4),
+/*#container #picChart-1 .option span:nth-of-type(2) {*/
+    /*width:14%;*/
+/*}*/
+/*#container #picChart-1 .option span:nth-of-type(4),*/
 #container #picChart-1 .option span:last-of-type {
     width:9%;
 }
@@ -141,7 +141,7 @@
     text-align: center;
     font-size: 0.12rem;
     color: white;
-    width: 12%;
+    width: 16%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -151,10 +151,10 @@
     padding: 0 0.05rem;
     width:40%;
 }
-#container #scroll p span:nth-of-type(2) {
-    width:14%;
-}
-#container #scroll p span:nth-of-type(4),
+/*#container #scroll p span:nth-of-type(2) {*/
+    /*width:14%;*/
+/*}*/
+/*#container #scroll p span:nth-of-type(4),*/
 #container #scroll p span:last-of-type{
     width: 9%;
 }
