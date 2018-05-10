@@ -21,6 +21,49 @@ def defaultDatabase():
     conn.autocommit(True)
     cur = conn.cursor()
     return cur
+def compute_allsource_traceback(topic,begin_ts,end_ts,w_limit):
+    query_body = {
+        "query": {
+
+        "bool": {
+        "must": [
+        {
+        "range": {
+            "publish_time": {
+            "from": begin_ts,
+            "to": end_ts
+            }
+        }
+        },
+        
+        {"term":{"topic":topic,}}
+        
+        ],
+        "must_not": [ ],
+        "should": [ ]
+        }
+        },
+        "from": 0,
+        "size": w_limit,
+        "sort": [{"publish_time":"asc"} ],
+        "facets": { }
+    }
+    time_period_results = []
+    for source in TOPIC_ABOUT_DOCTYPE:
+        iter_results = {}
+        # print TOPIC_ABOUT_INDEX,query_body
+        mtype_count = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['total']
+        # print source,mtype_count
+        iter_results['count'] = mtype_count
+        iter_results['source'] = source
+        iter_results['begin_ts'] = begin_ts
+        iter_results['end_ts'] = end_ts
+        iter_results['topic'] = topic
+        time_period_results.append(iter_results)
+
+    
+    return time_period_results
+
 
 def compute_mtype_count(topic, begin_ts, end_ts,size=5000):
     all_mtype_dict = {}
@@ -58,14 +101,13 @@ def compute_mtype_count(topic, begin_ts, end_ts,size=5000):
     for source in TOPIC_ABOUT_DOCTYPE:
         iter_results = {}
         # print TOPIC_ABOUT_INDEX,query_body
-        mtype_count = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['total']
-        # print source,mtype_count
-        iter_results['count'] = mtype_count
-        iter_results['source'] = source
-        iter_results['begin_ts'] = begin_ts
-        iter_results['end_ts'] = end_ts
-        iter_results['topic'] = topic
-        time_period_results.append(iter_results)
+        es_result = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['hits']
+        if len(es_result):
+            iter_results = es_result['_source']
+            iter_results['source'] = source
+            iter_results['text_id'] = es_result['_id']
+            iter_results['topic'] = topic
+            time_period_results.append(iter_results)
     
     return time_period_results
         
@@ -87,13 +129,13 @@ def propagateCronTopic(topic, start_ts, over_ts, during=Fifteenminutes, w_limit=
             begin_ts = over_ts - during * i
             end_ts = begin_ts + during
 
-            # print begin_ts,end_ts
+            print begin_ts,end_ts
             #print begin_ts, end_ts, 'topic %s starts calculate' % topic.encode('utf-8')
             mtype_count = compute_mtype_count(topic, begin_ts, end_ts)
             # print mtype_count
             # mtype_kcount = compute_mtype_keywords(topic, begin_ts, end_ts ,k_limit)
-            # mtype_weibo = compute_mtype_weibo(topic,begin_ts,end_ts,w_limit)
-
+            allsource_traceback = compute_allsource_traceback(topic,begin_ts,end_ts,w_limit)
+            # print allsource_traceback
             save_results('count', topic, mtype_count, during)
             # save_results('kcount', topic, mtype_kcount, during, k_limit, w_limit)
             # save_results('weibo', topic, mtype_weibo, during, k_limit)

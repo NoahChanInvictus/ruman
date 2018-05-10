@@ -58,6 +58,38 @@ def basic_info_insert(info_data):
         #把最后剩余不足1000条的也插入
         es.bulk(bulk_action, index="announcement", doc_type="basic_info",timeout=400)
 
+def dingzeng_date(words1,words2,words3,line):
+    num = 0
+    for i in words1:
+        if i in line:
+            num += 1
+    if num:
+        if words2 in line:
+            number = 0
+            for i in words3:
+                if i in line:
+                    number += 1
+            if number:
+                return False
+            else:
+                return True
+        else:
+            return False
+    else:
+        return False
+
+def dingzeng_start(line):
+    words1 = ['非公开发行','向特定对象发行','定向发行','非公开增发','向特定对象增发','定向增发']
+    words2 = '预案'
+    words3 = ['修正','修订','调整','补充','更新','更正','修改','变更','增加','差异','摘要','草案','到期失效','补充','恢复','延长','筹划','谋划','进展','停牌','填补','变动','下滑','策划','更换','完善','中止','终止','到期失效','撤回','放弃','取消','暂缓','损益','利润','业绩','亏损','回报','法律','核查','董事','意见','回复','说明','股东','律师','会计','核准','批复','批准','获准','同意','答复','审核','通过','审核通过','结果','审核结果','受理','转让保荐书','复核报告','权益价值评估说明书','论证分析报告','提醒性公告','议案','提示性公告','评估报告','披露','提示','复牌','承诺','函']
+    return dingzeng_date(words1,words2,words3,line)
+
+def dingzeng_end(line):
+    words1 = ['非公开发行','向特定对象发行','定向发行','非公开增发','向特定对象增发','定向增发']
+    words2 = '审核通过'
+    words3 = ['不','未','债券','更正','更新','补充','英文','回复','修正']
+    return dingzeng_date(words1,words2,words3,line)
+
 def getkind(line):   #简单分类器
     if '资产置换' in line or '资产重组' in line or '购买资产' in line or '收购' in line:
         a = 1
@@ -89,6 +121,12 @@ def getkind(line):   #简单分类器
     elif '辞职' in line:
         a = 10
         #print '类别：高管辞职'
+    elif dingzeng_start(line):
+        a = 12
+        #print '类别：定增开始'
+    elif dingzeng_end(line):
+        a = 13
+        #print '类别：定增结束'
     else:
         a = 11
         #print '类别：其他'

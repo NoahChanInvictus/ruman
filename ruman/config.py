@@ -6,10 +6,10 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 #table
-TABLE_HOLDERS = 'holders'
+ES_TABLE_HOLDERS = 'holders'
 TABLE_DAY = 'manipulate_day'
 TABLE_WARNING = 'manipulate_warning'
-TABLE_MARKET_DAILY = 'market_daily_new'
+TABLE_MARKET_DAILY = 'market_daily'
 TABLE_HOLDERS_SHOW = 'holders_show'
 TABLE_HOLDERS_PCT = 'holders_pct'
 TABLE_INFLUENCE="manipulate_influence"
@@ -17,7 +17,14 @@ TABLE_INDUSTRY="manipulate_industry"
 TABLE_TYPE="manipulate_type"
 TABLE_PANEL="manipulate_panel"
 TABLE_GONGSHANG = 'gongshang'
+TABLE_STOCK_LIST = 'stock_list'
+TABLE_NETPROFIT = 'netprofit'
+TABLE_JIEJIN = 'jiejin'
+TABLE_ANNOUNCEMENT = 'announcement'
+TABLE_TRANSACTION_STAT = 'transaction_stat'
+TABLE_BLACK_LIST = 'black_list'
 TABLE_PROPAGATE = 'all_source_propagate'
+TABLE_WORDCLOUD = 'wordcloud'
 
 #esdic
 DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
@@ -28,11 +35,11 @@ ES_HOST = '219.224.134.214'
 ES_PORT = 9202
 
 #db
-HOST = "219.224.134.214"
-USER = "root"
-PASSWORD = ""
+SQL_HOST = "219.224.134.214"
+SQL_USER = "root"
+SQL_PASSWD = ""
 DEFAULT_DB = "ruman"
-CHARSET = "utf8"
+SQL_CHARSET = "utf8"
 TEST_DB = ""
 
 
@@ -51,19 +58,22 @@ DAY_ID = 'id'
 WARNING_DATE = 'date'
 WARNING_TIMES = 'times'
 MARKET_PRICE = 'price'
+MARKET_PRICE_FU = 'price_fu'
 MARKET_DATE = 'date'
 MARKET_INDUSTRY_CODE = 'industry_code'
 MARKET_STOCK_ID = 'stock_id'
-HOLDERS_SHOW_STOCK_ID = 'stock_id'
-HOLDERS_SHOW_DATE = 'date'
-HOLDERS_SHOW_HOLDER_NAME = 'holder_name'
-HOLDERS_SHOW_ID = 'id'
-HOLDERS_SHOW_RANKING = 'ranking'
-HOLDERS_PCT_STOCK_ID = 'stock_id'
-HOLDERS_PCT_DATE = 'date'
-HOLDERS_PCT_ID = 'id'
-HOLDERS_PCT_HOLDER_TOP10PCT = 'holder_top10pct'
-HOLDERS_PCT_HOLDER_PCTBYINST = 'holder_pctbyinst'
+MARKET_TURNOVER_RATE = 'turnover_rate'
+ES_HOLDERS_SHOW_STOCK_ID = 'stock_id'
+ES_HOLDERS_SHOW_DATE = 'date'
+ES_HOLDERS_SHOW_HOLDER_NAME = 'holder_name'
+ES_HOLDERS_SHOW_ID = 'id'
+ES_HOLDERS_SHOW_RANKING = 'ranking'
+ES_HOLDERS_PCT_STOCK_ID = 'stock_id'
+ES_HOLDERS_PCT_DATE = 'date'
+ES_HOLDERS_PCT_ID = 'id'
+ES_HOLDERS_PCT_HOLDER_TOP10PCT = 'holder_top10pct'
+ES_HOLDERS_PCT_HOLDER_PCTBYINST = 'holder_pctbyinst'
+ES_HOLDERS_HOLDER_TOP10BYINST = 'holder_top10byinst'
 INFLUENCE_DATE="date"
 INFLUENCE_ID="id"
 INFLUENCE_FREQUENCY="frequency"
@@ -159,6 +169,29 @@ GONGSHANG_PERSON = "person"
 GONGSHANG_KIND = "kind"
 GONGSHANG_INDUSTRY = "industry"
 GONGSHANG_PLATE = "plate"
+NETPROFIT_STOCK_ID = "stock_id"
+NETPROFIT_STOCK_NAME = "stock_name"
+NETPROFIT_DATE = 'date'
+NETPROFIT_NETPROFIT = 'netprofit'
+JIEJIN_DATE = 'jiejin_date'
+JIEJIN_STOCK_ID = 'stock_id'
+ANNOUNCEMENT_INVESTMENT = 'Investment_announcement'
+ANNOUNCEMENT_PLEDGE = 'Pledge_announcement'
+ANNOUNCEMENT_REDUCING = 'Reducing_announcement'
+ANNOUNCEMENT_PROFIT = 'Profit_announcement'
+#ANNOUNCEMENT_
+TRANSACTION_STAT_FREQUENCY = 'frequency'
+BLACK_LIST_STOCK_ID = 'stock_id'
+BLACK_LIST_REASON = 'reason'
+BLACK_LIST_START_TS = 'start_ts'
+BLACK_LIST_END_TS = 'end_ts'
+BLACK_LIST_INDUSTRY_CODE = 'industry_code'
+STOCK_LIST_LISTED = 'listed'
+STOCK_LIST_MIDDLE_INDUSTRY_CODE = 'middle_industry_code'
+STOCK_LIST_STOCK_ID = 'stock_id'
+STOCK_LIST_STOCK_NAME = 'stock_name'
+STOCK_LIST_INDUSTRY_NAME = 'industry_name'
+STOCK_LIST_INDUSTRY_CODE = 'industry_code'
 
 # 多通道溯源
 TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1'}

@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+#导入每日股价
 import tushare as ts
 import sys
 reload(sys)
@@ -67,7 +68,7 @@ def create(start_date,end_date):
                     print e
         except:
             pass
-
+'''净利润改为季度数据，故删除以下部分
 def get_profit(trade_list,year,q):
     conn = default_db()
     cur = conn.cursor()
@@ -248,7 +249,7 @@ def update_price(industry_dict_big):   #暂时无用
             except Exception, e:
                 print e
         num += 1
-
+'''
 
 if __name__=="__main__":
     industry_dict_big = {u'农、林、牧、渔业':u'A',u'采矿业':u'B',u'制造业':u'C',u'电力、热力、燃气及水生产和供应业':u'D',
