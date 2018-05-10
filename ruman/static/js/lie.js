@@ -1,254 +1,551 @@
-// 语义分析
-// 观点聚类
-var ViewpointData = [
-    {num:1,a:'正面',Percentage:'30%',title_1:'独狼行动',title_2:'资本有方',title_3:'张百忍',con_1:'计划经济正式回归',con_2:'水泥先行！冀东先行',con_3:'不错，跟上形势'},
-    {num:2,a:'负面',Percentage:'60%',title_1:'悟空说他很傻',title_2:'谁吾与从001',title_3:'ICE__XU',con_1:'搞来搞去还是只有搞地产',con_2:'抵制万科，不买它的任何产品',con_3:'野鸡新闻'},
-    {num:3,a:'正面',Percentage:'30%',title_1:'独狼行动',title_2:'资本有方',title_3:'张百忍',con_1:'计划经济正式回归',con_2:'水泥先行！冀东先行',con_3:'不错，跟上形势'},
-    {num:4,a:'负面',Percentage:'60%',title_1:'独狼行动',title_2:'资本有方',title_3:'张百忍',con_1:'计划经济正式回归',con_2:'水泥先行！冀东先行',con_3:'不错，跟上形势'}
-];
-function Viewpoint(data){
-    $('#Viewpoint-clustering').bootstrapTable('load', data);
-    $('#Viewpoint-clustering').bootstrapTable({
-        data:data,
-        search: false,//是否搜索
-        pagination: true,//是否分页
-        pageSize: 5,//单页记录数
-        pageList: [15,20,25],//分页步进值
-        sidePagination: "client",//服务端分页
-        searchAlign: "left",
-        searchOnEnterKey: false,//回车搜索
-        showRefresh: false,//刷新按钮
-        showColumns: false,//列选择按钮
-        buttonsAlign: "right",//按钮对齐方式
-        locale: "zh-CN",//中文支持
-        detailView: false,
-        showToggle:false,
-        sortName:'bci',
-        sortOrder:"desc",
-        columns: [
-            {
-                title: "",//标题
-                field: "",//键名
-                sortable: true,//是否可排序
-                order: "desc",//默认排序方式
-                align: "center",//水平
-                valign: "middle",//垂直
-                formatter: function (value, row, index) {
-                    return '<div class="inforContent">'+
-                        '<div class="main">'+
-                        '<p class="option">'+
-                        '<span>观点<b>'+row.num+'</b></span>'+
-                        '<span style="margin:0 10px;"><b>'+row.a+'</b></span>'+
-                        '<span><b>'+row.Percentage+'</b></span>'+
-                        '<span class="moreInfo">查看更多</span>'+
-                        '</p>'+
-                        '<div class="context">'+
-                        '<p style="margin:10px 0;"><span style="font-weight: 700;color:#1f4e79;"><img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;margin-right:5px;">'+row.title_1+':</span><span>'+row.con_1+'</span></p>'+
-                        '<p style="margin:10px 0;"><span style="font-weight: 700;color:#1f4e79;"><img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;margin-right:5px;">'+row.title_2+':</span><span>'+row.con_2+'</span></p>'+
-                        '<p style="margin:10px 0;"><span style="font-weight: 700;color:#1f4e79;"><img src="../static/images/textIcon.png" class="textFlag" style="top: 8px;margin-right:5px;">'+row.title_3+':</span><span>'+row.con_3+'</span></p>'+
-                        '</div>'+
-                        '</div>';
+
+// 演化分析
+    function get7DaysBefore(date,m){
+        var date = date || new Date(),
+            timestamp, newDate;
+        if(!(date instanceof Date)){
+            date = new Date(date);
+        }
+        timestamp = date.getTime();
+        newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+        return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
+    };
+    var day30=[];
+    for (var a=0;a < 30;a++){
+        day30.push(get7DaysBefore(new Date(),a));
+    }
+    var day30Data1=[];
+    for (var b=0;b<30;b++){
+        day30Data1.push(Math.round(Math.random()*(20-5)+5));
+    }
+    var day30Data2=[];
+    for (var c=0;c<30;c++){
+        day30Data2.push(Math.round(Math.random()*(20-3)));
+    }
+    var option,tit;
+    function _option(ytit,dd) {
+        option = {
+            backgroundColor:'transparent',
+            title: {
+                text: tit,
+                x:'center',
+                textStyle:{
+                    // color:'#fff'
                 }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    lineStyle: {
+                        // color: '#30c7ff'
+                    }
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '0%',
+                top:'6%',
+                containLabel: true
+            },
+            xAxis: [{
+                name:'时间',
+                type: 'category',
+                boundaryGap: false,
+                axisLine: {
+                    lineStyle: {
+                        // color: '#fff'
+                    }
+                },
+                axisLabel: {
+                    textStyle: {
+                        // color: '#fff',
+                    }
+                },
+                data: day30.reverse(),
+            }],
+            yAxis: {
+                name:ytit,
+                type: 'value',
+                axisLine: {
+                    lineStyle: {
+                        // color: '#fff'
+                    }
+                },
+                nameTextStyle:{
+                    // color:'#fff'
+                },
+                splitLine:{
+                    show:false
+                }
+            },
+            series: [
+                {
+                    name: '',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1,
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            //     offset: 0,
+                            //     color: 'rgba(137, 189, 27, 0.8)'
+                            // }, {
+                            //     offset: 1,
+                            //     color: 'rgba(137, 189, 27, 0.2)'
+                            // }], false),
+                            // shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            // shadowBlur: 10
+                        }
+                    },
+                    // itemStyle: {
+                    //     normal: {
+                    //         color: 'rgb(137,189,27)',
+                    //         borderColor: 'rgba(137,189,2,0.27)',
+                    //         borderWidth: 12
+                    //     }
+                    // },
+                    data: dd,
+                }
+            ]
+        };
+    };
+    function line_1() {
+        tit='热度演化曲线图';
+        var myChart = echarts.init(document.getElementById('evolution-chat-1'));
+        myChart.showLoading();
+
+        _option('热度',day30Data1);
+
+        myChart.hideLoading();
+        myChart.setOption(option);
+    }
+    line_1();
+
+    function line_2() {
+        tit='情绪演化曲线图';
+        var myChart = echarts.init(document.getElementById('evolution-chat-2'));
+        myChart.showLoading();
+
+        _option('情绪',day30Data2);
+
+        myChart.hideLoading();
+        myChart.setOption(option);
+    }
+    line_2();
+
+
+// 语义分析
+    // 观点聚类
+        var ViewpointData = [
+            {num:1,a:'正面',Percentage:'30%',title_1:'独狼行动',title_2:'资本有方',title_3:'张百忍',con_1:'计划经济正式回归',con_2:'水泥先行！冀东先行',con_3:'不错，跟上形势'},
+            {num:2,a:'负面',Percentage:'60%',title_1:'悟空说他很傻',title_2:'谁吾与从001',title_3:'ICE__XU',con_1:'搞来搞去还是只有搞地产',con_2:'抵制万科，不买它的任何产品',con_3:'野鸡新闻'},
+            {num:3,a:'正面',Percentage:'30%',title_1:'独狼行动',title_2:'资本有方',title_3:'张百忍',con_1:'计划经济正式回归',con_2:'水泥先行！冀东先行',con_3:'不错，跟上形势'},
+            {num:4,a:'负面',Percentage:'60%',title_1:'独狼行动',title_2:'资本有方',title_3:'张百忍',con_1:'计划经济正式回归',con_2:'水泥先行！冀东先行',con_3:'不错，跟上形势'}
+        ];
+        function Viewpoint(data){
+            $('#Viewpoint-clustering').bootstrapTable('load', data);
+            $('#Viewpoint-clustering').bootstrapTable({
+                data:data,
+                search: false,//是否搜索
+                pagination: true,//是否分页
+                pageSize: 5,//单页记录数
+                pageList: [15,20,25],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "",//标题
+                        field: "",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            return '<div class="inforContent">'+
+                                '<div class="main">'+
+                                '<p class="option">'+
+                                '<span>观点<b>'+row.num+'</b></span>'+
+                                '<span style="margin:0 10px;"><b>'+row.a+'</b></span>'+
+                                '<span><b>'+row.Percentage+'</b></span>'+
+                                '<span class="moreInfo">查看更多</span>'+
+                                '</p>'+
+                                '<div class="context">'+
+                                '<p style="margin:10px 0;"><span style="font-weight: 700;color:#1f4e79;"><img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;margin-right:5px;">'+row.title_1+':</span><span>'+row.con_1+'</span></p>'+
+                                '<p style="margin:10px 0;"><span style="font-weight: 700;color:#1f4e79;"><img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;margin-right:5px;">'+row.title_2+':</span><span>'+row.con_2+'</span></p>'+
+                                '<p style="margin:10px 0;"><span style="font-weight: 700;color:#1f4e79;"><img src="/static/images/textIcon.png" class="textFlag" style="top: 8px;margin-right:5px;">'+row.title_3+':</span><span>'+row.con_3+'</span></p>'+
+                                '</div>'+
+                                '</div>';
+                        }
+                    }
+                ],
+            });
+        }
+        // Viewpoint(ViewpointData);
+
+    // 字符云
+        // function createRandomItemStyle() {
+        //     return {
+        //         normal: {
+        //             color: 'rgb(' + [
+        //                 Math.round(Math.random() * 160),
+        //                 Math.round(Math.random() * 160),
+        //                 Math.round(Math.random() * 160)
+        //             ].join(',') + ')'
+        //         }
+        //     };
+        // }
+
+        // var createRandomItemStyle1 = function (params) {　　　　//此方法与下方配置中的第一个textStle下的color等同
+        //     var colors = ['#fda67e', '#81cacc', '#cca8ba', "#88cc81", "#82a0c5", '#fddb7e', '#735ba1', '#bda29a', '#6e7074', '#546570', '#c4ccd3'];
+        //     return colors[parseInt(Math.random() * 10)];
+        // }
+
+        require.config({
+            paths: {
+                echarts: '/static/js/echarts-2/build/dist',
             }
-        ],
-    });
-}
-Viewpoint(ViewpointData);
+        });
+        function keywords() {
+            require(
+                [
+                    'echarts',
+                    'echarts/chart/wordCloud'
+                ],
+                //关键词
+                function (ec) {
+                    // 基于准备好的dom，初始化echarts图表
+                    var myChart = ec.init(document.getElementById('word-1'),'chalk');
+                    var option = {
+                        title: {
+                            text: '',
+                        },
+                        tooltip: {
+                            show: true,
+                        },
+                        series: [{
+                            type: 'wordCloud',
+                            size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
+                            textRotation : [0, 45, 90, -45],
+                            textPadding: 0,
+                            autoSize: {
+                                // enable: true,
+                                // minSize: 18
+                            },
+                            data: [
+                                {
+                                    name: "我要金蛋",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "屹农金服",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "理财去",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "联投银帮",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "弘信宝",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "网惠金融",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "晶行财富",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "孺牛金服",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "摩根浦捷贷",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "知屋理财",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "沪臣地方金融",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "升隆财富",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "冰融贷",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "靠谱鸟",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "速溶360",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "存米网",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                                {
+                                    name: "太保金服",
+                                    value: 999,
+                                    itemStyle: createRandomItemStyle()
+                                },
+                            ]
+                        }]
+                    };
+                    myChart.setOption(option);
+                }
+            );
+        }
+        keywords();
+
+    // 主题时间轴
+
 
 // 传播分析
-function spread_pie_1(){
-    var myChart = echarts.init(document.getElementById('spread-pie-1'));
-    var option = {
-        title : {
-            text: '参与传播的媒体粉丝数分布',
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            orient: 'vertical',
-            left: 'right',
-            data: ['5万以下','5万-10万','10万-20万','20万-50万','50万-100万','100万以上']
-        },
-        series : [
-            {
-                name: '媒体粉丝数分布',
-                type: 'pie',
-                radius : '55%',
-                center: ['50%', '50%'],
-                data:[
-                    {value:335, name:'5万以下'},
-                    {value:310, name:'5万-10万'},
-                    {value:234, name:'10万-20万'},
-                    {value:135, name:'20万-50万'},
-                    {value:1350, name:'50万-100万'},
-                    {value:1548, name:'100万以上'},
-                ],
-                label: {
-                    normal:{
-                        show: true,
-                        // position:'inner',
-                        formatter: "{d}%",
-                        textStyle: {
-                            fontWeight:'bolder',
-                            // fontSize : '12',
-                            // color:'#fff'
+    function spread_pie_1(){
+        var myChart = echarts.init(document.getElementById('spread-pie-1'));
+        var option = {
+            title : {
+                text: '参与传播的媒体粉丝数分布',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'right',
+                data: ['5万以下','5万-10万','10万-20万','20万-50万','50万-100万','100万以上']
+            },
+            series : [
+                {
+                    name: '媒体粉丝数分布',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    data:[
+                        {value:335, name:'5万以下'},
+                        {value:310, name:'5万-10万'},
+                        {value:234, name:'10万-20万'},
+                        {value:135, name:'20万-50万'},
+                        {value:1350, name:'50万-100万'},
+                        {value:1548, name:'100万以上'},
+                    ],
+                    label: {
+                        normal:{
+                            show: true,
+                            // position:'inner',
+                            formatter: "{d}%",
+                            textStyle: {
+                                fontWeight:'bolder',
+                                // fontSize : '12',
+                                // color:'#fff'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
                         }
                     }
-                },
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
                 }
-            }
-        ]
-    };
-    myChart.setOption(option)
-}
-spread_pie_1();
-function spread_pie_2(){
-    var myChart = echarts.init(document.getElementById('spread-pie-2'));
-    var option = {
-        title : {
-            text: '参与传播的个人粉丝数分布',
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            orient: 'vertical',
-            left: 'right',
-            data: ['5万以下','5万-10万','10万-20万','20万-50万','50万-100万','100万以上']
-        },
-        series : [
-            {
-                name: '个人粉丝数分布',
-                type: 'pie',
-                radius : '55%',
-                center: ['50%', '50%'],
-                data:[
-                    {value:335, name:'5万以下'},
-                    {value:310, name:'5万-10万'},
-                    {value:234, name:'10万-20万'},
-                    {value:135, name:'20万-50万'},
-                    {value:1350, name:'50万-100万'},
-                    {value:1548, name:'100万以上'}
-                ],
-                label: {
-                    normal:{
-                        show: true,
-                        // position:'inner',
-                        formatter: "{d}%",
-                        textStyle: {
-                            fontWeight:'bolder',
-                            // fontSize : '12',
-                            // color:'#fff'
+            ]
+        };
+        myChart.setOption(option)
+    }
+    // spread_pie_1();
+    function spread_pie_2(){
+        var myChart = echarts.init(document.getElementById('spread-pie-2'));
+        var option = {
+            title : {
+                text: '参与传播的个人粉丝数分布',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'right',
+                data: ['5万以下','5万-10万','10万-20万','20万-50万','50万-100万','100万以上']
+            },
+            series : [
+                {
+                    name: '个人粉丝数分布',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    data:[
+                        {value:335, name:'5万以下'},
+                        {value:310, name:'5万-10万'},
+                        {value:234, name:'10万-20万'},
+                        {value:135, name:'20万-50万'},
+                        {value:1350, name:'50万-100万'},
+                        {value:1548, name:'100万以上'}
+                    ],
+                    label: {
+                        normal:{
+                            show: true,
+                            // position:'inner',
+                            formatter: "{d}%",
+                            textStyle: {
+                                fontWeight:'bolder',
+                                // fontSize : '12',
+                                // color:'#fff'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
                         }
                     }
-                },
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            ]
+        };
+        myChart.setOption(option)
+    }
+    // spread_pie_2();
+
+
+
+
+    // 鱼骨图
+        var fish=[['','人民网','2017-11-11 11:11'],
+            ['','中国经济','2018-01-11 10:11'],
+            ['','京东金融','2018-01-11 10:11'],
+            ['','263财富网','2017-08-03 09:11'],
+            ['','网易财经','2017-08-03 09:11'],
+            ['','新浪财经','2016-12-11 13:33'],
+            ['','中证网','2018-11-11 11:11'],
+            ['','搜狐新闻','2018-11-11 11:11'],
+        ]
+        function spread_pie_3(data){
+            var finshdata = '';
+            $.each(data,function (index,item) {
+                if (index%2 == 0){
+                    finshdata+=
+                        '<div class="fish_item">'+
+                        '   <ul class="top">'+
+                        // '       <li class="weibo" title="'+item[0]+'" style="border-left: 1px solid rgb(248, 151, 130);">事件ID：'+item[0]+'</li>'+
+                        '       <li class="weibo" title="'+item[1]+'" style="height: 86px;white-space: normal;border-left: 1px solid rgb(248, 151, 130);">公司：'+item[1]+'</li>'+
+                        '       <li class="weibo" title="'+item[2]+'" style="border-left: 1px solid rgb(248, 151, 130);">时间：'+item[2]+'</li>'+
+                        '       <li class="line-last line-point" style="background-position: 0 0;"></li>'+
+                        '   </ul>'+
+                        '</div>';
+                }else {
+                    finshdata+=
+                        '<div class="fish_item" style="top: 1.22rem;">'+
+                        '   <ul class="bottom">'+
+                        // '       <li class="weibo" title="'+item[0]+'" style="border-left: 1px solid rgb(26, 132, 206);">事件ID：'+item[0]+'</li>'+
+                        '       <li class="weibo" title="'+item[1]+'" style="height:0.86rem;white-space: normal;border-left: 1px solid rgb(26, 132, 206);">公司：'+item[1]+'</li>'+
+                        '       <li class="weibo" title="'+item[2]+'" style="border-left: 1px solid rgb(26, 132, 206);">时间：'+item[2]+'</li>'+
+                        '       <li class="line-last line-point" style="background-position: 0 -20px;"></li>'+
+                        '   </ul>'+
+                        '</div>';
+                }
+            })
+            $(".fishBone .fish_box").append(finshdata);
+            var _p=0;
+            var fish_length=data.length;
+            // $('#container .fishBone .fish_box').width(fish_length*180);
+            $('#container .fishBone .fish_box').width(fish_length*320);
+            var fish_width=fish_length*180;
+            $('#container .fishBone .prev').on('click',function () {
+                _p+=180;
+                if (fish_length<=5){
+                    alert('没有其他卡片内容了。');
+                }else {
+                    var fishbone=$(".fishBone .fish_box");
+                    var step1=_p;
+                    if (step1 > 0 ){
+                        alert('没有其他内容了。');
+                        _p=0;
+                    }else {
+                        $(fishbone).css({
+                            "-webkit-transform":"translateX("+step1+"px)",
+                            "-moz-transform":"translateX("+step1+"px)",
+                            "-ms-transform":"translateX("+step1+"px)",
+                            "-o-transform":"translateX("+step1+"px)",
+                            "transform":"translateX("+step1+"px)",
+                        });
                     }
                 }
-            }
-        ]
-    };
-    myChart.setOption(option)
-}
-spread_pie_2();
-var fish=[['','人民网','2017-11-11 11:11'],
-    ['','中国经济','2018-01-11 10:11'],
-    ['','京东金融','2018-01-11 10:11'],
-    ['','263财富网','2017-08-03 09:11'],
-    ['','网易财经','2017-08-03 09:11'],
-    ['','新浪财经','2016-12-11 13:33'],
-    ['','中证网','2018-11-11 11:11'],
-    ['','搜狐新闻','2018-11-11 11:11'],
-]
-function spread_pie_3(data){
-    var finshdata = '';
-    $.each(data,function (index,item) {
-        if (index%2 == 0){
-            finshdata+=
-                '<div class="fish_item">'+
-                '   <ul class="top">'+
-                // '       <li class="weibo" title="'+item[0]+'" style="border-left: 1px solid rgb(248, 151, 130);">事件ID：'+item[0]+'</li>'+
-                '       <li class="weibo" title="'+item[1]+'" style="height: 86px;white-space: normal;border-left: 1px solid rgb(248, 151, 130);">公司：'+item[1]+'</li>'+
-                '       <li class="weibo" title="'+item[2]+'" style="border-left: 1px solid rgb(248, 151, 130);">时间：'+item[2]+'</li>'+
-                '       <li class="line-last line-point" style="background-position: 0 0;"></li>'+
-                '   </ul>'+
-                '</div>';
-        }else {
-            finshdata+=
-                '<div class="fish_item" style="top: 1.22rem;">'+
-                '   <ul class="bottom">'+
-                // '       <li class="weibo" title="'+item[0]+'" style="border-left: 1px solid rgb(26, 132, 206);">事件ID：'+item[0]+'</li>'+
-                '       <li class="weibo" title="'+item[1]+'" style="height:0.86rem;white-space: normal;border-left: 1px solid rgb(26, 132, 206);">公司：'+item[1]+'</li>'+
-                '       <li class="weibo" title="'+item[2]+'" style="border-left: 1px solid rgb(26, 132, 206);">时间：'+item[2]+'</li>'+
-                '       <li class="line-last line-point" style="background-position: 0 -20px;"></li>'+
-                '   </ul>'+
-                '</div>';
+            });
+            $('#container .fishBone .next').on('click',function () {
+                _p-=180;
+                if (fish_length<=5){
+                    alert('没有其他卡片内容了。');
+                }else {
+                    var step2=_p;
+                    var fishbone=$(".fishBone .fish_box");
+                    if (step2 <= (-fish_width+900)){
+                        alert('没有其他内容了');
+                        _p=-180;
+                    }else {
+                        $(fishbone).css({
+                            "-webkit-transform":"translateX("+step2+"px)",
+                            "-moz-transform":"translateX("+step2+"px)",
+                            "-ms-transform":"translateX("+step2+"px)",
+                            "-o-transform":"translateX("+step2+"px)",
+                            "transform":"translateX("+step2+"px)",
+                        });
+                    };
+                }
+            });
         }
-    })
-    $(".fishBone .fish_box").append(finshdata);
-    var _p=0;
-    var fish_length=data.length;
-    $('#container .fishBone .fish_box').width(fish_length*180);
-    var fish_width=fish_length*180;
-    $('#container .fishBone .prev').on('click',function () {
-        _p+=180;
-        if (fish_length<=5){
-            alert('没有其他卡片内容了。');
-        }else {
-            var fishbone=$(".fishBone .fish_box");
-            var step1=_p;
-            if (step1 > 0 ){
-                alert('没有其他内容了。');
-                _p=0;
-            }else {
-                $(fishbone).css({
-                    "-webkit-transform":"translateX("+step1+"px)",
-                    "-moz-transform":"translateX("+step1+"px)",
-                    "-ms-transform":"translateX("+step1+"px)",
-                    "-o-transform":"translateX("+step1+"px)",
-                    "transform":"translateX("+step1+"px)",
-                });
-            }
-        }
-    });
-    $('#container .fishBone .next').on('click',function () {
-        _p-=180;
-        if (fish_length<=5){
-            alert('没有其他卡片内容了。');
-        }else {
-            var step2=_p;
-            var fishbone=$(".fishBone .fish_box");
-            if (step2 <= (-fish_width+900)){
-                alert('没有其他内容了');
-                _p=-180;
-            }else {
-                $(fishbone).css({
-                    "-webkit-transform":"translateX("+step2+"px)",
-                    "-moz-transform":"translateX("+step2+"px)",
-                    "-ms-transform":"translateX("+step2+"px)",
-                    "-o-transform":"translateX("+step2+"px)",
-                    "transform":"translateX("+step2+"px)",
-                });
-            };
-        }
-    });
-}
-spread_pie_3(fish);
+        spread_pie_3(fish);
 
 // 影响分析
 // 波及人数

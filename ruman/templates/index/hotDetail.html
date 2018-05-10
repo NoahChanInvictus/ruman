@@ -1,0 +1,428 @@
+{% extends "publicNav.html" %}
+{% block title %}<title>热点详情</title>{% endblock %}
+
+{% block my_css %}
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/public_nav.css">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/jquery.eeyellow.Timeline.css" />
+
+    <link rel="stylesheet" href="/static/css/hot.css">
+    <style>
+        <!---->
+        /* #nav .nav_left h3 {color: #333!important;} */
+        #nav .nav_middle .main_li:nth-of-type(4) {
+            -webkit-transform: scale(1.3);
+            -moz-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+            -o-transform: scale(1.3);
+            transform: scale(1.3);
+        }
+        /*#nav .nav_middle .main_li:nth-of-type(4) a, #nav .nav_middle .main_li:nth-of-type(4) a i{*/
+            /*color: #08F!important;*/
+        /*}*/
+        .s1 {color: #08F!important;}
+        .s2 {color: #ff9645!important;}
+        #nav {background: #fff;box-shadow: 0 2px 5px rgba(41,46,51,0.15);color: #0e0e0e;}
+        #nav .nav_middle .main_li .li_a,#nav .nav_right span {color: #0e0e0e;}
+        #nav .nav_middle .main_li .line {background-color: #08F;}
+        #nav .nav_right span {border: 1px solid #787878;}
+        #nav .nav_middle, #nav .nav_right {display: block;}
+        #nav .nav_right span:hover {
+            background: #2ad1ff !important;
+            color: white!important;
+        }
+        <!---->
+        .riskValueTable .fixed-table-toolbar .search,.publicityTable .fixed-table-toolbar .search {
+            display: none;
+        }
+        .riskValueTable .bootstrap-table .table thead>tr>th,.publicityTable .bootstrap-table .table thead>tr>th{
+            width: 5%;
+        }
+
+        /* LLLLLL */
+        .evolution-chat {
+            height:4rem;
+            width:100%;
+        }
+
+        /* 传播分析 */
+        #container #spread-1 {
+            float: left;
+            height:4.2rem;
+        }
+        #container #spread-2 {
+            float: right;
+            height:4.2rem;
+        }
+        #container #spread .spreadRank {
+            margin-top: 0.2rem;
+            width: 100%;
+            border: 1px solid #333;
+        }
+        #container thead {
+            background: rgba(17, 164, 226, 0.51);
+        }
+        #container #spread .spreadRank tr {
+            border-bottom: 1px solid #333;
+        }
+        #spread .spreadRank th,
+        #spread .spreadRank td {
+            display: inline-block;
+            padding: 0.08rem;
+            color: #333;
+            font-size: 0.12rem;
+            text-align: center;
+            width: 32%;
+        }
+        #container #spread .spreadRank th,
+        #container #spread .spreadRank td {
+            display: inline-block;
+            padding: 0.08rem;
+            color: #333;
+            font-size: 0.12rem;
+            text-align: center;
+            width: 32%;
+        }
+        #container #spread .spreadRank thead th:nth-of-type(2),
+        #container #spread .spreadRank tr td:nth-of-type(2) {
+            border-left: 1px solid #333;
+            border-right: 1px solid #333;
+        }
+        #container #spread-2 .spreadRank tr td:nth-of-type(4),
+        #container #spread-2 .spreadRank thead th:nth-of-type(4){
+            border-left: 1px solid #333;
+        }
+        /* #spread-2 .spreadRank th,
+        #spread-2 .spreadRank td {
+            width: 20% !important;
+        } */
+        #container #spread-2 .spreadRank th,
+        #container #spread-2 .spreadRank td {
+            width: 24%;
+        }
+        #container #spread .spreadRank tr {
+            border-bottom: 1px solid #333;
+        }
+        #container #spread .spreadRank {
+            margin-top: 0.2rem;
+            width: 100%;
+            border: 1px solid #333;
+        }
+
+        /* 语义分析 */
+        #word-1 {
+            height:3rem;
+            width:80%;
+            margin:0 auto;
+        }
+
+
+        /* 发布者画像下方 相关微博 */
+        .center_rel {
+            position: relative;
+            padding: 10px 10px 10px 30px;
+            /* background: #06162d; */
+            background: #e7e5e5;
+            margin:16px 10px;
+        }
+        .center_rel .center_icon {
+            position: absolute;
+            top: 10px;
+            left: 5px;
+            width: 20px;
+            height: 20px;
+        }
+        .center_rel .center_1{
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        /* 影响力雷达图 */
+            .effect {
+                width: 100%;
+                height: 49%;
+                border: 1px solid #94999e;
+                float: left;
+
+                position:relative;
+            }
+            .social {
+                height:49%;
+                margin-top: 0;
+                position: relative;
+                top: 2%;
+            }
+            .effect h4 {
+                position: absolute;
+                width:100%;
+            }
+            .effect .radar-box{
+                width:49%;
+                height:100%;
+            }
+            /* 社交特征 */
+            .attentioncontent-1 {
+                width:25%;
+                float: left;
+                padding:10px;
+            }
+            .attentioncontent-1 span ,
+            .attentioncontent-2 span {
+                margin-top:10px;
+                margin-left: 0.1rem;
+                display:inline-block;
+            }
+            #container #mainContent #myTabs-gam  li a{
+                font-size:14px;
+                padding:5px 10px;
+            }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div id="container">
+        <div style="text-align: right;">
+            <span class="top-1 btn btn-primary">一键取证</span>
+        </div>
+        <div style="text-align: center;margin-bottom: 20px;">
+            <span id="title" style="font-size: 36px;">“<span id="title-1">万科建立新安小镇</span>”热点预警报告</span>
+        </div>
+        <!-- 基本信息 -->
+        <div id="card">
+            <div class="infor">
+                <p class="infor-1 inforLine">
+                    <span>标题：</span>&nbsp;<b class="type-1">万科建立新安小镇</b>
+                </p>
+                <p class="infor-2 inforLine">
+                    <span>发布时间：</span>&nbsp;<b class="type-2">2017-05-01  00:00</b>
+                </p>
+                <p class="infor-3 inforLine">
+                    <span>发布者：</span>&nbsp;<b class="type-3">所长别开枪是我</b>
+                </p>
+                <p class="infor-4 inforLine">
+                    <span>发布渠道：</span>&nbsp;<b class="type-4">股吧</b>
+                </p>
+                <p class="infor-5 inforLine">
+                    <span>是否辟谣：</span>&nbsp;<b class="type-5">是</b>
+                </p>
+                <p class="infor-6 inforLine">
+                    <span>预警理由：</span>&nbsp;<b class="type-6">热点捏造</b>
+                </p>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="tableContent">
+                <div id="tableContent"></div>
+            </div>
+            <div class="analysis">
+                <h3 style="display: inline-block;font-weight:700;"><i class="icon icon-random"></i>&nbsp;演化分析</h3>
+                <div class="lieOpt">
+                    <select id="five_select">
+                        <option value="知乎">知乎</option>
+                        <option value="贴吧">贴吧</option>
+                        <option value="论坛">论坛</option>
+                    </select>
+                </div>
+                <div id="analysis" style="width: 100%;height: 3rem;"></div>
+            </div>
+            <div class="spread">
+                <h3 style="display: inline-block;font-weight:700;"><i class="icon icon-asterisk"></i>&nbsp;传播分析</h3>
+                <div class="fishBone" id="spread-pie-3">
+                    <a class="prev"></a>
+                    <a class="next"></a>
+                    <div class="line"></div>
+                    <div class="fish_box"></div>
+                </div>
+            </div>
+
+            <div class="semantics clearfix">
+                <h3 style=";font-weight:700;"><i class="icon icon-comments-alt"></i>&nbsp;语义分析</h3>
+                <div class="semanticsbox" id="word-cloud" style="height:3rem;">
+                </div>
+                <!-- 时间轴 -->
+                <div class="semanticsbox" id="timebox">
+                    <div class="VivaTimeline">
+                        <dl>
+                            <dt>May 2016</dt>
+                            <dd class="pos-left clearfix">
+                                <div class="circ"></div>
+                                <div class="time">Feb 03</div>
+                                <div class="events">
+                                    <div class="events-header">Event Heading（点击标题收起）</div>
+                                    <div class="events-body">
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog01.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog02.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Morbi at nisi vitae mauris pretium egestas. Morbi placerat risus ligula, nec placerat urna porta vel. Nullam sollicitudin orci quis odio eleifend, ut facilisis orci lobortis. Vivamus sed lobortis odio. Nam volutpat, leo a ullamcorper luctus, sapien libero auctor est, sed semper massa turpis sed quam. Mauris posuere, libero in ultricies dignissim, lacus purus egestas urna, nec semper lorem tellus non eros. Nam at bibendum libero. Curabitur a ante et orci cursus tincidunt. Vivamus dictum, libero et rhoncus congue, nulla erat mollis dui, vitae cursus dui justo quis velit. In a tellus arcu. Nam at lobortis nisl. Donec consequat placerat eros, quis elementum mauris sodales a. Maecenas id feugiat velit. Phasellus dictum eleifend varius. Cras nec orci turpis. Aenean ut turpis nibh.
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog03.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Cras condimentum, metus ut vehicula euismod, odio massa pulvinar neque, id gravida neque est et sem. Proin consequat id nibh quis molestie. Quisque vehicula purus id purus elementum facilisis. Phasellus sodales nibh quis neque rhoncus aliquet. Nunc eget ipsum efficitur, pretium arcu et, gravida purus. Phasellus tempor lacus ac enim pulvinar elementum. Integer aliquet justo lacinia nunc tempus vulputate.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="events-footer">
+                                        123
+                                    </div>
+                                </div>
+                            </dd>
+                            <dt>Feb 2016</dt>
+                            <dd class="pos-right clearfix">
+                                <div class="circ"></div>
+                                <div class="time">Jan 21</div>
+                                <div class="events">
+                                    <div class="events-header">A Very Very Looooooooooooooooooooong Event Heading</div>
+                                    <div class="events-body">
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/cat01.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/cat02.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/cat03.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="events-footer">
+
+                                    </div>
+                                </div>
+                            </dd>
+                            <dd class="pos-left clearfix">
+                                <div class="circ"></div>
+                                <div class="time">Jan 07</div>
+                                <div class="events">
+                                    <div class="events-header">Event Heading</div>
+                                    <div class="events-body">
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/rabbit01.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </dd>
+                            <dt>Jan 2016</dt>
+                            <dt>Dec 2015</dt>
+                            <dt>Oct 2015</dt>
+                            <dt>Sep 2015</dt>
+                            <dt>Aug 2015</dt>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block my_js %}
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/publicNav.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap-table.min.js"></script>
+    <script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/static/echarts/echarts.min.js"></script>
+    <script src="/static/js/chalk.js"></script>
+    <script src="/static/js/echarts-2/build/dist/echarts.js"></script>
+
+    <script type="text/javascript" src="/static/js/jquery.eeyellow.Timeline.js"></script> <!-- 时间轴插件 -->
+
+
+    <script>
+        //===========================
+        $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+            $(this).siblings('.line').css({left:'0%'});
+            if ($(document).scrollTop()!=0){
+                $(this).css({color:'#ff9645'});
+                $(this).find('i').css({color:'#ff9645'});
+            }else {
+                $(this).css({color:'#08F'});
+                $(this).find('i').css({color:'#08F'});
+            }
+        }).on('mouseout',function () {
+            $(this).siblings('.line').css({left:'-100%'});
+            if ($(document).scrollTop()!=0){
+                $(this).css({color:'#fff'});
+                $(this).find('i').css({color:'#fff'});
+            }else {
+                $(this).css({color:'#000'});
+                $(this).find('i').css({color:'#000'});
+            }
+        });
+        $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+        $('#nav .nav_left h3').css({color:'#333'});
+        $('#nav .nav_middle .main_li .li_a').eq(3).addClass('s1');
+        $('#nav .nav_middle .main_li .li_a').eq(3).find('i').addClass('s1');
+        window.onscroll=function () {
+            $('#nav').css({backgroundColor:'#777'});
+            $('#nav .nav_left h3').css({color:'white'});
+            $('#nav .nav_left img').attr('src','/static/images/logo.png');
+            $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
+            $('#nav .nav_middle .main_li .li_a').css({color:'white'});
+            $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
+            $('#nav .nav_middle .main_li .li_a').eq(3).removeClass('s1').addClass('s2');
+            $('#nav .nav_middle .main_li .li_a').eq(3).find('i').removeClass('s1').addClass('s2');
+            $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
+            if ($(document).scrollTop()==0){
+                $('#nav').css({backgroundColor:'#fff'});
+                $('#nav .nav_left h3').css({color:'black'});
+                $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
+                $('#nav .nav_middle .main_li .li_a').css({color:'black'});
+                $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
+                $('#nav .nav_middle .main_li .li_a').eq(3).removeClass('s2').addClass('s1');
+                $('#nav .nav_middle .main_li .li_a').eq(3).find('i').removeClass('s2').addClass('s1');
+                $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+            }
+        };
+
+
+        $(document).ready(function () {
+
+            // 纵向时间轴
+            $('.VivaTimeline').vivaTimeline({
+                carousel: true,
+                carouselTime: 3000
+            });
+        });
+    </script>
+
+    <script src="/static/js/hot.js"></script>
+{% endblock %}

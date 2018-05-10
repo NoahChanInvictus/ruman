@@ -23,6 +23,8 @@ TABLE_JIEJIN = 'jiejin'
 TABLE_ANNOUNCEMENT = 'announcement'
 TABLE_TRANSACTION_STAT = 'transaction_stat'
 TABLE_BLACK_LIST = 'black_list'
+TABLE_PROPAGATE = 'all_source_propagate'
+TABLE_WORDCLOUD = 'wordcloud'
 
 #esdic
 DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
@@ -190,3 +192,8 @@ STOCK_LIST_STOCK_ID = 'stock_id'
 STOCK_LIST_STOCK_NAME = 'stock_name'
 STOCK_LIST_INDUSTRY_NAME = 'industry_name'
 STOCK_LIST_INDUSTRY_CODE = 'industry_code'
+
+# 多通道溯源
+TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1'}
+TOPIC_ABOUT_INDEX = 'topic_about'
+TOPIC_ABOUT_DOCTYPE = ['bbs','forum','webo','wechat','zhihu']
