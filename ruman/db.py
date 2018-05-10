@@ -15,19 +15,19 @@ from config import *
 from time_utils import *
 
 def defaultDatabase():
-	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=DEFAULT_DB,charset=CHARSET,cursorclass=pymysql.cursors.DictCursor)
+	conn = mysql.connect(host=SQL_HOST,user=SQL_USER,password=SQL_PASSWD,db=DEFAULT_DB,charset=SQL_CHARSET,cursorclass=pymysql.cursors.DictCursor)
 	conn.autocommit(True)
 	cur = conn.cursor()
 	return cur
 
 def testDatabase():
-	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=TEST_DB,charset=CHARSET,cursorclass=pymysql.cursors.DictCursor)
+	conn = mysql.connect(host=SQL_HOST,user=SQL_USER,password=SQL_PASSWD,db=TEST_DB,charset=SQL_CHARSET,cursorclass=pymysql.cursors.DictCursor)
 	conn.autocommit(True)
 	cur = conn.cursor()
 	return cur
 
 def defaultDatabaseConn():
-	conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=DEFAULT_DB,charset=CHARSET,cursorclass=pymysql.cursors.DictCursor)
+	conn = mysql.connect(host=SQL_HOST,user=SQL_USER,password=SQL_PASSWD,db=DEFAULT_DB,charset=SQL_CHARSET,cursorclass=pymysql.cursors.DictCursor)
 	conn.autocommit(True)
 	return conn
 
@@ -450,13 +450,13 @@ def manipulateSeasonbox(id):   #获得季度下拉框
 	conn = defaultDatabaseConn()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
-	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_HOLDERS_SHOW,HOLDERS_SHOW_STOCK_ID,stock_id)
+	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_HOLDERS_SHOW,ES_HOLDERS_SHOW_STOCK_ID,stock_id)
 	df = pd.read_sql(sql,conn)
-	datelist = sorted(list(set(df[HOLDERS_SHOW_DATE])))   #获取数据库存在数据的季度
+	datelist = sorted(list(set(df[ES_HOLDERS_SHOW_DATE])))   #获取数据库存在数据的季度
 	datelistcopy = datelist[:]
 	for date in datelistcopy:   #若该季度数据前两大股东为None则不显示
-		a = df[(df[HOLDERS_SHOW_STOCK_ID] == stock_id) & (df[HOLDERS_SHOW_DATE] == date)]
-		if a.iloc[0][HOLDERS_SHOW_HOLDER_NAME] == u'None' and a.iloc[1][HOLDERS_SHOW_HOLDER_NAME] == u'None':
+		a = df[(df[ES_HOLDERS_SHOW_STOCK_ID] == stock_id) & (df[ES_HOLDERS_SHOW_DATE] == date)]
+		if a.iloc[0][ES_HOLDERS_SHOW_HOLDER_NAME] == u'None' and a.iloc[1][ES_HOLDERS_SHOW_HOLDER_NAME] == u'None':
 			datelist.remove(date)
 	result = []
 	if len(datelist):   #如果里面有的话返回对应的标签
@@ -489,16 +489,16 @@ def manipulateTop10holders(id,seasonid):   #对应季度搜索展示股东数据
 	if seasonid == 'Nodata':
 		result ={}
 	else:
-		sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_SHOW,HOLDERS_SHOW_STOCK_ID,stock_id,HOLDERS_SHOW_DATE,seasonid)
+		sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_SHOW,ES_HOLDERS_SHOW_STOCK_ID,stock_id,ES_HOLDERS_SHOW_DATE,seasonid)
 		cur.execute(sql)
 		results = cur.fetchall()
 		result = []
 		for thing in results:
-			thing.pop(HOLDERS_SHOW_STOCK_ID)
-			thing.pop(HOLDERS_SHOW_DATE)
-			thing.pop(HOLDERS_SHOW_ID)
+			thing.pop(ES_HOLDERS_SHOW_STOCK_ID)
+			thing.pop(ES_HOLDERS_SHOW_DATE)
+			thing.pop(ES_HOLDERS_SHOW_ID)
 			result.append(thing)
-		result = sorted(result, key= lambda x:(x[HOLDERS_SHOW_RANKING]))
+		result = sorted(result, key= lambda x:(x[ES_HOLDERS_SHOW_RANKING]))
 	return result
 '''
 def manipulateLargetrans(id):   #展示大宗交易记录
@@ -539,12 +539,12 @@ def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比�
 	day2 = int(end_date.split('-')[2])
 	datelist = get_season(year1,month1,day1,year2,month2,day2)
 	date = datelist[-1]
-	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_PCT,HOLDERS_PCT_STOCK_ID,stock_id,HOLDERS_PCT_DATE,date)
+	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_STOCK_ID,stock_id,ES_HOLDERS_PCT_DATE,date)
 	cur.execute(sql)
 	results = cur.fetchone()
 	if results is not None:
-		result = {'holder_top10pct':results[HOLDERS_PCT_HOLDER_TOP10PCT],'holder_nottop10pct':100 - results[HOLDERS_PCT_HOLDER_TOP10PCT],
-					'holder_pctbyinst':results[HOLDERS_PCT_HOLDER_PCTBYINST],'holder_notpctbyinst':100 - results[HOLDERS_PCT_HOLDER_PCTBYINST]}
+		result = {'holder_top10pct':results[ES_HOLDERS_PCT_HOLDER_TOP10PCT],'holder_nottop10pct':100 - results[ES_HOLDERS_PCT_HOLDER_TOP10PCT],
+					'holder_pctbyinst':results[ES_HOLDERS_PCT_HOLDER_PCTBYINST],'holder_notpctbyinst':100 - results[ES_HOLDERS_PCT_HOLDER_PCTBYINST]}
 	else:
 		result = {}
 	return result
