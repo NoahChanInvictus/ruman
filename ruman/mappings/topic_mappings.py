@@ -65,7 +65,8 @@ def topic_mapping():
                     # 以下是新增字段
                     "originnal_id":{"type":"string", "index":"not_analyzed"},
                     "source":{"type":"string", "index":"not_analyzed"},
-                    "topic":{"type":"string", "index":"not_analyzed"},
+                    # "topic":{"type":"string", "index":"not_analyzed"},
+                    "news_id":{"type":"long"}
 
                 }
             },
@@ -87,7 +88,8 @@ def topic_mapping():
                     # 以下是新增字段
                     "originnal_id":{"type":"string", "index":"not_analyzed"},
                     "source":{"type":"string", "index":"not_analyzed"},
-                    "topic":{"type":"string", "index":"not_analyzed"},
+                    # "topic":{"type":"string", "index":"not_analyzed"},
+                    "news_id":{"type":"long"}
 
                 }
             },
@@ -110,7 +112,9 @@ def topic_mapping():
                     # 以下是新增字段
                     "originnal_id":{"type":"string", "index":"not_analyzed"},
                     "source":{"type":"string", "index":"not_analyzed"},
-                    "topic":{"type":"string", "index":"not_analyzed"},
+                    # "topic":{"type":"string", "index":"not_analyzed"},
+                    "news_id":{"type":"long"}
+
                 }
             },
             "zhihu":{
@@ -130,7 +134,8 @@ def topic_mapping():
                     # 以下是新增字段
                     "originnal_id":{"type":"string", "index":"not_analyzed"},
                     "source":{"type":"string", "index":"not_analyzed"},
-                    "topic":{"type":"string", "index":"not_analyzed"},
+                    # "topic":{"type":"string", "index":"not_analyzed"},
+                    "news_id":{"type":"long"}
                 }
             },
             "webo":{
@@ -155,7 +160,8 @@ def topic_mapping():
                     # 以下是新增字段
                     "originnal_id":{"type":"string", "index":"not_analyzed"},
                     "source":{"type":"string", "index":"not_analyzed"},
-                    "topic":{"type":"string", "index":"not_analyzed"},
+                    # "topic":{"type":"string", "index":"not_analyzed"},
+                    "news_id":{"type":"long"}
 
                 }
             },

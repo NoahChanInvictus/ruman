@@ -8,7 +8,7 @@ from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
 from elasticsearch.helpers import bulk
 
-def match_topic_kw(keywords_list,source,doc_type,size=10000):
+def match_topic_kw(news_id,keywords_list,source,doc_type,size=10000):
     result = []
     keyword_str = ''.join(keywords_list)
     # 通过一组关键词查找相关文本
@@ -29,6 +29,7 @@ def match_topic_kw(keywords_list,source,doc_type,size=10000):
         new_item['source'] = source
         new_item['original_id'] = item['_id']
         new_item['topic'] = keyword_str
+        new_item['news_id'] = news_id
         result.append(new_item)
     return result
 
@@ -53,9 +54,9 @@ def save_topic_es(data,index,doc_type):
     if ACTIONS != []:
         success, _ = bulk(es, ACTIONS, raise_on_error=True, request_timeout=400)
         ACTIONS = []
-def all_source_match(keywords_list):
+def all_source_match(news_id,keywords_list):
     for source,doc_type in TYPE1_DICT.iteritems():
-        result = match_topic_kw(keywords_list,source,doc_type)
+        result = match_topic_kw(news_id,keywords_list,source,doc_type)
         save_topic_es(result,index=TOPIC_ABOUT_INDEX,doc_type=source)
 if __name__ == '__main__':
     # main()
