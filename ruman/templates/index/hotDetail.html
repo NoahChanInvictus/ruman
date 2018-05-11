@@ -57,20 +57,20 @@
         <!-- 基本信息 -->
         <div id="card">
             <div class="infor">
-                <p class="infor-1 inforLine">
-                    <span>标题：</span>&nbsp;<b class="type-1">万科建立新安小镇</b>
+                <p class="infor-1 inforLine" style="min-width:65%;">
+                    <span>标题：</span>&nbsp;<b class="type-1" style="max-width:85%;">加载中...</b>
                 </p>
                 <p class="infor-4 inforLine">
-                    <span>发布网站：</span>&nbsp;<b class="type-4">股吧</b>
+                    <span>发布网站：</span>&nbsp;<b class="type-4">加载中...</b>
                 </p>
                 <p class="infor-2 inforLine">
-                    <span>发布时间：</span>&nbsp;<b class="type-2">2017-05-01  00:00</b>
+                    <span>发布时间：</span>&nbsp;<b class="type-2">加载中... </b>
                 </p>
                 <p class="infor-3 inforLine">
-                    <span>关键词：</span>&nbsp;<b class="type-3">所长别开枪是我</b>
+                    <span>关键词：</span>&nbsp;<b class="type-3">加载中...</b>
                 </p>
                 <p class="infor-5 inforLine">
-                    <span>新闻链接：</span>&nbsp;<b class="type-5">是</b>
+                    <span>新闻链接：</span>&nbsp;<a class="type-5" target="_blank">加载中...</a>
                 </p>
                 <!-- <p class="infor-4 inforLine">
                     <span>发布渠道：</span>&nbsp;<b class="type-4">股吧</b>
@@ -83,10 +83,9 @@
                 </p> -->
             </div>
             <div class="hotContent">
+                <hr>
                 <h3>内容：</h3>
-                <p>
-                必读 智通全球财经日志|4月20日 2018年4月20日 00:02:02 智通财经APP预告，2018年4月20日，全球主要经济体将公布以下重要数据，具体情况如下： 04:30 美国至4月2日当周货币供给M2(亿美元) 预期： -- | 前值： 45 美国至4月16日当周外国央行持有美国国债(亿美元) 预期： -- | 前值： 109.73 美国至4月2日当周货币供给M1(亿美元) 预期： -- | 前值： -7607:30 日本3月核心CPI年率(%) 预期： 0.9 | 前值： 1 日本3月全国CPI年率(%) 预期： 1.1 | 前值： 1.512:30 日本2月第三产业活动指数月率(%) 预期： 0 | 前值： -0.614:00 德国3月PPI年率(%) 预期： 2 | 前值： 1.8 德国3月PPI月率(%) 预期： 0.2 | 前值： -0.116:00 台湾3月外销订单年率(%) 预期： 6.5 | 前值： -3.820:30 加拿大2月核心零售销售月率(%) 预期： 0.3 | 前值： 0.9 加拿大2月零售销售月率(%) 预期： 0.3 | 前值： 0.3 加拿大3月CPI年率(%) 预期： 2.4 | 前值： 2.2 加拿大3月CPI月率(%) 预期： 0.4 | 前值： 0.6 加拿大3月核心CPI年率(%) 预期： 1.5 | 前值： 1.5 加拿大3月核心CPI月率(%) 预期： -- | 前值： 0.722:00 欧元区4月消费者信心指数初值 预期： -0.2 | 前值： 0.122:30 美国至4月13日当周ECRI领先指标 预期： -- | 前值： 148.2 美国至4月13日当周ECRI领先指标年率(%) 预期： -- | 前值： 3.9 备注：更多全球财经日志，请登陆智通财经网或下载智通财经APP，进入【日志频道】查询 （更多最新最全港股资讯，请点击下载智通财经App） 收藏 微博 QQ 微信 相关阅读 智通全球财经日志|3月23日智通机器人 3月23日智通全球财经日志|3月22日智通机器人 3月22日智通全球财经日志|3月21日智通机器人 3月21日智通全球财经日志|3月20日智通机器人 3月20日 取消 评论",
-key_word: "前值 智通 预期 日志 月率</p>
+                <p id="hotContent">加载中...</p>
             </div>
         </div>
 
@@ -244,6 +243,8 @@ key_word: "前值 智通 预期 日志 月率</p>
 
 
     <script>
+    var id = {{id}};
+
         //===========================
         $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
             $(this).siblings('.line').css({left:'0%'});

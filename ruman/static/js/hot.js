@@ -1,4 +1,16 @@
 // 基本信息
+    var card_url = '/hotSpot/hotspotReport/basicMessage/?id='+id;
+    public_ajax.call_request('get',card_url,card);
+
+    function card(data){
+        $('#card .type-1').text(data.title);
+        $('#card .type-4').text(data.web);
+        $('#card .type-2').text(data.in_time);
+        $('#card .type-3').text(data.key_word);
+        $('#card .type-5').text(data.url).attr('title',data.url).attr('href',data.url);
+
+        $('#card .hotContent p').text(data.content)
+    }
 
 // ---------
     var obj=[{a:'经济',b:'2018-02-03',c:'231',d:'微博',e:'用CSS能非常容易的改变这些图标的颜色、大小、阴影以及任何CSS能控制的属性。'},

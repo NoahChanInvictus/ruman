@@ -162,7 +162,7 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        var str = '<a style="cursor:pointer;color:white; href="'+row.url+'" target="_blank"> <i class="icon icon-link"></i></a>';
+                        var str = '<a style="cursor:pointer;color:white;" title="'+row.url+'" href="'+row.url+'" target="_blank"> <i class="icon icon-link"></i></a>';
                         if (row.url==''||row.url=='null' || row.url==null ||row.url=='unknown'||!row.url){
                             return '未知';
                         }else {
@@ -209,7 +209,6 @@
 // 跳转详情页
     function jumpFrame_1(id) {
         var html = '';
-        stock=escape(stock);
         html='/index/hotDetail?id='+id;
         // window.location.href=html;
         window.open(html);

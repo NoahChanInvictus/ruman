@@ -18,8 +18,8 @@
 }
 #container .infor .inforLine {
     display: inline-block;
-    max-width: 30%;
-    min-width: 30%;
+    max-width: 32%;
+    min-width: 32%;
     margin-right: 0.5%;
 }
 #container .infor .inforLine b {
@@ -37,12 +37,7 @@
     margin: 0.08rem 0;
     text-align: left;
 }
-#container .infor p span {
-    display: inline-block;
-    width: 0.7rem;
-    text-align: right;
-    text-align: left;
-}
+
 /**/
 #container #mainContent li a {
     font-size: 0.16rem;
@@ -73,11 +68,30 @@
 /**/
 /* lvlei1-11 */
 /* 基本信息 */
-#container .infor p span {
-    display: inline-block;
-    width: 30%;
-    text-align: right;
-}
+    #container .infor p span {
+        display: inline-block;
+        /* width: 30%; */
+        text-align: right;
+        text-align:left;
+    }
+    #container .infor p a.type-5 {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 1.8rem;
+        max-width: 2.56125672rem/* 360px */;
+        text-align: left;
+        position: relative;
+        top: 0.05rem;
+    }
+    /* 内容 */
+    #hotContent {
+        text-indent: 2em;
+    }
+    .hotContent hr{
+        border-top: 1px solid #0088ff;
+    }
 /* 语义分析 */
 /* 原帖内容 */
 .word-1-content{
@@ -778,3 +792,7 @@
             font-size:14px;
             padding:5px 10px;
         }
+
+    a:hover {
+        color: #0088ff;
+    }
