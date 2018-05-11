@@ -25,6 +25,7 @@ TABLE_TRANSACTION_STAT = 'transaction_stat'
 TABLE_BLACK_LIST = 'black_list'
 TABLE_PROPAGATE = 'all_source_propagate'
 TABLE_WORDCLOUD = 'wordcloud'
+TABLE_HOTNEWS = 'hot_news'
 
 #esdic
 DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
