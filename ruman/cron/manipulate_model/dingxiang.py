@@ -79,9 +79,11 @@ def get_es_frame_bendi_dingzeng(year1,month1,day1,year2,month2,day2):
             data_frame_e.loc[i][code] = len(dfcodee)
 
     data_frame_sta = pd.DataFrame(data=0,columns=data_frame_s.columns,index=data_frame_s.index)   #建立列数据框
+    data_frame_dz = pd.DataFrame(columns=['stock_id','start_date','end_date'])
+    num = 0
 
     for code in codelist:
-    	print code
+        print code
         codedfs = data_frame_s[code]
         codedfe = data_frame_e[code]
         stadf = data_frame_sta[code]
@@ -95,60 +97,73 @@ def get_es_frame_bendi_dingzeng(year1,month1,day1,year2,month2,day2):
                     codedfs_isstart = codedfs_date[codedfs_date > 0]   #选出其中存在的预案
                     if len(codedfs_isstart) == 1:   #如果预案只有1个
                         stadf_change = stadf[(stadf.index <= date) & (stadf.index >= codedfs_isstart.index[0])]   #直接令这期间的sta为1
+                        startdate = codedfs_isstart.index[0]
                         stadf.loc[stadf_change.index] = 1
+                        data_frame_dz.loc[num] = [code,startdate,date]
+                        num += 1
                     elif len(codedfs_isstart) > 1:   #如果预案大于1个
                         for i in range(-1,-len(codedfs_isstart) - 1,-1):   #向前遍历
                             if i == -len(codedfs_isstart):   #如果已经遍历到最后一个（前面的都相等）
                                 stadf_change = stadf[(stadf.index <= date) & (stadf.index >= codedfs_isstart.index[i])]   #直接将最后一个对应日期期间的sta标为1
+                                startdate = codedfs_isstart.index[0]
                                 stadf.loc[stadf_change.index] = 1
                                 break
                             if startdf[startdf['date'] == codedfs_isstart.index[i]].iloc[0]['title'] != startdf[startdf['date'] == codedfs_isstart.index[i - 1]].iloc[0]['title']:   #如果两个日期的预案不一样
                                 stadf_change = stadf[(stadf.index <= date) & (stadf.index >= codedfs_isstart.index[i])]   #将前面预案对应日期期间的sta标为1
+                                startdate = codedfs_isstart.index[0]
                                 stadf.loc[stadf_change.index] = 1
                                 break
+                        data_frame_dz.loc[num] = [code,startdate,date]
+                        num += 1
                 else:   #如果没有案例
                     codedfs_date = codedfs[codedfs.index <= date]   #选出之前所有日期
                     codedfs_isstart = codedfs_date[codedfs_date > 0]   #选出其中存在的预案
                     if len(codedfs_isstart) == 1:   #如果预案只有1个
                         stadf_change = stadf[(stadf.index <= date) & (stadf.index >= codedfs_isstart.index[0])]   #直接令这期间的sta为1
+                        startdate = codedfs_isstart.index[0]
                         stadf.loc[stadf_change.index] = 1
+                        data_frame_dz.loc[num] = [code,startdate,date]
+                        num += 1
                     elif len(codedfs_isstart) > 1:   #如果预案大于1个
                         for i in range(-1,-len(codedfs_isstart) - 1,-1):   #向前遍历
                             if i == -len(codedfs_isstart):   #如果已经遍历到最后一个（前面的都相等）
                                 stadf_change = stadf[(stadf.index <= date) & (stadf.index >= codedfs_isstart.index[i])]   #直接将最后一个对应日期期间的sta标为1
+                                startdate = codedfs_isstart.index[0]
                                 stadf.loc[stadf_change.index] = 1
                                 break
                             if startdf[startdf['date'] == codedfs_isstart.index[i]].iloc[0]['title'] != startdf[startdf['date'] == codedfs_isstart.index[i - 1]].iloc[0]['title']:   #如果两个日期的预案不一样
                                 stadf_change = stadf[(stadf.index <= date) & (stadf.index >= codedfs_isstart.index[i])]   #将前面预案对应日期期间的sta标为1
+                                startdate = codedfs_isstart.index[0]
                                 stadf.loc[stadf_change.index] = 1
                                 break
+                        data_frame_dz.loc[num] = [code,startdate,date]
+                        num += 1
         data_frame_sta[code] = list(stadf)
     data_frame_s.to_csv('data_frame_s.csv',encoding='utf_8_sig')
     data_frame_e.to_csv('data_frame_e.csv',encoding='utf_8_sig')
     data_frame_sta.to_csv('data_frame_sta.csv',encoding='utf_8_sig')
-    return data_frame_sta
+    data_frame_dz.to_csv('data_frame_dz.csv',encoding='utf_8_sig')
+    return data_frame_dz
 
-def calculate():
-	conn = default_db()
+def calculate(year1,month1,day1,year2,month2,day2):
+    conn = default_db()
     cur = conn.cursor()
-	data_frame_sta = get_es_frame_bendi_dingzeng(2012,1,1,2015,12,31)
-	df = pd.DataFrame(columns=['stock_id','start_date','end_date'])
-	for code in data_frame_sta.columns:
-		for date in data_frame_sta.index:
-			if data_frame_sta[code].loc[date] == 1:
-
-	for num in range(len(df)):
-		start_date = df.loc[i]['start_date']
-		end_date = df.loc[i]['end_date']
-		stock_id = df.loc[i]['stock_id']
-		datelist = list(data_frame_sta.index)
-		start_date_20 = datelist[datelist.index(start_date) - 20]
-		sql = "SELECT * FROM " + TABLE_MARKET_DAILY + " WHERE stock_id = %s'" % (stock_id)
-		pricedf = pd.read_sql(sql,conn)
-		pricelist1 = list(pricedf[(pricedf['date'] >= start_date_20) & (pricedf['date'] <= end_date)]['price_fu'])
-		pricelist2 = list(pricedf[(pricedf['date'] >= start_date) & (pricedf['date'] <= end_date)]['price_fu'])
-		
+    #df = get_es_frame_bendi_dingzeng(year1,month1,day1,year2,month2,day2)
+    df = pd.DataFrame(data=['000001','2013-09-09','2013-12-16'],columns=['stock_id','start_date','end_date'])
+    datelist = get_tradelist(year1 - 1,month1,day1,year2,month2,day2)
+    for num in range(len(df)):
+        start_date = df.loc[i]['start_date']
+        end_date = df.loc[i]['end_date']
+        stock_id = df.loc[i]['stock_id']
+        start_date_20 = datelist[datelist.index(start_date) - 20]
+        sql = "SELECT * FROM " + TABLE_MARKET_DAILY + " WHERE stock_id = %s'" % (stock_id)
+        pricedf = pd.read_sql(sql,conn)
+        pricelist1 = list(pricedf[(pricedf['date'] >= start_date_20) & (pricedf['date'] <= end_date)]['price_fu'])
+        pricelist2 = list(pricedf[(pricedf['date'] >= start_date) & (pricedf['date'] <= end_date)]['price_fu'])
+        print pricelist1,len(pricelist1)
+        print pricelist2,len(pricelist2)
 
 
 if __name__=="__main__":
-    get_es_frame_bendi_dingzeng(2012,1,1,2015,12,31)
+    #get_es_frame_bendi_dingzeng(2012,1,1,2015,12,31)
+    calculate(2012,1,1,2015,12,31)

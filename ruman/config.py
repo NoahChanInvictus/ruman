@@ -26,6 +26,8 @@ TABLE_BLACK_LIST = 'black_list'
 TABLE_PROPAGATE = 'all_source_propagate'
 TABLE_WORDCLOUD = 'wordcloud'
 
+TABLE_HOT_NEWS = 'hot_news'
+
 #esdic
 DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
 DIC_LARGE_TRANS = {'index':'east_money','type':'type1'}
@@ -45,6 +47,7 @@ TEST_DB = ""
 
 
 #index_name
+#操纵模块
 DAY_STOCK_ID = 'stock_id'
 DAY_STOCK_NAME = 'stock_name'
 DAY_START_DATE = 'start_date'
@@ -197,3 +200,18 @@ STOCK_LIST_INDUSTRY_CODE = 'industry_code'
 TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1'}
 TOPIC_ABOUT_INDEX = 'topic_about'
 TOPIC_ABOUT_DOCTYPE = ['bbs','forum','webo','wechat','zhihu']
+
+#热点新闻
+HOT_NEWS_WEB = 'web'
+HOT_NEWS_TITLE = 'title'
+HOT_NEWS_URL = 'url'
+HOT_NEWS_ABSTRACT = 'abstract'
+HOT_NEWS_AUTHOR = 'author'
+HOT_NEWS_COMMENTS = 'comments'
+HOT_NEWS_TEND = 'tend'
+HOT_NEWS_CONTENT = 'content'
+HOT_NEWS_IN_TIME = 'in_time'
+HOT_NEWS_TEXT_ID = 'text_id'
+HOT_NEWS_PANEL = 'panel'
+HOT_NEWS_KEY_WORD = 'key_word'
+HOT_NEWS_DATE = 'date'
