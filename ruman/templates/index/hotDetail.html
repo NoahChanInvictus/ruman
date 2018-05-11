@@ -51,20 +51,26 @@
         <div style="text-align: right;">
             <span class="top-1 btn btn-primary">一键取证</span>
         </div>
-        <!-- <div style="text-align: center;margin-bottom: 20px;">
-            <span id="title" style="font-size: 36px;">“<span id="title-1">万科建立新安小镇</span>”热点预警报告</span>
-        </div> -->
+        <div style="text-align: center;margin-bottom: 20px;">
+            <span id="title" style="font-size: 36px;">新闻热点预警报告</span>
+        </div>
         <!-- 基本信息 -->
         <div id="card">
             <div class="infor">
-                <p class="infor-1 inforLine">
-                    <span>标题：</span>&nbsp;<b class="type-1">万科建立新安小镇</b>
+                <p class="infor-1 inforLine" style="min-width:65%;">
+                    <span>标题：</span>&nbsp;<b class="type-1" style="max-width:85%;">加载中...</b>
+                </p>
+                <p class="infor-4 inforLine">
+                    <span>发布网站：</span>&nbsp;<b class="type-4">加载中...</b>
                 </p>
                 <p class="infor-2 inforLine">
-                    <span>发布时间：</span>&nbsp;<b class="type-2">2017-05-01  00:00</b>
+                    <span>发布时间：</span>&nbsp;<b class="type-2">加载中... </b>
                 </p>
                 <p class="infor-3 inforLine">
-                    <span>发布者：</span>&nbsp;<b class="type-3">所长别开枪是我</b>
+                    <span>关键词：</span>&nbsp;<b class="type-3">加载中...</b>
+                </p>
+                <p class="infor-5 inforLine">
+                    <span>新闻链接：</span>&nbsp;<a class="type-5" target="_blank">加载中...</a>
                 </p>
                 <!-- <p class="infor-4 inforLine">
                     <span>发布渠道：</span>&nbsp;<b class="type-4">股吧</b>
@@ -75,6 +81,11 @@
                 <p class="infor-6 inforLine">
                     <span>预警理由：</span>&nbsp;<b class="type-6">热点捏造</b>
                 </p> -->
+            </div>
+            <div class="hotContent">
+                <hr>
+                <h3>内容：</h3>
+                <p id="hotContent">加载中...</p>
             </div>
         </div>
 
@@ -232,6 +243,8 @@
 
 
     <script>
+    var id = {{id}};
+
         //===========================
         $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
             $(this).siblings('.line').css({left:'0%'});

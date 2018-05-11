@@ -21,9 +21,8 @@ def setDetail():
 
 @index.route('/hotDetail/')
 def hotDetail():
-    stock = request.args.get('stock','')
     id = request.args.get('id','')
-    return render_template('index/hotDetail.html',stock=stock,id=id)
+    return render_template('index/hotDetail.html',id=id)
 
 @index.route('/hotweiboDetail/')
 def hotweiboDetail():
