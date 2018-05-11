@@ -1,3 +1,4 @@
+// 操纵详情 页 js
 
 // 基本信息
     var gongshang_url = '/maniPulate/manipulateReport/gongshang/?id=' + id;
@@ -760,9 +761,10 @@
         }
 
 // 股权分析
-    var myChart_3 = echarts.init(document.getElementById('Stock_1'),'chalk');
+    // var myChart_3 = echarts.init(document.getElementById('Stock_1'),'chalk');
+    var myChart_3 = echarts.init(document.getElementById('Stock_1'));
     myChart_3.showLoading();
-    var myChart_4 = echarts.init(document.getElementById('Stock_2'),'chalk');
+    var myChart_4 = echarts.init(document.getElementById('Stock_2'));
     myChart_4.showLoading();
 
     var holderspct_url = '/maniPulate/manipulateReport/holderspct?id=' + id;

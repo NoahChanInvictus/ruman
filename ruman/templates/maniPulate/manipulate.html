@@ -1,13 +1,15 @@
 {% extends "publicNav.html" %}
 {% block title %}<title>操纵监测</title>{% endblock %}
 {% block my_css %}
-    <!-- <link rel="stylesheet" href="../static/css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="../static/css/bootstrap-table.min.css"> -->
-    <!-- <link rel="stylesheet" href="../static/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="../static/css/jquery.fullPage.css">
-    <!-- <link rel="stylesheet" href="../static/css/public_nav.css"> -->
-    <link rel="stylesheet" href="../static/css/modalANDtable.css">
-    <link rel="stylesheet" href="../static/css/manipulate.css">
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap-table.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/font-awesome.min.css"> -->
+
+    <link rel="stylesheet" href="/static/css/jquery.fullPage.css">
+
+    <!-- <link rel="stylesheet" href="/static/css/public_nav.css"> -->
+    <link rel="stylesheet" href="/static/css/modalANDtable.css">
+    <link rel="stylesheet" href="/static/css/manipulate.css">
     <style>
         #nav .nav_middle .main_li:nth-of-type(5) {
             -webkit-transform: scale(1.3);
@@ -318,15 +320,14 @@
 
 {% block my_js %}
 
-    <script src="../static/js/publicNav.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/bootstrap-table.min.js"></script>
-    <script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
-    <script src="../static/echarts/echarts.min.js"></script>
-    <script src="../static/js/chalk.js"></script>
-    <script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-    <script src="../static/js/jquery.fullPage.min.js"></script>
-    <script src="../static/js/manipulate.js"></script>
+    <!-- <script src="/static/js/publicNav.js"></script> -->
+    <!-- <script src="/static/js/bootstrap.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table-zh-CN.min.js"></script> -->
+    <!-- <script src="/static/echarts/echarts.min.js"></script> -->
+    <!-- <script src="/static/js/chalk.js"></script> -->
+    <!-- <script src="/static/js/echarts-2/build/dist/echarts.js"></script> -->
+    <script src="/static/js/jquery.fullPage.min.js"></script>
     <script>
         $('.fullpage').fullpage({
             'verticalCentered': false,
@@ -341,5 +342,5 @@
         });
         // $('.recordingTable').css({'fontSize':'auto'});
     </script>
-
+    <script src="/static/js/manipulate.js"></script>
 {% endblock %}

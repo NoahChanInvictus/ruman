@@ -222,3 +222,7 @@
 #container thead {
     background: rgba(17, 164, 226, 0.51);
 }
+/* 去掉表格下边框 */
+#container #recordingTable {
+    border:none;
+}

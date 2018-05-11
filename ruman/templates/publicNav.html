@@ -32,6 +32,23 @@
             setFontSize();
 
         }();
+        // rumor 谣言检测页面 js
+        // !function() {
+        //     var html = document.documentElement;
+        //     var setFontSize = function() {
+        //         var width = html.offsetWidth;
+        //         html.style.fontSize = width / 13.66+ 'px';
+        //     };
+        //     var timer;
+        //     var setDelay = function() {
+        //         return clearTimeout(timer), (timer = setTimeout(setFontSize, 150));
+        //     }
+        //     window.addEventListener('pageshow', function(evt) {
+        //         return evt.persisted && setDelay();
+        //     });
+        //     window.addEventListener('resize', setDelay);
+        //     setFontSize();
+        // }();
     </script>
     {% endblock %}
     <!-- head标签结束 -->
@@ -42,6 +59,8 @@
     <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="/static/css/modalANDtable.css"> -->
+
     <link rel="stylesheet" href="/static/css/public_nav.css">
     {% endblock %}
     <!-- css结束 -->
@@ -148,12 +167,15 @@
 <!-- JS文件 -->
 {% block js %}
 <script src="/static/js/jquery-3.2.1.min.js"></script>
+<script src="/static/js/publicNav.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/bootstrap-table.min.js"></script>
 <script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
 <script src="/static/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/static/js/moment.min.js"></script>
 <script src="/static/echarts/echarts.min.js"></script>
+<script src="/static/js/chalk.js"></script>
+<script src="/static/js/echarts-2/build/dist/echarts.js"></script>
 <script src="/static/echarts/china.js"></script>
 {% endblock %}
 
