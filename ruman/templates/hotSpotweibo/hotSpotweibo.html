@@ -1,0 +1,146 @@
+{% extends "publicNav.html" %}
+{% block title %}<title>微博热点</title>{% endblock %}
+{% block my_css %}
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap-table.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/font-awesome.min.css"> -->
+
+    <!-- <link rel="stylesheet" href="/static/css/jquery.fullPage.css"> -->
+
+    <!-- <link rel="stylesheet" href="/static/css/public_nav.css"> -->
+    <link rel="stylesheet" href="/static/css/modalANDtable.css">
+
+    <link rel="stylesheet" href="/static/css/hotSpotweibo.css">
+    <style>
+        #nav .nav_middle .main_li:nth-of-type(3) {
+            -webkit-transform: scale(1.3);
+            -moz-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+            -o-transform: scale(1.3);
+            transform: scale(1.3);
+        }
+        #nav .nav_middle .main_li:nth-of-type(3) a, #nav .nav_middle .main_li:nth-of-type(3) a i{
+            color: #ffbf1d !important;
+        }
+        /* #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
+        #fullPage-nav span, .fullPage-slidesNav span {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #fcf8e3;
+        }
+        #fullPage-nav li .active span, .fullPage-slidesNav .active span {
+            background: #dff0d8;
+        }
+        #fullPage-nav li, .fullPage-slidesNav li {margin: 12px 7px;} */
+        .recordingTable .fixed-table-toolbar,.recordingTable .fixed-table-pagination .page-list,
+        .placeRank .fixed-table-toolbar,.placeRank .fixed-table-pagination .page-list {
+            display: none;
+        }
+        /*#nav {background: rgba(60, 118, 130, 0.52)}*/
+        /* #nav {background: rgba(18, 146, 175, 0.52)} */
+        #nav {background: rgba(18, 146, 175, 0.93)}
+        #nav .nav_middle, #nav .nav_right {display: block;}
+        /*======*/
+    </style>
+{% endblock %}
+
+
+{% block main %}
+    <div id="container" class="fullpage">
+        <div class="section firstScreen" style="padding-top: 1rem; padding-bottom: .3rem;">
+            <!-- <div class="topTitle" style="margin: 0.1rem auto;">
+                <dl>
+                    <dd>本周预警数</dd>
+                    <dt class="com-1">22</dt>
+                </dl>
+                <dl>
+                    <dd>本月预警数</dd>
+                    <dt class="com-2">43</dt>
+                </dl>
+                <dl>
+                    <dd>本季度预警数</dd>
+                    <dt class="com-3">213</dt>
+                </dl>
+                <dl>
+                    <dd>本周波及人数</dd>
+                    <dt class="com-4">222</dt>
+                </dl>
+                <dl>
+                    <dd>本月波及人数</dd>
+                    <dt class="com-5">300</dt>
+                </dl>
+                <dl>
+                    <dd>本季度波及人数</dd>
+                    <dt class="com-6">732</dt>
+                </dl>
+            </div> -->
+            <div style="color: white;font-weight:700;font-size:0.24rem;position: relative;">
+                <h3 style="color: white;display: inline-block;"><i class="icon icon-eye-open"></i>&nbsp;微博热点</h3>
+                <div class="search">
+                    <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/>
+                    <!--<button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>-->
+                    <button type="button" class="btn btn-primary btn-sm">确定</button>
+                </div>
+            </div>
+            <div class="recordingTable" style="margin-top: 0.1rem;font-size: 0.14rem!important;">
+                <div id="recordingTable"></div>
+            </div>
+        </div>
+
+        <!-- <div class="section fiveScreen" style="padding-bottom: .3rem;">
+            <div class="liar">
+                <h3 style="color: white;display: inline-block;font-weight:700;"><i class="icon icon-user-md"></i>&nbsp;造谣/传谣者</h3>
+                <div class="lieOpt">
+                    <span class="ct-tit">呈现方式：</span>
+                    <select id="five_select">
+                        <option value="最近一周">最近一周</option>
+                        <option value="最近一个月">最近一个月</option>
+                        <option value="最近三个月">最近三个月</option>
+                        <option value="最近半年">最近半年</option>
+                        <option value="最近一年">最近一年</option>
+                    </select>
+                </div>
+            </div>
+            <div id="spread" style="overflow: hidden;margin-top:0.1rem;">
+                <div id="spread-1" style="width:48%;float: left;">
+                    <div id="spreadRank"></div>
+                </div>
+                <div id="propagation" style="width:48%;height: 4.5rem;float: right"></div>
+            </div>
+
+        </div> -->
+    </div>
+{% endblock %}
+
+{% block my_js %}
+    <!-- <script src="/static/js/publicNav.js"></script> -->
+    <!-- <script src="/static/js/bootstrap.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table-zh-CN.min.js"></script> -->
+    <!-- <script src="/static/echarts/echarts.min.js"></script> -->
+    <!-- <script src="/static/js/chalk.js"></script> -->
+    <!-- <script src="/static/js/echarts-2/build/dist/echarts.js"></script> -->
+
+    <!-- <script src="/static/js/jquery.fullPage.min.js"></script> -->
+
+
+    <script>
+        <!---->
+        // $('.fullpage').fullpage({
+        //     'verticalCentered': false,
+        //     'css3': true,
+        //     'anchors': ['page1', 'page2','page3','page4','page5','page6','page7','page8'],
+        //     'navigation': 'true',
+        //     'loopBottom':'true',
+        //     'navigationPosition': 'right',
+        //     'fixedElements':'#nav',
+        //     'navigationTooltips': ['疑似谣言预警','预警态势与波及范围','行业分布','发布者类型','十大造谣/传谣者','热点词','影响力与传播力']
+        // });
+
+        $(document).ready(function(){
+            $('#container').css('min-height',$(window).height());
+        })
+    </script>
+
+    <script src="/static/js/hotSpotweibo.js"></script>
+{% endblock %}

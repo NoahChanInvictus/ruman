@@ -14,6 +14,7 @@
 }
 #container .infor{
     text-align: center;
+    text-align:left;
 }
 #container .infor .inforLine {
     display: inline-block;
@@ -50,9 +51,17 @@
     /* padding: 0.1rem; */
     background:rgba(245, 243, 243, 0.71);
 }
-#container #mainContent #content ._table.active {
-    padding: 0.1rem;
+/* #container #mainContent #content ._table.active { */
+#container #mainContent #content ._table{
+    padding: 0 0.1rem;
+    /* padding-top: 0; */
+    /* margin-top: 0.1rem */
 }
+#container #mainContent #content ._table.active {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+}
+
 /**/
 #container #content .tit .tit-1 {
     display: inline-block;
@@ -268,7 +277,8 @@
 .background-information span{
     display: inline-block;
     width:100%;
-    padding:0.03rem 0.1rem 0;
+    /* padding:0.03rem 0.1rem 0; */
+    padding:0.13rem 0.1rem 0;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
@@ -431,7 +441,7 @@
     float:left;
     width:50%;
     height:95%;
-    /* border-right:1px solid #94999e; */
+    border-right:1px solid #94999e;
     padding:.03557301rem/* 5px */;
 }
 .spread .activity-sp{
@@ -510,135 +520,6 @@
     margin:0 auto;
 }
 /* lvlei1-11 */
-
-/* hotSpot.css的内容 */
-    .tableContent .bootstrap-table {
-        margin: 0 auto;
-        height: auto!important;
-    }
-    .tableContent .table-no-bordered,
-    .tableContent .table>tbody>tr>td,
-    .tableContent .fixed-table-container,
-    .tableContent .bootstrap-table .table>thead>tr>th,
-    .tableContent .bootstrap-table .table,
-    .tableContent .table>tbody>tr>td{
-        border: none;
-    }
-    #tableContent tbody,
-    #tableContent tbody tr,
-    #tableContent tbody tr td
-     {
-        display:block;
-        width: 100%;
-    }
-    /* 分页步进值 */
-    .fixed-table-pagination .page-list {
-        display: none!important;
-    }
-    .tableContent .fixed-table-body {
-        height: auto!important;
-        overflow-y: hidden;
-    }
-    .tableContent .bootstrap-table .table:not(.table-condensed),
-    .tableContent .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
-    .tableContent .table>tbody>tr>td{
-        padding: 0!important;
-    }
-    .tableContent .fixed-table-container thead th .th-inner {padding:0.0000000000001px;}
-    /*.fixed-table-container {top: 15px;}*/
-    .tableContent .table-hover>tbody>tr:hover {
-        background-color: inherit!important;
-    }
-    .tableContent .fixed-table-container thead th .both {background-image: none!important;}
-    #container .inforContent .main {
-        position: relative;
-        padding: 5px 5px 5px 30px;
-        /* background: rgb(9, 112, 132); */
-        background: rgba(88, 88, 88, 0.1);
-        margin: 8px auto 0;
-
-        /* color:#333; */
-    }
-    #container .inforContent .main .textFlag {
-        position: absolute;
-        top: 17px;
-        left:8px;
-    }
-    #container .inforContent .main .option span {
-        display: inline-block;
-        margin-right: 20px;
-    }
-    #container .inforContent .main .context {
-        margin-top:10px;
-    }
-    #container .lieOpt .ct-tit {
-        display: inline-block;
-        font-size: 0.16rem;
-        font-weight: 700;
-        color: white;
-    }
-    #container .lieOpt {
-        display: inline-block;
-        font-size: 0.14rem;
-        margin-left: 0.3rem;
-    }
-    #container #five_select {
-        display: inline-block;
-        padding: 0.02rem 0.07rem;
-        border: 0.01rem solid silver;
-        border-radius: 0.05rem;
-        font-size: 0.12rem;
-        background: #005b6d;
-        color: white;
-        margin-left: 0.3rem;
-    }
-    #container #five_select {
-        margin: 0;
-    }
-    #spread-pie-3 {
-        width:100%;
-        margin:0.1rem 0;
-        height: 4rem/* 400px */;
-        overflow: hidden;
-    }
-
-/* hotPot.html的样式 */
-    /* LLL */
-        #spread-pie-3 {
-            height:3rem;
-        }
-
-        .semantics {
-            min-height:3rem;
-        }
-        .semantics .semanticsbox {
-            width:50%;
-            height:100%;
-            float:left;
-        }
-
-/* 刚写的 */
-    .tableContent ,
-    .analysis,
-    .spread,
-    .semantics {
-        width: 100%;
-        padding: 20px;
-        /* margin: 2px auto 0; */
-        margin: 0.02rem auto 0;
-        overflow: hidden;
-        /* border: 2px solid #5f5c59; */
-        /* border-radius: 10px; */
-        background: rgba(245, 243, 243, 0.71);
-        padding-bottom: 0;
-    }
-    .tableContent #tableContent {
-        width:100%;
-    }
-/*  */
-    .tableContent .search {
-        width:100%;
-    }
 /* LLLLLL */
     .evolution-chat {
         height:4rem;

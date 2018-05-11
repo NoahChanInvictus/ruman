@@ -1,7 +1,6 @@
 #container .section {
     width: 80%;
     margin: 0 auto;
-    padding-top:1.3rem;
 }
 /**/
 #container .firstScreen .topTitle {
@@ -222,4 +221,9 @@
 }
 #container thead {
     background: rgba(17, 164, 226, 0.51);
+}
+
+/* 去掉表格下边框 */
+#spreadRank, #recordingTable {
+    border :none;
 }
