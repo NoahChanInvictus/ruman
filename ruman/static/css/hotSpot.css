@@ -160,3 +160,10 @@
     width: 100%;
     border-bottom: 2px dashed #f1fcff;
 }
+/* 去掉表格下边框 */
+#hotspotTable {
+    border:none;
+}
+#hotspotTable th {
+    border-top:none;
+}

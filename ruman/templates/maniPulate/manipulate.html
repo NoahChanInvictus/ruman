@@ -1,22 +1,24 @@
 {% extends "publicNav.html" %}
 {% block title %}<title>操纵监测</title>{% endblock %}
 {% block my_css %}
-    <!-- <link rel="stylesheet" href="../static/css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="../static/css/bootstrap-table.min.css"> -->
-    <!-- <link rel="stylesheet" href="../static/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="../static/css/jquery.fullPage.css">
-    <!-- <link rel="stylesheet" href="../static/css/public_nav.css"> -->
-    <link rel="stylesheet" href="../static/css/modalANDtable.css">
-    <link rel="stylesheet" href="../static/css/manipulate.css">
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap-table.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/font-awesome.min.css"> -->
+
+    <link rel="stylesheet" href="/static/css/jquery.fullPage.css">
+
+    <!-- <link rel="stylesheet" href="/static/css/public_nav.css"> -->
+    <link rel="stylesheet" href="/static/css/modalANDtable.css">
+    <link rel="stylesheet" href="/static/css/manipulate.css">
     <style>
-        #nav .nav_middle .main_li:nth-of-type(3) {
+        #nav .nav_middle .main_li:nth-of-type(5) {
             -webkit-transform: scale(1.3);
             -moz-transform: scale(1.3);
             -ms-transform: scale(1.3);
             -o-transform: scale(1.3);
             transform: scale(1.3);
         }
-        #nav .nav_middle .main_li:nth-of-type(3) a, #nav .nav_middle .main_li:nth-of-type(3) a i{
+        #nav .nav_middle .main_li:nth-of-type(5) a, #nav .nav_middle .main_li:nth-of-type(5) a i{
             color: #ffbf1d !important;
         }
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
@@ -285,7 +287,8 @@
         </div>
 
         <div class="section sixScreen" style="overflow: hidden;">
-            <h3 style="color: white;text-align: left;"><i class="icon icon-building"></i>&nbsp;市值分布</h3>
+            <!-- <h3 style="color: white;text-align: left;"><i class="icon icon-building"></i>&nbsp;市值分布</h3> -->
+            <h3 style="color: white;text-align: left;"><i class="icon icon-building"></i>&nbsp;板块分布</h3>
             <div class="pieContent" style="width:100%;margin-top:0.4rem;">
                 <div id="pie-3" style="width:65%;height: 4.5rem;"></div>
                 <div id="pie-4" style="width:33%;">
@@ -317,15 +320,14 @@
 
 {% block my_js %}
 
-    <script src="../static/js/publicNav.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/bootstrap-table.min.js"></script>
-    <script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
-    <script src="../static/echarts/echarts.min.js"></script>
-    <script src="../static/js/chalk.js"></script>
-    <script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-    <script src="../static/js/jquery.fullPage.min.js"></script>
-    <script src="../static/js/manipulate.js"></script>
+    <!-- <script src="/static/js/publicNav.js"></script> -->
+    <!-- <script src="/static/js/bootstrap.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table-zh-CN.min.js"></script> -->
+    <!-- <script src="/static/echarts/echarts.min.js"></script> -->
+    <!-- <script src="/static/js/chalk.js"></script> -->
+    <!-- <script src="/static/js/echarts-2/build/dist/echarts.js"></script> -->
+    <script src="/static/js/jquery.fullPage.min.js"></script>
     <script>
         $('.fullpage').fullpage({
             'verticalCentered': false,
@@ -335,9 +337,10 @@
             'loopBottom':'true',
             'navigationPosition': 'right',
             'fixedElements':'#nav',
-            'navigationTooltips': ['疑似操纵预警','预警态势','操纵影响','行业分布','操纵类型','市值分布']
+            // 'navigationTooltips': ['疑似操纵预警','预警态势','操纵影响','行业分布','操纵类型','市值分布']
+            'navigationTooltips': ['疑似操纵预警','预警态势','操纵影响','行业分布','操纵类型','板块分布']
         });
         // $('.recordingTable').css({'fontSize':'auto'});
     </script>
-
+    <script src="/static/js/manipulate.js"></script>
 {% endblock %}

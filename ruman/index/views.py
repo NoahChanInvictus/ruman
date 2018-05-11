@@ -25,6 +25,12 @@ def hotDetail():
     id = request.args.get('id','')
     return render_template('index/hotDetail.html',stock=stock,id=id)
 
+@index.route('/hotweiboDetail/')
+def hotweiboDetail():
+    # stock = request.args.get('stock','')
+    # id = request.args.get('id','')
+    return render_template('index/hotweiboDetail.html')
+
 @index.route('/test/')
 def test():
 	result = 'Hello World!'

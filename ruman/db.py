@@ -549,6 +549,47 @@ def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比�
 		result = {}
 	return result
 
+def hotspotText():
+	cur = defaultDatabase()
+	sql = "SELECT * FROM " + TABLE_HOTNEWS
+	cur.execute(sql)
+	results = cur.fetchall()
+	results = sorted(results, key= lambda x:(x[HOT_NEWS_IN_TIME]), reverse=True)   #按照特定顺序排序
+	result = []
+	for i in results:   #选取所有文本并展示
+		dic = {}
+		dic['web'] = i[HOT_NEWS_WEB]
+		dic['title'] = i[HOT_NEWS_TITLE]
+		dic['url'] = i[HOT_NEWS_URL]
+		dic['abstract'] = i[HOT_NEWS_ABSTRACT]
+		dic['author'] = i[HOT_NEWS_AUTHOR]
+		dic['comments'] = i[HOT_NEWS_COMMENTS]
+		dic['tend'] = i[HOT_NEWS_TEND]
+		dic['content'] = i[HOT_NEWS_CONTENT]
+		dic['in_time'] = ts2date(float(i[HOT_NEWS_IN_TIME]))
+		dic['text_id'] = i[HOT_NEWS_TEXT_ID]
+		dic['panel'] = i[HOT_NEWS_PANEL]
+		dic['key_word'] = i[HOT_NEWS_KEY_WORD]
+		dic['date'] = i[HOT_NEWS_DATE]
+		dic['id'] = i[HOT_NEWS_ID]
+		result.append(dic)
+	return result
+
+def hotspotbasicMessage(id):
+	cur = defaultDatabase()
+	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_HOTNEWS,HOT_NEWS_ID,id)
+	cur.execute(sql)
+	results = cur.fetchone()
+	result = [{'title':results[HOT_NEWS_TITLE]},
+		{'web':results[HOT_NEWS_WEB]},
+		{'in_time':ts2date(float(results[HOT_NEWS_IN_TIME]))},
+		{'key_word':results[HOT_NEWS_KEY_WORD]},
+		{'url':results[HOT_NEWS_URL]},
+		{'content':results[HOT_NEWS_CONTENT]}
+	]
+	return result
+
 if __name__=="__main__":
 	#print len(manipulateHistory('002427'))
-	manipulateAnnouncement(14)
+	#manipulateAnnouncement(14)
+	hotspotText()
