@@ -27,8 +27,6 @@ TABLE_PROPAGATE = 'all_source_propagate'
 TABLE_WORDCLOUD = 'wordcloud'
 TABLE_HOTNEWS = 'hot_news'
 
-TABLE_HOT_NEWS = 'hot_news'
-
 #esdic
 DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
 DIC_LARGE_TRANS = {'index':'east_money','type':'type1'}
@@ -216,3 +214,4 @@ HOT_NEWS_TEXT_ID = 'text_id'
 HOT_NEWS_PANEL = 'panel'
 HOT_NEWS_KEY_WORD = 'key_word'
 HOT_NEWS_DATE = 'date'
+HOT_NEWS_ID = 'id'

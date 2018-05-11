@@ -13,7 +13,13 @@ from ruman.es import *
 def index():
     return render_template('hotSpot/hotSpot.html')
 
-@hotSpot.route('/hotspotNewsText')
+@hotSpot.route('/hotspotNewsText/')
 def hotspot_text():
 	result = hotspotText()
+	return json.dumps(result,ensure_ascii=False)
+
+@hotSpot.route('/hotspotReport/basicMessage/')
+def hotspot_basicmessage():
+	id = int(request.args.get('id',''))
+	result = hotspotbasicMessage(id)
 	return json.dumps(result,ensure_ascii=False)
