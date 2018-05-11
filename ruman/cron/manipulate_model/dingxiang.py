@@ -9,6 +9,7 @@ from config import *
 from time_utils import *
 from sql_utils import *
 import pandas as pd
+import numpy as np
 from elasticsearch import Elasticsearch
 
 def reades(typenum):    #12为开始，13为结束
@@ -149,19 +150,48 @@ def calculate(year1,month1,day1,year2,month2,day2):
     conn = default_db()
     cur = conn.cursor()
     #df = get_es_frame_bendi_dingzeng(year1,month1,day1,year2,month2,day2)
-    df = pd.DataFrame(data=['000001','2013-09-09','2013-12-16'],columns=['stock_id','start_date','end_date'])
+    df = pd.DataFrame(data=[['000001','2013-09-09','2013-12-16']],columns=['stock_id','start_date','end_date'])
+    staticdf = pd.DataFrame(columns=['stock_id','start_date','end_date','dzprice_min','lowdzprice_ratio','lowdzaver_ratio','end_start'])
     datelist = get_tradelist(year1 - 1,month1,day1,year2,month2,day2)
+    number = 0
     for num in range(len(df)):
-        start_date = df.loc[i]['start_date']
-        end_date = df.loc[i]['end_date']
-        stock_id = df.loc[i]['stock_id']
+        start_date = df.loc[num]['start_date']
+        end_date = df.loc[num]['end_date']
+        stock_id = df.loc[num]['stock_id']
         start_date_20 = datelist[datelist.index(start_date) - 20]
-        sql = "SELECT * FROM " + TABLE_MARKET_DAILY + " WHERE stock_id = %s'" % (stock_id)
+
+        sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_MARKET_DAILY,MARKET_STOCK_ID,stock_id)
         pricedf = pd.read_sql(sql,conn)
-        pricelist1 = list(pricedf[(pricedf['date'] >= start_date_20) & (pricedf['date'] <= end_date)]['price_fu'])
-        pricelist2 = list(pricedf[(pricedf['date'] >= start_date) & (pricedf['date'] <= end_date)]['price_fu'])
-        print pricelist1,len(pricelist1)
-        print pricelist2,len(pricelist2)
+        pricedf1 = pricedf[(pricedf['date'] >= start_date_20) & (pricedf['date'] <= end_date)]
+        pricedf2 = pricedf[(pricedf['date'] >= start_date) & (pricedf['date'] <= end_date)]
+        pricelist1 = list(pricedf1['price_fu'])
+        pricelist2 = list(pricedf2['price_fu'])
+
+        startprice = np.mean(pricelist1[:20])
+        min_price = min(pricelist2)
+        average_price = np.mean(pricelist2)
+        dzprice_min = (min_price - startprice) / startprice
+        daynumone = 0
+
+        for price in pricelist2:
+            if price < startprice:
+                daynumone += 1
+        lowdzprice_ratio = daynumone / float(len(pricelist2))
+
+        lowdaylist = []
+        for price in pricedf2:
+            if price < average_price:
+                daynumtwo.append(price)
+                
+        lowdzaver_ratio = daynumtwo / float(len(pricelist2))
+        end_start = pricelist2[-1] / startprice
+        staticdf.loc[num] = [stock_id,start_date,end_date,dzprice_min,lowdzprice_ratio,lowdzaver_ratio,end_start]
+        number += 1
+    staticdfone = staticdf[staticdf['dzprice_min'] < -0.2]
+    staticdftwo = staticdfone[staticdfone['lowdzprice_ratio'] > 0.8]
+    staticdfthree = staticdftwo[staticdftwo['lowdzaver_ratio'] < 0.6]
+    staticdffour = staticdfthree[staticdfthree['end_start'] > 0.95]
+    print staticdffour
 
 
 if __name__=="__main__":
