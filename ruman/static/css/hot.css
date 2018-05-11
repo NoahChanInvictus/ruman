@@ -14,6 +14,7 @@
 }
 #container .infor{
     text-align: center;
+    text-align: left;
 }
 #container .infor .inforLine {
     display: inline-block;
@@ -40,6 +41,7 @@
     display: inline-block;
     width: 0.7rem;
     text-align: right;
+    text-align: left;
 }
 /**/
 #container #mainContent li a {
