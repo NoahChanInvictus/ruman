@@ -2,11 +2,12 @@
 {% block title %}<title>谣言详情</title>{% endblock %}
 
 {% block my_css %}
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/css/public_nav.css">
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap-table.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/font-awesome.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/public_nav.css"> -->
 
+    <!-- 时间轴插件 -->
     <link rel="stylesheet" type="text/css" href="/static/css/jquery.eeyellow.Timeline.css" />
 
     <link rel="stylesheet" href="/static/css/lie.css">
@@ -42,143 +43,7 @@
             width: 5%;
         }
 
-        /* LLLLLL */
-        .evolution-chat {
-            height:4rem;
-            width:100%;
-        }
 
-        /* 传播分析 */
-        #container #spread-1 {
-            float: left;
-            height:4.2rem;
-        }
-        #container #spread-2 {
-            float: right;
-            height:4.2rem;
-        }
-        #container #spread .spreadRank {
-            margin-top: 0.2rem;
-            width: 100%;
-            border: 1px solid #333;
-        }
-        #container thead {
-            background: rgba(17, 164, 226, 0.51);
-        }
-        #container #spread .spreadRank tr {
-            border-bottom: 1px solid #333;
-        }
-        #spread .spreadRank th,
-        #spread .spreadRank td {
-            display: inline-block;
-            padding: 0.08rem;
-            color: #333;
-            font-size: 0.12rem;
-            text-align: center;
-            width: 32%;
-        }
-        #container #spread .spreadRank th,
-        #container #spread .spreadRank td {
-            display: inline-block;
-            padding: 0.08rem;
-            color: #333;
-            font-size: 0.12rem;
-            text-align: center;
-            width: 32%;
-        }
-        #container #spread .spreadRank thead th:nth-of-type(2),
-        #container #spread .spreadRank tr td:nth-of-type(2) {
-            border-left: 1px solid #333;
-            border-right: 1px solid #333;
-        }
-        #container #spread-2 .spreadRank tr td:nth-of-type(4),
-        #container #spread-2 .spreadRank thead th:nth-of-type(4){
-            border-left: 1px solid #333;
-        }
-        /* #spread-2 .spreadRank th,
-        #spread-2 .spreadRank td {
-            width: 20% !important;
-        } */
-        #container #spread-2 .spreadRank th,
-        #container #spread-2 .spreadRank td {
-            width: 24%;
-        }
-        #container #spread .spreadRank tr {
-            border-bottom: 1px solid #333;
-        }
-        #container #spread .spreadRank {
-            margin-top: 0.2rem;
-            width: 100%;
-            border: 1px solid #333;
-        }
-
-        /* 语义分析 */
-        #word-1 {
-            height:3rem;
-            width:80%;
-            margin:0 auto;
-        }
-
-
-        /* 发布者画像下方 相关微博 */
-        .center_rel {
-            position: relative;
-            padding: 10px 10px 10px 30px;
-            /* background: #06162d; */
-            background: #e7e5e5;
-            margin:16px 10px;
-        }
-        .center_rel .center_icon {
-            position: absolute;
-            top: 10px;
-            left: 5px;
-            width: 20px;
-            height: 20px;
-        }
-        .center_rel .center_1{
-            font-size: 14px;
-            display: inline-block;
-        }
-
-        /* 影响力雷达图 */
-            .effect {
-                width: 100%;
-                height: 49%;
-                border: 1px solid #94999e;
-                float: left;
-
-                position:relative;
-            }
-            .social {
-                height:49%;
-                margin-top: 0;
-                position: relative;
-                top: 2%;
-            }
-            .effect h4 {
-                position: absolute;
-                width:100%;
-            }
-            .effect .radar-box{
-                width:49%;
-                height:100%;
-            }
-            /* 社交特征 */
-            .attentioncontent-1 {
-                width:25%;
-                float: left;
-                padding:10px;
-            }
-            .attentioncontent-1 span ,
-            .attentioncontent-2 span {
-                margin-top:10px;
-                margin-left: 0.1rem;
-                display:inline-block;
-            }
-            #container #mainContent #myTabs-gam  li a{
-                font-size:14px;
-                padding:5px 10px;
-            }
     </style>
 {% endblock %}
 
@@ -187,14 +52,15 @@
         <div style="text-align: right;">
             <span class="top-1 btn btn-primary">一键取证</span>
         </div>
-        <div style="text-align: center;margin-bottom: 20px;">
+        <!-- <div style="text-align: center;margin-bottom: 20px;">
             <span id="title" style="font-size: 36px;">“<span id="title-1">万科建立新安小镇</span>”谣言预警报告</span>
-        </div>
+        </div> -->
         <!-- 基本信息 -->
         <div id="card">
             <div class="infor">
                 <p class="infor-1 inforLine">
-                    <span>标题：</span>&nbsp;<b class="type-1">万科建立新安小镇</b>
+                    <!-- <span>标题：</span>&nbsp;<b class="type-1">万科建立新安小镇</b> -->
+                    <span>关键词：</span>&nbsp;<b class="type-1">房地产,达赖,维权</b>
                 </p>
                 <p class="infor-2 inforLine">
                     <span>发布时间：</span>&nbsp;<b class="type-2">2017-05-01  00:00</b>
@@ -203,14 +69,16 @@
                     <span>发布者：</span>&nbsp;<b class="type-3">所长别开枪是我</b>
                 </p>
                 <p class="infor-4 inforLine">
-                    <span>发布渠道：</span>&nbsp;<b class="type-4">股吧</b>
+                    <!-- <span>发布渠道：</span>&nbsp;<b class="type-4">股吧</b> -->
+                    <span>评论数：</span>&nbsp;<b class="type-4">846</b>
                 </p>
                 <p class="infor-5 inforLine">
-                    <span>是否辟谣：</span>&nbsp;<b class="type-5">是</b>
+                    <!-- <span>是否辟谣：</span>&nbsp;<b class="type-5">是</b> -->
+                    <span>转发数：</span>&nbsp;<b class="type-5">4425</b>
                 </p>
-                <p class="infor-6 inforLine">
+                <!-- <p class="infor-6 inforLine">
                     <span>预警理由：</span>&nbsp;<b class="type-6">热点捏造</b>
-                </p>
+                </p> -->
             </div>
         </div>
         <!-- Tap -->
@@ -235,16 +103,18 @@
                 <!-- ====   ====   ====  ====  ====  ====  ====  ====  ====  ====  ====  ====  ====  ====  ====-->
 
                 <li role="presentation" class="active">
-                    <a href="#evolution" role="tab" data-toggle="tab"><b class="icon icon-magic"></b>&nbsp;演化分析</a>
+                    <a href="#userImage" role="tab" data-toggle="tab"><b class="icon icon-user"></b>&nbsp;发布者画像</a>
                 </li>
+
                 <li role="presentation">
                     <a href="#spread" role="tab" data-toggle="tab"><b class="icon icon-rss"></b>&nbsp;传播分析</a>
                 </li>
-                <li role="presentation">
-                    <a href="#userImage" role="tab" data-toggle="tab"><b class="icon icon-user"></b>&nbsp;发布者画像</a>
-                </li>
+
                 <li role="presentation" class="">
                     <a href="#word" role="tab" data-toggle="tab"><b class="icon icon-comment"></b>&nbsp;语义分析</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="#evolution" role="tab" data-toggle="tab"><b class="icon icon-magic"></b>&nbsp;演化分析</a>
                 </li>
             </ul>
 
@@ -356,16 +226,293 @@
                 </div> -->
 
                 <!-- ====   ====   ====  ====  ====  ====  ====  ====  ====  ====  ====  ====  ====  ====  ====-->
+                <!-- 发布者画像 -->
+                <div role="tabpanel" class="_table tab-pane clearfix active" id="userImage">
+                    <div class="user-img">
+                        <img src="/static/images/unknown.png" alt="">
+                    </div>
+                    <!-- 整体评价 -->
+                    <div class="evaluate">
+                        <h4 class="evaluate-tit">整体评价</h4>
+                        <p class="clearfix" style="margin: 0.1rem;">
+                            <span class="evaluate-sp"><b>活跃度</b> 88.55 (NO.65/15784)  最高值90/最低值88 </span>
+                            <!-- <span class="evaluate-sp"><b>身份敏感度</b> 77.15 (NO.7564/15784)  最高值77/最低值73</span> -->
+                            <span class="evaluate-sp"><b>影响力</b> 79.62 (NO.173/7640  最高值81/最低值70 </span>
+                            <!-- <span class="evaluate-sp"><b>言论敏感度</b> 0 (NO.15784/15784)  最高值34/最低值0</span> -->
 
-                <!-- 演化分析 -->
-                <div role="tabpanel" class="_table tab-pane active" id="evolution">
-                    <!-- 热度曲线图 -->
-                    <div class="evolution-chat" id="evolution-chat-1">
+                            <span class="evaluate-sp"><b>粉丝数</b> 50000 (NO.49/2018)</span>
+                            <span class="evaluate-sp"><b>关注数</b> 100 (NO.481/2458)</span>
+                            <span class="evaluate-sp"><b>发布信息数</b> 2345 (NO.4211/5118)</span>
+                            <span class="evaluate-sp" title="http://cn.ui.vmall.com/emotiondownload.php"><b>描述</b> http://cn.ui.vmall.com/emotiondownload.php</span>
+                        </p>
+                        <!-- <p style="text-indent:0.1rem;font-size: 0.16rem;border-top: 1px solid #94999e;padding-top:2%;"> -->
+                        <!-- <p style="text-indent:0.1rem;font-size: 0.16rem;border-top: 1px solid #94999e;padding-top:5%;">
+                            注：当前数值是通过计算近7日信息获得，最高、最低值统计范围为近30日。
+                        </p> -->
                     </div>
-                    <!-- 情绪曲线图 -->
-                    <div class="evolution-chat" id="evolution-chat-2" style="margin-top:20px;">
+                    <!-- 背景信息特征 -->
+                    <div class="background-information">
+                        <h4 class="evaluate-tit">背景信息特征</h4>
+                        <div>
+                            <span title="微博">来源通道：<b>微博</b></span>
+                            <span title="华为花粉俱乐部">昵称：<b>华为花粉俱乐部</b></span>
+                            <span title="2776631980">id：<b>2776631980</b></span>
+                            <span title="2014.9.1">注册时间：<b>2014.9.1</b></span>
+                            <span title="3年1个月">注册时长：<b>3年1个月</b></span>
+                            <span title="北京">注册地：<b>北京</b></span>
+                            <span title="所长别开枪是我">关联账户：<b>所长别开枪是我</b></span>
+                            <span title="是">是否认证：<b>是</b></span>
+                            <span title="手机认证">认证类型：<b>手机认证</b></span>
+                            <span title="男">性别：<b>男</b></span>
+                            <span title="本科">教育经历：<b>本科</b></span>
+                            <!-- <span title="50000">粉丝数：<b>50000</b></span> -->
+                            <!-- <span title="100">关注数：<b>100</b></span> -->
+                            <!-- <span title="2345">发布信息数：<b>2345</b></span> -->
+                            <!-- <span title="http://cn.ui.vmall.com/emotiondownload.php">描述：<b>http://cn.ui.vmall.com/emotiondownload.php</b></span> -->
+                        </div>
                     </div>
+                    <!-- 背景信息 右侧大盒子 -->
+                    <div class="background-right clearfix">
+                        <!-- 活动信息特征 -->
+                        <!-- <div class="activity">
+                            <h4 class="evaluate-tit">活动信息特征</h4>
+                            <p class="clearfix">
+                                <span class="activity-sp"><b>活跃时间</b><span class="c-1">2017.10.19  20:3</span></span>
+                                <span class="activity-sp"><b>活跃地点</b><span class="c-1">45.249.212.***(亚太地区 亚太地区)</span></span>
+                                <span class="activity-sp"><b>活跃频率</b><span class="c-1">本周7次</span></span>
+                                <span class="activity-sp"><b>异常位置</b><span class="c-1">121.35.2.***(中国 广东 深圳)</span></span>
+                            </p>
+                        </div> -->
+                        <!-- 活动信息特征  右侧盒子 -->
+                        <!-- <div class="activ-right">
+                            //内容特征
+                            <div class="activ-right-top">
+                                <h4 class="evaluate-tit">内容特征</h4>
+                                <p class="clearfix" style="margin-top: 0.04rem;">
+                                    <span class="activity-sp"><b>身份</b><span class="c-2">境内机构</span></span>
+                                    <span class="activity-sp"><b>领域</b><span class="c-2">科技类</span></span>
+                                    <span class="activity-sp"><b>关键词</b><span class="c-2">抱抱 公证 憧憬 兔子 是不是 觉得 公正 笑笑</span></span>
+                                    <span class="activity-sp"><b>话题偏好</b><span class="c-2">极限少女养成营 孙杨 系列搭载 孙杨荣耀手机代</span></span>
+                                </p>
+                            </div>
+                            //性格特征
+                            <div class="activ-right-bot">
+                                <h4 class="evaluate-tit">性格特征</h4>
+                                <p class="clearfix">
+                                    <span class="activity-sp"><b>情感极性</b><span class="c-3">喜欢发表正面的内容</span></span>
+                                    <span class="activity-sp"><b>性格倾向</b><span class="c-3">温和，真实</span></span>
+                                </p>
+                            </div>
+                        </div> -->
+
+                        <!-- 影响力雷达图 -->
+                        <div class="effect">
+                            <h4 class="evaluate-tit">我的影响力技能</h4>
+                            <div class="clearfix" style="height:100%;">
+                                <div class="pull-left radar-box" id="originalSkill" style="margin-right:2%;"></div>
+                                <div class="pull-left radar-box" id="spreadSkill"></div>
+                            </div>
+                        </div>
+
+                        <!-- 社交特征 -->
+                        <div class="social">
+                            <h4 class="evaluate-tit">社交特征</h4>
+                            <div class="clearfix" style="padding: 0.1rem;">
+                                <!-- <div class="activity-sp">
+                                    <b>被他转发及评论用户</b>
+                                    <img src="/static/images/chart-4.png" alt="">
+                                    <img src="/static/images/unknown.png" alt="">
+                                    <img src="/static/images/unknown.png" alt="">
+                                </div>
+                                <div class="activity-sp">
+                                    <b>转发及评论他的用户</b>
+                                    <img src="/static/images/unknown.png" alt="">
+                                    <img src="/static/images/logoDetail.png" alt="">
+                                    <img src="/static/images/unknown.png" alt="">
+                                </div>
+                                <div class="activity-sp">
+                                    <b>双向交互的用户</b>
+                                    <img src="/static/images/unknown.png" alt="">
+                                    <img src="/static/images/chart-1.png" alt="">
+                                    <img src="/static/images/unknown.png" alt="">
+                                </div>
+                                <div class="activity-sp">
+                                    <b>他@的相关用户</b>
+                                    <span>暂无数据</span>
+                                </div> -->
+                                <ul id="myTabs-gam" class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#attention-1" role="tab" data-toggle="tab"><b class="icon icon-heart-empty"></b>&nbsp;谁关注我</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#attention-2" role="tab" data-toggle="tab"><b class="icon icon-umbrella"></b>&nbsp;我关注谁</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="content-gam">
+                                    <div role="tabpanel" class="_table tab-pane active" id="attention-1">
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/chart-4.png" alt="">
+                                            <br>
+                                            <span>马克·安东尼</span>
+                                        </div>
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/unknown.png" alt="">
+                                            <br>
+                                            <span>阿育王</span>
+                                        </div>
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/unknown.png" alt="">
+                                            <br>
+                                            <span>阿紫</span>
+                                        </div>
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/unknown.png" alt="">
+                                            <br>
+                                            <span>公孙康</span>
+                                        </div>
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/logoDetail.png" alt="">
+                                            <br>
+                                            <span>阔阔真公主</span>
+                                        </div>
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/unknown.png" alt="">
+                                            <br>
+                                            <span>容妃</span>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="_table tab-pane" id="attention-2">
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/unknown.png" alt="">
+                                            <br>
+                                            <span>尉迟敬德</span>
+                                        </div>
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/chart-1.png" alt="">
+                                            <br>
+                                            <span>周敦颐</span>
+                                        </div>
+                                        <div class="attentioncontent-1">
+                                            <img src="/static/images/unknown.png" alt="">
+                                            <br>
+                                            <span>王昌龄</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 造谣特征 -->
+                    <div class="rumor cleafix">
+                        <!-- <h4 class="evaluate-tit">造谣特征</h4> -->
+                        <h4 class="evaluate-tit">相关微博</h4>
+                        <!-- 发布谣言 -->
+                        <!-- <div class="release">
+                            <h4 style="padding:0.05rem 0.2rem;">发布谣言</h4>
+                            <p class="clearfix" style="padding:0 0.2rem;">
+                                <span class="activity-sp"><b>发布次数</b><span class="r-1">10</span></span>
+                                <span class="activity-sp"><b>总浏览人数</b><span class="r-1">200000</span></span>
+                                <span class="activity-sp"><b>总转发量</b><span class="r-1">5000</span></span>
+                                <span class="activity-sp"><b>总评论量</b><span class="r-1">8000</span></span>
+                            </p>
+                            <table class="postRank" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <th>谣言标题</th>
+                                    <th>谣言时间</th>
+                                    <th>转发量</th>
+                                    <th>评论量</th>
+                                    <th>浏览人数</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>万科建立新安小镇</td>
+                                        <td>2017-05-01 00:00</td>
+                                        <td>23</td>
+                                        <td>23</td>
+                                        <td>50000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>万科发现锂矿产</td>
+                                        <td>2017-05-01 00:00</td>
+                                        <td>21</td>
+                                        <td>21</td>
+                                        <td>45000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> -->
+                        <!-- 传播谣言 -->
+                        <!-- <div class="spread">
+                            <h4 style="padding:0.05rem 0.2rem;">传播谣言</h4>
+                            <p class="clearfix" style="padding:0 0.2rem;">
+                                <span class="activity-sp"><b>参与次数</b><span class="r-2">10</span></span>
+                                <span class="activity-sp"><b>总浏览人数</b><span class="r-2">200000</span></span>
+                                <span class="activity-sp"><b>总转发量</b><span class="r-2">5000</span></span>
+                                <span class="activity-sp"><b>总评论量</b><span class="r-2">8000</span></span>
+                            </p>
+                            <table class="spreadRank" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <th>谣言标题</th>
+                                <th>谣言时间</th>
+                                <th>转发量</th>
+                                <th>评论量</th>
+                                <th>浏览人数</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>万科建立新安小镇</td>
+                                    <td>2017-05-01 00:00</td>
+                                    <td>23</td>
+                                    <td>23</td>
+                                    <td>50000</td>
+                                </tr>
+                                <tr>
+                                    <td>万科发现锂矿产</td>
+                                    <td>2017-05-01 00:00</td>
+                                    <td>21</td>
+                                    <td>21</td>
+                                    <td>45000</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div> -->
+
+                        <div class="center_rel">
+                            <img src="/static/images/unknown.png" alt="" class="center_icon">
+                            <a href="###" class="center_1" style="color:#f98077;">5236217710</a>
+                            <span class="time" style="font-weight:900;color:#f6a38e;">
+                                <i class="icon icon-time">&nbsp;&nbsp;2016/11/24  10:02:10</i>
+                            </span>
+                            <span>//@四川共青团: 其实，感恩节的起源不过是个传说，而这个传说并不被印第安人认可，真实的情况是，感恩节是白人入侵美洲后，为庆祝对印第安人的大<b style="color:#ef3e3e;"></b>取得胜利而设的节日。[蜡烛][蜡烛][蜡烛][蜡烛][蜡烛][蜡烛]</span>
+                        </div>
+                        <div class="center_rel">
+                            <img src="/static/images/unknown.png" alt="" class="center_icon">
+                            <a href="###" class="center_1" style="color:#f98077;">5236217710</a>
+                            <span class="time" style="font-weight:900;color:#f6a38e;">
+                                <i class="icon icon-time">&nbsp;&nbsp;2016/11/24  10:02:10</i>
+                            </span>
+                            <span>//@四川共青团: 其实，感恩节的起源不过是个传说，而这个传说并不被印第安人认可，真实的情况是，感恩节是白人入侵美洲后，为庆祝对印第安人的大<b style="color:#ef3e3e;"></b>取得胜利而设的节日。[蜡烛][蜡烛][蜡烛][蜡烛][蜡烛][蜡烛]</span>
+                        </div>
+                        <div class="center_rel">
+                            <img src="/static/images/unknown.png" alt="" class="center_icon">
+                            <a href="###" class="center_1" style="color:#f98077;">5236217710</a>
+                            <span class="time" style="font-weight:900;color:#f6a38e;">
+                                <i class="icon icon-time">&nbsp;&nbsp;2016/11/24  10:02:10</i>
+                            </span>
+                            <span>//@四川共青团: 其实，感恩节的起源不过是个传说，而这个传说并不被印第安人认可，真实的情况是，感恩节是白人入侵美洲后，为庆祝对印第安人的大<b style="color:#ef3e3e;"></b>取得胜利而设的节日。[蜡烛][蜡烛][蜡烛][蜡烛][蜡烛][蜡烛]</span>
+                        </div>
+                        <div class="center_rel">
+                            <img src="/static/images/unknown.png" alt="" class="center_icon">
+                            <a href="###" class="center_1" style="color:#f98077;">5236217710</a>
+                            <span class="time" style="font-weight:900;color:#f6a38e;">
+                                <i class="icon icon-time">&nbsp;&nbsp;2016/11/24  10:02:10</i>
+                            </span>
+                            <span>//@四川共青团: 其实，感恩节的起源不过是个传说，而这个传说并不被印第安人认可，真实的情况是，感恩节是白人入侵美洲后，为庆祝对印第安人的大<b style="color:#ef3e3e;"></b>取得胜利而设的节日。[蜡烛][蜡烛][蜡烛][蜡烛][蜡烛][蜡烛]</span>
+                        </div>
+                    </div>
+
                 </div>
+
                 <!-- 语义分析 -->
                 <div role="tabpanel" class="_table tab-pane" id="word">
                     <!-- <div class="word-1">
@@ -706,7 +853,8 @@
 
                     <p class="tit">
                         <span class="tit-1"></span>
-                        <span style="font-size: 0.18rem;">多通道溯源</span>
+                        <!-- <span style="font-size: 0.18rem;">多通道溯源</span> -->
+                        <span style="font-size: 0.18rem;">溯源分析</span>
                     </p>
                     <div class="fishBone" id="spread-pie-3">
                         <a class="prev"></a>
@@ -715,439 +863,171 @@
                         <div class="fish_box"></div>
                     </div>
                 </div>
-                <!-- 发布者画像 -->
-                <div role="tabpanel" class="_table tab-pane clearfix " id="userImage">
-                    <div class="user-img">
-                        <img src="/static/images/unknown.png" alt="">
-                    </div>
-                    <!-- 整体评价 -->
-                    <div class="evaluate">
-                        <h4 class="evaluate-tit">整体评价</h4>
-                        <p class="clearfix" style="margin: 0.1rem;">
-                            <span class="evaluate-sp"><b>活跃度</b> 88.55 (NO.65/15784)  最高值90/最低值88 </span>
-                            <!-- <span class="evaluate-sp"><b>身份敏感度</b> 77.15 (NO.7564/15784)  最高值77/最低值73</span> -->
-                            <span class="evaluate-sp"><b>影响力</b> 79.62 (NO.173/15784)  最高值81/最低值70 </span>
-                            <!-- <span class="evaluate-sp"><b>言论敏感度</b> 0 (NO.15784/15784)  最高值34/最低值0</span> -->
-                        </p>
-                        <!-- <p style="text-indent:0.1rem;font-size: 0.16rem;border-top: 1px solid #94999e;padding-top:2%;"> -->
-                        <p style="text-indent:0.1rem;font-size: 0.16rem;border-top: 1px solid #94999e;padding-top:5%;">
-                            注：当前数值是通过计算近7日信息获得，最高、最低值统计范围为近30日。
-                        </p>
-                    </div>
-                    <!-- 背景信息特征 -->
-                    <div class="background-information">
-                        <h4 class="evaluate-tit">背景信息特征</h4>
-                        <div>
-                            <span title="微博">来源通道：<b>微博</b></span>
-                            <span title="华为花粉俱乐部">昵称：<b>华为花粉俱乐部</b></span>
-                            <span title="2776631980">id：<b>2776631980</b></span>
-                            <span title="2014.9.1">注册时间：<b>2014.9.1</b></span>
-                            <span title="3年1个月">注册时长：<b>3年1个月</b></span>
-                            <span title="北京">注册地：<b>北京</b></span>
-                            <span title="所长别开枪是我">关联账户：<b>所长别开枪是我</b></span>
-                            <span title="是">是否认证：<b>是</b></span>
-                            <span title="手机认证">认证类型：<b>手机认证</b></span>
-                            <span title="男">性别：<b>男</b></span>
-                            <span title="本科">教育经历：<b>本科</b></span>
-                            <span title="50000">粉丝数：<b>50000</b></span>
-                            <span title="100">关注数：<b>100</b></span>
-                            <span title="2345">发布信息数：<b>2345</b></span>
-                            <span title="http://cn.ui.vmall.com/emotiondownload.php">描述：<b>http://cn.ui.vmall.com/emotiondownload.php</b></span>
-                        </div>
-                    </div>
-                    <!-- 背景信息 右侧大盒子 -->
-                    <div class="background-right clearfix">
-                        <!-- 活动信息特征 -->
-                        <!-- <div class="activity">
-                            <h4 class="evaluate-tit">活动信息特征</h4>
-                            <p class="clearfix">
-                                <span class="activity-sp"><b>活跃时间</b><span class="c-1">2017.10.19  20:3</span></span>
-                                <span class="activity-sp"><b>活跃地点</b><span class="c-1">45.249.212.***(亚太地区 亚太地区)</span></span>
-                                <span class="activity-sp"><b>活跃频率</b><span class="c-1">本周7次</span></span>
-                                <span class="activity-sp"><b>异常位置</b><span class="c-1">121.35.2.***(中国 广东 深圳)</span></span>
-                            </p>
-                        </div> -->
-                        <!-- 活动信息特征  右侧盒子 -->
-                        <!-- <div class="activ-right">
-                            //内容特征
-                            <div class="activ-right-top">
-                                <h4 class="evaluate-tit">内容特征</h4>
-                                <p class="clearfix" style="margin-top: 0.04rem;">
-                                    <span class="activity-sp"><b>身份</b><span class="c-2">境内机构</span></span>
-                                    <span class="activity-sp"><b>领域</b><span class="c-2">科技类</span></span>
-                                    <span class="activity-sp"><b>关键词</b><span class="c-2">抱抱 公证 憧憬 兔子 是不是 觉得 公正 笑笑</span></span>
-                                    <span class="activity-sp"><b>话题偏好</b><span class="c-2">极限少女养成营 孙杨 系列搭载 孙杨荣耀手机代</span></span>
-                                </p>
-                            </div>
-                            //性格特征
-                            <div class="activ-right-bot">
-                                <h4 class="evaluate-tit">性格特征</h4>
-                                <p class="clearfix">
-                                    <span class="activity-sp"><b>情感极性</b><span class="c-3">喜欢发表正面的内容</span></span>
-                                    <span class="activity-sp"><b>性格倾向</b><span class="c-3">温和，真实</span></span>
-                                </p>
-                            </div>
-                        </div> -->
 
-                        <!-- 影响力雷达图 -->
-                        <div class="effect">
-                            <h4 class="evaluate-tit">我的影响力技能</h4>
-                            <div class="clearfix" style="height:100%;">
-                                <div class="pull-left radar-box" id="originalSkill" style="margin-right:2%;"></div>
-                                <div class="pull-left radar-box" id="spreadSkill"></div>
-                            </div>
-                        </div>
-
-                        <!-- 社交特征 -->
-                        <div class="social">
-                            <h4 class="evaluate-tit">社交特征</h4>
-                            <div class="clearfix" style="padding: 0.1rem;">
-                                <!-- <div class="activity-sp">
-                                    <b>被他转发及评论用户</b>
-                                    <img src="/static/images/chart-4.png" alt="">
-                                    <img src="/static/images/unknown.png" alt="">
-                                    <img src="/static/images/unknown.png" alt="">
-                                </div>
-                                <div class="activity-sp">
-                                    <b>转发及评论他的用户</b>
-                                    <img src="/static/images/unknown.png" alt="">
-                                    <img src="/static/images/logoDetail.png" alt="">
-                                    <img src="/static/images/unknown.png" alt="">
-                                </div>
-                                <div class="activity-sp">
-                                    <b>双向交互的用户</b>
-                                    <img src="/static/images/unknown.png" alt="">
-                                    <img src="/static/images/chart-1.png" alt="">
-                                    <img src="/static/images/unknown.png" alt="">
-                                </div>
-                                <div class="activity-sp">
-                                    <b>他@的相关用户</b>
-                                    <span>暂无数据</span>
-                                </div> -->
-                                <ul id="myTabs-gam" class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active">
-                                        <a href="#attention-1" role="tab" data-toggle="tab"><b class="icon icon-heart-empty"></b>&nbsp;谁关注我</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#attention-2" role="tab" data-toggle="tab"><b class="icon icon-umbrella"></b>&nbsp;我关注谁</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="content-gam">
-                                    <div role="tabpanel" class="_table tab-pane active" id="attention-1">
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/chart-4.png" alt="">
-                                            <br>
-                                            <span>马克·安东尼</span>
-                                        </div>
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/unknown.png" alt="">
-                                            <br>
-                                            <span>阿育王</span>
-                                        </div>
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/unknown.png" alt="">
-                                            <br>
-                                            <span>阿紫</span>
-                                        </div>
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/unknown.png" alt="">
-                                            <br>
-                                            <span>公孙康</span>
-                                        </div>
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/logoDetail.png" alt="">
-                                            <br>
-                                            <span>阔阔真公主</span>
-                                        </div>
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/unknown.png" alt="">
-                                            <br>
-                                            <span>容妃</span>
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="_table tab-pane" id="attention-2">
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/unknown.png" alt="">
-                                            <br>
-                                            <span>尉迟敬德</span>
-                                        </div>
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/chart-1.png" alt="">
-                                            <br>
-                                            <span>周敦颐</span>
-                                        </div>
-                                        <div class="attentioncontent-1">
-                                            <img src="/static/images/unknown.png" alt="">
-                                            <br>
-                                            <span>王昌龄</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <!-- 演化分析 -->
+                <div role="tabpanel" class="_table tab-pane " id="evolution">
+                    <!-- 热度曲线图 -->
+                    <div class="evolution-chat" id="evolution-chat-1" style="width:100%;">
                     </div>
-                    <!-- 造谣特征 -->
-                    <div class="rumor cleafix">
-                        <!-- <h4 class="evaluate-tit">造谣特征</h4> -->
-                        <h4 class="evaluate-tit">相关微博</h4>
-                        <!-- 发布谣言 -->
-                        <!-- <div class="release">
-                            <h4 style="padding:0.05rem 0.2rem;">发布谣言</h4>
-                            <p class="clearfix" style="padding:0 0.2rem;">
-                                <span class="activity-sp"><b>发布次数</b><span class="r-1">10</span></span>
-                                <span class="activity-sp"><b>总浏览人数</b><span class="r-1">200000</span></span>
-                                <span class="activity-sp"><b>总转发量</b><span class="r-1">5000</span></span>
-                                <span class="activity-sp"><b>总评论量</b><span class="r-1">8000</span></span>
-                            </p>
-                            <table class="postRank" cellspacing="0" cellpadding="0">
-                                <thead>
-                                    <th>谣言标题</th>
-                                    <th>谣言时间</th>
-                                    <th>转发量</th>
-                                    <th>评论量</th>
-                                    <th>浏览人数</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>万科建立新安小镇</td>
-                                        <td>2017-05-01 00:00</td>
-                                        <td>23</td>
-                                        <td>23</td>
-                                        <td>50000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>万科发现锂矿产</td>
-                                        <td>2017-05-01 00:00</td>
-                                        <td>21</td>
-                                        <td>21</td>
-                                        <td>45000</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> -->
-                        <!-- 传播谣言 -->
-                        <!-- <div class="spread">
-                            <h4 style="padding:0.05rem 0.2rem;">传播谣言</h4>
-                            <p class="clearfix" style="padding:0 0.2rem;">
-                                <span class="activity-sp"><b>参与次数</b><span class="r-2">10</span></span>
-                                <span class="activity-sp"><b>总浏览人数</b><span class="r-2">200000</span></span>
-                                <span class="activity-sp"><b>总转发量</b><span class="r-2">5000</span></span>
-                                <span class="activity-sp"><b>总评论量</b><span class="r-2">8000</span></span>
-                            </p>
-                            <table class="spreadRank" cellspacing="0" cellpadding="0">
-                                <thead>
-                                <th>谣言标题</th>
-                                <th>谣言时间</th>
-                                <th>转发量</th>
-                                <th>评论量</th>
-                                <th>浏览人数</th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>万科建立新安小镇</td>
-                                    <td>2017-05-01 00:00</td>
-                                    <td>23</td>
-                                    <td>23</td>
-                                    <td>50000</td>
-                                </tr>
-                                <tr>
-                                    <td>万科发现锂矿产</td>
-                                    <td>2017-05-01 00:00</td>
-                                    <td>21</td>
-                                    <td>21</td>
-                                    <td>45000</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div> -->
-
-                        <div class="center_rel">
-                            <img src="/static/images/unknown.png" alt="" class="center_icon">
-                            <a href="###" class="center_1" style="color:#f98077;">5236217710</a>
-                            <span class="time" style="font-weight:900;color:#f6a38e;">
-                                <i class="icon icon-time">&nbsp;&nbsp;2016/11/24  10:02:10</i>
-                            </span>
-                            <span>//@四川共青团: 其实，感恩节的起源不过是个传说，而这个传说并不被印第安人认可，真实的情况是，感恩节是白人入侵美洲后，为庆祝对印第安人的大<b style="color:#ef3e3e;"></b>取得胜利而设的节日。[蜡烛][蜡烛][蜡烛][蜡烛][蜡烛][蜡烛]</span>
-                        </div>
-                        <div class="center_rel">
-                            <img src="/static/images/unknown.png" alt="" class="center_icon">
-                            <a href="###" class="center_1" style="color:#f98077;">5236217710</a>
-                            <span class="time" style="font-weight:900;color:#f6a38e;">
-                                <i class="icon icon-time">&nbsp;&nbsp;2016/11/24  10:02:10</i>
-                            </span>
-                            <span>//@四川共青团: 其实，感恩节的起源不过是个传说，而这个传说并不被印第安人认可，真实的情况是，感恩节是白人入侵美洲后，为庆祝对印第安人的大<b style="color:#ef3e3e;"></b>取得胜利而设的节日。[蜡烛][蜡烛][蜡烛][蜡烛][蜡烛][蜡烛]</span>
-                        </div>
-                        <div class="center_rel">
-                            <img src="/static/images/unknown.png" alt="" class="center_icon">
-                            <a href="###" class="center_1" style="color:#f98077;">5236217710</a>
-                            <span class="time" style="font-weight:900;color:#f6a38e;">
-                                <i class="icon icon-time">&nbsp;&nbsp;2016/11/24  10:02:10</i>
-                            </span>
-                            <span>//@四川共青团: 其实，感恩节的起源不过是个传说，而这个传说并不被印第安人认可，真实的情况是，感恩节是白人入侵美洲后，为庆祝对印第安人的大<b style="color:#ef3e3e;"></b>取得胜利而设的节日。[蜡烛][蜡烛][蜡烛][蜡烛][蜡烛][蜡烛]</span>
-                        </div>
-                        <div class="center_rel">
-                            <img src="/static/images/unknown.png" alt="" class="center_icon">
-                            <a href="###" class="center_1" style="color:#f98077;">5236217710</a>
-                            <span class="time" style="font-weight:900;color:#f6a38e;">
-                                <i class="icon icon-time">&nbsp;&nbsp;2016/11/24  10:02:10</i>
-                            </span>
-                            <span>//@四川共青团: 其实，感恩节的起源不过是个传说，而这个传说并不被印第安人认可，真实的情况是，感恩节是白人入侵美洲后，为庆祝对印第安人的大<b style="color:#ef3e3e;"></b>取得胜利而设的节日。[蜡烛][蜡烛][蜡烛][蜡烛][蜡烛][蜡烛]</span>
-                        </div>
+                    <!-- 情绪曲线图 -->
+                    <div class="evolution-chat" id="evolution-chat-2" style="margin-top:20px;width:100%;">
                     </div>
-
                 </div>
+
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block my_js %}
-    <script src="/static/js/jquery-3.2.1.min.js"></script>
-    <script src="/static/js/publicNav.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/bootstrap-table.min.js"></script>
-    <script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
-    <script src="/static/echarts/echarts.min.js"></script>
-    <script src="/static/js/chalk.js"></script>
-    <script src="/static/js/echarts-2/build/dist/echarts.js"></script>
+    <!-- <script src="/static/js/jquery-3.2.1.min.js"></script> -->
+    <!-- <script src="/static/js/publicNav.js"></script> -->
+    <!-- <script src="/static/js/bootstrap.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table-zh-CN.min.js"></script> -->
+    <!-- <script src="/static/echarts/echarts.min.js"></script> -->
+    <!-- <script src="/static/js/chalk.js"></script> -->
+    <!-- <script src="/static/js/echarts-2/build/dist/echarts.js"></script> -->
 
     <script type="text/javascript" src="/static/js/jquery.eeyellow.Timeline.js"></script> <!-- 时间轴插件 -->
 
 
     <script>
-        //===========================
-        $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
-            $(this).siblings('.line').css({left:'0%'});
-            if ($(document).scrollTop()!=0){
-                $(this).css({color:'#ff9645'});
-                $(this).find('i').css({color:'#ff9645'});
-            }else {
-                $(this).css({color:'#08F'});
-                $(this).find('i').css({color:'#08F'});
-            }
-        }).on('mouseout',function () {
-            $(this).siblings('.line').css({left:'-100%'});
-            if ($(document).scrollTop()!=0){
-                $(this).css({color:'#fff'});
-                $(this).find('i').css({color:'#fff'});
-            }else {
-                $(this).css({color:'#000'});
-                $(this).find('i').css({color:'#000'});
-            }
-        });
-        $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
-        $('#nav .nav_left h3').css({color:'#333'});
-        $('#nav .nav_middle .main_li .li_a').eq(1).addClass('s1');
-        $('#nav .nav_middle .main_li .li_a').eq(1).find('i').addClass('s1');
-        window.onscroll=function () {
-            $('#nav').css({backgroundColor:'#777'});
-            $('#nav .nav_left h3').css({color:'white'});
-            $('#nav .nav_left img').attr('src','/static/images/logo.png');
-            $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
-            $('#nav .nav_middle .main_li .li_a').css({color:'white'});
-            $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
-            $('#nav .nav_middle .main_li .li_a').eq(1).removeClass('s1').addClass('s2');
-            $('#nav .nav_middle .main_li .li_a').eq(1).find('i').removeClass('s1').addClass('s2');
-            $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
-            if ($(document).scrollTop()==0){
-                $('#nav').css({backgroundColor:'#fff'});
-                $('#nav .nav_left h3').css({color:'black'});
-                $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
-                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
-                $('#nav .nav_middle .main_li .li_a').css({color:'black'});
-                $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
-                $('#nav .nav_middle .main_li .li_a').eq(1).removeClass('s2').addClass('s1');
-                $('#nav .nav_middle .main_li .li_a').eq(1).find('i').removeClass('s2').addClass('s1');
-                $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
-            }
-        };
+        //===========================导航
+            $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+                $(this).siblings('.line').css({left:'0%'});
+                if ($(document).scrollTop()!=0){
+                    $(this).css({color:'#ff9645'});
+                    $(this).find('i').css({color:'#ff9645'});
+                }else {
+                    $(this).css({color:'#08F'});
+                    $(this).find('i').css({color:'#08F'});
+                }
+            }).on('mouseout',function () {
+                $(this).siblings('.line').css({left:'-100%'});
+                if ($(document).scrollTop()!=0){
+                    $(this).css({color:'#fff'});
+                    $(this).find('i').css({color:'#fff'});
+                }else {
+                    $(this).css({color:'#000'});
+                    $(this).find('i').css({color:'#000'});
+                }
+            });
+            $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+            $('#nav .nav_left h3').css({color:'#333'});
+            $('#nav .nav_middle .main_li .li_a').eq(1).addClass('s1');
+            $('#nav .nav_middle .main_li .li_a').eq(1).find('i').addClass('s1');
+            window.onscroll=function () {
+                $('#nav').css({backgroundColor:'#777'});
+                $('#nav .nav_left h3').css({color:'white'});
+                $('#nav .nav_left img').attr('src','/static/images/logo.png');
+                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
+                $('#nav .nav_middle .main_li .li_a').css({color:'white'});
+                $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
+                $('#nav .nav_middle .main_li .li_a').eq(1).removeClass('s1').addClass('s2');
+                $('#nav .nav_middle .main_li .li_a').eq(1).find('i').removeClass('s1').addClass('s2');
+                $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
+                if ($(document).scrollTop()==0){
+                    $('#nav').css({backgroundColor:'#fff'});
+                    $('#nav .nav_left h3').css({color:'black'});
+                    $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+                    $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
+                    $('#nav .nav_middle .main_li .li_a').css({color:'black'});
+                    $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
+                    $('#nav .nav_middle .main_li .li_a').eq(1).removeClass('s2').addClass('s1');
+                    $('#nav .nav_middle .main_li .li_a').eq(1).find('i').removeClass('s2').addClass('s1');
+                    $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+                }
+            };
 
 
         $(document).ready(function () {
 
-            // 纵向时间轴
-            $('.VivaTimeline').vivaTimeline({
-                carousel: true,
-                carouselTime: 3000
-            });
+            // 语义分析
+                // 纵向时间轴
+                $('.VivaTimeline').vivaTimeline({
+                    carousel: true,
+                    carouselTime: 3000
+                });
 
-            // 设置 影响力雷达图 下面的div的padding-top
-            $('.effect>div').css('padding-top',$('.effect h4').outerHeight());
-            // 影响力雷达图
-                function radar(boxId,tit,subtit,indicatorData,data){
-                    var myChart = echarts.init(document.getElementById(boxId));
-                    var option = {
-                        title: {
-                            text: tit,
-                            subtext:subtit
-                        },
-                        tooltip: {},
-                        legend: {
-                            // data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）']
-                        },
-                        radar: {
-                            // shape: 'circle',
-                            name: {
-                                textStyle: {
-                                    color: '#fff',
-                                    backgroundColor: '#999',
-                                    borderRadius: 3,
-                                    padding: [3, 5]
-                                }
+            // 发布者画像
+                // 设置 影响力雷达图 下面的div的padding-top
+                $('.effect>div').css('padding-top',$('.effect h4').outerHeight());
+                // 影响力雷达图
+                    function radar(boxId,tit,subtit,indicatorData,data){
+                        var myChart = echarts.init(document.getElementById(boxId));
+                        var option = {
+                            title: {
+                                text: tit,
+                                subtext:subtit
                             },
-                            // indicator: [
-                            //     { name: '质疑度', max: 60},
-                            //     { name: '发布者可疑度', max: 60},
-                            //     { name: '扩散速度', max: 60},
-                            //     { name: '波及人次', max: 60},
-                            //     { name: '评论数', max: 60},
-                            //     { name: '转发数', max: 60}
-                            // ]
-                            indicator:indicatorData
-                        },
-                        series: [{
-                            name: '',
-                            type: 'radar',
-                            // areaStyle: {normal: {}},
-                            data : [
-                                {
-                                    // value : [60,15,10,50,30,40],
-                                    value : data,
-                                    // name : '预算分配（Allocated Budget）'
+                            tooltip: {},
+                            legend: {
+                                // data: ['预算分配（Allocated Budget）', '实际开销（Actual Spending）']
+                            },
+                            radar: {
+                                // shape: 'circle',
+                                name: {
+                                    textStyle: {
+                                        color: '#fff',
+                                        backgroundColor: '#999',
+                                        borderRadius: 3,
+                                        padding: [3, 5]
+                                    }
                                 },
-                                //  {
-                                //     value : [5000, 14000, 28000, 31000, 42000, 21000],
-                                //     name : '实际开销（Actual Spending）'
-                                // }
-                            ]
-                        }]
-                    };
-                    myChart.setOption(option)
-                }
-                var originalSkill_indicatorData = [
-                    { name: '原创数', max: 100},
-                    { name: '原创微博转发速度', max: 100},
-                    { name: '原创微博评论速度', max: 100},
-                    { name: '原创被评论数', max: 100},
-                    { name: '原创被转发数', max: 100},
-                ];
-                var originalSkill_Data = [];
-                for (var i=0;i<6;i++){
-                    originalSkill_Data.push(Math.floor(Math.random()*100+1))
-                }
-                var spreadSkill_indicatorData = [
-                    { name: '转发数', max: 100},
-                    { name: '转发微博转发速度', max: 100},
-                    { name: '转发微博被评论数', max: 100},
-                    { name: '转发微博被转发数', max: 100},
-                    { name: '评论数', max: 100},
-                ];
-                var spreadSkill_Data = [];
-                for (var i=0;i<6;i++){
-                    spreadSkill_Data.push(Math.floor(Math.random()*100+1))
-                }
-                radar('originalSkill','原创技能','网红必备技能一',originalSkill_indicatorData,originalSkill_Data);
-                radar('spreadSkill','传播技能','网红必备技能二',spreadSkill_indicatorData,spreadSkill_Data);
+                                // indicator: [
+                                //     { name: '质疑度', max: 60},
+                                //     { name: '发布者可疑度', max: 60},
+                                //     { name: '扩散速度', max: 60},
+                                //     { name: '波及人次', max: 60},
+                                //     { name: '评论数', max: 60},
+                                //     { name: '转发数', max: 60}
+                                // ]
+                                indicator:indicatorData
+                            },
+                            series: [{
+                                name: '',
+                                type: 'radar',
+                                // areaStyle: {normal: {}},
+                                data : [
+                                    {
+                                        // value : [60,15,10,50,30,40],
+                                        value : data,
+                                        // name : '预算分配（Allocated Budget）'
+                                    },
+                                    //  {
+                                    //     value : [5000, 14000, 28000, 31000, 42000, 21000],
+                                    //     name : '实际开销（Actual Spending）'
+                                    // }
+                                ]
+                            }]
+                        };
+                        myChart.setOption(option)
+                    }
+                    var originalSkill_indicatorData = [
+                        { name: '原创数', max: 100},
+                        { name: '原创微博转发速度', max: 100},
+                        { name: '原创微博评论速度', max: 100},
+                        { name: '原创被评论数', max: 100},
+                        { name: '原创被转发数', max: 100},
+                    ];
+                    var originalSkill_Data = [];
+                    for (var i=0;i<6;i++){
+                        originalSkill_Data.push(Math.floor(Math.random()*100+1))
+                    }
+                    var spreadSkill_indicatorData = [
+                        { name: '转发数', max: 100},
+                        { name: '转发微博转发速度', max: 100},
+                        { name: '转发微博被评论数', max: 100},
+                        { name: '转发微博被转发数', max: 100},
+                        { name: '评论数', max: 100},
+                    ];
+                    var spreadSkill_Data = [];
+                    for (var i=0;i<6;i++){
+                        spreadSkill_Data.push(Math.floor(Math.random()*100+1))
+                    }
+                    radar('originalSkill','原创技能','网红必备技能一',originalSkill_indicatorData,originalSkill_Data);
+                    radar('spreadSkill','传播技能','网红必备技能二',spreadSkill_indicatorData,spreadSkill_Data);
         });
     </script>
 

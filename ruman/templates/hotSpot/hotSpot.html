@@ -1,16 +1,18 @@
 {% extends "publicNav.html" %}
-{% block title %}<title>热点监测</title>{% endblock %}
+{% block title %}<title>新闻热点</title>{% endblock %}
 {% block my_css %}
 
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <!--<link rel="stylesheet" href="../static/css/jquery.fullPage.css">-->
-    <link rel="stylesheet" href="../static/css/public_nav.css">
-    <link rel="stylesheet" href="../static/css/modalANDtable.css">
-    <link rel="stylesheet" href="../static/css/hotSpot.css">
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap-table.min.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/font-awesome.min.css"> -->
 
-    <link rel="stylesheet" type="text/css" href="../static/css/jquery.eeyellow.Timeline.css" />
+    <!--<link rel="stylesheet" href="/static/css/jquery.fullPage.css">-->
+
+    <!-- <link rel="stylesheet" href="/static/css/public_nav.css"> -->
+    <link rel="stylesheet" href="/static/css/modalANDtable.css">
+    <link rel="stylesheet" href="/static/css/hotSpot.css">
+
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/jquery.eeyellow.Timeline.css" /> -->
 
     <style>
         #nav .nav_middle .main_li:nth-of-type(4) {
@@ -38,7 +40,8 @@
             display: none;
         }
         /*#nav {background: rgba(60, 118, 130, 0.52)}*/
-        #nav {background: rgba(18, 146, 175, 0.52)}
+        /* #nav {background: rgba(18, 146, 175, 0.52)} */
+        #nav {background: rgba(18, 146, 175, 0.93)}
         #nav .nav_middle, #nav .nav_right {display: block;}
         #spread-1 .fixed-table-toolbar .search {width: 100%;}
         /*======*/
@@ -217,16 +220,16 @@
 {% endblock %}
 
 {% block my_js %}
-    <script src="../static/js/publicNav.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/bootstrap-table.min.js"></script>
-    <script src="../static/js/bootstrap-table-zh-CN.min.js"></script>
-    <script src="../static/echarts/echarts.min.js"></script>
-    <script src="../static/js/chalk.js"></script>
-    <script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-    <!--<script src="../static/js/jquery.fullPage.min.js"></script>-->
+    <!-- <script src="/static/js/publicNav.js"></script> -->
+    <!-- <script src="/static/js/bootstrap.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table.min.js"></script> -->
+    <!-- <script src="/static/js/bootstrap-table-zh-CN.min.js"></script> -->
+    <!-- <script src="/static/echarts/echarts.min.js"></script> -->
+    <!-- <script src="/static/js/chalk.js"></script> -->
+    <!-- <script src="/static/js/echarts-2/build/dist/echarts.js"></script> -->
+    <!--<script src="/static/js/jquery.fullPage.min.js"></script>-->
 
-    <!-- <script type="text/javascript" src="../static/js/jquery.eeyellow.Timeline.js"></script> 时间轴插件 -->
+    <!-- <script type="text/javascript" src="/static/js/jquery.eeyellow.Timeline.js"></script> 时间轴插件 -->
 
     <script>
         <!---->
@@ -249,12 +252,12 @@
             //     carousel: true,
             //     carouselTime: 3000
             // });
-            $('.content').css('min-height',$(window).height())
+            $('#container').css('min-height',$(window).height())
         });
 
     </script>
 
-    <script src="../static/js/hotSpot.js"></script>
+    <script src="/static/js/hotSpot.js"></script>
 
 
 {% endblock %}
