@@ -580,13 +580,12 @@ def hotspotbasicMessage(id):
 	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_HOTNEWS,HOT_NEWS_ID,id)
 	cur.execute(sql)
 	results = cur.fetchone()
-	result = [{'title':results[HOT_NEWS_TITLE]},
-		{'web':results[HOT_NEWS_WEB]},
-		{'in_time':ts2date(float(results[HOT_NEWS_IN_TIME]))},
-		{'key_word':results[HOT_NEWS_KEY_WORD]},
-		{'url':results[HOT_NEWS_URL]},
-		{'content':results[HOT_NEWS_CONTENT]}
-	]
+	result = {'title':results[HOT_NEWS_TITLE],
+		'web':results[HOT_NEWS_WEB],
+		'in_time':ts2date(float(results[HOT_NEWS_IN_TIME])),
+		'key_word':results[HOT_NEWS_KEY_WORD],
+		'url':results[HOT_NEWS_URL],
+		'content':results[HOT_NEWS_CONTENT]}
 	return result
 
 if __name__=="__main__":

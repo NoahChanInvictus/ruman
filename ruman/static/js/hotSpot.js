@@ -46,6 +46,9 @@
         {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'沈小司司','d':'知乎','e':'44','f':'30',
             'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
     ]
+
+    var hotSpot_url = 'hotspotNewsText';
+    public_ajax.call_request('get',hotSpot_url,hotSpot);
     function hotSpot(data) {
         $('#hotspotTable p.loading').show();
         $('#hotspotTable').bootstrapTable('load', data);
@@ -69,57 +72,102 @@
             // showLoading:true,
             columns: [
                 {
-                    title: "主题",//标题
-                    field: "b",//键名
+                    title: "新闻标题",//标题
+                    field: "title",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        var title = '';
+
+                        if (row.title==''||row.title=='null'||row.title=='unknown'||!row.title){
+                            return '未知';
+                        }else if(row.title.length >=20){
+                            title = row.title.slice(0,20)+'...';
+                            return '<span style="cursor:pointer;color:white;" title="'+row.title+'">'+title+'</span>';
+                        }else {
+                            title = row.title;
+                            return '<span style="cursor:pointer;color:white;" title="'+row.title+'">'+title+'</span>';
+                        };
+                    }
+                },
+                {
+                    title: "发布网站",//标题
+                    field: "web",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.web==''||row.web=='null' || row.web==null ||row.web=='unknown'||!row.web){
+                            return '未知';
+                        }else {
+                            return row.web;
+                        };
+                    }
 
                 },
                 {
                     title: "发布时间",//标题
-                    field: "a",//键名
+                    field: "in_time",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.a==''||row.a=='null' || row.a==null ||row.a=='unknown'||!row.a){
+                        if (row.in_time==''||row.in_time=='null' || row.in_time==null ||row.in_time=='unknown'||!row.in_time){
                             return '未知';
                         }else {
-                            return row.a;
+                            return row.in_time;
                         };
                     }
 
                 },
+                // {
+                //     title: "发布渠道",//标题
+                //     field: "c",//键名
+                //     sortable: true,//是否可排序
+                //     order: "desc",//默认排序方式
+                //     align: "center",//水平
+                //     valign: "middle",//垂直
+                //     formatter: function (value, row, index) {
+                //         if (row.c==''||row.c=='null' || row.c==null ||row.c=='unknown'||!row.c){
+                //             return '未知';
+                //         }else {
+                //             return row.c;
+                //         };
+                //     }
+                // },
                 {
-                    title: "发布渠道",//标题
-                    field: "c",//键名
+                    title: "关键词",//标题
+                    field: "key_word",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.c==''||row.c=='null' || row.c==null ||row.c=='unknown'||!row.c){
+                        if (row.key_word==''||row.key_word=='null' || row.key_word==null ||row.key_word=='unknown'||!row.key_word){
                             return '未知';
                         }else {
-                            return row.c;
+                            return row.key_word;
                         };
                     }
                 },
                 {
-                    title: "关键词",//标题
-                    field: "h",//键名
+                    title: "新闻链接",//标题
+                    field: "url",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.h==''||row.h=='null' || row.h==null ||row.h=='unknown'||!row.h){
+                        var str = '<a style="cursor:pointer;color:white;" title="'+row.url+'" href="'+row.url+'" target="_blank"> <i class="icon icon-link"></i></a>';
+                        if (row.url==''||row.url=='null' || row.url==null ||row.url=='unknown'||!row.url){
                             return '未知';
                         }else {
-                            return row.h;
+
+                            return str;
                         };
                     }
                 },
@@ -131,7 +179,7 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.b+'\',\''+row.a+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
                 {
@@ -156,13 +204,12 @@
         $('#hotspotTable p.loading').hide();
         $('.hotspotTable .fixed-table-toolbar .search input').attr('placeholder','请输入查询内容');
     };
-    hotSpot(hotSpotData);
+    // hotSpot(hotSpotData);
 
 // 跳转详情页
-    function jumpFrame_1(stock,id) {
+    function jumpFrame_1(id) {
         var html = '';
-        stock=escape(stock);
-        html='/index/hotDetail?stock='+stock+'&id='+id;
+        html='/index/hotDetail?id='+id;
         // window.location.href=html;
         window.open(html);
     }
