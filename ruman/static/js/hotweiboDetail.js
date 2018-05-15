@@ -1,4 +1,18 @@
 
+// 发布者画像
+var card_url = '/attribute/new_user_profile/?uid=3069348215';
+public_ajax.call_request('get',card_url,card);
+
+function card(data){
+    // $('#card .type-1').text(data.title);
+    // $('#card .type-4').text(data.web);
+    // $('#card .type-2').text(data.in_time);
+    // $('#card .type-3').text(data.key_word);
+    // $('#card .type-5').text(data.url).attr('title',data.url).attr('href',data.url);
+
+    // $('#card .hotContent p').text(data.content)
+}
+
 // 演化分析
     function get7DaysBefore(date,m){
         var date = date || new Date(),
