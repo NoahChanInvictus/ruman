@@ -31,3 +31,10 @@ def hotspot_evolution():
 	source = request.args.get('source','')
 	result = hotspotEvolution(id,frequency,source)
 	return json.dumps(result,ensure_ascii=False)
+
+@hotSpot.route('/hotspotReport/wordcloud/')
+def hotspot_wordcloud():
+	id = int(request.args.get('id',''))
+	source = request.args.get('source','')
+	result = hotspotWordcloud(id,source)
+	return json.dumps(result,ensure_ascii=False)

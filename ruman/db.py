@@ -633,8 +633,30 @@ def hotspotEvolution(id,frequency,source):
 		result = {'time':datelist,'count':countlist}
 		return result
 
+def hotspotWordcloud(id,source):
+	cur = defaultDatabase()
+	conn = defaultDatabaseConn()
+	sql = "SELECT * FROM %s WHERE %s = '%d' and %s = '%s'" %(TABLE_WORDCLOUD,WORDCLOUD_NEWS_ID,id,WORDCLOUD_SOURCE,source)
+	cur.execute(sql)
+	results = cur.fetchone()
+	result = []
+	wordsstr = results[WORDCLOUD_WORDS]
+	wordstrlist = wordsstr.split(',')
+	for wordstr in wordstrlist[:-1]:
+		dic = {}
+		word = wordstr.split(':')[0]
+		wordnum = wordstr.split(':')[1]
+		dic['name'] = word
+		dic['value'] = int(wordnum)
+		result.append(dic)
+	result = sorted(result, key= lambda x:(x['value']), reverse=True)[:100]
+	return result
+
+
+
 
 if __name__=="__main__":
 	#print len(manipulateHistory('002427'))
 	#manipulateAnnouncement(14)
-	manipulateHolderspct(1096)
+	#manipulateHolderspct(1096)
+	hotspotWordcloud(2,'bbs')
