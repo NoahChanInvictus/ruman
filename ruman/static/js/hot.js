@@ -71,10 +71,21 @@
     };
     // tables(obj);
 
+// 演化分析
 // 热度图
-    function line_1() {
+
+    var myChart_analysis = echarts.init(document.getElementById('analysis'));
+    myChart_analysis.showLoading();
+
+    var time_val = $('#time_select').val();
+    var source_val = $('#five_select').val();
+    var evolution_url = '/hotSpot/hotspotReport/evolution?frequency='+time_val+'&source='+source_val+'&id='+id;
+    public_ajax.call_request('get',evolution_url,line_1);
+
+
+    function line_1(data) {
         // var myChart = echarts.init(document.getElementById('analysis'),'chalk');
-        var myChart = echarts.init(document.getElementById('analysis'));
+        // var myChart = echarts.init(document.getElementById('analysis'));
         var option = {
             backgroundColor:'transparent',
             tooltip: {
@@ -109,7 +120,8 @@
                         fontWeight:'700'
                     }
                 },
-                data: ['周一','周二','周三','周四','周五','周六','周日'],
+                // data: ['周一','周二','周三','周四','周五','周六','周日'],
+                data: data.time,
             }],
             yAxis: [{
                 name:'热度',
@@ -170,14 +182,30 @@
                             borderWidth: 12
                         }
                     },
-                    data: [11, 11, 15, 13, 12, 13, 10],
+                    // data: [11, 11, 15, 13, 12, 13, 10],
+                    data: data.count,
                 }
             ]
         };
-        myChart.setOption(option);
+        myChart_analysis.hideLoading();
+        myChart_analysis.setOption(option);
     }
-    line_1();
+    // line_1();
+    $('#time_select').change(function(){
+        myChart_analysis.showLoading();
+        time_val = $(this).val();
+        source_val = $('#five_select').val();
+        evolution_url = '/hotSpot/hotspotReport/evolution?frequency='+time_val+'&source='+source_val+'&id='+id;
+        public_ajax.call_request('get',evolution_url,line_1);
+    })
 
+    $('#five_select').change(function(){
+        myChart_analysis.showLoading();
+        source_val = $(this).val();
+        time_val = $('#time_select').val();
+        evolution_url = '/hotSpot/hotspotReport/evolution?frequency='+time_val+'&source='+source_val+'&id='+id;
+        public_ajax.call_request('get',evolution_url,line_1);
+    })
 
 // 鱼骨图
     //
