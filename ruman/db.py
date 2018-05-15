@@ -638,15 +638,19 @@ def hotspotWordcloud(id,source):
 	conn = defaultDatabaseConn()
 	sql = "SELECT * FROM %s WHERE %s = '%d' and %s = '%s'" %(TABLE_WORDCLOUD,WORDCLOUD_NEWS_ID,id,WORDCLOUD_SOURCE,source)
 	cur.execute(sql)
-	result = cur.fetchone()
-	dic = {}
-	wordsstr = result[WORDCLOUD_WORDS]
+	results = cur.fetchone()
+	result = []
+	wordsstr = results[WORDCLOUD_WORDS]
 	wordstrlist = wordsstr.split(',')
 	for wordstr in wordstrlist[:-1]:
+		dic = {}
 		word = wordstr.split(':')[0]
 		wordnum = wordstr.split(':')[1]
-		dic[word] = wordnum
-	return dic
+		dic['name'] = word
+		dic['value'] = int(wordnum)
+		result.append(dic)
+	result = sorted(result, key= lambda x:(x['value']), reverse=True)[:100]
+	return result
 
 
 
