@@ -599,7 +599,8 @@
         margin-left: 0.3rem;
     }
     #container #five_select ,
-    #container #time_select
+    #container #time_select,
+    #container #wordCloud_select
     {
         /* display: inline-block;
         padding: 0.02rem 0.07rem;
@@ -619,7 +620,9 @@
         text-align: center;
     }
     #container #five_select ,
-    #container #time_select
+    #container #time_select,
+    #container #wordCloud_select
+
     {
         margin: 0;
     }
