@@ -126,18 +126,24 @@
 
             <div class="semantics clearfix">
                 <h3 style=";font-weight:700;"><i class="icon icon-comments-alt"></i>&nbsp;语义分析</h3>
-                <div class="lieOpt" style="display:block;">
-                    <select id="wordCloud_select">
+                <p class="tit">
+                    <span class="tit-1"></span>
+                    <span style="font-size: 0.18rem;">关键词云</span>
+                    <select id="wordCloud_select" class="lieOpt">
                         <option value="zhihu" selected>知乎</option>
                         <option value="forum">贴吧</option>
                         <option value="bbs">论坛</option>
                         <option value="wechat">微信</option>
                         <option value="webo">微博</option>
                     </select>
-                </div>
+                </p>
                 <div class="semanticsbox" id="word-cloud" style="height:3rem;">
                 </div>
                 <!-- 时间轴 -->
+                <p class="tit">
+                    <span class="tit-1"></span>
+                    <span style="font-size: 0.18rem;">主题时间轴</span>
+                </p>
                 <div class="semanticsbox" id="timebox">
                     <div class="VivaTimeline">
                         <dl>
@@ -315,7 +321,7 @@
             // 纵向时间轴
             $('.VivaTimeline').vivaTimeline({
                 carousel: true,
-                carouselTime: 3000
+                carouselTime: 2000
             });
         });
     </script>
