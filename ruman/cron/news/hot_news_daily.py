@@ -15,6 +15,7 @@ from config import *
 sys.path.append('../')
 from all_source_traceback.match_topic import all_source_match
 from all_source_traceback.cron_topic_propagatev2 import propagateTask
+from all_source_traceback.word_cloudv2 import word_cloud_main
 
 es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
 def defaultDatabase():
@@ -106,13 +107,19 @@ def hot_news_daily(theday):
     # save_results(theday,today_result)
     # print 'hot news saved!'
     result = get_hot_news(theday)
-    print 'compute start!'
+    
     for news in result:
         content = news['content']
         key_word = news['key_word']
         news_id = news['id']
+        print news_id
+        print 'load all source data start!'
         # all_source_match(news_id,key_word)        #读取并保存各个通道的相关文本
-        propagateTask(news_id,theday,120)           #计算120天的多通道溯源记录
+        print 'load data finished!'
+        print 'compute start!'
+        # propagateTask(news_id,theday,240)           #计算120天的多通道溯源记录
+        print 'compute end!'
+        word_cloud_main(news_id)
 
 
 
