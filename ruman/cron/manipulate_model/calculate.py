@@ -10,7 +10,7 @@ from time_utils import *
 from sql_utils import *
 from elasticsearch import Elasticsearch
 #from createframe import es_search
-from create import table1,table2
+#from create import table1,table2
 
 def what_quarter(theday):   
     year = int(str(theday).split('-')[0])

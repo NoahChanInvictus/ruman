@@ -1,6 +1,9 @@
 #-*-coding: utf-8-*-
 #统计每天操纵的股票所属行业
 #-*-coding: utf-8-*-
+import sys
+reload(sys)
+sys.path.append("../../../")
 import tushare as ts
 import pandas as pd
 import datetime
@@ -52,8 +55,8 @@ def datelist(year1,month1,day1,year2,month2,day2):
 def test(date,dateend,frequency):
     conn = default_db()
     cur = conn.cursor()
-    datesnow = date
-    cur.execute("SELECT * FROM manipulate_day")
+    datenow = date
+    cur.execute("SELECT * FROM %s where %s >= '%s' and %s <= '%s'" % (TABLE_DAY,DAY_END_DATE,dateend,DAY_END_DATE,datenow))
     results = cur.fetchall()
     frequency=frequency
     A=0
@@ -76,53 +79,53 @@ def test(date,dateend,frequency):
     R=0
     S=0
     for result in results:
-        if result['end_date']>=dateend:
-            if result['industry_code'] == "A":
+        if result[DAY_END_DATE]>=dateend:
+            if result[DAY_INDUSTRY_CODE] == "A":
                 A =A+1
-            elif result['industry_code'] == "B":
+            elif result[DAY_INDUSTRY_CODE] == "B":
                 B =B+1
-            elif result['industry_code'] == "C":
+            elif result[DAY_INDUSTRY_CODE] == "C":
                 C =C+1
-            elif result['industry_code'] == "D":
+            elif result[DAY_INDUSTRY_CODE] == "D":
                 D =D+1
-            elif result['industry_code'] == "E":
+            elif result[DAY_INDUSTRY_CODE] == "E":
                 E =E+1
-            elif result['industry_code'] == "F":
+            elif result[DAY_INDUSTRY_CODE] == "F":
                 F =F+1
-            elif result['industry_code'] == "G":
+            elif result[DAY_INDUSTRY_CODE] == "G":
                 G =G+1
-            elif result['industry_code'] == "H":
+            elif result[DAY_INDUSTRY_CODE] == "H":
                 H =H+1
-            elif result['industry_code'] == "I":
+            elif result[DAY_INDUSTRY_CODE] == "I":
                 I =I+1
-            elif result['industry_code'] == "J":
+            elif result[DAY_INDUSTRY_CODE] == "J":
                 J =J+1
-            elif result['industry_code'] == "K":
+            elif result[DAY_INDUSTRY_CODE] == "K":
                 K =K+1
-            elif result['industry_code'] == "L":
+            elif result[DAY_INDUSTRY_CODE] == "L":
                 L =L+1
-            elif result['industry_code'] == "M":
+            elif result[DAY_INDUSTRY_CODE] == "M":
                 M =M+1
-            elif result['industry_code'] == "N":
+            elif result[DAY_INDUSTRY_CODE] == "N":
                 N =N+1
-            elif result['industry_code'] == "O":
+            elif result[DAY_INDUSTRY_CODE] == "O":
                 O =O+1
-            elif result['industry_code'] == "P":
+            elif result[DAY_INDUSTRY_CODE] == "P":
                 P =P+1
-            elif result['industry_code'] == "Q":
+            elif result[DAY_INDUSTRY_CODE] == "Q":
                 Q =Q+1
-            elif result['industry_code'] == "R":
+            elif result[DAY_INDUSTRY_CODE] == "R":
                 R =R+1
-            elif result['industry_code'] == "S":
+            elif result[DAY_INDUSTRY_CODE] == "S":
                 S =S+1
         else:
             pass
 
-    order = 'insert into ' + 'manipulate_industry' + '(date,frequency,industry_A,industry_B,industry_C,\
+    order = 'insert into ' + TABLE_INDUSTRY + '(date,frequency,industry_A,industry_B,industry_C,\
     industry_D,industry_E,industry_F,industry_G,industry_H,industry_I,industry_J,industry_K,industry_L\
     ,industry_M,industry_N,industry_O,industry_P,industry_Q,industry_R,industry_S\
     )values("%s","%s","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d","%d"\
-    )'%(datesnow,frequency,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S)
+    )'%(datenow,frequency,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S)
 
     try:
         cur.execute(order)
@@ -130,9 +133,10 @@ def test(date,dateend,frequency):
     except Exception, e:
         print e
 
-def manipulateindustry(theday)
+def manipulateindustry(theday):
     dates = datelist(2007, 1, 1, 2025, 12, 31)
-    timenow=theday
+    timenow=to_tradeday(theday,-1)
+    print timenow
     
     num=7
     frequency="week"
@@ -149,5 +153,11 @@ def manipulateindustry(theday)
     day3=dates[findSortedPosition(dates,timenow)-num]
     test(timenow,day3,frequency)
 
+def industry_all(year1,month1,day1,year2,month2,day2):
+    for date in get_tradelist(year1,month1,day1,year2,month2,day2):
+        manipulateindustry(date)
 
+if __name__=="__main__":
+    #manipulateratio('2016-12-31')
+    industry_all(2016,1,1,2016,12,31)
 

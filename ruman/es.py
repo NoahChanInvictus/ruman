@@ -56,7 +56,7 @@ def manipulateAnnouncement(id):   #展示操纵期内公告详情
 				announcement_type = u'利润分配'
 			elif a == 6:
 				announcement_type = u'关联交易'
-			elif a == 7:
+			elif a == 7 or a == 12 or a == 13:
 				announcement_type = u'定向增发'
 			elif a == 8:
 				announcement_type = u'配股'
