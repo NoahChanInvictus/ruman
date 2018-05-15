@@ -29,6 +29,9 @@ def ts2date_min(ts):
 def datetime2ts(date):
     return int(time.mktime(time.strptime(date, '%Y-%m-%d')))
 
+def date2ts(date):
+    return int(time.mktime(time.strptime(date, '%Y-%m-%d %H:%M:%S')))
+
 def window2time(window, size=24*60*60):
     return window*size
 
@@ -97,3 +100,30 @@ def lasttradedate(theday):   #theday为'2016-05-05'格式
     trade_list = get_tradelist(int(trade_before[0]),int(trade_before[1]),int(trade_before[2]),int(trade_after[0]),int(trade_after[1]),int(trade_after[2]))
     index = trade_list.index(theday)
     return trade_list[index - 1]
+
+def to_tradeday(theday,bora):   #输入bora=1向后最近的交易日，输入bora=-1向前最近的交易日
+    while 1:
+        try:
+            a = ts.trade_cal()
+            break
+        except:
+            pass
+    tradedaydf = a[a['calendarDate'] == theday]
+    if tradedaydf.iloc[0]['isOpen']:
+        return theday
+    else:
+        dayindex = tradedaydf.index[0]
+        if bora == 1:
+            for i in range(dayindex + 1,dayindex + 30,1):
+                if a.loc[i]['isOpen'] == 1:
+                    date = a.loc[i]['calendarDate']
+                    break
+            return date
+        elif bora == -1:
+            for i in range(dayindex - 1,dayindex - 30,-1):
+                if a.loc[i]['isOpen'] == 1:
+                    date = a.loc[i]['calendarDate']
+                    break
+            return date
+        else:
+            print 'wrong bora,input 1 or -1'

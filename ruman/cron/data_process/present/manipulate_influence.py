@@ -1,6 +1,9 @@
 #-*-coding: utf-8-*-
 #统计每天操纵的股票增长率
 #-*-coding: utf-8-*-
+import sys
+reload(sys)
+sys.path.append("../../../")
 import tushare as ts
 import pandas as pd
 import datetime
@@ -58,8 +61,8 @@ def dateindex(datenow,num):
 def test(date,dateend,frequency):
     conn = default_db()
     cur = conn.cursor()
-    datesnow = date
-    cur.execute("SELECT * FROM manipulate_day")
+    datenow = date
+    cur.execute("SELECT * FROM %s where %s >= '%s' and %s <= '%s'" % (TABLE_DAY,DAY_END_DATE,dateend,DAY_END_DATE,datenow))
     results = cur.fetchall()
     frequency=frequency
     A=0
@@ -98,82 +101,82 @@ def test(date,dateend,frequency):
     NN=0
     OO=0
     for result in results:
-        if result['end_date']>=dateend:
-            if result['increase_ratio']>=0 and result['increase_ratio']<0.05:
+        if result[DAY_END_DATE]>=dateend:
+            if result[DAY_INCREASE_RATIO]>=0 and result[DAY_INCREASE_RATIO]<0.05:
                 A =A+1
-            elif result['increase_ratio']>=0.05 and result['increase_ratio']<0.1:
+            elif result[DAY_INCREASE_RATIO]>=0.05 and result[DAY_INCREASE_RATIO]<0.1:
                 B =B+1
-            elif result['increase_ratio']>=0.1 and result['increase_ratio']<0.15:
+            elif result[DAY_INCREASE_RATIO]>=0.1 and result[DAY_INCREASE_RATIO]<0.15:
                 C =C+1
-            elif result['increase_ratio']>=0.15 and result['increase_ratio']<0.2:
+            elif result[DAY_INCREASE_RATIO]>=0.15 and result[DAY_INCREASE_RATIO]<0.2:
                 D =D+1
-            elif result['increase_ratio']>=0.2 and result['increase_ratio']<0.25:
+            elif result[DAY_INCREASE_RATIO]>=0.2 and result[DAY_INCREASE_RATIO]<0.25:
                 E =E+1
-            elif result['increase_ratio']>=0.25 and result['increase_ratio']<0.3:
+            elif result[DAY_INCREASE_RATIO]>=0.25 and result[DAY_INCREASE_RATIO]<0.3:
                 F =F+1
-            elif result['increase_ratio']>=0.3 and result['increase_ratio']<0.35:
+            elif result[DAY_INCREASE_RATIO]>=0.3 and result[DAY_INCREASE_RATIO]<0.35:
                 G =G+1
-            elif result['increase_ratio']>=0.35 and result['increase_ratio']<0.4:
+            elif result[DAY_INCREASE_RATIO]>=0.35 and result[DAY_INCREASE_RATIO]<0.4:
                 H =H+1
-            elif result['increase_ratio']>=0.4 and result['increase_ratio']<0.45:
+            elif result[DAY_INCREASE_RATIO]>=0.4 and result[DAY_INCREASE_RATIO]<0.45:
                 I =I+1
-            elif result['increase_ratio']>=0.45 and result['increase_ratio']<0.5:
+            elif result[DAY_INCREASE_RATIO]>=0.45 and result[DAY_INCREASE_RATIO]<0.5:
                 J =J+1
-            elif result['increase_ratio']>=0.5 and result['increase_ratio']<0.55:
+            elif result[DAY_INCREASE_RATIO]>=0.5 and result[DAY_INCREASE_RATIO]<0.55:
                 K =K+1
-            elif result['increase_ratio']>=0.55 and result['increase_ratio']<0.6:
+            elif result[DAY_INCREASE_RATIO]>=0.55 and result[DAY_INCREASE_RATIO]<0.6:
                 L =L+1
-            elif result['increase_ratio']>=0.6 and result['increase_ratio']<0.65:
+            elif result[DAY_INCREASE_RATIO]>=0.6 and result[DAY_INCREASE_RATIO]<0.65:
                 M =M+1
-            elif result['increase_ratio']>=0.65 and result['increase_ratio']<0.7:
+            elif result[DAY_INCREASE_RATIO]>=0.65 and result[DAY_INCREASE_RATIO]<0.7:
                 N =N+1
-            elif result['increase_ratio']>=0.7 and result['increase_ratio']<0.75:
+            elif result[DAY_INCREASE_RATIO]>=0.7 and result[DAY_INCREASE_RATIO]<0.75:
                 O =O+1
-            elif result['increase_ratio']>=0.75 and result['increase_ratio']<0.8:
+            elif result[DAY_INCREASE_RATIO]>=0.75 and result[DAY_INCREASE_RATIO]<0.8:
                 P =P+1
-            elif result['increase_ratio']>=0.8 and result['increase_ratio']<0.85:
+            elif result[DAY_INCREASE_RATIO]>=0.8 and result[DAY_INCREASE_RATIO]<0.85:
                 Q =Q+1
-            elif result['increase_ratio']>=0.85 and result['increase_ratio']<0.9:
+            elif result[DAY_INCREASE_RATIO]>=0.85 and result[DAY_INCREASE_RATIO]<0.9:
                 R =R+1
-            elif result['increase_ratio']>=0.9 and result['increase_ratio']<0.95:
+            elif result[DAY_INCREASE_RATIO]>=0.9 and result[DAY_INCREASE_RATIO]<0.95:
                 S =S+1
-            elif result['increase_ratio']>=0.95 and result['increase_ratio']<1:
+            elif result[DAY_INCREASE_RATIO]>=0.95 and result[DAY_INCREASE_RATIO]<1:
                 t =t+1
-            elif result['increase_ratio']<0 and result['increase_ratio']>=-0.05:
+            elif result[DAY_INCREASE_RATIO]<0 and result[DAY_INCREASE_RATIO]>=-0.05:
                 AA =AA+1
-            elif result['increase_ratio']<-0.05 and result['increase_ratio']>=-0.1:
+            elif result[DAY_INCREASE_RATIO]<-0.05 and result[DAY_INCREASE_RATIO]>=-0.1:
                 BB =BB+1
-            elif result['increase_ratio']<-0.1 and result['increase_ratio']>=-0.15:
+            elif result[DAY_INCREASE_RATIO]<-0.1 and result[DAY_INCREASE_RATIO]>=-0.15:
                 CC =CC+1
-            elif result['increase_ratio']<-0.15 and result['increase_ratio']>=-0.2:
+            elif result[DAY_INCREASE_RATIO]<-0.15 and result[DAY_INCREASE_RATIO]>=-0.2:
                 DD =DD+1
-            elif result['increase_ratio']<-0.2 and result['increase_ratio']>=-0.25:
+            elif result[DAY_INCREASE_RATIO]<-0.2 and result[DAY_INCREASE_RATIO]>=-0.25:
                 EE =EE+1
-            elif result['increase_ratio']<-0.25 and result['increase_ratio']>=-0.3:
+            elif result[DAY_INCREASE_RATIO]<-0.25 and result[DAY_INCREASE_RATIO]>=-0.3:
                 FF =FF+1
-            elif result['increase_ratio']<-0.3 and result['increase_ratio']>=-0.35:
+            elif result[DAY_INCREASE_RATIO]<-0.3 and result[DAY_INCREASE_RATIO]>=-0.35:
                 GG =GG+1
-            elif result['increase_ratio']<-0.35 and result['increase_ratio']>=-0.4:
+            elif result[DAY_INCREASE_RATIO]<-0.35 and result[DAY_INCREASE_RATIO]>=-0.4:
                 HH =HH+1
-            elif result['increase_ratio']<-0.4 and result['increase_ratio']>=-0.45:
+            elif result[DAY_INCREASE_RATIO]<-0.4 and result[DAY_INCREASE_RATIO]>=-0.45:
                 II =II+1
-            elif result['increase_ratio']<-0.45 and result['increase_ratio']>=-0.5:
+            elif result[DAY_INCREASE_RATIO]<-0.45 and result[DAY_INCREASE_RATIO]>=-0.5:
                 JJ =JJ+1
-            elif result['increase_ratio']<-0.5 and result['increase_ratio']>=-0.55:
+            elif result[DAY_INCREASE_RATIO]<-0.5 and result[DAY_INCREASE_RATIO]>=-0.55:
                 KK =KK+1
-            elif result['increase_ratio']<-0.55 and result['increase_ratio']>=-0.6:
+            elif result[DAY_INCREASE_RATIO]<-0.55 and result[DAY_INCREASE_RATIO]>=-0.6:
                 LL =LL+1
-            elif result['increase_ratio']<-0.6 and result['increase_ratio']>=-0.65:
+            elif result[DAY_INCREASE_RATIO]<-0.6 and result[DAY_INCREASE_RATIO]>=-0.65:
                 MM =MM+1
-            elif result['increase_ratio']<-0.65 and result['increase_ratio']>=-0.7:
+            elif result[DAY_INCREASE_RATIO]<-0.65 and result[DAY_INCREASE_RATIO]>=-0.7:
                 NN =NN+1
-            elif result['increase_ratio']<-0.7 and result['increase_ratio']>=-0.75:
+            elif result[DAY_INCREASE_RATIO]<-0.7 and result[DAY_INCREASE_RATIO]>=-0.75:
                 OO =OO+1
 
         else:
             pass
 
-    order = 'insert into ' + 'manipulate_influence' + '(date,frequency,increasezero,increasefive\
+    order = 'insert into ' + TABLE_INFLUENCE + '(date,frequency,increasezero,increasefive\
     ,increaseten,increasefifteen,increasetwenty,increasetwentyfive,increasethirty,increasethirtyfive,increaseforty,increasefortyfive\
     ,increasefifty,increasefiftyfive,increasesixty,increasesixtyfive,increaseseventy\
     ,increaseseventyfive,increaseeighty,increaseeightyfive,increaseninty,increasenintyfive\
@@ -181,7 +184,7 @@ def test(date,dateend,frequency):
     ,increasefthirty,increasefthirtyfive,increasefforty,increaseffortyfive,increaseffifty,increaseffiftyfive\
     ,increasefsixty,increasefsixtyfive,increasefseventy)values("%s","%s", "%d","%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d"\
     , "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d", "%d"\
-    )'%(datesnow,frequency,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,t,AA,BB,CC,DD,EE,FF,GG,HH,II,JJ,KK,LL,MM,NN,OO)
+    )'%(datenow,frequency,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,t,AA,BB,CC,DD,EE,FF,GG,HH,II,JJ,KK,LL,MM,NN,OO)
 
     try:
         cur.execute(order)
@@ -189,16 +192,17 @@ def test(date,dateend,frequency):
     except Exception, e:
         print e
         
-def manipulateratio(theday)
+def manipulateratio(theday):
     dates = datelist(2014, 1, 1, 2025, 12, 30)
-    timenow=theday
+    timenow=to_tradeday(theday,-1)
+    print timenow
 
     num=7
     frequency="week"
     day1=dates[findSortedPosition(dates,timenow)-num]
     test(timenow,day1,frequency)
 
-    num=3
+    num=30
     frequency="month"
     day2=dates[findSortedPosition(dates,timenow)-num]
     test(timenow,day2,frequency)
@@ -208,7 +212,11 @@ def manipulateratio(theday)
     day3=dates[findSortedPosition(dates,timenow)-num]
     test(timenow,day3,frequency)
 
+def influence_all(year1,month1,day1,year2,month2,day2):
+    for date in get_tradelist(year1,month1,day1,year2,month2,day2):
+        manipulateratio(date)
 
-
-
+if __name__=="__main__":
+    #manipulateratio('2016-09-04')
+    influence_all(2016,1,1,2016,12,31)
 

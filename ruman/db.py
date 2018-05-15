@@ -9,10 +9,13 @@ import pymysql.cursors
 import pandas as pd
 from operator import itemgetter, attrgetter
 from numpy import mean
+import tushare as ts
 
 import time
 from config import *
 from time_utils import *
+
+
 
 def defaultDatabase():
 	conn = mysql.connect(host=SQL_HOST,user=SQL_USER,password=SQL_PASSWD,db=DEFAULT_DB,charset=SQL_CHARSET,cursorclass=pymysql.cursors.DictCursor)
@@ -68,10 +71,10 @@ def get_stock(id):   #通过day的id获取股票代码等数据
 	dic = {DAY_STOCK_ID:thing[DAY_STOCK_ID],DAY_START_DATE:thing[DAY_START_DATE],DAY_END_DATE:thing[DAY_END_DATE],DAY_INDUSTRY_CODE:thing[DAY_INDUSTRY_CODE]}
 	return dic
 
-def manipulateWarning():   #预警数合计总览
+def manipulateWarning():   #预警数合计总览,目前为了展示theday为定值，如果部署则改为today()
 	cur = defaultDatabase()
 	conn = defaultDatabaseConn()
-	theday = '2016-12-30'   
+	theday = SHOW_DATE   #更改
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -142,7 +145,7 @@ def manipulateWarningText():   #列出预警文本
 
 def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数并画图展示，方法类似Warning
 	cur = defaultDatabase()
-	theday = '2016-11-27'   #需改为today()
+	theday = SHOW_DATE   #需改为today()
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -175,7 +178,7 @@ def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数
 
 def manipulateInfluence(date):   #根据day表统计不同收益率的股票并展示
 	cur = defaultDatabase()
-	theday = '2016-09-04'
+	theday = to_tradeday(SHOW_DATE,-1)
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -251,7 +254,7 @@ def manipulateInfluence(date):   #根据day表统计不同收益率的股票并�
 
 def manipulateIndustry(date):   #根据day表统计不同行业的股票并展示
 	cur = defaultDatabase()
-	theday = '2016-09-04'
+	theday = to_tradeday(SHOW_DATE,-1)
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -300,7 +303,7 @@ def manipulateIndustry(date):   #根据day表统计不同行业的股票并展�
 
 def manipulateType(date):   #根据day表统计不同操纵类型的股票并展示
 	cur = defaultDatabase()
-	theday = '2016-09-04'
+	theday = to_tradeday(SHOW_DATE,-1)#'2016-01-04'
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -322,7 +325,7 @@ def manipulateType(date):   #根据day表统计不同操纵类型的股票并展
 		dic["定向增发"] = results[TYPE2]
 		dic["伪市值管理"] = results[TYPE3]
 		dic["散步牟利消息"] = results[TYPE4]
-		dic["其它"] = results[TYPE5]
+		dic["尾盘操纵"] = results[TYPE5]
 		typelist = []
 		num = []
 		dicsort = sorted(dic.items(),key=lambda x:x[1],reverse=True)
@@ -335,7 +338,7 @@ def manipulateType(date):   #根据day表统计不同操纵类型的股票并展
 
 def manipulatePanel(date):   #根据day表统计不同板块的股票并展示
 	cur = defaultDatabase()
-	theday = '2016-09-04'
+	theday = to_tradeday(SHOW_DATE,-1)
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
@@ -539,6 +542,7 @@ def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比�
 	day2 = int(end_date.split('-')[2])
 	datelist = get_season(year1,month1,day1,year2,month2,day2)
 	date = datelist[-1]
+	print date
 	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_STOCK_ID,stock_id,ES_HOLDERS_PCT_DATE,date)
 	cur.execute(sql)
 	results = cur.fetchone()
@@ -588,7 +592,49 @@ def hotspotbasicMessage(id):
 		'content':results[HOT_NEWS_CONTENT]}
 	return result
 
+def hotspotEvolution(id,frequency,source):
+	cur = defaultDatabase()
+	conn = defaultDatabaseConn()
+	theday = '2017-09-08 00:00:00'#'2018-01-01 00:00:00'
+	thedayts = date2ts(theday)
+	sql = "SELECT * FROM %s WHERE %s = '%d' and %s = '%s'" %(TABLE_PROPAGATE,PROPAGATE_NEWS_ID,id,PROPAGATE_SOURCE,source)
+	df = pd.read_sql(sql,conn)
+	if frequency == 1:
+		datelist = []
+		countlist = []
+		for num in range(7,0,-1):
+			beforets = thedayts - num*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			count = sum(stadf[PROPAGATE_COUNT])
+			datelist.append(ts2datetime(thedayts - (num - 1)*24*3600))
+			countlist.append(count)
+		result = {'time':datelist,'count':countlist}
+		return result
+	elif frequency == 7:
+		datelist = []
+		countlist = []
+		for num in range(8,0,-1):
+			beforets = thedayts - num*7*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			count = sum(stadf[PROPAGATE_COUNT])
+			datelist.append(ts2datetime(thedayts - (num - 1)*7*24*3600))
+			countlist.append(count)
+		result = {'time':datelist,'count':countlist}
+		return result
+	elif frequency == 30:
+		datelist = []
+		countlist = []
+		for num in range(8,0,-1):
+			beforets = thedayts - num*30*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			count = sum(stadf[PROPAGATE_COUNT])
+			datelist.append(ts2datetime(thedayts - (num - 1)*30*24*3600))
+			countlist.append(count)
+		result = {'time':datelist,'count':countlist}
+		return result
+
+
 if __name__=="__main__":
 	#print len(manipulateHistory('002427'))
 	#manipulateAnnouncement(14)
-	hotspotText()
+	manipulateHolderspct(1096)

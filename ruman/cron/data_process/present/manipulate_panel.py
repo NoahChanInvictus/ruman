@@ -1,6 +1,9 @@
 #-*-coding: utf-8-*-
 #统计每天操纵的股票所属板块
 #-*-coding: utf-8-*-
+import sys
+reload(sys)
+sys.path.append("../../../")
 import tushare as ts
 import pandas as pd
 import datetime
@@ -58,23 +61,23 @@ def test(date,dateend,frequency):
     conn = default_db()
     cur = conn.cursor()
     datesnow = date
-    cur.execute("SELECT * FROM manipulate_day")
+    cur.execute("SELECT * FROM %s where %s >= '%s' and %s <= '%s'" % (TABLE_DAY,DAY_END_DATE,dateend,DAY_END_DATE,datesnow))
     results = cur.fetchall()
     frequency=frequency
     zhuban=0
     chuangyeban=0
     zhongxiaoban=0
     for result in results:
-        if result['end_date']>=dateend:
-            if result['market_plate'] == "主板":
+        if result[DAY_END_DATE]>=dateend:
+            if result[DAY_MARKET_PLATE] == "主板":
                 zhuban = zhuban+1
-            elif result['market_plate'] == "创业板":
+            elif result[DAY_MARKET_PLATE] == "创业板":
                 chuangyeban = chuangyeban +1
-            elif result['market_plate'] == "中小企业板":
+            elif result[DAY_MARKET_PLATE] == "中小企业板":
                 zhongxiaoban =zhongxiaoban +1
         else:
             pass
-    order = 'insert into ' + 'manipulate_panel' + '( date,frequency,zhuban,chuangyeban,zhongxiaoban)values\
+    order = 'insert into ' + TABLE_PANEL + '( date,frequency,zhuban,chuangyeban,zhongxiaoban)values\
     ("%s","%s","%d","%d","%d")' % (datesnow,frequency,zhuban, chuangyeban, zhongxiaoban)
     try:
         cur.execute(order)
@@ -82,10 +85,12 @@ def test(date,dateend,frequency):
     except Exception, e:
         print e
 
-def manipulatepanel(theday)
+def manipulatepanel(theday):
     #timenow=time.strftime("%Y-%m-%d",time.localtime(int(time.time())))
     dates = datelist(2007, 1, 1, 2025, 12, 31)
-    timenow=theday
+    timenow=to_tradeday(theday,-1)
+    print timenow
+
     num=7
     frequency="week"
     day1=dates[findSortedPosition(dates,timenow)-num]
@@ -100,3 +105,11 @@ def manipulatepanel(theday)
     frequency="season"
     day3=dates[findSortedPosition(dates,timenow)-num]
     test(timenow,day3,frequency)
+
+def panel_all(year1,month1,day1,year2,month2,day2):
+    for date in get_tradelist(year1,month1,day1,year2,month2,day2):
+        manipulatepanel(date)
+
+if __name__=="__main__":
+    #manipulateratio('2016-12-31')
+    panel_all(2016,1,1,2016,12,31)

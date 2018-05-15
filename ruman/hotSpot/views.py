@@ -23,3 +23,11 @@ def hotspot_basicmessage():
 	id = int(request.args.get('id',''))
 	result = hotspotbasicMessage(id)
 	return json.dumps(result,ensure_ascii=False)
+
+@hotSpot.route('/hotspotReport/evolution/')
+def hotspot_evolution():
+	id = int(request.args.get('id',''))
+	frequency = int(request.args.get('frequency',''))
+	source = request.args.get('source','')
+	result = hotspotEvolution(id,frequency,source)
+	return json.dumps(result,ensure_ascii=False)

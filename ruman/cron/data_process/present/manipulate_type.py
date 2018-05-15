@@ -1,6 +1,9 @@
 #-*-coding: utf-8-*-
 #统计每天操纵的类型
 #-*-coding: utf-8-*-
+import sys
+reload(sys)
+sys.path.append("../../../")
 import tushare as ts
 import pandas as pd
 import datetime
@@ -63,37 +66,42 @@ def test(date,dateend,frequency):
     cur = conn.cursor()
     date = date
     dateend=dateend
-    cur.execute("SELECT * FROM manipulate_day")
+    cur.execute("SELECT * FROM %s where %s >= '%s' and %s <= '%s'" % (TABLE_DAY,DAY_END_DATE,dateend,DAY_END_DATE,date))
     results = cur.fetchall()
     frequency=frequency
     weishizhi=0
     gaosong=0
     dingxiang=0
     sanbumouli=0
+    weipan = 0
     for result in results:
-        if result['end_date']>=dateend:
-            if result['manipulate_type'] == 1:
+        if result[DAY_END_DATE]>=dateend:
+            if result[DAY_MANIPULATE_TYPE] == 1:
                 weishizhi = weishizhi+1
-            elif result['manipulate_type'] == 2:
-                gaosong = chaugyeban +1
-            elif result['manipulate_type'] == 3:
+            elif result[DAY_MANIPULATE_TYPE] == 2:
+                gaosong = gaosong +1
+            elif result[DAY_MANIPULATE_TYPE] == 3:
                 dingxiang =dingxiang +1
-            elif result['manipulate_type'] == 4:
+            elif result[DAY_MANIPULATE_TYPE] == 4:
                 sanbumouli=sanbumouli+1
+            elif result[DAY_MANIPULATE_TYPE] == 5:
+                weipan = weipan + 1
         else:
             pass
-    order = 'insert into ' + 'manipulate_type' + '( date,frequency,weishizhi,gaosong,dingxiang,sanbumouli)values\
-    ("%s","%s","%d","%d","%d","%d")' % (date,frequency,weishizhi, gaosong, dingxiang,sanbumouli)
+    order = 'insert into ' + TABLE_TYPE + '( date,frequency,weishizhi,gaosong,dingxiang,sanbumouli,weipan)values\
+    ("%s","%s","%d","%d","%d","%d","%d")' % (date,frequency,weishizhi, gaosong, dingxiang,sanbumouli,weipan)
     try:
         cur.execute(order)
         conn.commit()
     except Exception, e:
         print e
 
-def manipulatetype(theday)
+def manipulatetype(theday):
     #timenow=time.strftime("%Y-%m-%d",time.localtime(int(time.time())))
     dates = datelist(2014, 1, 1, 2025, 12, 30)
-    timenow=theday
+    timenow=to_tradeday(theday,-1)
+    print timenow
+
     num=7
     frequency="week"
     day1=dates[findSortedPosition(dates,timenow)-num]
@@ -108,3 +116,11 @@ def manipulatetype(theday)
     frequency="season"
     day3=dates[findSortedPosition(dates,timenow)-num]
     test(timenow,day3,frequency)
+
+def type_all(year1,month1,day1,year2,month2,day2):
+    for date in get_tradelist(year1,month1,day1,year2,month2,day2):
+        manipulatetype(date)
+
+if __name__=="__main__":
+    #manipulateratio('2016-12-31')
+    type_all(2016,1,1,2016,12,31)
