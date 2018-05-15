@@ -7,7 +7,7 @@ from config import *
 from time_utils import *
 from sql_utils import *
 from elasticsearch import Elasticsearch
-from create import *
+from create import get_frame_theday
 from calculate import *
 from deal import *
 import numpy as np
