@@ -306,13 +306,19 @@
     //         }
     //     };
     // }
+var source_word_val = $('#wordCloud_select').val();
+var wordCloudurl = '/hotSpot/hotspotReport/wordcloud?source='+source_word_val+'&id='+id;
+public_ajax.call_request('get',wordCloudurl,keywords);
 
     require.config({
         paths: {
             echarts: '/static/js/echarts-2/build/dist',
         }
     });
-    function keywords() {
+    function keywords(data) {
+        for(var i=0;i<data.length;i++){
+            data[i].itemStyle = createRandomItemStyle();
+        }
         require(
             [
                 'echarts',
@@ -335,102 +341,110 @@
                         textRotation : [0, 45, 90, -45],
                         textPadding: 0,
                         autoSize: {
-                            // enable: true,
-                            // minSize: 18
+                            enable: true,
+                            minSize: 18
                         },
-                        data: [
-                            {
-                                name: "我要金蛋",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "屹农金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "理财去",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "联投银帮",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "弘信宝",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "网惠金融",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "晶行财富",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "孺牛金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "摩根浦捷贷",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "知屋理财",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "沪臣地方金融",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "升隆财富",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "冰融贷",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "靠谱鸟",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "速溶360",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "存米网",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "太保金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                        ]
+                        // data: [
+                        //     {
+                        //         name: "我要金蛋",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "屹农金服",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "理财去",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "联投银帮",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "弘信宝",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "网惠金融",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "晶行财富",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "孺牛金服",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "摩根浦捷贷",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "知屋理财",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "沪臣地方金融",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "升隆财富",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "冰融贷",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "靠谱鸟",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "速溶360",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "存米网",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        //     {
+                        //         name: "太保金服",
+                        //         value: 999,
+                        //         itemStyle: createRandomItemStyle()
+                        //     },
+                        // ]
+                        data:data
                     }]
                 };
                 myChart.setOption(option);
             }
         );
     }
-    keywords();
+    // keywords();
+$('#wordCloud_select').change(function(){
+    // myChart_analysis.showLoading();
+    source_word_val = $(this).val();
+    console.log(source_word_val);
+    wordCloudurl = '/hotSpot/hotspotReport/wordcloud?source='+source_word_val+'&id='+id;
+    public_ajax.call_request('get',wordCloudurl,keywords);
+})
 
 // 纵向时间轴
