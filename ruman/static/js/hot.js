@@ -341,8 +341,8 @@ public_ajax.call_request('get',wordCloudurl,keywords);
                         textRotation : [0, 45, 90, -45],
                         textPadding: 0,
                         autoSize: {
-                            // enable: true,
-                            // minSize: 18
+                            enable: true,
+                            minSize: 18
                         },
                         // data: [
                         //     {
@@ -438,6 +438,13 @@ public_ajax.call_request('get',wordCloudurl,keywords);
             }
         );
     }
-    keywords();
+    // keywords();
+$('#wordCloud_select').change(function(){
+    // myChart_analysis.showLoading();
+    source_word_val = $(this).val();
+    console.log(source_word_val);
+    wordCloudurl = '/hotSpot/hotspotReport/wordcloud?source='+source_word_val+'&id='+id;
+    public_ajax.call_request('get',wordCloudurl,keywords);
+})
 
 // 纵向时间轴
