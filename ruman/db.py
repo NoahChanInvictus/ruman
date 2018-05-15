@@ -604,7 +604,8 @@ def hotspotEvolution(id,frequency,source):
 		countlist = []
 		for num in range(7,0,-1):
 			beforets = thedayts - num*24*3600
-			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			beforets1 = thedayts - (num - 1)*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= beforets1)]
 			count = sum(stadf[PROPAGATE_COUNT])
 			datelist.append(ts2datetime(thedayts - (num - 1)*24*3600))
 			countlist.append(count)
@@ -615,7 +616,8 @@ def hotspotEvolution(id,frequency,source):
 		countlist = []
 		for num in range(8,0,-1):
 			beforets = thedayts - num*7*24*3600
-			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			beforets1 = thedayts - (num - 1)*7*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= beforets1)]
 			count = sum(stadf[PROPAGATE_COUNT])
 			datelist.append(ts2datetime(thedayts - (num - 1)*7*24*3600))
 			countlist.append(count)
@@ -626,7 +628,8 @@ def hotspotEvolution(id,frequency,source):
 		countlist = []
 		for num in range(8,0,-1):
 			beforets = thedayts - num*30*24*3600
-			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			beforets1 = thedayts - (num - 1)*30*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= beforets1)]
 			count = sum(stadf[PROPAGATE_COUNT])
 			datelist.append(ts2datetime(thedayts - (num - 1)*30*24*3600))
 			countlist.append(count)
