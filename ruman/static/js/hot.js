@@ -69,7 +69,7 @@
             ],
         });
     };
-    tables(obj);
+    // tables(obj);
 
 // 热度图
     function line_1() {

@@ -21,53 +21,8 @@ def defaultDatabase():
     conn.autocommit(True)
     cur = conn.cursor()
     return cur
-def compute_allsource_traceback(news_id,begin_ts,end_ts,w_limit):
-    query_body = {
-        "query": {
-
-        "bool": {
-        "must": [
-        {
-        "range": {
-            "publish_time": {
-            "from": begin_ts,
-            "to": end_ts
-            }
-        }
-        },
-        
-        {"term":{"news_id":news_id,}}
-        
-        ],
-        "must_not": [ ],
-        "should": [ ]
-        }
-        },
-        "from": 0,
-        "size": w_limit,
-        "sort": [{"publish_time":"asc"} ],
-        "facets": { }
-    }
-    time_period_results = []
-    for source in TOPIC_ABOUT_DOCTYPE:
-        iter_results = {}
-        # print TOPIC_ABOUT_INDEX,query_body
-        mtype_count = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['total']
-        # print source,mtype_count
-        iter_results['count'] = mtype_count
-        iter_results['source'] = source
-        iter_results['begin_ts'] = begin_ts
-        iter_results['end_ts'] = end_ts
-        iter_results['topic'] = topic
-        time_period_results.append(iter_results)
-
-    
-    return time_period_results
-
-
+# def compute_allsource_traceback(news_id,begin_ts,end_ts,w_limit):
 def compute_mtype_count(news_id, begin_ts, end_ts,size=5000):
-    all_mtype_dict = {}
-    #print begin_ts,end_ts
     query_body = {
         "query": {
 
@@ -91,6 +46,53 @@ def compute_mtype_count(news_id, begin_ts, end_ts,size=5000):
         },
         "from": 0,
         "size": size,
+        "sort": [{"publish_time":"asc"} ],
+        "facets": { }
+    }
+    time_period_results = []
+    for source in TOPIC_ABOUT_DOCTYPE:
+        iter_results = {}
+        # print TOPIC_ABOUT_INDEX,query_body
+        mtype_count = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['total']
+        # print source,mtype_count
+        iter_results['count'] = mtype_count
+        iter_results['source'] = source
+        iter_results['begin_ts'] = begin_ts
+        iter_results['end_ts'] = end_ts
+        iter_results['news_id'] = news_id
+        time_period_results.append(iter_results)
+
+    
+    return time_period_results
+
+
+# def compute_mtype_count(news_id, begin_ts, end_ts,size=5000):
+def compute_allsource_traceback(news_id,begin_ts,end_ts,size):
+    all_mtype_dict = {}
+    #print begin_ts,end_ts
+    query_body = {
+        "query": {
+
+        "bool": {
+        "must": [
+        # {
+        # "range": {
+        #     "publish_time": {
+        #     "from": begin_ts,
+        #     "to": end_ts
+        #     }
+        # }
+        # },
+        
+        {"term":{"news_id":news_id,}}
+        
+        ],
+        "must_not": [ ],
+        "should": [ ]
+        }
+        },
+        "from": 0,
+        "size": size,
         "sort": [ ],
         "facets": { }
     }
@@ -103,11 +105,12 @@ def compute_mtype_count(news_id, begin_ts, end_ts,size=5000):
         # print TOPIC_ABOUT_INDEX,query_body
         es_result = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['hits']
         if len(es_result):
-            iter_results = es_result['_source']
-            iter_results['source'] = source
-            iter_results['text_id'] = es_result['_id']
-            iter_results['news_id'] = news_id
-            time_period_results.append(iter_results)
+            for item in es_result:
+                iter_results = item['_source']
+                iter_results['source'] = source
+                iter_results['text_id'] = item['_id']
+                iter_results['news_id'] = news_id
+                time_period_results.append(iter_results)
     
     return time_period_results
         
@@ -122,16 +125,17 @@ def propagateCronTopic(news_id, start_ts, over_ts, during=Fifteenminutes, w_limi
     interval = (over_ts - start_ts) / during
 
     for i in range(interval,0,-1):  #每15分钟计算一次
-        message_type_count = {}    #五类消息的数量
-        mtype_kcount = {}   #五类消息的TOPK关键词
-        mtype_content = {}    #五种类型的内容，原系统是按转发数排序，不知效果如何
+        # message_type_count = {}    #五类消息的数量
+        # mtype_kcount = {}   #五类消息的TOPK关键词
+        # mtype_content = {}    #五种类型的内容，原系统是按转发数排序，不知效果如何
 
         begin_ts = over_ts - during * i
         end_ts = begin_ts + during
 
-        print begin_ts,end_ts
+        print news_id,begin_ts,end_ts
         #print begin_ts, end_ts, 'topic %s starts calculate' % topic.encode('utf-8')
         mtype_count = compute_mtype_count(news_id, begin_ts, end_ts)
+        # print mtype_count
         # print mtype_count
         # mtype_kcount = compute_mtype_keywords(topic, begin_ts, end_ts ,k_limit)
         # allsource_traceback = compute_allsource_traceback(news_id,begin_ts,end_ts,w_limit)

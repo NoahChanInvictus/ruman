@@ -111,7 +111,7 @@ def hot_news_daily(theday):
         content = news['content']
         key_word = news['key_word']
         news_id = news['id']
-        all_source_match(news_id,key_word)
+        # all_source_match(news_id,key_word)        #读取并保存各个通道的相关文本
         propagateTask(news_id,theday,120)           #计算120天的多通道溯源记录
 
 
