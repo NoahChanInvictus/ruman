@@ -34,7 +34,7 @@ def stop_words_filter(seg_list):
     return new_seg_list
 
 def defaultDatabase():
-    conn = mysql.connect(host=HOST,user=USER,password=PASSWORD,db=DEFAULT_DB,charset=CHARSET,cursorclass=pymysql.cursors.DictCursor)
+    conn = mysql.connect(host=SQL_HOST,user=SQL_USER,password=SQL_PASSWD,db=DEFAULT_DB,charset=SQL_CHARSET,cursorclass=pymysql.cursors.DictCursor)
     conn.autocommit(True)
     cur = conn.cursor()
     return cur

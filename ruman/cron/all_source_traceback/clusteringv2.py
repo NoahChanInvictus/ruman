@@ -6,8 +6,12 @@ sys.setdefaultencoding('utf-8')
 import re
 import json
 import jieba
-jieba.load_userdict('./30wdict_utf8.txt')
+jieba.load_userdict('../all_source_traceback/30wdict_utf8.txt')
 
+from elasticsearch import Elasticsearch
+from elasticsearch.exceptions import TransportError
+from elasticsearch.helpers import bulk
+from elasticsearch import helpers
 from config import *
 from elasticsearch import Elasticsearch
 from sklearn.feature_extraction.text import  TfidfVectorizer
@@ -21,7 +25,7 @@ def jieba_tokenize(text):
 def stopwordslist(filepath):  
     stopwords = [line.strip() for line in open(filepath, 'r').readlines()]  
     return stopwords  
-stopwords = stopwordslist('./中文停用词库_utf-8.txt')
+stopwords = stopwordslist('../all_source_traceback/中文停用词库_utf-8.txt')
 def stop_words_filter(seg_list):
     
     new_seg_list = []
@@ -123,7 +127,7 @@ def kmeans(content_list):
     所以最好是False
     '''
     tfidf_matrix = tfidf_vectorizer.fit_transform(content_list)
-    num_clusters = 20
+    num_clusters = CLUSTER_NUM
     km_cluster = KMeans(n_clusters=num_clusters, max_iter=300, n_init=8, \
                         init='k-means++',n_jobs=8)
     '''
@@ -140,24 +144,50 @@ def kmeans(content_list):
     result = km_cluster.fit_predict(tfidf_matrix)
     print "Predicting result: ", result
     return result
-
+def save_cluster(news_id,cluster_data):
+    es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
+    doc_type = 'type1'
+    ACTIONS = []
+    count = 0
+    for item in cluster_data:
+        action = { 
+                    "_op_type":"index" ,
+                    "_index":CLUSTER_INDEX,  
+                    "_type":doc_type,
+                    # "_id":doc_id,  
+                    "_source":item
+                    }
+        ACTIONS.append(action)
+        count += 1
+        if count % 1000 == 0:
+            success, _ = bulk(es, ACTIONS, raise_on_error=True, request_timeout=400)
+            ACTIONS = []
+            print 'in',count,'has been inserted!'
+    # 最后把余下的也bulk进去
+    if ACTIONS != []:
+        success, _ = bulk(es, ACTIONS, raise_on_error=True, request_timeout=400)
+        ACTIONS = []
 def clustering_main(news_id):
     all_result = get_allsource_content(news_id)
     
     for source,es_result in all_result.iteritems():
-        print len(all_result[source])
+        print len(all_result[source]),'text need to be clusterd'
         content_list = text_proprocess(source,es_result)
         # content_list = text_proprocess('zhihu',es_result)
         kmeans_result = kmeans(content_list)
+        print 'kmeans finished'
         final_result = []
         for i in range(len(es_result)):
             iter_result = es_result[i]['_source']
             iter_result['source'] = source
+            # print type(int(kmeans_result[i]))
             iter_result['text_id'] = es_result[i]['_id']
-            iter_result['cluster_id'] = kmeans_result[i]
+            iter_result['cluster_id'] = int(kmeans_result[i])
             final_result.append(iter_result)
             # print kmeans_result[i],content_list[i]
-        print final_result[0]
+        # print final_result[0]
+    # return final_result
+        save_cluster(news_id,final_result)
 
 if __name__ == '__main__':
     clustering_main(2)
