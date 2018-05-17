@@ -1,6 +1,15 @@
 
 $('#nav').css('height',$('#nav').outerHeight());//防止 nav高度抖动
 
+if(screen.width<1920){
+    $('#container .picChart-2, #container .picChart-3, #container .picChart-4, #container .picChart-5, #container .picChart-6, #container .picChart-7').css('height','1.4rem');
+    $('#container .left_mid, #container .right_mid').css('top','2.7rem');
+}else {
+    // 1920 * 1080 分辨率
+    $('#container .picChart-2, #container .picChart-3, #container .picChart-4, #container .picChart-5, #container .picChart-6, #container .picChart-7').css('height','1.5rem');
+    $('#container .left_mid, #container .right_mid').css('top','2.8rem');
+}
+
 require.config({
     paths: {
         echarts: '/static/js/echarts-2/build/dist',
