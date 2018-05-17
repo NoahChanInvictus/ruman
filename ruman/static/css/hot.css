@@ -11,6 +11,7 @@
     padding: 0.2rem;
     font-size: 0.14rem;
     background: rgba(245, 243, 243, 0.71);
+    padding:20px;
 }
 #container .infor{
     text-align: center;
@@ -89,8 +90,19 @@
     #hotContent {
         text-indent: 2em;
     }
-    .hotContent hr{
+    /* .hotContent hr{
         border-top: 1px solid #0088ff;
+    } */
+    .hotContent {
+        min-width:100%;
+        max-width:100%;
+        margin:0 !important;
+        max-height:400px;
+        overflow:auto;
+
+    }
+    .hotContent #hotContent {
+        display:inline;
     }
 /* 语义分析 */
 /* 原帖内容 */
@@ -590,8 +602,9 @@
     #container .lieOpt .ct-tit {
         display: inline-block;
         font-size: 0.16rem;
-        font-weight: 700;
-        color: white;
+        /* font-weight: 700; */
+        font-weight: 300;
+        color: #333;
     }
     #container .lieOpt {
         display: inline-block;

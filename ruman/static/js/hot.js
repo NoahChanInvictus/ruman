@@ -9,10 +9,10 @@
         $('#card .type-3').text(data.key_word);
         $('#card .type-5').text(data.url).attr('title',data.url).attr('href',data.url);
 
-        $('#card .hotContent p').text(data.content)
+        $('#card .hotContent #hotContent').text(data.content)
     }
 
-// ---------
+// ---------暂 弃用
     var obj=[{a:'经济',b:'2018-02-03',c:'231',d:'微博',e:'用CSS能非常容易的改变这些图标的颜色、大小、阴影以及任何CSS能控制的属性。'},
         {a:'人才',b:'2017-12-11',c:'231',d:'百度',e:'一个字体文件包含了所有图标。Font Awesome 助你完整表达web页面上每个动作的含义。'},
         {a:'历史',b:'2018-07-03',c:'231',d:'知乎',e:'Font Awesome 中包含的都是矢量图标，在高分辨率的显示器上也能完美呈现。'},
@@ -72,8 +72,7 @@
     // tables(obj);
 
 // 演化分析
-// 热度图
-
+    // 热度图
     var myChart_analysis = echarts.init(document.getElementById('analysis'));
     myChart_analysis.showLoading();
 

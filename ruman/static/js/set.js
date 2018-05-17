@@ -793,6 +793,7 @@
             legend: {
                 orient: 'vertical',
                 left: 'left',
+                y:'20%',
                 data: ['机构投资者','非机构投资者'],
                 textStyle:{
                     color:'#333'
@@ -852,6 +853,7 @@
             legend: {
                 orient: 'vertical',
                 left: 'left',
+                y:'20%',
                 data: ['十大股东','非十大股东'],
                 textStyle:{
                     color:'#333'
