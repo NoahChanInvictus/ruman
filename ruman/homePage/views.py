@@ -22,7 +22,8 @@ def hotspotandruman_text():
 def hotspotandruman_user():
 	id = int(request.args.get('id',''))
 	ifruman = int(request.args.get('ifruman',''))
-	result = hotspotandrumanUser(id)
+	indextype = int(request.args.get('indextype',''))
+	result = hotspotandrumanUser(id,indextype,ifruman)
 	return json.dumps(result,ensure_ascii=False)
 
 @homePage.route('/manipulateWarning/',methods=['POST','GET'])
