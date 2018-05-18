@@ -270,7 +270,7 @@ def hotspotandrumanText():
 
 	cur.execute(sql)
 	results = cur.fetchall()
-	res = es.search(index='rumor_hot_list', body=query_body,request_timeout=100)
+	res = es.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 	result = []
 
@@ -290,12 +290,15 @@ def hotspotandrumanText():
 		dic['keyword'] = hit['_source']['keywords_string'].replace('&',' ')
 		dic['ifruman'] = hit['_source']['rumor_label']
 		dic['id'] = hit['_id']
+		dic['type'] = hit['_type']
 		result.append(dic)
 
 	return result
 
-def hotspotandrumanUser(id):
-	a = 1
+def hotspotandrumanUser(id,indextype,ifruman):
+	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
+	indexbody = {'rumor_label':ifruman}
+	es.update(index=RUMORLIST_INDEX, doc_type=indextype, body={"doc":indexbody},id=id)#
 
 if __name__=="__main__":
-	print hotspotTopicaxis(1,'bbs')
+	hotspotandrumanUser('AWNwZ-Rv4t5ntoGO_aKI','2016-11-23',1)
