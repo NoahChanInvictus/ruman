@@ -143,6 +143,16 @@ def manipulateWarningText():   #列出预警文本
 	result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
 	return result
 
+def manipulateWarningUser(id,ifmanipulate):
+	cur = defaultDatabase()
+	conn = defaultDatabaseConn()
+	update = "UPDATE %s SET %s = '%d' WHERE %s = %d" % (TABLE_DAY,DAY_MANIPULATE_LABEL,ifmanipulate,DAY_ID,id)
+	try:
+		cur.execute(update)
+		conn.commit()
+	except Exception, e:
+		print e
+
 def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数并画图展示，方法类似Warning
 	cur = defaultDatabase()
 	theday = SHOW_DATE   #需改为today()
@@ -666,6 +676,7 @@ def hotspotWordcloud(id,source):
 
 if __name__=="__main__":
 	#print len(manipulateHistory('002427'))
-	manipulateWarningText()
+	#manipulateWarningText()
 	#manipulateHolderspct(1096)
 	#hotspotWordcloud(2,'bbs')
+	manipulateWarningUser(1,0)

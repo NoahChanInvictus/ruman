@@ -20,9 +20,9 @@ def hotspotandruman_text():
 
 @homePage.route('/hotspotandrumanUser/',methods=['POST','GET'])
 def hotspotandruman_user():
-	id = int(request.args.get('id',''))
+	id = request.args.get('id','')
 	ifruman = int(request.args.get('ifruman',''))
-	indextype = int(request.args.get('indextype',''))
+	indextype = request.args.get('indextype','')
 	result = hotspotandrumanUser(id,indextype,ifruman)
 	return json.dumps(result,ensure_ascii=False)
 

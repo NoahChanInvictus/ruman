@@ -23,6 +23,13 @@ def manipulate_warning_text():
 	result = manipulateWarningText()
 	return json.dumps(result,ensure_ascii=False)
 
+@maniPulate.route('/manipulateWarningUser/',methods=['POST','GET'])
+def manipulate_warning_user():
+	id = int(request.args.get('id',''))
+	ifmanipulate = int(request.args.get('ifmanipulate',''))
+	result = manipulateWarningUser(id,ifmanipulate)
+	return json.dumps(result,ensure_ascii=False)
+
 @maniPulate.route('/manipulateWarningNum/',methods=['POST','GET'])
 def manipulate_warning_num():
 	date = int(request.args.get('date',''))
