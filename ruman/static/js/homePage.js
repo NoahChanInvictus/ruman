@@ -654,14 +654,14 @@ require.config({
 var $uList = $("#scroll");
 var timer = null;
 //触摸清空定时器
-$uList.hover(function() {
-        clearInterval(timer);
-    },
-    function() { //离开启动定时器
-        timer = setInterval(function() {
-            scrollList($uList);
-        }, 1000);
-    }).trigger("mouseleave"); //自动触发触摸事件
+// $uList.hover(function() {
+//         clearInterval(timer);
+//     },
+//     function() { //离开启动定时器
+//         timer = setInterval(function() {
+//             scrollList($uList);
+//         }, 1000);
+//     }).trigger("mouseleave"); //自动触发触摸事件
 //滚动动画
 function scrollList(obj) {
     //获得当前<li>的高度

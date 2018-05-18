@@ -323,12 +323,16 @@
                 // 修改插件文件 fishBone.js  有 LL 标识
 
                 // fishdata.push({'发布时间':data[i].publish_time,'标题':data[i].title,'承办法官':'吕磊','承办法院':'吕磊','案件状态':'吕磊','承办庭室':'吕磊'});//多个li时 可以把fishBone.js中 改回来
-                fishdata.push({'发布时间':data[i].publish_time,'标题 ':data[i].title});
+                fishdata.push({'发布时间':data[i].publish_time,'标题':data[i].title,'关键词':data[i].keyword,'作者':data[i].author,'主题':data[i].topic,'链接':data[i].url});//多个li时 可以把fishBone.js中 改回来
+                // fishdata.push({'发布时间':data[i].publish_time,'标题 ':data[i].title});
                 // fishdata.push({'发布时间':data[i].publish_time,'标题':data[i].title,}); // fishBone.js中 ==标题 时是特殊样式
             }
+            fishdata.push({'发布时间':' ','标题':' ','关键词':' ','作者':' ','主题':' ','链接':' '});
             // console.log(fishdata);
             $(".fishBone").empty();
             $(".fishBone").fishBone(fishdata);
+
+            $('.fishBone li.item:last').hide();
         }
     }
     // 更新下拉框
@@ -338,7 +342,7 @@
             public_ajax.call_request('get',propagate_url,propagate);
         })
 
-// 字符云
+// 字符云 ====
     // function createRandomItemStyle() {
     //     return {
     //         normal: {
