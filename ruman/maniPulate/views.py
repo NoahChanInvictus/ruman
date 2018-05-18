@@ -101,3 +101,15 @@ def manipulate_holderspct():
 	id = int(request.args.get('id',''))
 	result = manipulateHolderspct(id)
 	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/rumantext/',methods=['POST','GET'])
+def manipulate_rumantext():
+	id = int(request.args.get('id',''))
+	result = manipulateRumantext(id)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/rumancomment/',methods=['POST','GET'])
+def manipulate_rumancomment():
+	id = int(request.args.get('id',''))
+	result = manipulateRumancomment(id)
+	return json.dumps(result,ensure_ascii=False)

@@ -1,4 +1,7 @@
 #-*-coding: utf-8-*-
+import sys
+reload(sys)
+sys.path.append("../../../")
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk, streaming_bulk
 import tushare as ts
@@ -48,7 +51,7 @@ def basic_info_insert(info_data):
             count += 1
             if count % 1000 == 0:
                 try:
-                    es.bulk(bulk_action, index="announcement", doc_type="basic_info",timeout=400)
+                    es.bulk(bulk_action, index="announcement", doc_type="basic_info",timeout=1000)
                     bulk_action = []
                     print count
                 except Exception,e:
@@ -56,7 +59,7 @@ def basic_info_insert(info_data):
 
             
         #把最后剩余不足1000条的也插入
-        es.bulk(bulk_action, index="announcement", doc_type="basic_info",timeout=400)
+        es.bulk(bulk_action, index="announcement", doc_type="basic_info",timeout=1000)
 
 def dingzeng_date(words1,words2,words3,line):
     num = 0
@@ -177,6 +180,25 @@ def ggdr_today(theday=today()):
         if a % 100 == 0:
             print '还剩',a,'家'
 
+def delete():
+    es = Elasticsearch([{'host':'219.224.134.214','port':9202}])
+    query_body = {"size":100000,"query":{ "filtered": {
+        "filter":{"range":{"publish_time":{"gte": 1520380800,"lte": 1528329600}}}
+    }}}
+    res = es.search(index="announcement", doc_type="basic_info", body=query_body,request_timeout=100)
+    hits = res['hits']['hits']
+    print len(hits)
+    num = 0
+    for hit in hits:
+        es.delete(index="announcement", doc_type="basic_info", id=hit['_id'])
+        if num %1000 == 0:
+            print num
+        num += 1
+
+
+
+
 if __name__ == '__main__':
-    ggdr(2018,3,2,2018,3,4)
+    ggdr(2018,3,7,2018,5,15)
     #ggdr_today()
+    #delete()

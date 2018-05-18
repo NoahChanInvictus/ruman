@@ -32,9 +32,23 @@ def hotspot_evolution():
 	result = hotspotEvolution(id,frequency,source)
 	return json.dumps(result,ensure_ascii=False)
 
+@hotSpot.route('/hotspotReport/propagate/')
+def hotspot_propagate():
+	id = int(request.args.get('id',''))
+	source = request.args.get('source','')
+	result = hotspotPropagate(id,source)
+	return json.dumps(result,ensure_ascii=False)
+
 @hotSpot.route('/hotspotReport/wordcloud/')
 def hotspot_wordcloud():
 	id = int(request.args.get('id',''))
 	source = request.args.get('source','')
 	result = hotspotWordcloud(id,source)
+	return json.dumps(result,ensure_ascii=False)
+
+@hotSpot.route('/hotspotReport/topicaxis/')
+def hotspot_topicaxis():
+	id = int(request.args.get('id',''))
+	source = request.args.get('source','')
+	result = hotspotTopicaxis(id,source)
 	return json.dumps(result,ensure_ascii=False)

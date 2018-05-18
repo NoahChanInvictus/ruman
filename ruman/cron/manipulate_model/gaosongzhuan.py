@@ -40,7 +40,7 @@ def tostr(year,month,day):
     date = str(year)+'-'+str(month)+'-'+str(day)
     return date
 
-def threemonth(year,month,day,days):
+def sixmonth(year,month,day,days):
     date_list = []
     begin_date = datetime.datetime.strptime(tostr(year,month,day), "%Y-%m-%d")
     for i in range(90): 
@@ -89,6 +89,19 @@ def last_tradeday(a,theday):
             return date
             break
 
+def after_two_season(theday):
+    year=int(theday.split('-')[0])
+    month=int(theday.split('-')[1])
+    day=int(theday.split('-')[2])
+    if month == 1:
+        return get_datelist(year,7,1,year,9,30)
+    elif month == 4:
+        return get_datelist(year,10,1,year,12,31)
+    elif month == 7:
+        return get_datelist(year+1,1,1,year+1,3,31)
+    else:
+        return get_datelist(year+1,4,1,year+1,6,30)
+
 def increaseratio(lastday,nowday,stock):
     conn = default_db()
     cur = conn.cursor()
@@ -104,16 +117,13 @@ def increaseratio(lastday,nowday,stock):
 def gaosongzhuan():
     conn = default_db()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM %s where %s < 0" % (TABLE_NETPROFIT,NETPROFIT_NETPROFIT))
+    cur.execute("SELECT * FROM %s where %s < 0 order by %s asc" % (TABLE_NETPROFIT,NETPROFIT_NETPROFIT,NETPROFIT_DATE))
     results = cur.fetchall()
     index_name=DIC_ANNOUNCEMENT['index']
     type_name= DIC_ANNOUNCEMENT['type']
 
     for result in results:
-        year=result["date"].split('-')[0]
-        month=result["date"].split('-')[1]
-        day=result["date"].split('-')[2]
-        datelists=threemonth(year,month,day,90)
+        datelists = after_two_season(result['date'])
         es = Elasticsearch([{'host': '219.224.134.214', 'port': '9202'}])
         query_body = {"query": {"bool": {"must": [{"term": {"basic_info.type": "5"}},{"term": {"basic_info.stock_id": result['stock_id']}}]}}}
         res = es.search(index=index_name, doc_type=type_name, body=query_body,request_timeout=100)
@@ -123,7 +133,7 @@ def gaosongzhuan():
             for hit in hits:
                 b= ts2datetime(hit["_source"]['publish_time'])
                 if b in datelists:
-                    print result[NETPROFIT_STOCK_NAME],b,result[NETPROFIT_STOCK_ID]
+                    print result[NETPROFIT_STOCK_NAME],b,result[NETPROFIT_STOCK_ID],result[NETPROFIT_DATE]
                     sql="SELECT * FROM %s where %s = '%s'"%(TABLE_STOCK_LIST,STOCK_LIST_STOCK_ID,result[NETPROFIT_STOCK_ID])
                     cur.execute(sql)
                     c=cur.fetchall()
