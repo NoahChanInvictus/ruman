@@ -56,6 +56,7 @@
         </div>
         <!-- 基本信息 -->
         <div id="card">
+            <h3 style="display: inline-block;font-weight:700;"><i class="icon icon-bullhorn"></i>&nbsp;核心新闻</h3>
             <div class="infor">
                 <p class="infor-1 inforLine" style="min-width:65%;">
                     <span>标题：</span>&nbsp;<b class="type-1" style="max-width:85%;">加载中...</b>
@@ -81,11 +82,9 @@
                 <p class="infor-6 inforLine">
                     <span>预警理由：</span>&nbsp;<b class="type-6">热点捏造</b>
                 </p> -->
-            </div>
-            <div class="hotContent">
-                <hr>
-                <h3>内容：</h3>
-                <p id="hotContent">加载中...</p>
+                <p class="hotContent">
+                    <span>内容：</span>&nbsp;<span id="hotContent"">加载中...</span>
+                </p>
             </div>
         </div>
 
@@ -96,13 +95,13 @@
             <div class="analysis">
                 <h3 style="display: inline-block;font-weight:700;"><i class="icon icon-random"></i>&nbsp;演化分析</h3>
                 <div class="lieOpt">
+                    <span class="ct-tit">呈现方式：</span>
                     <select id="time_select">
                         <option value="1" selected>按天</option>
                         <option value="7">按周</option>
                         <option value="30">按月</option>
                     </select>
-                </div>
-                <div class="lieOpt">
+                    <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
                     <select id="five_select">
                         <option value="zhihu" selected>知乎</option>
                         <option value="forum">贴吧</option>
@@ -111,6 +110,7 @@
                         <option value="webo">微博</option>
                     </select>
                 </div>
+
 
                 <div id="analysis" style="width: 100%;height: 3rem;"></div>
             </div>
@@ -126,8 +126,13 @@
 
             <div class="semantics clearfix">
                 <h3 style=";font-weight:700;"><i class="icon icon-comments-alt"></i>&nbsp;语义分析</h3>
-                <div class="lieOpt" style="display:block;">
-                    <select id="wordCloud_select">
+                <p class="tit" style="display:inline-block;">
+                    <span class="tit-1"></span>
+                    <span style="font-size: 0.18rem;">关键词云</span>
+                </p>
+                <div class="lieOpt">
+                    <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
+                    <select id="wordCloud_select" class="lieOpt">
                         <option value="zhihu" selected>知乎</option>
                         <option value="forum">贴吧</option>
                         <option value="bbs">论坛</option>
@@ -138,6 +143,10 @@
                 <div class="semanticsbox" id="word-cloud" style="height:3rem;">
                 </div>
                 <!-- 时间轴 -->
+                <p class="tit">
+                    <span class="tit-1"></span>
+                    <span style="font-size: 0.18rem;">主题时间轴</span>
+                </p>
                 <div class="semanticsbox" id="timebox">
                     <div class="VivaTimeline">
                         <dl>
@@ -247,20 +256,20 @@
 {% endblock %}
 
 {% block my_js %}
-    <script src="/static/js/jquery-3.2.1.min.js"></script>
+   <!--  <script src="/static/js/jquery-3.2.1.min.js"></script>
     <script src="/static/js/publicNav.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap-table.min.js"></script>
     <script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
     <script src="/static/echarts/echarts.min.js"></script>
     <script src="/static/js/chalk.js"></script>
-    <script src="/static/js/echarts-2/build/dist/echarts.js"></script>
+    <script src="/static/js/echarts-2/build/dist/echarts.js"></script> -->
 
     <script type="text/javascript" src="/static/js/jquery.eeyellow.Timeline.js"></script> <!-- 时间轴插件 -->
 
 
     <script>
-    var id = {{id}};
+        var id = {{id}};
 
         //===========================
         $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
@@ -315,7 +324,7 @@
             // 纵向时间轴
             $('.VivaTimeline').vivaTimeline({
                 carousel: true,
-                carouselTime: 3000
+                carouselTime: 2000
             });
         });
     </script>

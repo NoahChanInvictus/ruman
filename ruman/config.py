@@ -209,7 +209,7 @@ table2 = [[TABLE_MARKET_DAILY,MARKET_PRICE_FU],[TABLE_MARKET_DAILY,MARKET_TURNOV
 CLUSTER_NUM = 10
 
 # 多通道溯源
-TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1'}
+TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1','news_new':'type1'}
 TOPIC_ABOUT_INDEX = 'topic_about'
 TOPIC_ABOUT_DOCTYPE = ['bbs','forum','webo','wechat','zhihu','news_new']
 CLUSTER_INDEX = 'clustering'

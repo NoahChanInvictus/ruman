@@ -10,15 +10,16 @@ sys.setdefaultencoding('utf-8')
 
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
-from elasticsearch.helpers import bulk  
+from elasticsearch.helpers import bulk
+from elasticsearch import helpers  
 
 TODAY_DATE = time.strftime("%Y-%m-%d")
 
 
-def es_update(index_name, type_name, text_id, updates_body):
+# def es_update(index_name, type_name, text_id, updates_body):
 
-    es = Elasticsearch([{'host':219.224.134.214,'port':9202}])
-    es.update(index=index_name, doc_type=type_name, id=text_id, body=updates_body)
+#     es = Elasticsearch([{'host':219.224.134.214,'port':9202}])
+#     es.update(index=index_name, doc_type=type_name, id=text_id, body=updates_body)
 
 
 # 文本内容匹配查询

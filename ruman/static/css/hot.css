@@ -11,6 +11,7 @@
     padding: 0.2rem;
     font-size: 0.14rem;
     background: rgba(245, 243, 243, 0.71);
+    padding:20px;
 }
 #container .infor{
     text-align: center;
@@ -89,8 +90,19 @@
     #hotContent {
         text-indent: 2em;
     }
-    .hotContent hr{
+    /* .hotContent hr{
         border-top: 1px solid #0088ff;
+    } */
+    .hotContent {
+        min-width:100%;
+        max-width:100%;
+        margin:0 !important;
+        max-height:400px;
+        overflow:auto;
+
+    }
+    .hotContent #hotContent {
+        display:inline;
     }
 /* 语义分析 */
 /* 原帖内容 */
@@ -590,13 +602,15 @@
     #container .lieOpt .ct-tit {
         display: inline-block;
         font-size: 0.16rem;
-        font-weight: 700;
-        color: white;
+        /* font-weight: 700; */
+        font-weight: 300;
+        color: #333;
     }
     #container .lieOpt {
         display: inline-block;
         font-size: 0.14rem;
-        margin-left: 0.3rem;
+        /* margin-left: 0.3rem; */
+        margin-left: 0.1rem;
     }
     #container #five_select ,
     #container #time_select,
@@ -643,10 +657,27 @@
             min-height:3rem;
         }
         .semantics .semanticsbox {
-            width:50%;
+            /* width:50%; */
             height:100%;
-            float:left;
+            /* float:left; */
+
+            width:80%;
+            margin:0 auto;
         }
+#container .content .tit .tit-1 {
+    display: inline-block;
+    width: 0.08rem;
+    height: 0.18rem;
+    position: relative;
+    top:0.03rem;
+    background-color:#02b2b5;
+}
+#container .content .tit span {
+    margin-left: 0.05rem;
+    display: inline-block;
+    color: #333;
+    font-size: 0.16rem;
+}
 
 /* 刚写的 */
     .tableContent ,

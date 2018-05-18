@@ -23,6 +23,8 @@ def defaultDatabase():
     return cur
 # def compute_allsource_traceback(news_id,begin_ts,end_ts,w_limit):
 def compute_mtype_count(news_id, begin_ts, end_ts,size=5000):
+    
+
     query_body = {
         "query": {
 
@@ -40,19 +42,22 @@ def compute_mtype_count(news_id, begin_ts, end_ts,size=5000):
         {"term":{"news_id":news_id,}}
         
         ],
-        "must_not": [ ],
-        "should": [ ]
+        # "must_not": [ ],
+        # "should": [ ]
         }
         },
         "from": 0,
         "size": size,
-        "sort": [{"publish_time":"asc"} ],
+        "sort": [ ],
         "facets": { }
     }
+
     time_period_results = []
     for source in TOPIC_ABOUT_DOCTYPE:
         iter_results = {}
         # print TOPIC_ABOUT_INDEX,query_body
+        # print source,type(news_id)
+        # print es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)
         mtype_count = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['total']
         # print source,mtype_count
         iter_results['count'] = mtype_count
@@ -67,52 +72,52 @@ def compute_mtype_count(news_id, begin_ts, end_ts,size=5000):
 
 
 # def compute_mtype_count(news_id, begin_ts, end_ts,size=5000):
-def compute_allsource_traceback(news_id,begin_ts,end_ts,size):
-    all_mtype_dict = {}
-    #print begin_ts,end_ts
-    query_body = {
-        "query": {
+# def compute_allsource_traceback(news_id,begin_ts,end_ts,size=10000):
+#     all_mtype_dict = {}
+#     #print begin_ts,end_ts
+#     query_body = {
+#         "query": {
 
-        "bool": {
-        "must": [
-        # {
-        # "range": {
-        #     "publish_time": {
-        #     "from": begin_ts,
-        #     "to": end_ts
-        #     }
-        # }
-        # },
+#         "bool": {
+#         "must": [
+#         {
+#         "range": {
+#             "publish_time": {
+#             "from": begin_ts,
+#             "to": end_ts
+#             }
+#         }
+#         },
         
-        {"term":{"news_id":news_id,}}
+#         {"term":{"news_id":news_id,}}
         
-        ],
-        "must_not": [ ],
-        "should": [ ]
-        }
-        },
-        "from": 0,
-        "size": size,
-        "sort": [ ],
-        "facets": { }
-    }
-    # 设计一下存储方式，需要和mysql相兼容
-    # [{'topic'=topic,'source':source,'start_ts':start_ts,'end_ts':end_ts,'count':count}]
-    time_period_results = []
+#         ],
+#         # "must_not": [ ],
+#         # "should": [ ]
+#         }
+#         },
+#         "from": 0,
+#         "size": size,
+#         "sort": [ ],
+#         "facets": { }
+#     }
+#     # 设计一下存储方式，需要和mysql相兼容
+#     # [{'topic'=topic,'source':source,'start_ts':start_ts,'end_ts':end_ts,'count':count}]
+#     time_period_results = []
     
-    for source in TOPIC_ABOUT_DOCTYPE:
-        iter_results = {}
-        # print TOPIC_ABOUT_INDEX,query_body
-        es_result = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['hits']
-        if len(es_result):
-            for item in es_result:
-                iter_results = item['_source']
-                iter_results['source'] = source
-                iter_results['text_id'] = item['_id']
-                iter_results['news_id'] = news_id
-                time_period_results.append(iter_results)
+#     for source in TOPIC_ABOUT_DOCTYPE:
+#         iter_results = {}
+#         # print TOPIC_ABOUT_INDEX,query_body
+#         es_result = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['hits']
+#         if len(es_result):
+#             for item in es_result:
+#                 iter_results = item['_source']
+#                 iter_results['source'] = source
+#                 iter_results['text_id'] = item['_id']
+#                 iter_results['news_id'] = news_id
+#                 time_period_results.append(iter_results)
     
-    return time_period_results
+#     return time_period_results
         
         
 
@@ -132,7 +137,7 @@ def propagateCronTopic(news_id, start_ts, over_ts, during=Fifteenminutes, w_limi
         begin_ts = over_ts - during * i
         end_ts = begin_ts + during
 
-        print news_id,begin_ts,end_ts
+        # print news_id,begin_ts,end_ts
         #print begin_ts, end_ts, 'topic %s starts calculate' % topic.encode('utf-8')
         mtype_count = compute_mtype_count(news_id, begin_ts, end_ts)
         # print mtype_count
@@ -165,7 +170,7 @@ def propagateTask(news_id,theday,back_day):
     # print start_time,end_time   
     propagateCronTopic(news_id,start_ts,end_ts)
 if __name__ == '__main__':
-    topic = '今天人民币担忧'
+    # topic = '今天人民币担忧'
     start_date = '2017-10-01'
     end_date = '2017-11-20'
-    propagateTask(topic,start_date,end_date)
+    propagateTask(6679,end_date,10)
