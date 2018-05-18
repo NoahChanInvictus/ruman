@@ -28,13 +28,13 @@ def what_quarter(theday):
     else:
         return year,3,year,2
 
-def create(start_date,end_date):
+def create(start_date,end_date,industry_dict_big):
     conn = default_db()
     cur = conn.cursor()
     w.start()
-    allmarket = w.wset("SectorConstituent",u"date=" + ts2datetimestrnew(datetimestr2ts(today())) + ";sector=全部A股").Data  #[1]为代码，[2]为名字
+    allmarket = w.wset("SectorConstituent",u"date=" + ts2datetimestrnew(datetimestr2ts('2018-03-01')) + ";sector=全部A股").Data  #[1]为代码，[2]为名字
     print len(allmarket[1])
-    for num in range(len(allmarket[1])):   #对于所有股票获取其股价数据
+    for num in range(len(allmarket[1])):   #对于所有股票获取其股价数据today()
         name = allmarket[2][num]
         code = allmarket[1][num]
         print code,name,num
@@ -45,7 +45,7 @@ def create(start_date,end_date):
             for datenum in range(len(data1.Times)):
                 stock_id = code.split('.')[0]
                 stock_name = name
-                industry_name = data.Data[0][0].split('-')[0]
+                industry_name = data3.Data[0][0].split('-')[0]
                 industry_code = industry_dict_big[industry_name]
                 datestr = datetime2datestr(data1.Times[datenum])
                 if type(data1.Data[0][datenum]) == float or type(data1.Data[0][datenum]) == int:
@@ -60,13 +60,14 @@ def create(start_date,end_date):
                     turnover_rate = data1.Data[1][datenum]
                 else:
                     turnover_rate = 0
-                order = 'insert into market_daily_new ( stock_id,stock_name,industry_code,date,price,price_fu,turnover_rate)values("%s", "%s","%s","%s","%f","%f","%f")' % (stock_id,stock_name,industry_code,datestr, price,price_fu,turnover_rate)
+                order = 'insert into market_daily ( stock_id,stock_name,industry_code,date,price,price_fu,turnover_rate)values("%s", "%s","%s","%s","%f","%f","%f")' % (stock_id,stock_name,industry_code,datestr, price,price_fu,turnover_rate)
                 try:
                     cur.execute(order)
                     conn.commit()
                 except Exception, e:
                     print e
-        except:
+        except Exception, e:
+            print e
             pass
 '''净利润改为季度数据，故删除以下部分
 def get_profit(trade_list,year,q):
@@ -257,6 +258,6 @@ if __name__=="__main__":
                         u'信息传输、软件和信息技术服务业':u'I',u'金融业':u'J',u'房地产业':u'K',u'租赁和商务服务业':u'L',
                         u'科学研究和技术服务业':u'M',u'水利、环境和公共设施管理业':u'N',u'居民服务、修理和其他服务业':u'O',
                         u'教育':u'P',u'卫生和社会工作':u'Q',u'文化、体育和娱乐业':u'R',u'综合':u'S'}
-    #create('2018-02-06','2018-03-04',industry_dict_big)
+    create('2018-03-05','2018-05-15',industry_dict_big)
     #get_market_history()
-    update_price(industry_dict_big)
+    #update_price(industry_dict_big)

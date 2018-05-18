@@ -13,6 +13,20 @@ def index():
 	
 	return render_template('homePage/homePage.html')
 
+@homePage.route('/manipulateWarning/',methods=['POST','GET'])
+def manipulate_warning():
+	result = manipulateWarning()
+	return json.dumps(result,ensure_ascii=False)
+
+@homePage.route('/manipulateIndustry/',methods=['POST','GET'])
+def manipulate_industry():
+	result = manipulateIndustry(90)
+	return json.dumps(result,ensure_ascii=False)
+
+@homePage.route('/manipulatePanel/',methods=['POST','GET'])
+def manipulate_panel():
+	result = manipulatePanel(90)
+	return json.dumps(result,ensure_ascii=False)
 
 @homePage.route('/test1/')
 def hot_spot():

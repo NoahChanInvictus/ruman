@@ -102,7 +102,8 @@ def train(reason):
         training(get_training_data(2,2014,12,1,2015,1,31),reason)
 
 def predict(theday):
-    #get_frame_theday(theday)
+    print theday
+    #get_frame_theday(theday)   如果需要日度更新请打开！
     print 'Finish update json...'
     if theday in get_tradelist_all():
         conn = default_db()
@@ -141,7 +142,7 @@ def predict(theday):
         df['type'] = types
         #inputuple.to_csv('2.csv')
         #df.to_csv('22.csv')
-        print inputuple
+        #print inputuple
 
         for code in sorted(list(set(df['code']))):
             stock_id = code
@@ -152,7 +153,7 @@ def predict(theday):
             if len(codedf) == 1:
                 date = codedf.iloc[0]['date']
                 probability = float(codedf.iloc[0]['probability'])
-                if probability >= 0.5:
+                if probability >= 0.75:
                     manipulate_type = codedf.iloc[0]['type']
                     result = 1
                 else:
@@ -161,14 +162,15 @@ def predict(theday):
             else:
                 date = codedf.iloc[0]['date']
                 probability = max(codedf['probability'])
-                if probability >= 0.5:
+                if probability >= 0.75:
                     manipulate_type = codedf[codedf['probability'] == probability].iloc[0]['type']
                     result = 1
                 else:
                     manipulate_type = 0
                     result = 0
             
-            order = 'insert into manipulate_result_test ( stock_id,date,stock_name,manipulate_type,industry_name,industry_code,probability,result)values("%s", "%s","%s","%d","%s","%s","%f","%d")' % (stock_id,date,stock_name,manipulate_type,industry_name,industry_code,probability,result)
+            order = 'insert into ' + TABLE_RESULT + ' ( stock_id,date,stock_name,manipulate_type,industry_name,industry_code,probability,result)values("%s", "%s","%s","%d","%s","%s","%f","%d")' % (stock_id,date,stock_name,manipulate_type,industry_name,industry_code,probability,result)
+            #'manipulate_result_test'
             try:
                 cur.execute(order)
                 conn.commit()
@@ -182,9 +184,9 @@ def predict(theday):
 if __name__=="__main__":
     #get_training_data(1,2013,5,1,2015,6,30)
     #predict('2016-01-04')
-    #for day in get_datelist(2016,1,5,2016,12,31):
-    #    predict(day)
-    train(1)
+    for day in get_datelist(2017,1,1,2018,5,15):
+        predict(day)
+    #train(1)
     #training(get_training_data())
     '''
     frame = pd.DataFrame()

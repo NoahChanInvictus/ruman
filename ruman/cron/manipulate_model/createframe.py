@@ -64,14 +64,20 @@ def get_sql_frame(tablename,columnname,year1,month1,day1,year2,month2,day2):   #
     #id = es_search(columnname)[0]
     #es.update(index="dataframe", doc_type="basic_info", body={"doc":indexbody},id=id)   #更新json'''
 
-def get_sql_frame_bendi_day(tablename,columnname,year1,month1,day1,year2,month2,day2):   #获得历史的各个数据框(日度)：各种公告，大宗交易，私募，股价换手率
+def get_sql_frame_bendi_day(tablename,columnname,year1,month1,day1,year2,month2,day2,ifnew):   #获得历史的各个数据框(日度)：各种公告，大宗交易，私募，股价换手率，ifnew为1创建新，为0延续之前
     es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
     conn = default_db()
     cur = conn.cursor()
     codelist = sorted(list(pd.read_sql("SELECT * FROM %s WHERE listed = 1" % (TABLE_STOCK_LIST),conn)['stock_id']))   #从数据库获取stocklist，作为当前监测对象
     datelist = get_tradelist(year1,month1,day1,year2,month2,day2)   #获得交易时间列表
-    data_frame = pd.DataFrame(columns=codelist)   #建立列数据框
-    data_frame = data_frame.sort_index(axis=1)
+    if ifnew == 1:
+        data_frame = pd.DataFrame(columns=codelist)   #建立列数据框
+        data_frame = data_frame.sort_index(axis=1)
+    elif ifnew == 0:
+        data_frame = pd.read_json('dataframe/' + columnname + '.json')   #读取已经存入本地的json
+        data_frame = data_frame.sort_index(axis=1)   #json读取会产生顺序变化故重排序
+    else:
+        raise ValueError("parameter 'ifnew' can be only 1 or 0")
     datenum = 0
     for date in datelist:
         print date,columnname
@@ -98,11 +104,16 @@ def get_sql_frame_bendi_day(tablename,columnname,year1,month1,day1,year2,month2,
                     column_list_new.append(None)
                 else:
                     column_list_new.append(0)
-        data_frame.loc[date] = column_list_new
+        if ifnew == 1:
+            data_frame.loc[date] = column_list_new
+        elif ifnew == 0:
+            data_frame.loc[pd.Timestamp(int(date.split('-')[0]),int(date.split('-')[1]),int(date.split('-')[2]))] = column_list_new   #pandas会将datestr转化为时间戳，故需手动转化写入
+        else:
+            raise ValueError("parameter 'ifnew' can be only 1 or 0")
         datenum += 1
     #print data_frame
     #indexbody = {"caozong_index":columnname,"json":data_frame.to_json()}   
-    data_frame.to_json('testdf/' + columnname + '.json')
+    data_frame.to_json('dataframe/' + columnname + '.json')
     #data_frame.to_csv('/home/lfz/python/yaoyan/modelcode/price1.csv',encoding='utf_8_sig')
     #es.index(index="dataframe", doc_type="basic_info", body=indexbody)   #首次插入，以后更新
     #id = es_search(columnname)[0]
@@ -135,13 +146,19 @@ def get_quarter_list(year1,quarter1,year2,quarter2):   #通通转化为'2015-01-
             l[i] = '%s-10-01' % (l[i].split('-')[0])
     return l
 
-def get_sql_frame_bendi_quarter(tablename,columnname,year1,quarter1,year2,quarter2):   #获取季度数据
+def get_sql_frame_bendi_quarter(tablename,columnname,year1,quarter1,year2,quarter2,ifnew):   #获取季度数据
     conn = default_db()
     cur = conn.cursor()
     codelist = sorted(list(pd.read_sql("SELECT * FROM %s WHERE listed = 1" % (TABLE_STOCK_LIST),conn)['stock_id']))   #从数据库获取stocklist，作为当前监测对象
     quarterlist = get_quarter_list(year1,quarter1,year2,quarter2)
-    data_frame = pd.DataFrame(columns=codelist)   #建立列数据框
-    data_frame = data_frame.sort_index(axis=1)
+    if ifnew == 1:
+        data_frame = pd.DataFrame(columns=codelist)   #建立列数据框
+        data_frame = data_frame.sort_index(axis=1)
+    elif ifnew == 0:
+        data_frame = pd.read_json('dataframe/' + columnname + '.json')   #读取已经存入本地的json
+        data_frame = data_frame.sort_index(axis=1)   #json读取会产生顺序变化故重排序
+    else:
+        raise ValueError("parameter 'ifnew' can be only 1 or 0")
     datenum = 0
     for date in quarterlist:
         print date,columnname
@@ -169,20 +186,31 @@ def get_sql_frame_bendi_quarter(tablename,columnname,year1,quarter1,year2,quarte
                         column_list_new.append(None)
                     else:
                         column_list_new.append(0)
-            data_frame.loc[date] = column_list_new
-            datenum += 1
+            if ifnew == 1:
+                data_frame.loc[date] = column_list_new
+            elif ifnew == 0:
+                data_frame.loc[pd.Timestamp(int(date.split('-')[0]),int(date.split('-')[1]),int(date.split('-')[2]))] = column_list_new   #pandas会将datestr转化为时间戳，故需手动转化写入
+            else:
+                raise ValueError("parameter 'ifnew' can be only 1 or 0")
+                datenum += 1
         except:
             pass
     #print data_frame
     #indexbody = {"caozong_index":columnname,"json":data_frame.to_json()}   
-    data_frame.to_json('testdf/' + columnname + '.json')
+    data_frame.to_json('dataframe/' + columnname + '.json')
 
-def get_sql_frame_bendi_jiejin(tablename,columnname,year1,month1,day1,year2,month2,day2):   #获取解禁日度数据,保证开始日期早于数据日期1年
+def get_sql_frame_bendi_jiejin(tablename,columnname,year1,month1,day1,year2,month2,day2,ifnew):   #获取解禁日度数据,保证开始日期早于数据日期1年
     conn = default_db()
     cur = conn.cursor()
     codelist = sorted(list(pd.read_sql("SELECT * FROM %s WHERE listed = 1" % (TABLE_STOCK_LIST),conn)['stock_id']))
-    data_frame = pd.DataFrame(columns=codelist)   #建立列数据框
-    data_frame = data_frame.sort_index(axis=1)
+    if ifnew == 1:
+        data_frame = pd.DataFrame(columns=codelist)   #建立列数据框
+        data_frame = data_frame.sort_index(axis=1)
+    elif ifnew == 0:
+        data_frame = pd.read_json('dataframe/' + columnname + '.json')   #读取已经存入本地的json
+        data_frame = data_frame.sort_index(axis=1)   #json读取会产生顺序变化故重排序
+    else:
+        raise ValueError("parameter 'ifnew' can be only 1 or 0")
     datelist = get_tradelist(year1,month1,day1,year2,month2,day2)   #获得交易时间列表
     jiejindata = pd.read_sql("SELECT * FROM %s" % (TABLE_JIEJIN),conn)
     for date in datelist:
@@ -208,9 +236,14 @@ def get_sql_frame_bendi_jiejin(tablename,columnname,year1,month1,day1,year2,mont
                     l.append(7)
             else:
                 l.append(8)
-        data_frame.loc[date] = l
+        if ifnew == 1:
+            data_frame.loc[date] = l
+        elif ifnew == 0:
+            data_frame.loc[pd.Timestamp(int(date.split('-')[0]),int(date.split('-')[1]),int(date.split('-')[2]))] = l   #pandas会将datestr转化为时间戳，故需手动转化写入
+        else:
+            raise ValueError("parameter 'ifnew' can be only 1 or 0")
 
-    data_frame.to_json('testdf/' + columnname + '.json')
+    data_frame.to_json('dataframe/' + columnname + '.json')
 
 
 def get_sql_frame_bendi_holders(tablename,columnname,year1,month1,day1,year2,month2,day2):

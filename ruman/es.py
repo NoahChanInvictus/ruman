@@ -99,6 +99,62 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 	result = sorted(result, key= lambda x:(x['date']), reverse=True)
 	return result
 
+def manipulateRumantext(id):
+	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
+	cur = defaultDatabase()
+	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %('manipulate_day',DAY_ID,id)
+	cur.execute(stocksql)
+	thing = cur.fetchone()
+	mid = thing[DAY_MID]
+
+	indexs=["flow_text_2016-11-07","flow_text_2016-11-08","flow_text_2016-11-11","flow_text_2016-11-12"\
+	,"flow_text_2016-11-13","flow_text_2016-11-14","flow_text_2016-11-15","flow_text_2016-11-16"\
+	,"flow_text_2016-11-17","flow_text_2016-11-18","flow_text_2016-11-19","flow_text_2016-11-20"\
+	,"flow_text_2016-11-21","flow_text_2016-11-22","flow_text_2016-11-23","flow_text_2016-11-24"\
+	,"flow_text_2016-11-25","flow_text_2016-11-26","flow_text_2016-11-27"]
+
+	query_body = {"size":10,"query": {"bool": {"must": [{"match": {"mid": mid}}]}}}
+	for index in indexs:
+		res = es.search(index=index, doc_type="text",body=query_body, request_timeout=100)
+		hits = res['hits']['hits']
+		if len(hits):
+			item = hits[0]["_source"]
+			text = item['text']
+			return text
+			break
+	if len(hits) == 0:
+		return ''
+
+def manipulateRumancomment(id):
+	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
+	cur = defaultDatabase()
+	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %('manipulate_day',DAY_ID,id)
+	cur.execute(stocksql)
+	thing = cur.fetchone()
+	mid = thing[DAY_MID]
+
+	indexs=["flow_text_2016-11-07","flow_text_2016-11-08","flow_text_2016-11-11","flow_text_2016-11-12"\
+	,"flow_text_2016-11-13","flow_text_2016-11-14","flow_text_2016-11-15","flow_text_2016-11-16"\
+	,"flow_text_2016-11-17","flow_text_2016-11-18","flow_text_2016-11-19","flow_text_2016-11-20"\
+	,"flow_text_2016-11-21","flow_text_2016-11-22","flow_text_2016-11-23","flow_text_2016-11-24"\
+	,"flow_text_2016-11-25","flow_text_2016-11-26","flow_text_2016-11-27"]
+
+	query_body = {"size":10,"query": {"bool": {"must": [{"match": {"root_mid": mid}},{"match": {"message_type": 2}}]}}}
+	result = []
+	for index in indexs:
+		res = es.search(index=index, doc_type="text",body=query_body, request_timeout=100)
+		hits = res['hits']['hits']
+		if len(hits):
+			for hit in hits:
+				dic = {}
+				item = hit["_source"]
+				dic['publish_time'] = ts2date(item['timestamp'])
+				dic['text'] = item['text']
+				dic['author'] = item['uid']
+				result.append(dic)
+	result = sorted(result, key= lambda x:(x['publish_time']),reverse=True)
+	return result
+
 def hotspotPropagate(id,source):
 	query_body = {"size":15000,"query":{ "filtered": {
 		"query":{"match":{"news_id":id}}
@@ -166,4 +222,4 @@ def hotspotTopicaxis(id,source):
 
 
 if __name__=="__main__":
-	print manipulateAnnouncement(14)
+	print manipulateRumancomment(442)
