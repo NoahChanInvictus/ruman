@@ -13,6 +13,18 @@ def index():
 	
 	return render_template('homePage/homePage.html')
 
+@homePage.route('/hotspotandrumanText/',methods=['POST','GET'])
+def hotspotandruman_text():
+	result = hotspotandrumanText()
+	return json.dumps(result,ensure_ascii=False)
+
+@homePage.route('/hotspotandrumanUser/',methods=['POST','GET'])
+def hotspotandruman_user():
+	id = int(request.args.get('id',''))
+	ifruman = int(request.args.get('ifruman',''))
+	result = hotspotandrumanUser(id)
+	return json.dumps(result,ensure_ascii=False)
+
 @homePage.route('/manipulateWarning/',methods=['POST','GET'])
 def manipulate_warning():
 	result = manipulateWarning()
