@@ -1,5 +1,8 @@
 #-*-coding: utf-8-*-
 #获得预测操纵股票的操纵时间段
+import sys
+reload(sys)
+sys.path.append("../../")
 import pandas as pd
 from config import *
 from time_utils import *
@@ -27,8 +30,8 @@ def insertday(theday,tradelist):
     for result in results:   #获取id及开始日期、板块
         iddict[result['stock_id']] = [result['id'],result['start_date']]
     for num in range(len(a.index)):
-    	print num
         stock_id = a.iloc[num]['stock_id']
+        print num,stock_id
         platedict = {}
         mktsql = "SELECT * FROM stock_list"
         cur.execute(mktsql)
@@ -36,11 +39,14 @@ def insertday(theday,tradelist):
         for result in results:
             platedict[result['stock_id']] = result['plate']
         if stock_id in iddict.keys():   #如果当日的表中的数据在延续列表中则进行更新
-            pricesql = "SELECT * FROM market_daily_new WHERE date >= '%s' and date <= '%s' and stock_id = '%s'" % (tradelist[tradelist.index(iddict[stock_id][1]) - 1],theday,stock_id)   #获取最新收益率
+            pricesql = "SELECT * FROM market_daily WHERE date >= '%s' and date <= '%s' and stock_id = '%s'" % (tradelist[tradelist.index(iddict[stock_id][1]) - 1],theday,stock_id)   #获取最新收益率
             cur.execute(pricesql)
             results = cur.fetchall()
-            if results[0]['price']:
-                increase_ratio = (results[-1]['price'] - results[0]['price']) / results[0]['price']
+            if len(results):
+                if results[0]['price']:
+                    increase_ratio = (results[-1]['price'] - results[0]['price']) / results[0]['price']
+                else:
+                    increase_ratio = 0
             else:
                 increase_ratio = 0
             update = "UPDATE manipulate_day SET end_date = '%s',increase_ratio = '%f' WHERE id = '%d'" % (theday, increase_ratio, iddict[stock_id][0])   #更新结束时间为当天并更新收益率
@@ -50,7 +56,7 @@ def insertday(theday,tradelist):
             stock_name = a.iloc[num]['stock_name']
             start_date = theday
             end_date = theday
-            pricesql = "SELECT * FROM market_daily_new WHERE date >= '%s' and date <= '%s' and stock_id = '%s'" % (tradelist[tradelist.index(start_date) - 1],end_date,stock_id)
+            pricesql = "SELECT * FROM market_daily WHERE date >= '%s' and date <= '%s' and stock_id = '%s'" % (tradelist[tradelist.index(start_date) - 1],end_date,stock_id)
             cur.execute(pricesql)
             results = cur.fetchall()
             if results[0]['price']:
@@ -90,9 +96,8 @@ def update1():
             conn.commit()
 
 if __name__=="__main__":
-    '''
-    tradelist = get_tradelist(2013,1,1,2017,12,31)
-    for day in get_tradelist(2016,2,1,2016,12,31):
+    tradelist = get_tradelist(2013,1,1,2018,12,31)
+    for day in get_tradelist(2015,7,1,2018,5,15):
         print day
-        insertday(day,tradelist)'''
-    update1()
+        insertday(day,tradelist)
+    #update1()

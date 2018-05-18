@@ -1,5 +1,8 @@
 #-*-coding: utf-8-*-
-#from WindPy import *
+from WindPy import *
+import sys
+reload(sys)
+sys.path.append("../../../")
 import datetime
 import time_utils
 from sql_utils import *
@@ -8,7 +11,7 @@ import datetime
 from time_utils import *
 import pandas as pd
 
-def get_season(year1,month1,day1,year2,month2,day2):
+def get_season(year1,month1,day1,year2,month2,day2):   #输出包含在日期中的季度初，多出第一个元素为最上一季度初，便于下面计算
 	l = []
 	for year in range(year1,year2 + 1):
 		l.append("%d-01-01" % (year))
@@ -39,6 +42,7 @@ def get_gd(year1,month1,day1,year2,month2,day2):
 	for code in codelists[1]:
 		stock_str = stock_str + code + ","
 	stock_str = stock_str.strip(",")
+	
 	for datenum in range(1,len(datelist)):
 		print datelist[datenum]
 		sql = "SELECT * FROM holders_show WHERE date = '%s'" % (datelist[datenum - 1])
@@ -98,7 +102,8 @@ def get_gd(year1,month1,day1,year2,month2,day2):
 			print data4.Data[0][codenum]
 			holder_top10pct = data4.Data[0][codenum]
 			holder_pctbyinst = data5.Data[0][codenum]
-			order = 'insert into holders_pct ( stock_id,date,holder_top10pct,holder_pctbyinst)values("%s","%s","%f","%f")' % (stock_id,datelist[datenum],holder_top10pct,holder_pctbyinst)
+			print stock_id,datelist[datenum],holder_top10pct,holder_pctbyinst
+			order = 'insert into holders_pct_test ( stock_id,date,holder_top10pct,holder_pctbyinst)values("%s","%s","%f","%f")' % (stock_id,datelist[datenum],holder_top10pct,holder_pctbyinst)
 			try:
 				cur.execute(order)
 				conn.commit()
@@ -148,6 +153,7 @@ def test():
 
 if __name__=="__main__":
 	#print get_season(2015,5,6,2018,6,3)
-	#get_gd(2013,7,1,2018,3,30)
-	#get_pct(2015,1,1,2018,1,30)
-	test()
+	get_gd(2018,1,31,2018,5,15)
+	#get_pct(2018,1,31,2018,5,15)
+	#test()
+	#print get_season(2018,1,31,2018,5,15)

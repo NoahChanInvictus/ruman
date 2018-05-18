@@ -42,12 +42,12 @@ def get_gudong(start_date,end_date):
     #l = timelist(l,ldata.Times)
     codelists = w.wset("SectorConstituent",u"date=20180301;sector=全部A股").Data   #获取股票代码全套
     #print len(codelists[1])
-    for code in range(len(codelists[1])):  #获取所有股票数据，可更改
+    for code in range(4,5):  #获取所有股票数据，可更改len(codelists[1])
         #try:
         data = w.wsd(codelists[1][code], "holder_name,holder_top10pct,holder_pctbyinst", start_date, end_date, "order=0;Days=Alldays;Fill=Previous")
         stock_id = codelists[1][code].split('.')[0]
         stock_name = codelists[2][code]
-        print stock_id
+        print stock_id,data.Data[0][1]
         #print len(data.Times)
         for time in range(len(data.Times)-1):
             date = datetime2datestr(data.Times[time+1])
@@ -83,4 +83,4 @@ def get_gudong_everyday(theday=today()):
     get_gudong(theday,theday)
 
 if __name__=="__main__":
-    get_gudong('2014-11-30','2014-12-30')   #因为数据结构的原因，开始日期比实际想要日期提前一天
+    get_gudong('2018-03-21','2018-05-15')   #因为数据结构的原因，开始日期比实际想要日期提前一天

@@ -14,23 +14,25 @@ jiejintable = [[TABLE_JIEJIN,JIEJIN_DATE]]
 holderstable = [[ES_TABLE_HOLDERS,ES_HOLDERS_HOLDER_TOP10BYINST]]
 #需要的数据：股价、换手率、私募、对外投资公告、股票质押公告、增减持公告、利润分配公告、大宗交易、解禁、净利润、机构持股比例、前十大股东持股比例
 
-def get_frame():
-    for l in daytable:
-        get_sql_frame_bendi_day(l[0],l[1],2013,1,1,2013,1,31)
+def get_frame(year1,month1,day1,year2,month2,day2,ifnew):
+    for l in table1:
+        get_sql_frame_bendi_day(l[0],l[1],year1,month1,day1,year2,month2,day2,ifnew)
+    '''
     for l in quartertable:
         get_sql_frame_bendi_quarter(l[0],l[1],2012,1,2013,4)
     for l in jiejintable:
-        get_sql_frame_bendi_jiejin(l[0],l[1],2013,1,1,2013,1,31)
+        get_sql_frame_bendi_jiejin(l[0],l[1],2013,1,1,2013,1,31)'''
     #for l in holderstable:
     #    get_sql_frame_bendi_holders(l[0],l[1],2013,1,1,2013,1,31)
 
 def get_frame_theday(theday):
-    for l in daytable:
+    for l in table1:
         get_sql_frame_day_theday(l[0],l[1],theday)
+    '''
     for l in quartertable:
         get_sql_frame_quarter_theday(l[0],l[1],theday)
     for l in jiejintable:
-        get_sql_frame_jiejin_theday(l[0],l[1],theday)
+        get_sql_frame_jiejin_theday(l[0],l[1],theday)'''
 
 if __name__=="__main__":
-    get_frame()
+    get_frame(2016,1,5,2018,5,15,0)
