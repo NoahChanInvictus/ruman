@@ -120,10 +120,10 @@ def manipulateRumantext(id):
 		if len(hits):
 			item = hits[0]["_source"]
 			text = item['text']
-			return text
+			return {'text':text}
 			break
 	if len(hits) == 0:
-		return ''
+		return {}
 
 def manipulateRumancomment(id):
 	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
