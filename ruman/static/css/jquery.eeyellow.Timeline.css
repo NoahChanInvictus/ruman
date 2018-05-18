@@ -58,8 +58,10 @@
     top: 31px;
     left: 50%;
     display: inline-block;
+
     /* width: 100px; */
     /* LL */
+
     padding: 10px 20px;
     color: #4fc1e9;
 }
@@ -112,8 +114,10 @@
     text-indent: 2em;
     padding: 0 15px;
 
+    /* LL */
     max-height:350px;
     overflow:auto;
+    word-break: break-all;
 }
 
 .VivaTimeline dl dd .events .events-footer {
