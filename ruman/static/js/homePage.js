@@ -1,13 +1,16 @@
 
 $('#nav').css('height',$('#nav').outerHeight());//防止 nav高度抖动
 
+var gridTop = '20%';//echarts图适配
 if(screen.width<1920){
     $('#container .picChart-2, #container .picChart-3, #container .picChart-4, #container .picChart-5, #container .picChart-6, #container .picChart-7').css('height','1.4rem');
     $('#container .left_mid, #container .right_mid').css('top','2.7rem');
+    gridTop = '25%';
 }else {
     // 1920 * 1080 分辨率
     $('#container .picChart-2, #container .picChart-3, #container .picChart-4, #container .picChart-5, #container .picChart-6, #container .picChart-7').css('height','1.5rem');
     $('#container .left_mid, #container .right_mid').css('top','2.8rem');
+    gridTop = '20%';
 }
 
 require.config({
@@ -53,7 +56,8 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
             left: '4%',
             right: '10%',
             bottom: '8%',
-            top:'20%',
+            // top:'20%',
+            top: gridTop,
             containLabel: true
         },
         xAxis: [{
@@ -222,7 +226,7 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
     }
     pie_1();
 
-// 右上 气泡图
+// 右上 气泡图 热点事件
     function bar_2() {
         var myChart = echarts.init(document.getElementById('picChart-5'),'chalk');
         var data = [
@@ -235,7 +239,8 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
                 left: '4%',
                 right: '15%',
                 bottom: '4%',
-                top:'20%',
+                // top:'20%',
+                top: gridTop,
                 containLabel: true
             },
             xAxis: {
@@ -417,68 +422,70 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
     }
     keywords();
 
-function bar_4() {
-    var myChart = echarts.init(document.getElementById('picChart-6'),'chalk');
-    var option = {
-        backgroundColor:'transparent',
-        title: {
-            text: '',
-            subtext: ''
-        },
-        tooltip : {
-            trigger: 'axis'
-        },
-        grid: {
-            left: '0%',
-            right: '10%',
-            bottom: '0%',
-            top:'20%',
-            containLabel: true
-        },
-        legend: {
-            data:['行业','预警']
-        },
-        calculable : true,
-        itemStyle:{
-            normal:{
-                // color:'rgba(198, 229, 121, 0.91)'
-                color:'#f6a38e'
-            }
-        },
-        xAxis : [
-            {
-                name:'行业',
-                type : 'category',
-                nameRotate: '-90',
-                nameLocation:'end',
-                data : ['化工','军工','房地产','医疗','媒体','批发','消费品']
-            }
-        ],
-        yAxis : [
-            {
-                name:'数量',
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'',
-                type:'bar',
-                data:[21, 44, 77, 32, 111, 82, 56 ],
+// 右中 操纵态势
+    function bar_4() {
+        var myChart = echarts.init(document.getElementById('picChart-6'),'chalk');
+        var option = {
+            backgroundColor:'transparent',
+            title: {
+                text: '',
+                subtext: ''
             },
-            {
-                name:'',
-                type:'line',
-                lineStyle:{
-                    normal:{color:'#87f7cf'}
+            tooltip : {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '0%',
+                right: '10%',
+                bottom: '0%',
+                // top:'20%',
+                top: gridTop,
+                containLabel: true
+            },
+            legend: {
+                data:['行业','预警']
+            },
+            calculable : true,
+            itemStyle:{
+                normal:{
+                    // color:'rgba(198, 229, 121, 0.91)'
+                    color:'#f6a38e'
+                }
+            },
+            xAxis : [
+                {
+                    name:'行业',
+                    type : 'category',
+                    nameRotate: '-90',
+                    nameLocation:'end',
+                    data : ['化工','军工','房地产','医疗','媒体','批发','消费品']
+                }
+            ],
+            yAxis : [
+                {
+                    name:'数量',
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'',
+                    type:'bar',
+                    data:[21, 44, 77, 32, 111, 82, 56 ],
                 },
-                data:[34, 54, 66, 33, 123, 65, 44 ],
-            }
-        ]
-    };
-    myChart.setOption(option);
-}
-bar_4();
+                {
+                    name:'',
+                    type:'line',
+                    lineStyle:{
+                        normal:{color:'#87f7cf'}
+                    },
+                    data:[21, 44, 77, 32, 111, 82, 56 ],
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+    bar_4();
 
 function pie_2() {
     var myChart = echarts.init(document.getElementById('picChart-7'),'chalk');

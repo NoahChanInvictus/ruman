@@ -99,5 +99,71 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 	result = sorted(result, key= lambda x:(x['date']), reverse=True)
 	return result
 
+def hotspotPropagate(id,source):
+	query_body = {"size":15000,"query":{ "filtered": {
+		"query":{"match":{"news_id":id}}
+	}}}
+
+	res = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source, body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+
+	result = []
+	if len(hits):
+		for item in hits:
+			dic = {}
+			dic['publish_time'] = ts2date(int(item['_source']['publish_time']))
+			if source == TOPIC_ABOUT_DOCTYPE[2]:
+				dic['title'] = item['_source']['content']
+			else:
+				dic['title'] = item['_source']['title']
+			result.append(dic)
+		result = sorted(result, key= lambda x:(x['publish_time']))
+		return result[:10]
+	else:
+		return []
+
+def hotspotTopicaxis(id,source):
+	query_body = {"size":10,"query": {"bool": {"must": [
+        {"match": {"news_id": id}},
+        {"match": {"source": source}},
+        {"match": {"cluster_id": CLUSTER_NUM}}]
+    }}}
+
+	res = es.search(index=CLUSTER_INDEX, doc_type="type1", body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+	tslist = [item['_source']['publish_time'] for item in hits]
+	datedic = {}
+	monthdic = {}
+	for item in hits:
+		date = ts2datetime(int(item['_source']['publish_time']))
+		if source == TOPIC_ABOUT_DOCTYPE[2]:
+			if date not in datedic.keys():
+				datedic[date] = [{"title":'这个是标题',"content":item['_source']['content']}]   #item['_source']['title']
+			else:
+				datedic[date].append({"title":'这个是标题',"content":item['_source']['content']})
+		else:
+			if date not in datedic.keys():
+				datedic[date] = [{"title":item['_source']['title'],"content":item['_source']['content']}]
+			else:
+				datedic[date].append({"title":item['_source']['title'],"content":item['_source']['content']})
+	for date in datedic.keys():
+		month = date.split('-')[1]
+		year = date.split('-')[0]
+		ymonth = "%s-%s" % (year,month)
+		if ymonth not in monthdic.keys():
+			monthdic[ymonth] = [date]
+		else:
+			monthdic[ymonth].append(date)
+	l = [{"date":date,"text":datedic[date]} for date in sorted(datedic.keys(),reverse=True)]
+	result = []
+	for ymonth in monthdic.keys():
+		ll = []
+		for date in l:
+			if date['date'] in monthdic[ymonth]:
+				ll.append(date)
+		result.append({'month':ymonth,'monthtext':ll})
+	return result
+
+
 if __name__=="__main__":
 	print manipulateAnnouncement(14)
