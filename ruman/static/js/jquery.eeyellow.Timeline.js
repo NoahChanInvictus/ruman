@@ -95,7 +95,9 @@
         _event: function () {
             var self = this;
             self.target
-                .find('.events-header')
+                // .find('.events-header')
+                .find('.events-head')// LL 点击收起
+
                 .click(function(){
                     $(this)
                         .siblings('.events-body').slideToggle()

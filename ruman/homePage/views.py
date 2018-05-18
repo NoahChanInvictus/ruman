@@ -10,7 +10,7 @@ from ruman.es import *
 
 @homePage.route('/')
 def index():
-	
+
 	return render_template('homePage/homePage.html')
 
 @homePage.route('/hotspotandrumanText/',methods=['POST','GET'])
@@ -24,7 +24,7 @@ def hotspotandruman_user():
 	ifruman = int(request.args.get('ifruman',''))
 	indextype = request.args.get('indextype','')
 	result = hotspotandrumanUser(id,indextype,ifruman)
-	return json.dumps(result,ensure_ascii=False)
+	return {'status':'ok'}
 
 @homePage.route('/manipulateWarning/',methods=['POST','GET'])
 def manipulate_warning():

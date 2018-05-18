@@ -6,6 +6,8 @@
     left: 50%;
     margin-left: -25%;
     /*background: #eee;*/
+
+    overflow:hidden;
 }
 #container .left_top,#container .top_mid,#container .right_mid,
 #container .top_right,#container .left_mid{

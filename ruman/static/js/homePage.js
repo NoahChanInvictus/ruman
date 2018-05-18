@@ -29,6 +29,96 @@ require.config({
     }
 
 
+// 滚动信息
+    var rumanText_url='/homePage/hotspotandrumanText';
+    public_ajax.call_request('get',rumanText_url,rumanText);
+    function rumanText(data){
+        var str = '';
+
+        // var ischeck = false;
+        for(var i=0;i<data.length;i++){
+        // for(var i=0;i<5;i++){
+
+            if(data[i].source == '新闻'){ //新闻的 禁止切换 显示为否 都不是谣言
+                if(data[i].ifruman == 0){ //不是谣言 checkbox为不选中
+                    str += '<p>'+
+                            '<span title="'+data[i].title+'">'+data[i].title+'</span>'+
+                            '<span title="'+data[i].publish_time+'">'+data[i].publish_time+'</span>'+
+                            '<span title="'+data[i].source+'">'+data[i].source+'</span>'+
+                            '<span title="'+data[i].keyword+'">'+data[i].keyword+'</span>'+
+                            '<span >'+
+                                '<input type="checkbox" disabled=disabled id="checkbox_d'+(i+1)+'" class="chk"/><label for="checkbox_d'+(i+1)+'"></label>'+
+                            '</span>'+
+                        '</p>'; //选中checkbox
+                }
+                // else if(data[i].ifruman == 1){ // 是谣言
+                //     str += '<p>'+
+                //             '<span title="'+data[i].title+'">'+data[i].title+'</span>'+
+                //             '<span title="'+data[i].publish_time+'">'+data[i].publish_time+'</span>'+
+                //             '<span title="'+data[i].source+'">'+data[i].source+'</span>'+
+                //             '<span title="'+data[i].keyword+'">'+data[i].keyword+'</span>'+
+                //             '<span >'+
+                //                 '<input type="checkbox" disabled=disabled  id="checkbox_d'+(i+1)+'" class="chk"/><label for="checkbox_d'+(i+1)+'"></label>'+
+                //             '</span>'+
+                //         '</p>';
+                // }
+
+            }else {  //微博
+
+                if(data[i].ifruman == 0){ //不是谣言
+                    str += '<p>'+
+                            '<span title="'+data[i].title+'">'+data[i].title+'</span>'+
+                            '<span title="'+data[i].publish_time+'">'+data[i].publish_time+'</span>'+
+                            '<span title="'+data[i].source+'">'+data[i].source+'</span>'+
+                            '<span title="'+data[i].keyword+'">'+data[i].keyword+'</span>'+
+                            '<span class="parspan" ifruman="'+data[i].ifruman+'" datatype="'+data[i].type+'" _id="'+data[i].id+'">'+
+                                '<input type="checkbox" id="checkbox_d'+(i+1)+'" class="chk"/><label for="checkbox_d'+(i+1)+'"></label>'+
+                            '</span>'+
+                        '</p>';
+                }else if(data[i].ifruman == 1){ // 是谣言
+                    str += '<p>'+
+                            '<span title="'+data[i].title+'">'+data[i].title+'</span>'+
+                            '<span title="'+data[i].publish_time+'">'+data[i].publish_time+'</span>'+
+                            '<span title="'+data[i].source+'">'+data[i].source+'</span>'+
+                            '<span title="'+data[i].keyword+'">'+data[i].keyword+'</span>'+
+                            '<span class="parspan" ifruman="'+data[i].ifruman+'" datatype="'+data[i].type+'" _id="'+data[i].id+'">'+
+                                '<input type="checkbox" checked=checked id="checkbox_d'+(i+1)+'" class="chk"/><label for="checkbox_d'+(i+1)+'"></label>'+
+                            '</span>'+
+                        '</p>';
+                }
+            }
+
+        }
+        $('#scroll').empty().append(str);
+
+
+    }
+    $('#scroll input.chk').on('change',function(){
+        var _id = $(this).parent('span.parspan').attr('_id');
+        var _type= $(this).parent('span.parspan').attr('datatype');
+
+        console.log('===========================');
+        // console.log($(this).is(':checked'));
+        var ifruman = '';
+        if($(this).is(':checked')){
+            ifruman = '1';
+        }else {
+            ifruman = '0';
+        }
+        // console.log($(this).parent('span.parspan').attr('datatype'));
+        // console.log($(this).parent('span.parspan').attr('_id'));
+        // console.log(ifruman);
+        var rumanUser_url = '/homePage/hotspotandrumanUser?id='+_id+'&indextype='+_type + '&ifruman='+ifruman;
+        console.log(rumanUser_url);
+        // public_ajax.call_request('get',rumanUser_url,rumanUser);
+    })
+
+    function rumanUser(data){
+        if(data.status == 'ok'){
+            $('#success').modal('show')
+        }
+    }
+
 // 左上 谣言态势
     //一个月时间
     function get7DaysBefore(date,m){
@@ -648,6 +738,9 @@ require.config({
         myChart_pie_2.setOption(option);
     }
     // pie_2();
+
+
+
 
 //-----------------滚动----
 //获得当前

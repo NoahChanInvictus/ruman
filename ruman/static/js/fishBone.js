@@ -136,11 +136,21 @@ $.fn.fishBone = function(data) {
                 });
                 $.each(this, function(name, value) {
                     if (name == '标题') {
+
+                        // LL
+                        var oldValue = value;
+                        if(value.length>14){
+                            value = value.substr(0,14)+'...';
+                        }
+                        // var li = $("<li>" + name + "：" + value + "</li>").css({"border-left":"1px solid "+color,"height":"128px"}).attr('title',oldValue);      //LL 解决只有另个li时高度不够  加上title属性
+
                         var li = $("<li class='title'></li>");
                         var titleLeft =  $("<span class='title-left'>&nbsp;</span>").css('background-position-y',titleLeftY);
                         var titleCenter =  $("<span class='title-center'>"+value+"</span>").css('background-position-y',titleCenterY);
                         var titleRight =  $("<span class='title-right'>&nbsp;</span>").css('background-position-y',titleRightY);
-                        li.append(titleLeft).append(titleCenter).append(titleRight);
+                        // li.append(titleLeft).append(titleCenter).append(titleRight);
+                        li.append(titleLeft).append(titleCenter).append(titleRight).attr('title',oldValue);//LL
+
                         li.appendTo(ul);
                         return;
                     }
@@ -149,25 +159,52 @@ $.fn.fishBone = function(data) {
             //封装其他属性
             $.each(this, function(name, value) {
                 if (name != '标题' && name != '发布时间') {
-                    // var li = $("<li>" + name + "：" + value + "</li>").css("border-left","1px solid "+color);
 
-                    var oldValue = value;
-                    if(value.length>14){
-                        value = value.substr(0,14)+'...';
+                    // LL
+                    if(name == '链接'){
+                        //LL
+                        var oldValue = value;
+                        if(value.length>14){
+                            value = '<a href="'+value+'" target="_blank">'+value.substr(0,24)+'...'+'</a>';
+                        }
+
+                        // var li = $("<li>" + name + "：" + value + "</li>").css("border-left","1px solid "+color);
+                        var li = $("<li>" + name + "：" + value + "</li>").css("border-left","1px solid "+color).attr('title',oldValue);//LL
+                        li.appendTo(ul);
+                    }else {
+                        //LL
+                        var oldValue = value;
+                        if(value.length>14){
+                            value = value.substr(0,14)+'...';
+                        }
+                        // var li = $("<li>" + name + "：" + value + "</li>").css({"border-left":"1px solid "+color,"height":"128px"}).attr('title',oldValue);      //LL 解决只有一个li时高度不够  加上title属性
+
+                        // var li = $("<li>" + name + "：" + value + "</li>").css("border-left","1px solid "+color);
+                        var li = $("<li>" + name + "：" + value + "</li>").css("border-left","1px solid "+color).attr('title',oldValue);//LL
+                        li.appendTo(ul);
                     }
-                    var li = $("<li>" + name + "：" + value + "</li>").css({"border-left":"1px solid "+color,"height":"128px"}).attr('title',oldValue);      //LL 解决只有另个li时高度不够  加上title属性
-                    li.appendTo(ul);
+
+
                 }
             });
           //封装发布时间和标题
             if(itemclass=="bottom"){
                 $.each(this, function(name, value) {
                     if (name == '标题') {
+
+                        // LL
+                        var oldValue = value;
+                        if(value.length>14){
+                            value = value.substr(0,14)+'...';
+                        }
+
                         var li = $("<li class='title'></li>");
                         var titleLeft =  $("<span class='title-left'>&nbsp;</span>").css('background-position-y',titleLeftY);
                         var titleCenter =  $("<span class='title-center'>"+value+"</span>").css('background-position-y',titleCenterY);
                         var titleRight =  $("<span class='title-right'>&nbsp;</span>").css('background-position-y',titleRightY);
-                        li.append(titleLeft).append(titleCenter).append(titleRight);
+                        // li.append(titleLeft).append(titleCenter).append(titleRight);
+                        li.append(titleLeft).append(titleCenter).append(titleRight).attr('title',oldValue);//LL
+
                         li.appendTo(ul);
                         return;
                     }
