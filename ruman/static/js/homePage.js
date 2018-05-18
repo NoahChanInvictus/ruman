@@ -91,24 +91,32 @@ require.config({
         }
         $('#scroll').empty().append(str);
 
-        $('#scroll input.chk').on('change',function(){
-            var _id = $(this).parent('span.parspan').attr('_id');
-            var _type= $(this).parent('span.parspan').attr('datatype');
 
-            console.log('===========================');
-            // console.log($(this).is(':checked'));
-            var ifruman = '';
-            if($(this).is(':checked')){
-                ifruman = '1';
-            }else {
-                ifruman = '0';
-            }
-            // console.log($(this).parent('span.parspan').attr('datatype'));
-            // console.log($(this).parent('span.parspan').attr('_id'));
-            // console.log(ifruman);
-            var rumanUser_url = '/homePage/hotspotandrumanUser?id='+_id+'&type='+_type + '&ifruman='+ifruman;
-            console.log(rumanUser_url);
-        })
+    }
+    $('#scroll input.chk').on('change',function(){
+        var _id = $(this).parent('span.parspan').attr('_id');
+        var _type= $(this).parent('span.parspan').attr('datatype');
+
+        console.log('===========================');
+        // console.log($(this).is(':checked'));
+        var ifruman = '';
+        if($(this).is(':checked')){
+            ifruman = '1';
+        }else {
+            ifruman = '0';
+        }
+        // console.log($(this).parent('span.parspan').attr('datatype'));
+        // console.log($(this).parent('span.parspan').attr('_id'));
+        // console.log(ifruman);
+        var rumanUser_url = '/homePage/hotspotandrumanUser?id='+_id+'&indextype='+_type + '&ifruman='+ifruman;
+        console.log(rumanUser_url);
+        // public_ajax.call_request('get',rumanUser_url,rumanUser);
+    })
+
+    function rumanUser(data){
+        if(data.status == 'ok'){
+            $('#success').modal('show')
+        }
     }
 
 // 左上 谣言态势
