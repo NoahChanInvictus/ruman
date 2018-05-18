@@ -155,7 +155,6 @@ def manipulateRumancomment(id):
 	result = sorted(result, key= lambda x:(x['publish_time']),reverse=True)
 	return result
 
-
 def hotspotPropagate(id,source):
 	query_body = {"size":15000,"query":{ "filtered": {
 		"query":{"match":{"news_id":id}}

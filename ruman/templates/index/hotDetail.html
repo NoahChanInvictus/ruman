@@ -44,6 +44,7 @@
 
 
     </style>
+    <link rel="stylesheet" type="text/css" href="/static/css/fishBone.css">
 {% endblock %}
 
 {% block main %}
@@ -103,11 +104,12 @@
                     </select>
                     <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
                     <select id="five_select">
-                        <option value="zhihu" selected>知乎</option>
+                        <option value="news_new" selected>新闻</option>
+                        <option value="webo">微博</option>
+                        <option value="zhihu">知乎</option>
                         <option value="forum">贴吧</option>
                         <option value="bbs">论坛</option>
                         <option value="wechat">微信</option>
-                        <option value="webo">微博</option>
                     </select>
                 </div>
 
@@ -116,11 +118,31 @@
             </div>
             <div class="spread">
                 <h3 style="display: inline-block;font-weight:700;"><i class="icon icon-asterisk"></i>&nbsp;传播分析</h3>
-                <div class="fishBone" id="spread-pie-3">
+                <!-- <div class="fishBone" id="spread-pie-3">
                     <a class="prev"></a>
                     <a class="next"></a>
                     <div class="line"></div>
                     <div class="fish_box"></div>
+                </div> -->
+                <div class="lieOpt">
+                    <span class="ct-tit">呈现方式：</span>
+                    <select id="fishTime_select">
+                        <option value="1" selected>按天</option>
+                        <option value="7">按周</option>
+                        <option value="30">按月</option>
+                    </select>
+                    <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
+                    <select id="fishSource_select">
+                        <option value="news_new" selected>新闻</option>
+                        <option value="webo">微博</option>
+                        <option value="zhihu">知乎</option>
+                        <option value="forum">贴吧</option>
+                        <option value="bbs">论坛</option>
+                        <option value="wechat">微信</option>
+                    </select>
+                </div>
+                <div class="fishBone" id="spread-pie-3">
+
                 </div>
             </div>
 
@@ -133,20 +155,38 @@
                 <div class="lieOpt">
                     <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
                     <select id="wordCloud_select" class="lieOpt">
-                        <option value="zhihu" selected>知乎</option>
+                        <option value="news_new" selected>新闻</option>
+                        <option value="webo">微博</option>
+                        <option value="zhihu">知乎</option>
                         <option value="forum">贴吧</option>
                         <option value="bbs">论坛</option>
                         <option value="wechat">微信</option>
-                        <option value="webo">微博</option>
                     </select>
                 </div>
                 <div class="semanticsbox" id="word-cloud" style="height:3rem;">
                 </div>
                 <!-- 时间轴 -->
-                <p class="tit">
+                <p class="tit" style="display:inline-block;">
                     <span class="tit-1"></span>
                     <span style="font-size: 0.18rem;">主题时间轴</span>
                 </p>
+                <div class="lieOpt">
+                    <span class="ct-tit">呈现方式：</span>
+                    <select id="semanticsTime_select">
+                        <option value="1" selected>按天</option>
+                        <option value="7">按周</option>
+                        <option value="30">按月</option>
+                    </select>
+                    <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
+                    <select id="semanticsSource_select">
+                        <option value="news_new" selected>新闻</option>
+                        <option value="webo">微博</option>
+                        <option value="zhihu">知乎</option>
+                        <option value="forum">贴吧</option>
+                        <option value="bbs">论坛</option>
+                        <option value="wechat">微信</option>
+                    </select>
+                </div>
                 <div class="semanticsbox" id="timebox">
                     <div class="VivaTimeline">
                         <dl>
@@ -265,67 +305,79 @@
     <script src="/static/js/chalk.js"></script>
     <script src="/static/js/echarts-2/build/dist/echarts.js"></script> -->
 
+
+    <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script><!-- .size()方法弃用了 -->
+    <script type="text/javascript" src="/static/js/jquery.SuperSlide.2.1.1.js"></script> <!-- 基于jquery-superSlide鱼骨图插件 -->
+    <script type="text/javascript" src="/static/js/fishBone.js"></script> <!-- 基于jquery-superSlide鱼骨图插件 -->
+
+
     <script type="text/javascript" src="/static/js/jquery.eeyellow.Timeline.js"></script> <!-- 时间轴插件 -->
 
 
     <script>
         var id = {{id}};
 
-        //===========================
-        $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
-            $(this).siblings('.line').css({left:'0%'});
-            if ($(document).scrollTop()!=0){
-                $(this).css({color:'#ff9645'});
-                $(this).find('i').css({color:'#ff9645'});
-            }else {
-                $(this).css({color:'#08F'});
-                $(this).find('i').css({color:'#08F'});
-            }
-        }).on('mouseout',function () {
-            $(this).siblings('.line').css({left:'-100%'});
-            if ($(document).scrollTop()!=0){
-                $(this).css({color:'#fff'});
-                $(this).find('i').css({color:'#fff'});
-            }else {
-                $(this).css({color:'#000'});
-                $(this).find('i').css({color:'#000'});
-            }
-        });
-        $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
-        $('#nav .nav_left h3').css({color:'#333'});
-        $('#nav .nav_middle .main_li .li_a').eq(3).addClass('s1');
-        $('#nav .nav_middle .main_li .li_a').eq(3).find('i').addClass('s1');
-        window.onscroll=function () {
-            $('#nav').css({backgroundColor:'#777'});
-            $('#nav .nav_left h3').css({color:'white'});
-            $('#nav .nav_left img').attr('src','/static/images/logo.png');
-            $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
-            $('#nav .nav_middle .main_li .li_a').css({color:'white'});
-            $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
-            $('#nav .nav_middle .main_li .li_a').eq(3).removeClass('s1').addClass('s2');
-            $('#nav .nav_middle .main_li .li_a').eq(3).find('i').removeClass('s1').addClass('s2');
-            $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
-            if ($(document).scrollTop()==0){
-                $('#nav').css({backgroundColor:'#fff'});
-                $('#nav .nav_left h3').css({color:'black'});
-                $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
-                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
-                $('#nav .nav_middle .main_li .li_a').css({color:'black'});
-                $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
-                $('#nav .nav_middle .main_li .li_a').eq(3).removeClass('s2').addClass('s1');
-                $('#nav .nav_middle .main_li .li_a').eq(3).find('i').removeClass('s2').addClass('s1');
-                $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
-            }
-        };
+        //=========================== nav
+            $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+                $(this).siblings('.line').css({left:'0%'});
+                if ($(document).scrollTop()!=0){
+                    $(this).css({color:'#ff9645'});
+                    $(this).find('i').css({color:'#ff9645'});
+                }else {
+                    $(this).css({color:'#08F'});
+                    $(this).find('i').css({color:'#08F'});
+                }
+            }).on('mouseout',function () {
+                $(this).siblings('.line').css({left:'-100%'});
+                if ($(document).scrollTop()!=0){
+                    $(this).css({color:'#fff'});
+                    $(this).find('i').css({color:'#fff'});
+                }else {
+                    $(this).css({color:'#000'});
+                    $(this).find('i').css({color:'#000'});
+                }
+            });
+            $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+            $('#nav .nav_left h3').css({color:'#333'});
+            $('#nav .nav_middle .main_li .li_a').eq(3).addClass('s1');
+            $('#nav .nav_middle .main_li .li_a').eq(3).find('i').addClass('s1');
+            window.onscroll=function () {
+                $('#nav').css({backgroundColor:'#777'});
+                $('#nav .nav_left h3').css({color:'white'});
+                $('#nav .nav_left img').attr('src','/static/images/logo.png');
+                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
+                $('#nav .nav_middle .main_li .li_a').css({color:'white'});
+                $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
+                $('#nav .nav_middle .main_li .li_a').eq(3).removeClass('s1').addClass('s2');
+                $('#nav .nav_middle .main_li .li_a').eq(3).find('i').removeClass('s1').addClass('s2');
+                $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
+                if ($(document).scrollTop()==0){
+                    $('#nav').css({backgroundColor:'#fff'});
+                    $('#nav .nav_left h3').css({color:'black'});
+                    $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+                    $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
+                    $('#nav .nav_middle .main_li .li_a').css({color:'black'});
+                    $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
+                    $('#nav .nav_middle .main_li .li_a').eq(3).removeClass('s2').addClass('s1');
+                    $('#nav .nav_middle .main_li .li_a').eq(3).find('i').removeClass('s2').addClass('s1');
+                    $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+                }
+            };
 
 
         $(document).ready(function () {
 
+
             // 纵向时间轴
-            $('.VivaTimeline').vivaTimeline({
-                carousel: true,
-                carouselTime: 2000
-            });
+            // $('.VivaTimeline').vivaTimeline({
+            //     carousel: true,
+            //     carouselTime: 2000
+            // });
+        });
+
+
+        $(function() {
+
         });
     </script>
 
