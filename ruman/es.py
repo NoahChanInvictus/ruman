@@ -261,6 +261,41 @@ def hotspotTopicaxis(id,source):
 	result = result[:3]
 	return result
 
+def hotspotandrumanText():
+	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
+	cur = defaultDatabase()
+
+	query_body = {"size":5000,"query":{"match_all": {}}}
+	sql = "SELECT * FROM %s " % (TABLE_HOTNEWS)
+
+	cur.execute(sql)
+	results = cur.fetchall()
+	res = es.search(index='rumor_hot_list', body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+	result = []
+
+	for thing in results[:10]:
+		dic = {}
+		dic['title'] = thing[HOT_NEWS_TITLE]
+		dic['publish_time'] = ts2date(float(thing[HOT_NEWS_IN_TIME]))
+		dic['source'] = '新闻'
+		dic['keyword'] = thing[HOT_NEWS_KEY_WORD]
+		dic['ifruman'] = 0
+		result.append(dic)
+	for hit in hits[:10]:
+		dic = {}
+		dic['title'] = hit['_source']['text']
+		dic['publish_time'] = ts2date(hit['_source']['timestamp'])
+		dic['source'] = '微博'
+		dic['keyword'] = hit['_source']['keywords_string'].replace('&',' ')
+		dic['ifruman'] = hit['_source']['rumor_label']
+		dic['id'] = hit['_id']
+		result.append(dic)
+
+	return result
+
+def hotspotandrumanUser(id):
+	a = 1
 
 if __name__=="__main__":
 	print hotspotTopicaxis(1,'bbs')
