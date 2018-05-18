@@ -595,6 +595,9 @@ def hotspotbasicMessage(id):
 def hotspotEvolution(id,frequency,source):
 	cur = defaultDatabase()
 	conn = defaultDatabaseConn()
+	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_HOTNEWS,HOT_NEWS_ID,id)
+	cur.execute(sql)
+	results = cur.fetchone()
 	theday = '2017-09-08 00:00:00'#'2018-01-01 00:00:00'
 	thedayts = date2ts(theday)
 	sql = "SELECT * FROM %s WHERE %s = '%d' and %s = '%s'" %(TABLE_PROPAGATE,PROPAGATE_NEWS_ID,id,PROPAGATE_SOURCE,source)
