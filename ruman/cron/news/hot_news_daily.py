@@ -122,13 +122,15 @@ def hot_news_daily(theday):
         news_id = news['id']
         print 'news id:',news_id
 
+        
+
         print 'load all source data start!'
         all_source_match(news_id,key_word)        #读取并保存各个通道的相关文本
         print 'load data finished!'
 
-        print 'propagate compute start!'
-        propagateTask(news_id,theday,240)           #计算120天的多通道溯源记录     正式版应该倒查7天
-        print 'propagate compute end!'
+        # print 'propagate compute start!'
+        # propagateTask(news_id,theday,240)           #计算120天的多通道溯源记录     正式版应该倒查7天
+        # print 'propagate compute end!'
 
         print 'word cloud start!'
         word_cloud_main(news_id)                    #计算词云并存储
@@ -137,6 +139,7 @@ def hot_news_daily(theday):
         print 'clustering start!'
         clustering_main(news_id)                    #观点聚类
         print 'clustering end!'
+        # break
 
 
 

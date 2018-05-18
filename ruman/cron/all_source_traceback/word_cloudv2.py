@@ -7,6 +7,8 @@ import json
 from config import *
 from elasticsearch import Elasticsearch
 
+from news.key_word import jieba_keywords
+
 def defaultDatabase():
     conn = mysql.connect(host=SQL_HOST,user=SQL_USER,password=SQL_PASSWD,db=DEFAULT_DB,charset=SQL_CHARSET,cursorclass=pymysql.cursors.DictCursor)
     conn.autocommit(True)
@@ -49,7 +51,12 @@ def word_cloud(news_id,size=10000):
         one_source_keywords = []
         if len(es_result):
             for item in es_result:
-                keyword_string = item['_source']['k']
+                if source == 'webo':        #微博原始数据没有关键词要自己重新算
+                    item['_source']['k'] = ' '.join(jieba_keywords(item['_source']['content'],5))
+                try:
+                    keyword_string = item['_source']['k']
+                except:
+                    keyword_string = item['_source']['key']
                 if keyword_string != '':
                     keyword_list = keyword_string.split(' ')
                     while '' in keyword_list:
