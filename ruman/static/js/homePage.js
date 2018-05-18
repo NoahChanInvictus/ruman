@@ -649,6 +649,54 @@ require.config({
     }
     // pie_2();
 
+// 滚动信息
+    var rumanText_url='/homePage/hotspotandrumanText';
+    public_ajax.call_request('get',rumanText_url,rumanText);
+    function rumanText(data){
+        var str = '';
+        // for(var i=0;i<data.length;i++){
+        for(var i=0;i<5;i++){
+            if(data[i].source == '新闻'){ //新闻的 禁止切换 显示为否
+                str += '<p>'+
+                        '<span title="'+data[i].title+'">'+data[i].title+'</span>'+
+                        '<span title="'+data[i].publish_time+'">'+data[i].publish_time+'</span>'+
+                        '<span title="'+data[i].source+'">'+data[i].source+'</span>'+
+                        '<span title="'+data[i].keyword+'">'+data[i].keyword+'</span>'+
+                        '<span >'+
+                            '<input type="checkbox" disabled=disabled checked="false" id="checkbox_d'+(i+1)+'" class="chk"/><label for="checkbox_d'+(i+1)+'"></label>'+
+                        '</span>'+
+                    '</p>';
+            }else {
+                str += '<p>'+
+                        '<span title="'+data[i].title+'">'+data[i].title+'</span>'+
+                        '<span title="'+data[i].publish_time+'">'+data[i].publish_time+'</span>'+
+                        '<span title="'+data[i].source+'">'+data[i].source+'</span>'+
+                        '<span title="'+data[i].keyword+'">'+data[i].keyword+'</span>'+
+                        '<span class="parspan" ifruman="'+data[i].ifruman+'" datatype="'+data[i].type+'" _id="'+data[i].id+'">'+
+                            '<input type="checkbox" disabled=disabled checked="false" id="checkbox_d'+(i+1)+'" class="chk"/><label for="checkbox_d'+(i+1)+'"></label>'+
+                        '</span>'+
+                    '</p>';
+            }
+
+        }
+        $('#scroll').empty().append(str);
+    }
+    $('#scroll input.chk').change(function(){
+        console.log(111);
+        console.log($(this).is(':checked'));
+        var ifruman = '';
+        if($(this).is(':checked')){
+            ifruman = '1';
+        }else {
+            ifruman = '0';
+        }
+        console.log($(this).parent('span.parspan').attr('datatype'));
+        console.log($(this).parent('span.parspan').attr('_id'));
+        console.log(ifruman);
+        var rumanUser_url = '/homePage/hotspotandrumanUser';
+        console.log(rumanUser_url);
+    })
+
 //-----------------滚动----
 //获得当前
 var $uList = $("#scroll");
