@@ -35,6 +35,8 @@ DIC_LARGE_TRANS = {'index':'east_money','type':'type1'}
 #es
 ES_HOST = '219.224.134.214'
 ES_PORT = 9202
+ES_HOST_WEB0 = '219.224.134.216'
+ES_PORT_WEB0 = 9201
 
 #db
 SQL_HOST = "219.224.134.214"

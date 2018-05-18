@@ -100,7 +100,7 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 	return result
 
 def manipulateRumantext(id):
-	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
+	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 	cur = defaultDatabase()
 	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %('manipulate_day',DAY_ID,id)
 	cur.execute(stocksql)
@@ -126,7 +126,7 @@ def manipulateRumantext(id):
 		return {}
 
 def manipulateRumancomment(id):
-	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
+	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 	cur = defaultDatabase()
 	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %('manipulate_day',DAY_ID,id)
 	cur.execute(stocksql)
@@ -218,6 +218,7 @@ def hotspotTopicaxis(id,source):
 			if date['date'] in monthdic[ymonth]:
 				ll.append(date)
 		result.append({'month':ymonth,'monthtext':ll})
+	result = sorted(result, key= lambda x:(x['month']),reverse=True)
 	return result
 
 
