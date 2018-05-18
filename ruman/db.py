@@ -135,6 +135,7 @@ def manipulateWarningText():   #列出预警文本
 			dic['manipulate_type'] = u'散布信息牟利'
 		else:
 			dic['manipulate_type'] = u'尾盘操纵'
+		dic['manipulate_type_num'] = i[DAY_MANIPULATE_TYPE]
 		dic['industry_name'] = i[DAY_INDUSTRY_NAME]
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
 		dic['id'] = i[DAY_ID]
