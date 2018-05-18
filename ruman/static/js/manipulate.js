@@ -46,23 +46,44 @@
             // showLoading:true,
             columns: [
                 {
-                    title: "相关股票",//标题
-                    field: "stock",//键名
+                    title: "股票名称",//标题
+                    field: "stock_name",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        var stock = '';
+                        // var stock_name = '';
 
-                        if (row.stock==''||row.stock=='null'||row.stock=='unknown'||!row.stock){
+                        // if (row.stock_name==''||row.stock_name=='null'||row.stock_name=='unknown'||!row.stock_name){
+                        //     return '未知';
+                        // }else if(row.stock_name.length >=5){
+                        //     stock_name = row.stock_name.slice(0,5)+'...';
+                        //     return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock_name+'\',\''+row.id+'\')" title="'+row.stock_name+'">'+stock_name+'</span>';
+                        // }else {
+                        //     stock_name = row.stock_name;
+                        //     return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock_name+'\',\''+row.id+'\')" title="'+row.stock_name+'">'+stock_name+'</span>';
+                        // };
+                        if (row.stock_name==''||row.stock_name=='null'||row.stock_name=='unknown'||!row.stock_name){
                             return '未知';
-                        }else if(row.stock.length >=5){
-                            stock = row.stock.slice(0,5)+'...';
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="'+row.stock+'">'+stock+'</span>';
                         }else {
-                            stock = row.stock;
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="'+row.stock+'">'+stock+'</span>';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock_name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="'+row.stock_name+'">'+row.stock_name+'</span>';
+                        };
+                    }
+                },
+                {
+                    title: "股票代码",//标题
+                    field: "stock_id",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+
+                        if (row.stock_id==''||row.stock_id=='null'||row.stock_id=='unknown'||!row.stock_id){
+                            return '未知';
+                        }else {
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock_id+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="'+row.stock_id+'">'+row.stock_id+'</span>';
                         };
                     }
                 },
@@ -175,7 +196,7 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
                 {
@@ -202,10 +223,10 @@
     };
 
     // 跳转详情页
-    function jumpFrame_1(stock,id) {
+    function jumpFrame_1(stock, id, manipulate_type_num) {
         var html = '';
         stock=escape(stock);
-        html='/index/setDetail?stock='+stock+'&id='+id;
+        html='/index/setDetail?stock='+stock+'&id='+id +'&manipulate_type_num='+manipulate_type_num;
         // window.location.href=html;
         window.open(html);
     }

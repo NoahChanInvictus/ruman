@@ -486,61 +486,61 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
         myChart.setOption(option);
     }
     bar_4();
-
-function pie_2() {
-    var myChart = echarts.init(document.getElementById('picChart-7'),'chalk');
-    var option = {
-        backgroundColor:'transparent',
-        title : {
-            text: '',
-            subtext: '',
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            type: 'scroll',
-            orient: 'vertical',
-            left:0,
-            top:0,
-            pagemode: true,
-            textStyle: {
-                fontWeight: 'bolder',
-                fontSize: 12,
-                color:'#fff'
+// 右下 操纵板块分布
+    function pie_2() {
+        var myChart = echarts.init(document.getElementById('picChart-7'),'chalk');
+        var option = {
+            backgroundColor:'transparent',
+            title : {
+                text: '',
+                subtext: '',
+                x:'center'
             },
-            pageIconColor: '#fff',
-            pageIconInactiveColor: '#fff',
-            pageTextStyle:{color:'#fff'},
-            padding: 6,
-            data: ['主板','创业板','中小板']
-        },
-        series : [
-            {
-                name: '',
-                type: 'pie',
-                radius : '55%',
-                center: ['65%', '50%'],
-                data: [
-                    {value:768, name:'主板'},
-                    {value:453, name:'创业板'},
-                    {value:1548, name:'中小板'},
-                ],
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                left:0,
+                top:0,
+                pagemode: true,
+                textStyle: {
+                    fontWeight: 'bolder',
+                    fontSize: 12,
+                    color:'#fff'
+                },
+                pageIconColor: '#fff',
+                pageIconInactiveColor: '#fff',
+                pageTextStyle:{color:'#fff'},
+                padding: 6,
+                data: ['主板','创业板','中小板']
+            },
+            series : [
+                {
+                    name: '',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['65%', '50%'],
+                    data: [
+                        {value:768, name:'主板'},
+                        {value:453, name:'创业板'},
+                        {value:1548, name:'中小板'},
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
                     }
                 }
-            }
-        ]
-    };
-    myChart.setOption(option);
-}
-pie_2();
+            ]
+        };
+        myChart.setOption(option);
+    }
+    pie_2();
 //-----------------滚动----
 //获得当前
 var $uList = $("#scroll");

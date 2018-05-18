@@ -175,6 +175,118 @@
             window.open(html);
         }
 
+//舆情分析
+    if(manipulate_type_num == 4){ //显示 虚假消息 舆情分析
+
+        // 显示虚假消息
+        $('#False_message').hide();
+
+        // 舆情分析
+        var t5_data=[{'a':'2017.10.01 13:23','b':'微博','c':'所长别开枪是我','d':'国家发布雄安新区新资讯，新政策的颁布'},
+            {'a':'2017.09.01 13:23','b':'股吧','c':'机智达人','d':'新能源汽车不断被尝试，多家公司涉足新'},
+            {'a':'2017.08.01 13:23','b':'知乎','c':'沈小司司','d':'快递行业在政策促进下稳步前进，快递业'},
+            {'a':'2017.07.01 13:23','b':'贴吧','c':'所长别开枪是我','d':'传统煤炭产业再度进入大众视线，能源产'},
+            {'a':'2017.06.01 13:23','b':'微博','c':'机智达人','d':'北京市发布医疗改革新办法，医改给人们'},
+        ];
+        function table5(data) {
+            $('#opinion').bootstrapTable('load', data);
+            $('#opinion').bootstrapTable({
+                data:data,
+                search: true,//是否搜索
+                pagination: true,//是否分页
+                pageSize: 5,//单页记录数
+                pageList: [15,20,25],//分页步进值
+                sidePagination: "client",//服务端分页
+                searchAlign: "left",
+                searchOnEnterKey: false,//回车搜索
+                showRefresh: false,//刷新按钮
+                showColumns: false,//列选择按钮
+                buttonsAlign: "right",//按钮对齐方式
+                locale: "zh-CN",//中文支持
+                detailView: false,
+                showToggle:false,
+                sortName:'bci',
+                sortOrder:"desc",
+                columns: [
+                    {
+                        title: "时间",//标题
+                        field: "a",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                    },
+                    {
+                        title: "渠道",//标题
+                        field: "b",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            if (row.b==''||row.b=='null'||row.b=='unknown'||!row.b){
+                                return '未知';
+                            }else {
+                                return row.b;
+                            };
+                        }
+                    },
+                    {
+                        title: "发布者",//标题
+                        field: "c",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            if (row.c==''||row.c=='null'||row.c=='unknown'||!row.c){
+                                return '-';
+                            }else {
+                                return row.c;
+                            };
+                        }
+                    },
+                    {
+                        title: "内容",//标题
+                        field: "d",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            if (row.d==''||row.d=='null'||row.d=='unknown'||!row.d){
+                                return '-';
+                            }else {
+                                if(row.d.length>50){
+                                    return '<span title="'+row.d+'">'+row.d.substring(0,150)+'...</span>';
+                                }else {
+                                    return row.d;
+                                }
+                            };
+                        }
+                    },
+                    {
+                        title: "查看详情",//标题
+                        field: "e",//键名
+                        sortable: true,//是否可排序
+                        order: "desc",//默认排序方式
+                        align: "center",//水平
+                        valign: "middle",//垂直
+                        formatter: function (value, row, index) {
+                            return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        }
+                    },
+                ],
+            });
+        }
+        table5(t5_data)
+    }else {
+
+        $('#False_message').hide();
+        $('#Public_opinion').hide();
+
+    }
+
 // 价格与收益率
     var myChart_1 = echarts.init(document.getElementById('Price_1'));
     myChart_1.showLoading();
@@ -1015,102 +1127,6 @@
     }
     // Stock_2()
 
-//舆情分析
-    var t5_data=[{'a':'2017.10.01 13:23','b':'微博','c':'所长别开枪是我','d':'国家发布雄安新区新资讯，新政策的颁布'},
-        {'a':'2017.09.01 13:23','b':'股吧','c':'机智达人','d':'新能源汽车不断被尝试，多家公司涉足新'},
-        {'a':'2017.08.01 13:23','b':'知乎','c':'沈小司司','d':'快递行业在政策促进下稳步前进，快递业'},
-        {'a':'2017.07.01 13:23','b':'贴吧','c':'所长别开枪是我','d':'传统煤炭产业再度进入大众视线，能源产'},
-        {'a':'2017.06.01 13:23','b':'微博','c':'机智达人','d':'北京市发布医疗改革新办法，医改给人们'},
-    ];
-    function table5(data) {
-        $('#opinion').bootstrapTable('load', data);
-        $('#opinion').bootstrapTable({
-            data:data,
-            search: true,//是否搜索
-            pagination: true,//是否分页
-            pageSize: 5,//单页记录数
-            pageList: [15,20,25],//分页步进值
-            sidePagination: "client",//服务端分页
-            searchAlign: "left",
-            searchOnEnterKey: false,//回车搜索
-            showRefresh: false,//刷新按钮
-            showColumns: false,//列选择按钮
-            buttonsAlign: "right",//按钮对齐方式
-            locale: "zh-CN",//中文支持
-            detailView: false,
-            showToggle:false,
-            sortName:'bci',
-            sortOrder:"desc",
-            columns: [
-                {
-                    title: "时间",//标题
-                    field: "a",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                },
-                {
-                    title: "渠道",//标题
-                    field: "b",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.b==''||row.b=='null'||row.b=='unknown'||!row.b){
-                            return '未知';
-                        }else {
-                            return row.b;
-                        };
-                    }
-                },
-                {
-                    title: "发布者",//标题
-                    field: "c",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.c==''||row.c=='null'||row.c=='unknown'||!row.c){
-                            return '-';
-                        }else {
-                            return row.c;
-                        };
-                    }
-                },
-                {
-                    title: "内容",//标题
-                    field: "d",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        if (row.d==''||row.d=='null'||row.d=='unknown'||!row.d){
-                            return '-';
-                        }else {
-                            if(row.d.length>50){
-                                return '<span title="'+row.d+'">'+row.d.substring(0,150)+'...</span>';
-                            }else {
-                                return row.d;
-                            }
-                        };
-                    }
-                },
-                {
-                    title: "查看详情",//标题
-                    field: "e",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-                    formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;" onclick="" title="查看详情"><i class="icon icon-file-alt"></i></span>';
-                    }
-                },
-            ],
-        });
-    }
-    table5(t5_data)
+
+
+
