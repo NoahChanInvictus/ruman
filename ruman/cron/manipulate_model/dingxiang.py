@@ -1,6 +1,5 @@
 #-*-coding: utf-8-*-
-#创立操纵模型所需数据的数据框
-#前三个函数分别对应日度、季度和日度解禁的导入，中间三个是相对应的每日更新版，最后一个是根据更新日期写出的pro版
+#定向增发的规则
 import sys
 reload(sys)
 sys.path.append("../../")
@@ -202,6 +201,7 @@ def calculate(year1,month1,day1,year2,month2,day2):
     staticdf = pd.DataFrame(columns=['stock_id','start_date','end_date','dzprice_min','lowdzprice_ratio','lowdzaver_ratio','end_start'])
     datelist = get_tradelist(year1 - 1,month1,day1,year2,month2,day2)
     number = 0
+    print len(df)
     for num in range(len(df)):
         print num 
         start_date = df.loc[num]['start_date']
@@ -243,7 +243,7 @@ def calculate(year1,month1,day1,year2,month2,day2):
     staticdftwo = staticdfone[staticdfone['lowdzprice_ratio'] > 0.8]
     staticdfthree = staticdftwo[staticdftwo['lowdzaver_ratio'] < 0.6]
     staticdffour = staticdfthree[staticdfthree['end_start'] > 0.95]
-    #staticdffour.to_csv('staticdffour.csv',encoding='utf_8_sig')
+    staticdffour.to_csv('staticdffour1.csv',encoding='utf_8_sig')
     return staticdffour
 
 def insert_sql(df):
@@ -281,5 +281,6 @@ def predict_dz(year1,month1,day1,year2,month2,day2):
 if __name__=="__main__":
     #get_es_frame_bendi_dingzeng(2012,1,1,2015,12,31)
     #calculate(2012,1,1,2015,12,31)
-    df = pd.DataFrame(data=[['000882','2013-05-02','2013-10-17'],['002092','2012-11-05','2013-02-07'],['002546','2015-07-16','2015-12-31'],['601009','2015-07-29','2015-11-19']],columns=['stock_id','start_date','end_date'])
-    insert_sql(df)
+    #df = pd.DataFrame(data=[['000882','2013-05-02','2013-10-17'],['002092','2012-11-05','2013-02-07'],['002546','2015-07-16','2015-12-31'],['601009','2015-07-29','2015-11-19']],columns=['stock_id','start_date','end_date'])
+    #insert_sql(df)
+    insert_sql(calculate(2016,1,1,2018,5,15))

@@ -142,9 +142,9 @@ def xujia(mid):
 
 			
 			if ifinput:
-				#print stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate
-				order = 'insert into ' + 'manipulate_day_test' + '(stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate)values\
-				("%s","%s","%s","%s","%f","%s","%d","%s","%d","%s")' % (stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate)
+				print stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate,mid
+				order = 'insert into ' + 'manipulate_day' + '(stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate,mid)values\
+				("%s","%s","%s","%s","%f","%s","%d","%s","%d","%s","%s")' % (stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate,mid)
 				try:
 					cur.execute(order)
 					conn.commit()
@@ -153,7 +153,17 @@ def xujia(mid):
 					break
 
 	#return text,pubtime
+def get_ruman_mid():
+	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
+	query_body = {"size":100,"query": {"match": {"rumor_label" :1}}}
+	res = es.search(index='rumor_hot_list', doc_type="2016-11-27",body=query_body, request_timeout=100)
+	hits = res['hits']['hits']
+	if len(hits):
+		midlist = [i['_source']['mid'] for i in hits]
+	return midlist
 
 if __name__ == '__main__':
-	mid = 4041291346704466
-	xujia(mid)
+	#mid = 4041291346704466
+	#xujia(mid)
+	for mid in get_ruman_mid():
+		xujia(mid)

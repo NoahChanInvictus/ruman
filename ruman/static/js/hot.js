@@ -9,10 +9,10 @@
         $('#card .type-3').text(data.key_word);
         $('#card .type-5').text(data.url).attr('title',data.url).attr('href',data.url);
 
-        $('#card .hotContent p').text(data.content)
+        $('#card .hotContent #hotContent').text(data.content)
     }
 
-// ---------
+// ---------暂 弃用
     var obj=[{a:'经济',b:'2018-02-03',c:'231',d:'微博',e:'用CSS能非常容易的改变这些图标的颜色、大小、阴影以及任何CSS能控制的属性。'},
         {a:'人才',b:'2017-12-11',c:'231',d:'百度',e:'一个字体文件包含了所有图标。Font Awesome 助你完整表达web页面上每个动作的含义。'},
         {a:'历史',b:'2018-07-03',c:'231',d:'知乎',e:'Font Awesome 中包含的都是矢量图标，在高分辨率的显示器上也能完美呈现。'},
@@ -72,8 +72,7 @@
     // tables(obj);
 
 // 演化分析
-// 热度图
-
+    // 热度图
     var myChart_analysis = echarts.init(document.getElementById('analysis'));
     myChart_analysis.showLoading();
 
@@ -191,21 +190,22 @@
         myChart_analysis.setOption(option);
     }
     // line_1();
-    $('#time_select').change(function(){
-        myChart_analysis.showLoading();
-        time_val = $(this).val();
-        source_val = $('#five_select').val();
-        evolution_url = '/hotSpot/hotspotReport/evolution?frequency='+time_val+'&source='+source_val+'&id='+id;
-        public_ajax.call_request('get',evolution_url,line_1);
-    })
+    // 更新下拉框
+        $('#time_select').change(function(){
+            myChart_analysis.showLoading();
+            time_val = $(this).val();
+            source_val = $('#five_select').val();
+            evolution_url = '/hotSpot/hotspotReport/evolution?frequency='+time_val+'&source='+source_val+'&id='+id;
+            public_ajax.call_request('get',evolution_url,line_1);
+        })
 
-    $('#five_select').change(function(){
-        myChart_analysis.showLoading();
-        source_val = $(this).val();
-        time_val = $('#time_select').val();
-        evolution_url = '/hotSpot/hotspotReport/evolution?frequency='+time_val+'&source='+source_val+'&id='+id;
-        public_ajax.call_request('get',evolution_url,line_1);
-    })
+        $('#five_select').change(function(){
+            myChart_analysis.showLoading();
+            source_val = $(this).val();
+            time_val = $('#time_select').val();
+            evolution_url = '/hotSpot/hotspotReport/evolution?frequency='+time_val+'&source='+source_val+'&id='+id;
+            public_ajax.call_request('get',evolution_url,line_1);
+        })
 
 // 鱼骨图
     //
@@ -291,8 +291,37 @@
             }
         });
     }
-    spread_pie_3(fish);
+    // spread_pie_3(fish);
+    // LL新版
+    var data = [
+        {'审理时间':'2016-12-20 至 2016-12-20',
+        '承办庭室':'吕磊'
+        ,'承办法官':'吕磊',
+        '承办法院':'吕磊法院',
+        '案件状态':'吕磊',
+        '案号':'(XXXX)XXXXXX第吕磊号'},
+        {'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号(当前案件)'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号(当前案件)'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号(当前案件)'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号(当前案件)'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号(当前案件)'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号(当前案件)'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号'},{'审理时间': '2016-12-20 至 2016-12-20','承办庭室':'XXXX','承办法官':'XXX','承办法院':'XXXXXXX法院','案件状态':'XX','案号':'(XXXX)XXXXXX第XXXX号(当前案件)'}];
+    //创建案件历史
+    // $(".fishBone").fishBone(data);
+    // var propagate_url = '/hotSpot/hotspotReport/propagate/?source='+source_val+'&id='+id;
+    var propagate_url = '/hotSpot/hotspotReport/propagate/?source=bbs&id=1';
+    public_ajax.call_request('get',propagate_url,propagate);
+    function propagate(data){
+        var fishdata = [];
+        for(var i=0;i<data.length;i++){
+            // if(data[i].title.length>14){
+            //     data[i].title = data[i].title.substr(0,14)+'...'
+            // }
 
+            // 修改插件文件 fishBone.js  有 LL 标识
+
+            // fishdata.push({'发布时间':data[i].publish_time,'标题':data[i].title,'承办法官':'吕磊','承办法院':'吕磊','案件状态':'吕磊','承办庭室':'吕磊'});//多个li时 可以把fishBone.js中 改回来
+            fishdata.push({'发布时间':data[i].publish_time,'标题 ':data[i].title});
+            // fishdata.push({'发布时间':data[i].publish_time,'标题':data[i].title,}); // fishBone.js中 ==标题 时是特殊样式
+        }
+        // console.log(fishdata);
+        $(".fishBone").fishBone(fishdata);
+    }
 
 // 字符云
     // function createRandomItemStyle() {
@@ -306,9 +335,9 @@
     //         }
     //     };
     // }
-var source_word_val = $('#wordCloud_select').val();
-var wordCloudurl = '/hotSpot/hotspotReport/wordcloud?source='+source_word_val+'&id='+id;
-public_ajax.call_request('get',wordCloudurl,keywords);
+    var source_word_val = $('#wordCloud_select').val();
+    var wordCloudurl = '/hotSpot/hotspotReport/wordcloud?source='+source_word_val+'&id='+id;
+    public_ajax.call_request('get',wordCloudurl,keywords);
 
     require.config({
         paths: {
@@ -439,12 +468,96 @@ public_ajax.call_request('get',wordCloudurl,keywords);
         );
     }
     // keywords();
-$('#wordCloud_select').change(function(){
-    // myChart_analysis.showLoading();
-    source_word_val = $(this).val();
-    console.log(source_word_val);
-    wordCloudurl = '/hotSpot/hotspotReport/wordcloud?source='+source_word_val+'&id='+id;
-    public_ajax.call_request('get',wordCloudurl,keywords);
-})
 
-// 纵向时间轴
+// 更新下拉框
+    $('#wordCloud_select').change(function(){
+        // myChart_analysis.showLoading();
+        source_word_val = $(this).val();
+        console.log(source_word_val);
+        wordCloudurl = '/hotSpot/hotspotReport/wordcloud?source='+source_word_val+'&id='+id;
+        public_ajax.call_request('get',wordCloudurl,keywords);
+    })
+
+// 纵向 主题时间轴 在html文件
+    var topicaxis_url = '/hotSpot/hotspotReport/topicaxis/?source=bbs&id=1';//测试的
+    public_ajax.call_request('get',topicaxis_url,topicaxis);
+    function topicaxis(data){
+        // console.log(data);
+        var classLR = '';
+
+        var str = '';
+
+        for(var n=0;n<data.length;n++){
+            str += '<dt>'+data[n].month+'</dt>';
+
+            for(var i=0;i<data[n].monthtext.length;i++){
+                if(i%2 == 0){
+                    classLR = 'pos-left';
+                }else {
+                    classLR = 'pos-right';
+                }
+                var eventStr = '';
+                if(data[n].monthtext[i].text.length != 0){
+                    var eventHeading_str = '';
+                    for(var j=0;j<data[n].monthtext[i].text.length;j++){
+                        eventStr += '<div class="row">'+
+                                        '<div class="events-desc">'+data[n].monthtext[i].text[j].content+
+
+                                        '</div>'+
+                                    '</div>';
+                        // eventHeading_str = data[n].monthtext[i].text[j].title;
+                        eventHeading_str += '<div class="events-header">'+data[n].monthtext[i].text[j].title+'</div>';
+                    }
+                }
+                str += '<dd class="'+classLR+' clearfix">'+
+                            '<div class="circ"></div>'+
+                            '<div class="time">'+data[n].monthtext[i].date+'</div>'+
+                            '<div class="events">'+
+                                // '<div class="events-header">'+eventHeading_str+'</div>'+
+                                '<div class="events-head">'+eventHeading_str+'</div>'+
+                                // eventHeading_str+
+                                '<div class="events-body">'+eventStr+
+                                    /*
+
+
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog01.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog02.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Morbi at nisi vitae mauris pretium egestas. Morbi placerat risus ligula, nec placerat urna porta vel. Nullam sollicitudin orci quis odio eleifend, ut facilisis orci lobortis. Vivamus sed lobortis odio. Nam volutpat, leo a ullamcorper luctus, sapien libero auctor est, sed semper massa turpis sed quam. Mauris posuere, libero in ultricies dignissim, lacus purus egestas urna, nec semper lorem tellus non eros. Nam at bibendum libero. Curabitur a ante et orci cursus tincidunt. Vivamus dictum, libero et rhoncus congue, nulla erat mollis dui, vitae cursus dui justo quis velit. In a tellus arcu. Nam at lobortis nisl. Donec consequat placerat eros, quis elementum mauris sodales a. Maecenas id feugiat velit. Phasellus dictum eleifend varius. Cras nec orci turpis. Aenean ut turpis nibh.
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pull-left">
+                                                <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog03.jpeg" />
+                                            </div>
+                                            <div class="events-desc">
+                                                Cras condimentum, metus ut vehicula euismod, odio massa pulvinar neque, id gravida neque est et sem. Proin consequat id nibh quis molestie. Quisque vehicula purus id purus elementum facilisis. Phasellus sodales nibh quis neque rhoncus aliquet. Nunc eget ipsum efficitur, pretium arcu et, gravida purus. Phasellus tempor lacus ac enim pulvinar elementum. Integer aliquet justo lacinia nunc tempus vulputate.
+                                            </div>
+                                        </div>
+                                     */
+                                '</div>'+
+                                '<div class="events-footer">'+
+                                '</div>'+
+                            '</div>'+
+                        '</dd>';
+            }
+        }
+
+
+        $('.VivaTimeline dl').empty().html(str);
+
+        $('.VivaTimeline').vivaTimeline({
+            carousel: true,//自动轮播
+            carouselTime: 2000//轮播间隔
+        });
+    }

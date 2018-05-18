@@ -1,14 +1,33 @@
 
 $('#nav').css('height',$('#nav').outerHeight());//防止 nav高度抖动
 
+var gridTop = '20%';//echarts图适配
+if(screen.width<1920){
+    $('#container .picChart-2, #container .picChart-3, #container .picChart-4, #container .picChart-5, #container .picChart-6, #container .picChart-7').css('height','1.4rem');
+    $('#container .left_mid, #container .right_mid').css('top','2.7rem');
+    gridTop = '25%';
+}else {
+    // 1920 * 1080 分辨率
+    $('#container .picChart-2, #container .picChart-3, #container .picChart-4, #container .picChart-5, #container .picChart-6, #container .picChart-7').css('height','1.5rem');
+    $('#container .left_mid, #container .right_mid').css('top','2.8rem');
+    gridTop = '20%';
+}
+
 require.config({
     paths: {
         echarts: '/static/js/echarts-2/build/dist',
     }
 });
-var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤气及水的生产和供应业',
-    '建筑业','交通运输、仓储业','信息技术业','批发和零售贸易','金融、保险业',
-    '房地产业','社会服务业','传播与文化产业','综合类'];
+
+// 操纵预警数 ====
+    var manipulateWarning_url='/homePage/manipulateWarning';
+    public_ajax.call_request('get',manipulateWarning_url,manipulateWarning);
+    function manipulateWarning(data){
+        $('.mid-2 .company-1').text(data.weeknum);
+        $('.mid-2 .company-2').text(data.monthnum);
+        $('.mid-2 .company-3').text(data.seasonnum);
+    }
+
 
 // 左上 谣言态势
     //一个月时间
@@ -44,7 +63,8 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
             left: '4%',
             right: '10%',
             bottom: '8%',
-            top:'20%',
+            // top:'20%',
+            top: gridTop,
             containLabel: true
         },
         xAxis: [{
@@ -213,7 +233,7 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
     }
     pie_1();
 
-// 右上 气泡图
+// 右上 气泡图 热点事件
     function bar_2() {
         var myChart = echarts.init(document.getElementById('picChart-5'),'chalk');
         var data = [
@@ -226,7 +246,8 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
                 left: '4%',
                 right: '15%',
                 bottom: '4%',
-                top:'20%',
+                // top:'20%',
+                top: gridTop,
                 containLabel: true
             },
             xAxis: {
@@ -408,123 +429,226 @@ var industry=['农、林、牧、渔业','采掘业','制造业','电力、煤�
     }
     keywords();
 
-function bar_4() {
-    var myChart = echarts.init(document.getElementById('picChart-6'),'chalk');
-    var option = {
-        backgroundColor:'transparent',
-        title: {
-            text: '',
-            subtext: ''
-        },
-        tooltip : {
-            trigger: 'axis'
-        },
-        grid: {
-            left: '0%',
-            right: '10%',
-            bottom: '0%',
-            top:'20%',
-            containLabel: true
-        },
-        legend: {
-            data:['行业','预警']
-        },
-        calculable : true,
-        itemStyle:{
-            normal:{
-                // color:'rgba(198, 229, 121, 0.91)'
-                color:'#f6a38e'
-            }
-        },
-        xAxis : [
-            {
-                name:'行业',
-                type : 'category',
-                nameRotate: '-90',
-                nameLocation:'end',
-                data : ['化工','军工','房地产','医疗','媒体','批发','消费品']
-            }
-        ],
-        yAxis : [
-            {
-                name:'数量',
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'',
-                type:'bar',
-                data:[21, 44, 77, 32, 111, 82, 56 ],
-            },
-            {
-                name:'',
-                type:'line',
-                lineStyle:{
-                    normal:{color:'#87f7cf'}
-                },
-                data:[34, 54, 66, 33, 123, 65, 44 ],
-            }
-        ]
-    };
-    myChart.setOption(option);
-}
-bar_4();
+// 右中 操纵态势 ====
+    var myChart_bar_4 = echarts.init(document.getElementById('picChart-6'),'chalk');
+    myChart_bar_4.showLoading({
+        text: '加载中...',
+        color: '#c23531',
+        // textColor: '#000',
+        textColor: '#c23531',
+        maskColor: 'rgba(0,0,0,.1)',
+        // zlevel: 0
+    });
 
-function pie_2() {
-    var myChart = echarts.init(document.getElementById('picChart-7'),'chalk');
-    var option = {
-        backgroundColor:'transparent',
-        title : {
-            text: '',
-            subtext: '',
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            type: 'scroll',
-            orient: 'vertical',
-            left:0,
-            top:0,
-            pagemode: true,
-            textStyle: {
-                fontWeight: 'bolder',
-                fontSize: 12,
-                color:'#fff'
+    var manipulateIndustry_url='/homePage/manipulateIndustry';
+    public_ajax.call_request('get',manipulateIndustry_url,bar_4);
+
+    function bar_4(data) {
+        // var myChart = echarts.init(document.getElementById('picChart-6'),'chalk');
+
+        // var xData = [];
+        // for(var i=0;i<data.industry.length;i++){
+        //     if(data.industry[i].length > 4){
+        //         // xData.push(data.industry[i].substr(0,4)+'\n'+data.industry[i].substr(4,data.industry[i].length));
+        //         xData.push(data.industry[i].substr(0,4)+'...');
+        //     }else {
+        //         xData.push(data.industry[i]);
+        //     }
+        // }
+        var xData = data.industry;
+
+        var seriesData = data.num;
+
+        var option = {
+            backgroundColor:'transparent',
+            title: {
+                text: '',
+                subtext: ''
             },
-            pageIconColor: '#fff',
-            pageIconInactiveColor: '#fff',
-            pageTextStyle:{color:'#fff'},
-            padding: 6,
-            data: ['主板','创业板','中小板']
-        },
-        series : [
-            {
-                name: '',
-                type: 'pie',
-                radius : '55%',
-                center: ['65%', '50%'],
-                data: [
-                    {value:768, name:'主板'},
-                    {value:453, name:'创业板'},
-                    {value:1548, name:'中小板'},
-                ],
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+            tooltip : {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '0%',
+                right: '10%',
+                bottom: '0%',
+                // top:'20%',
+                top: gridTop,
+                containLabel: true
+            },
+            legend: {
+                data:['行业','预警']
+            },
+            calculable : true,
+            itemStyle:{
+                normal:{
+                    // color:'rgba(198, 229, 121, 0.91)'
+                    color:'#f6a38e'
+                }
+            },
+             dataZoom: [
+                {
+                    type: 'slider',
+                    show: true,
+                    xAxisIndex: [0],
+                    start: 1,
+                    end: 100
+                },
+                // {
+                //     type: 'slider',
+                //     show: true,
+                //     yAxisIndex: [0],
+                //     left: '93%',
+                //     start: 29,
+                //     end: 36
+                // },
+                {
+                    type: 'inside',
+                    xAxisIndex: [0],
+                    start: 1,
+                    end: 35
+                },
+                // {
+                //     type: 'inside',
+                //     yAxisIndex: [0],
+                //     start: 29,
+                //     end: 36
+                // }
+            ],
+            xAxis : [
+                {
+                    name:'行业',
+                    type : 'category',
+                    nameRotate: '-90',
+                    nameLocation:'end',
+                    // data : ['化工','军工','房地产','医疗','媒体','批发','消费品']
+                    data : xData,
+                    axisLabel:{
+                        // interval:0,
+                        rotate:45,//倾斜度 -90 至 90 默认为0
+                        // margin:2,
+                        // textStyle:{
+                        //     fontWeight:"bolder",
+                        //     color:"#000000"
+                        // }
+                        formatter: function(value,index){
+                            if(value.length > 4){
+                                return value.substr(0,4)+'...';
+                            }else {
+                                return value;
+                            }
+                        }
+                    },
+                }
+            ],
+            yAxis : [
+                {
+                    name:'数量',
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'',
+                    type:'bar',
+                    // data:[21, 44, 77, 32, 111, 82, 56 ],
+                    data:seriesData,
+                },
+                {
+                    name:'',
+                    type:'line',
+                    lineStyle:{
+                        normal:{color:'#87f7cf'}
+                    },
+                    // data:[21, 44, 77, 32, 111, 82, 56 ],
+                    data:seriesData,
+                }
+            ]
+        };
+
+        myChart_bar_4.hideLoading();
+
+        myChart_bar_4.setOption(option);
+    }
+    // bar_4();
+
+// 右下 操纵板块分布 ====
+    var myChart_pie_2 = echarts.init(document.getElementById('picChart-7'),'chalk');
+    myChart_pie_2.showLoading({
+        text: '加载中...',
+        color: '#c23531',
+        textColor: '#c23531',
+        maskColor: 'rgba(0,0,0,.1)',
+    });
+
+    var manipulatePane_url='/homePage/manipulatePanel';
+    public_ajax.call_request('get',manipulatePane_url,pie_2);
+
+    function pie_2(data) {
+        // var myChart = echarts.init(document.getElementById('picChart-7'),'chalk');
+        var legendData = data.PANEL;
+        var seriesData = [];
+        for(var i=0;i<data.num.length;i++){
+            seriesData.push({value:data.num[i], name:data.PANEL[i]});
+        }
+
+        var option = {
+            backgroundColor:'transparent',
+            title : {
+                text: '',
+                subtext: '',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                left:0,
+                top:0,
+                pagemode: true,
+                textStyle: {
+                    fontWeight: 'bolder',
+                    fontSize: 12,
+                    color:'#fff'
+                },
+                pageIconColor: '#fff',
+                pageIconInactiveColor: '#fff',
+                pageTextStyle:{color:'#fff'},
+                padding: 6,
+                // data: ['主板','创业板','中小板']
+                data: legendData
+            },
+            series : [
+                {
+                    name: '',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['65%', '50%'],
+                    // data: [
+                    //     {value:768, name:'主板'},
+                    //     {value:453, name:'创业板'},
+                    //     {value:1548, name:'中小板'},
+                    // ],
+                    data: seriesData,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
                     }
                 }
-            }
-        ]
-    };
-    myChart.setOption(option);
-}
-pie_2();
+            ]
+        };
+
+        myChart_pie_2.hideLoading();
+        myChart_pie_2.setOption(option);
+    }
+    // pie_2();
+
 //-----------------滚动----
 //获得当前
 var $uList = $("#scroll");

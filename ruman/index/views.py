@@ -11,13 +11,14 @@ from ruman.es import *
 
 @index.route('/lieDetail/')
 def lieDetail():
-	return render_template('index/lieDetail.html')
+    return render_template('index/lieDetail.html')
 
 @index.route('/setDetail/')
 def setDetail():
-	stock = request.args.get('stock','')
-	id = request.args.get('id','')
-	return render_template('index/setDetail.html',stock=stock,id=id)
+    stock = request.args.get('stock','')
+    id = request.args.get('id','')
+    manipulate_type_num = request.args.get('manipulate_type_num','')
+    return render_template('index/setDetail.html',stock=stock,id=id,manipulate_type_num=manipulate_type_num)
 
 @index.route('/hotDetail/')
 def hotDetail():
@@ -32,6 +33,6 @@ def hotweiboDetail():
 
 @index.route('/test/')
 def test():
-	result = 'Hello World!'
-	return json.dumps(result,ensure_ascii=False)
+    result = 'Hello World!'
+    return json.dumps(result,ensure_ascii=False)
 

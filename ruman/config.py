@@ -7,6 +7,7 @@ sys.setdefaultencoding('utf-8')
 
 #table
 ES_TABLE_HOLDERS = 'holders'
+TABLE_RESULT = 'manipulate_result'
 TABLE_DAY = 'manipulate_day'
 TABLE_WARNING = 'manipulate_warning'
 TABLE_MARKET_DAILY = 'market_daily'
@@ -47,6 +48,9 @@ TEST_DB = ""
 
 #index_name
 #操纵模块
+RESULT_RESULT = 'result'
+RESULT_PROBABILITY = 'probability'
+RESULT_ID = 'id'
 DAY_STOCK_ID = 'stock_id'
 DAY_STOCK_NAME = 'stock_name'
 DAY_START_DATE = 'start_date'
@@ -58,6 +62,7 @@ DAY_INDUSTRY_CODE = 'industry_code'
 DAY_INCREASE_RATIO = 'increase_ratio'
 DAY_MARKET_PLATE = 'market_plate'
 DAY_ID = 'id'
+DAY_MID = 'mid'
 WARNING_DATE = 'date'
 WARNING_TIMES = 'times'
 MARKET_PRICE = 'price'
@@ -198,12 +203,14 @@ STOCK_LIST_INDUSTRY_CODE = 'industry_code'
 STOCK_LIST_PLATE = 'plate'
 
 #一些其他的常值
-SHOW_DATE = '2016-12-31'
+SHOW_DATE = '2018-05-16'
 table1 = [[TABLE_MARKET_DAILY,MARKET_PRICE_FU],[ES_TABLE_HOLDERS,ES_HOLDERS_HOLDER_TOP10BYINST],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_INVESTMENT],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PLEDGE],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_REDUCING],[TABLE_TRANSACTION_STAT,TRANSACTION_STAT_FREQUENCY]]#
 table2 = [[TABLE_MARKET_DAILY,MARKET_PRICE_FU],[TABLE_MARKET_DAILY,MARKET_TURNOVER_RATE],[TABLE_JIEJIN,JIEJIN_DATE],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PLEDGE],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_REDUCING],[TABLE_ANNOUNCEMENT,ANNOUNCEMENT_PROFIT],[TABLE_TRANSACTION_STAT,TRANSACTION_STAT_FREQUENCY]]
+
 CLUSTER_NUM = 60
+
 # 多通道溯源
-TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1','news_new':'type1'}
+TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1'}
 TOPIC_ABOUT_INDEX = 'topic_about'
 TOPIC_ABOUT_DOCTYPE = ['bbs','forum','webo','wechat','zhihu','news_new']
 CLUSTER_INDEX = 'clustering'

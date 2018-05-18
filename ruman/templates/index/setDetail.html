@@ -51,7 +51,7 @@
         .bootstrap-table #Bulletin_content.table>thead>tr>th:nth-of-type(4) {
             width: 1%;
         }
-        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(1),
+        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(1){width: 5%}
         .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(3){width: 15%}
         .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(2),
         .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(5) {width:3%}
@@ -104,6 +104,20 @@
                 <center class="loading">正在加载中...</center>
             </div>
         </div>
+
+        <!-- 虚假消息 -->
+        <div id="False_message" class="main_content">
+            <h3 style="margin-bottom: 0.1rem;"><i class="icon icon-certificate"></i>&nbsp;虚假消息</h3>
+            <p class="False_content">加载中...</p>
+        </div>
+        <!--舆情分析-->
+        <div id="Public_opinion" class="main_content" style="margin-top: 0.02rem;">
+            <h3 style="margin-bottom: 0.1rem;"><i class="icon icon-bullhorn"></i>&nbsp;舆情分析</h3>
+            <div class="opinion">
+                <div id="opinion"></div>
+            </div>
+        </div>
+
         <!-- 价格与收益率 -->
         <div id="Price">
             <h3><i class="icon icon-signin"></i>&nbsp;价格与收益率</h3>
@@ -165,18 +179,7 @@
                 <div id="Stock_2" class="half"></div>
             </div>
         </div>
-        <!-- 虚假消息 -->
-        <div id="False_message" class="main_content">
-            <h3 style="margin-bottom: 0.1rem;"><i class="icon icon-certificate"></i>&nbsp;虚假消息</h3>
-            <p class="False_content">【鲸快讯：万科将参与雄安新区6.5平方公里项目建设】7月11日讯，近日，万科已与雄安新区筹备工作委员会签署协议，协议中包含一个“新安小镇”计划。该小镇作为雄安新区落地的第一个大项目，致力于打造功能性创新型小镇新样板，将由万科联手深圳投资控股有限公司、中国节能环保集团公司共同投资建设，先期规划占地6.5平方公里。(网易房产)</p>
-        </div>
-        <!--舆情分析-->
-        <div id="Public_opinion" class="main_content" style="margin-top: 0.02rem;">
-            <h3 style="margin-bottom: 0.1rem;"><i class="icon icon-bullhorn"></i>&nbsp;舆情分析</h3>
-            <div class="opinion">
-                <div id="opinion"></div>
-            </div>
-        </div>
+
     </div>
 {% endblock %}
 
@@ -195,52 +198,55 @@
         var id = '{{id}}';
         console.log(id);
 
-        $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
-            $(this).siblings('.line').css({left:'0%'});
-            if ($(document).scrollTop()!=0){
-                $(this).css({color:'#ff9645'});
-                $(this).find('i').css({color:'#ff9645'});
-            }else {
-                $(this).css({color:'#08F'});
-                $(this).find('i').css({color:'#08F'});
-            }
-        }).on('mouseout',function () {
-            $(this).siblings('.line').css({left:'-100%'});
-            if ($(document).scrollTop()!=0){
-                $(this).css({color:'#fff'});
-                $(this).find('i').css({color:'#fff'});
-            }else {
-                $(this).css({color:'#000'});
-                $(this).find('i').css({color:'#000'});
-            }
-        });
-        $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
-        $('#nav .nav_left h3').css({color:'#333'});
-        $('#nav .nav_middle .main_li .li_a').eq(4).addClass('s1');
-        $('#nav .nav_middle .main_li .li_a').eq(4).find('i').addClass('s1');
-        window.onscroll=function () {
-            $('#nav').css({backgroundColor:'#777'});
-            $('#nav .nav_left h3').css({color:'white'});
-            $('#nav .nav_left img').attr('src','/static/images/logo.png');
-            $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
-            $('#nav .nav_middle .main_li .li_a').css({color:'white'});
-            $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
-            $('#nav .nav_middle .main_li .li_a').eq(4).removeClass('s1').addClass('s2');
-            $('#nav .nav_middle .main_li .li_a').eq(4).find('i').removeClass('s1').addClass('s2');
-            $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
-            if ($(document).scrollTop()==0){
-                $('#nav').css({backgroundColor:'#fff'});
-                $('#nav .nav_left h3').css({color:'black'});
-                $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
-                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
-                $('#nav .nav_middle .main_li .li_a').css({color:'black'});
-                $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
-                // $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
-                $('#nav .nav_middle .main_li .li_a').eq(4).removeClass('s2').addClass('s1');
-                $('#nav .nav_middle .main_li .li_a').eq(4).find('i').removeClass('s2').addClass('s1');
-                $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
-            }
-        };
+        var manipulate_type_num = {{manipulate_type_num}};
+
+        // =============================nav
+            $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+                $(this).siblings('.line').css({left:'0%'});
+                if ($(document).scrollTop()!=0){
+                    $(this).css({color:'#ff9645'});
+                    $(this).find('i').css({color:'#ff9645'});
+                }else {
+                    $(this).css({color:'#08F'});
+                    $(this).find('i').css({color:'#08F'});
+                }
+            }).on('mouseout',function () {
+                $(this).siblings('.line').css({left:'-100%'});
+                if ($(document).scrollTop()!=0){
+                    $(this).css({color:'#fff'});
+                    $(this).find('i').css({color:'#fff'});
+                }else {
+                    $(this).css({color:'#000'});
+                    $(this).find('i').css({color:'#000'});
+                }
+            });
+            $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+            $('#nav .nav_left h3').css({color:'#333'});
+            $('#nav .nav_middle .main_li .li_a').eq(4).addClass('s1');
+            $('#nav .nav_middle .main_li .li_a').eq(4).find('i').addClass('s1');
+            window.onscroll=function () {
+                $('#nav').css({backgroundColor:'#777'});
+                $('#nav .nav_left h3').css({color:'white'});
+                $('#nav .nav_left img').attr('src','/static/images/logo.png');
+                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
+                $('#nav .nav_middle .main_li .li_a').css({color:'white'});
+                $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
+                $('#nav .nav_middle .main_li .li_a').eq(4).removeClass('s1').addClass('s2');
+                $('#nav .nav_middle .main_li .li_a').eq(4).find('i').removeClass('s1').addClass('s2');
+                $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
+                if ($(document).scrollTop()==0){
+                    $('#nav').css({backgroundColor:'#fff'});
+                    $('#nav .nav_left h3').css({color:'black'});
+                    $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+                    $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
+                    $('#nav .nav_middle .main_li .li_a').css({color:'black'});
+                    $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
+                    // $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+                    $('#nav .nav_middle .main_li .li_a').eq(4).removeClass('s2').addClass('s1');
+                    $('#nav .nav_middle .main_li .li_a').eq(4).find('i').removeClass('s2').addClass('s1');
+                    $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+                }
+            };
 
     </script>
     <script src="/static/js/set.js"></script>

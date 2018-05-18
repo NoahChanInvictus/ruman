@@ -78,12 +78,7 @@ def manipulateWarning():   #预警数合计总览,目前为了展示theday为定
 	year = theday.split('-')[0]
 	month = theday.split('-')[1]
 	day = theday.split('-')[2]
-	while 1:
-		try:
-			tradelist = get_tradelist(2012,1,1,year,month,day)
-			break
-		except:
-			pass
+	tradelist = get_tradelist(2012,1,1,year,month,day)
 	datelist = get_datelist(2012,1,1,year,month,day)
 	if theday in tradelist:
 		tradeday = theday
@@ -114,15 +109,17 @@ def manipulateWarning():   #预警数合计总览,目前为了展示theday为定
 
 def manipulateWarningText():   #列出预警文本
 	cur = defaultDatabase()
-	sql = "SELECT * FROM " + TABLE_DAY
+	theday = SHOW_DATE
+	sql = "SELECT * FROM " + TABLE_DAY + " WHERE %s <= '%s'" % (DAY_END_DATE,theday)
 	cur.execute(sql)
 	results = cur.fetchall()
 	result = []
 	for i in results:   #选取所有文本并展示
 		dic = {}
-		dic['stock'] = i[DAY_STOCK_NAME] + u'(' + i[DAY_STOCK_ID] + u')'
+		dic['stock_name'] = i[DAY_STOCK_NAME]
+		dic['stock_id'] = i[DAY_STOCK_ID]
 		dic['start_date'] = i[DAY_START_DATE]
-		if i[DAY_IFEND]:
+		if i[DAY_END_DATE] != theday:   #只为了展示而这么写，主要还是i[DAY_IFEND]，因为包含了前五日的情况
 			dic['end_date'] = i[DAY_END_DATE]
 			dic['manipulate_state'] = u'已完成操纵'
 		else:
@@ -134,8 +131,11 @@ def manipulateWarningText():   #列出预警文本
 			dic['manipulate_type'] = u'高送转'
 		elif i[DAY_MANIPULATE_TYPE] == 3:
 			dic['manipulate_type'] = u'定向增发'
-		else:
+		elif i[DAY_MANIPULATE_TYPE] == 4:
 			dic['manipulate_type'] = u'散布信息牟利'
+		else:
+			dic['manipulate_type'] = u'尾盘操纵'
+		dic['manipulate_type_num'] = i[DAY_MANIPULATE_TYPE]
 		dic['industry_name'] = i[DAY_INDUSTRY_NAME]
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
 		dic['id'] = i[DAY_ID]
@@ -555,26 +555,26 @@ def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比�
 
 def hotspotText():
 	cur = defaultDatabase()
-	sql = "SELECT * FROM " + TABLE_HOTNEWS
+	sql = "SELECT * FROM " + TABLE_HOTNEWS + " order by %s desc" % (HOT_NEWS_IN_TIME)
 	cur.execute(sql)
 	results = cur.fetchall()
-	results = sorted(results, key= lambda x:(x[HOT_NEWS_IN_TIME]), reverse=True)   #按照特定顺序排序
+	#results = sorted(results, key= lambda x:(x[HOT_NEWS_IN_TIME]), reverse=True)   #按照特定顺序排序
 	result = []
 	for i in results:   #选取所有文本并展示
 		dic = {}
 		dic['web'] = i[HOT_NEWS_WEB]
 		dic['title'] = i[HOT_NEWS_TITLE]
 		dic['url'] = i[HOT_NEWS_URL]
-		dic['abstract'] = i[HOT_NEWS_ABSTRACT]
-		dic['author'] = i[HOT_NEWS_AUTHOR]
-		dic['comments'] = i[HOT_NEWS_COMMENTS]
-		dic['tend'] = i[HOT_NEWS_TEND]
-		dic['content'] = i[HOT_NEWS_CONTENT]
+		#dic['abstract'] = i[HOT_NEWS_ABSTRACT]
+		#dic['author'] = i[HOT_NEWS_AUTHOR]
+		#dic['comments'] = i[HOT_NEWS_COMMENTS]
+		#dic['tend'] = i[HOT_NEWS_TEND]
+		#dic['content'] = i[HOT_NEWS_CONTENT]
 		dic['in_time'] = ts2date(float(i[HOT_NEWS_IN_TIME]))
-		dic['text_id'] = i[HOT_NEWS_TEXT_ID]
-		dic['panel'] = i[HOT_NEWS_PANEL]
+		#dic['text_id'] = i[HOT_NEWS_TEXT_ID]
+		#dic['panel'] = i[HOT_NEWS_PANEL]
 		dic['key_word'] = i[HOT_NEWS_KEY_WORD]
-		dic['date'] = i[HOT_NEWS_DATE]
+		#dic['date'] = i[HOT_NEWS_DATE]
 		dic['id'] = i[HOT_NEWS_ID]
 		result.append(dic)
 	return result
@@ -604,7 +604,8 @@ def hotspotEvolution(id,frequency,source):
 		countlist = []
 		for num in range(7,0,-1):
 			beforets = thedayts - num*24*3600
-			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			beforets1 = thedayts - (num - 1)*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= beforets1)]
 			count = sum(stadf[PROPAGATE_COUNT])
 			datelist.append(ts2datetime(thedayts - (num - 1)*24*3600))
 			countlist.append(count)
@@ -615,7 +616,8 @@ def hotspotEvolution(id,frequency,source):
 		countlist = []
 		for num in range(8,0,-1):
 			beforets = thedayts - num*7*24*3600
-			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			beforets1 = thedayts - (num - 1)*7*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= beforets1)]
 			count = sum(stadf[PROPAGATE_COUNT])
 			datelist.append(ts2datetime(thedayts - (num - 1)*7*24*3600))
 			countlist.append(count)
@@ -626,7 +628,8 @@ def hotspotEvolution(id,frequency,source):
 		countlist = []
 		for num in range(8,0,-1):
 			beforets = thedayts - num*30*24*3600
-			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= thedayts)]
+			beforets1 = thedayts - (num - 1)*30*24*3600
+			stadf = df[(df[PROPAGATE_BEGIN_TS] >= beforets) & (df[PROPAGATE_END_TS] <= beforets1)]
 			count = sum(stadf[PROPAGATE_COUNT])
 			datelist.append(ts2datetime(thedayts - (num - 1)*30*24*3600))
 			countlist.append(count)
@@ -640,23 +643,26 @@ def hotspotWordcloud(id,source):
 	cur.execute(sql)
 	results = cur.fetchone()
 	result = []
-	wordsstr = results[WORDCLOUD_WORDS]
-	wordstrlist = wordsstr.split(',')
-	for wordstr in wordstrlist[:-1]:
-		dic = {}
-		word = wordstr.split(':')[0]
-		wordnum = wordstr.split(':')[1]
-		dic['name'] = word
-		dic['value'] = int(wordnum)
-		result.append(dic)
-	result = sorted(result, key= lambda x:(x['value']), reverse=True)[:100]
-	return result
+	if results is not None:
+		wordsstr = results[WORDCLOUD_WORDS]
+		wordstrlist = wordsstr.split(',')
+		for wordstr in wordstrlist[:-1]:
+			dic = {}
+			word = wordstr.split(':')[0]
+			wordnum = wordstr.split(':')[1]
+			dic['name'] = word
+			dic['value'] = int(wordnum)
+			result.append(dic)
+		result = sorted(result, key= lambda x:(x['value']), reverse=True)[:100]
+		return result
+	else:
+		return {}
 
 
 
 
 if __name__=="__main__":
 	#print len(manipulateHistory('002427'))
-	#manipulateAnnouncement(14)
+	manipulateWarningText()
 	#manipulateHolderspct(1096)
-	hotspotWordcloud(2,'bbs')
+	#hotspotWordcloud(2,'bbs')
