@@ -100,7 +100,7 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 	return result
 
 def manipulateRumantext(id):
-	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
+	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 	cur = defaultDatabase()
 	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %('manipulate_day',DAY_ID,id)
 	cur.execute(stocksql)
@@ -126,7 +126,7 @@ def manipulateRumantext(id):
 		return {}
 
 def manipulateRumancomment(id):
-	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
+	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 	cur = defaultDatabase()
 	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %('manipulate_day',DAY_ID,id)
 	cur.execute(stocksql)
@@ -168,10 +168,37 @@ def hotspotPropagate(id,source):
 		for item in hits:
 			dic = {}
 			dic['publish_time'] = ts2date(int(item['_source']['publish_time']))
-			if source == TOPIC_ABOUT_DOCTYPE[2]:
+			dic['topic'] = item['_source']['topic']
+			if source == TOPIC_ABOUT_DOCTYPE[0]:
+				dic['title'] = item['_source']['title']
+				dic['author'] = item['_source']['author']
+				dic['keyword'] = item['_source']['k']
+				dic['url'] = item['_source']['u']
+			elif source == TOPIC_ABOUT_DOCTYPE[1]:
+				dic['title'] = item['_source']['title']
+				dic['author'] = item['_source']['author']
+				dic['keyword'] = item['_source']['k']
+				dic['url'] = item['_source']['url']
+			elif source == TOPIC_ABOUT_DOCTYPE[2]:
 				dic['title'] = item['_source']['content']
+				dic['author'] = item['_source']['user_id']
+				dic['keyword'] = item['_source']['k']
+				dic['url'] = item['_source']['url']
+			elif source == TOPIC_ABOUT_DOCTYPE[3]:
+				dic['title'] = item['_source']['title']
+				dic['author'] = item['_source']['author']
+				dic['keyword'] = item['_source']['k']
+				dic['url'] = item['_source']['url']
+			elif source == TOPIC_ABOUT_DOCTYPE[4]:
+				dic['title'] = item['_source']['title']
+				dic['author'] = item['_source']['author']
+				dic['keyword'] = item['_source']['k']
+				dic['url'] = item['_source']['u']
 			else:
 				dic['title'] = item['_source']['title']
+				dic['author'] = item['_source']['web']
+				dic['keyword'] = item['_source']['key']
+				dic['url'] = item['_source']['url']
 			result.append(dic)
 		result = sorted(result, key= lambda x:(x['publish_time']))
 		return result[:10]
@@ -179,18 +206,30 @@ def hotspotPropagate(id,source):
 		return []
 
 def hotspotTopicaxis(id,source):
-	query_body = {"size":10,"query": {"bool": {"must": [
-        {"match": {"news_id": id}},
-        {"match": {"source": source}},
-        {"match": {"cluster_id": CLUSTER_NUM}}]
-    }}}
+	'''
+	query_body = {"size":10,"query": { "filtered": {
+		"query":{"bool": {"must": [
+			{"match": {"news_id": id}},
+			{"match": {"source": source}}]}},
+		"filter":{"range":{"cluster_id":{"gte": 0,"lte": CLUSTER_NUM - 1}}}
+	}}}'''
+	hits_all = []
+	for cluster_num in range(CLUSTER_NUM):#
+		query_body = {"size":10,"query":{"bool": {"must": [
+				{"match": {"news_id": id}},
+				{"match": {"source": source}},
+				{"match": {"cluster_id": cluster_num}}]
+		}}}
 
-	res = es.search(index=CLUSTER_INDEX, doc_type="type1", body=query_body,request_timeout=100)
-	hits = res['hits']['hits']
-	tslist = [item['_source']['publish_time'] for item in hits]
+		res = es.search(index=CLUSTER_INDEX, doc_type="type1", body=query_body,request_timeout=100)
+		hits = res['hits']['hits']
+		if len(hits) <= CLUSTER_OVER:
+			hits_all.extend(hits)
+
+	tslist = [item['_source']['publish_time'] for item in hits_all]
 	datedic = {}
 	monthdic = {}
-	for item in hits:
+	for item in hits_all:
 		date = ts2datetime(int(item['_source']['publish_time']))
 		if source == TOPIC_ABOUT_DOCTYPE[2]:
 			if date not in datedic.keys():
@@ -218,8 +257,10 @@ def hotspotTopicaxis(id,source):
 			if date['date'] in monthdic[ymonth]:
 				ll.append(date)
 		result.append({'month':ymonth,'monthtext':ll})
+	result = sorted(result, key= lambda x:(x['month']),reverse=True)
+	result = result[:3]
 	return result
 
 
 if __name__=="__main__":
-	print manipulateRumancomment(442)
+	print hotspotTopicaxis(1,'bbs')
