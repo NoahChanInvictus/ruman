@@ -127,3 +127,10 @@ def to_tradeday(theday,bora):   #输入bora=1向后最近的交易日，输入bo
             return date
         else:
             print 'wrong bora,input 1 or -1'
+
+def last2tradedate(theday):   #theday为'2016-05-05'格式
+    trade_before = ts2datetimestr(datetimestr2ts(theday) - 2592000).split('-')
+    trade_after = ts2datetimestr(datetimestr2ts(theday) + 2592000).split('-')
+    trade_list = get_tradelist(int(trade_before[0]),int(trade_before[1]),int(trade_before[2]),int(trade_after[0]),int(trade_after[1]),int(trade_after[2]))
+    index = trade_list.index(theday)
+    return trade_list[index - 2]

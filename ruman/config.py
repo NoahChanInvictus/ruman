@@ -32,6 +32,7 @@ TABLE_HOTNEWS = 'hot_news'
 DIC_ANNOUNCEMENT = {'index':'announcement','type':'basic_info'}
 DIC_LARGE_TRANS = {'index':'east_money','type':'type1'}
 RUMORLIST_INDEX = 'rumor_hot_list'
+WEBOUSER_INDEX = 'weibo_user'
 
 #es
 ES_HOST = '219.224.134.214'
