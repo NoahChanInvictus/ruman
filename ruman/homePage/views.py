@@ -46,6 +46,11 @@ def hotspotSourceDistribute():
 	result = hotspot_source_distribute()
 	return json.dumps(result,ensure_ascii=False)
 
+@homePage.route('/hotspotWordCloud/',methods=['POST','GET'])
+def hotspotWordCloud():	
+	result = homepageWordcloud()
+	return json.dumps(result,ensure_ascii=False)
+
 @homePage.route('/test1/')
 def hot_spot():
 	result = 'Hello World!!!'
