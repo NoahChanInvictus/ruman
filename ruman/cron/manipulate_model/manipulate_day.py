@@ -11,7 +11,7 @@ from sql_utils import *
 def insertday(theday,tradelist):
     conn = default_db()
     cur = conn.cursor()
-    endsql = "SELECT * FROM manipulate_day WHERE end_date = '%s'" % (tradelist[tradelist.index(theday) - 6])   #获取五个交易日内没有重新操作的股票
+    endsql = "SELECT * FROM manipulate_day WHERE end_date = '%s' and manipulate_type = '%d'" % (tradelist[tradelist.index(theday) - 6],1)   #获取五个交易日内没有重新操作的股票
     cur.execute(endsql)
     results = cur.fetchall()
     if len(results):   #令其ifend为1，即已结束本次操纵
@@ -23,7 +23,7 @@ def insertday(theday,tradelist):
     df = pd.read_sql(modelsql,conn)
     a = df[df['date'] == theday]
     print len(a.index)
-    notendsql = "SELECT * FROM manipulate_day WHERE end_date >= '%s'" % (tradelist[tradelist.index(theday) - 5])   #获取五个交易日内曾操纵过得股票，来进行更新
+    notendsql = "SELECT * FROM manipulate_day WHERE end_date >= '%s' and manipulate_type = '%d'" % (tradelist[tradelist.index(theday) - 5],1)   #获取五个交易日内曾操纵过得股票，来进行更新
     cur.execute(notendsql)
     results = cur.fetchall()
     iddict = {}
@@ -97,7 +97,7 @@ def update1():
 
 if __name__=="__main__":
     tradelist = get_tradelist(2013,1,1,2018,12,31)
-    for day in get_tradelist(2015,7,1,2018,5,15):
+    for day in get_tradelist(2018,5,3,2018,5,15):
         print day
         insertday(day,tradelist)
     #update1()

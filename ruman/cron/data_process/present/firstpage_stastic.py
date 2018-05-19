@@ -29,3 +29,6 @@ def show_all(year1,month1,day1,year2,month2,day2):   #一段时间
 	panel_all(year1,month1,day1,year2,month2,day2)
 	print 'Counting type_all...'
 	type_all(year1,month1,day1,year2,month2,day2)
+
+if __name__=="__main__":
+	show_all(2015,7,1,2018,5,15)

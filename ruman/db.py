@@ -138,6 +138,7 @@ def manipulateWarningText():   #列出预警文本
 		dic['manipulate_type_num'] = i[DAY_MANIPULATE_TYPE]
 		dic['industry_name'] = i[DAY_INDUSTRY_NAME]
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
+		dic['ifmanipulate'] = i[DAY_MANIPULATE_LABEL]
 		dic['id'] = i[DAY_ID]
 		result.append(dic)
 	result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
