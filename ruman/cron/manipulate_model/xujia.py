@@ -121,8 +121,14 @@ def xujia(mid):
 			priceresults = cur.fetchall()
 			#print priceresults
 			pricelist = [i[MARKET_PRICE] for i in priceresults]
-			ratio1 = pricelist[1] / pricelist[0] - 1
-			ratio2 = pricelist[2] / pricelist[1] - 1
+			if pricelist[0] == 0:
+				ratio1 = 0
+			else:
+				ratio1 = pricelist[1] / pricelist[0] - 1
+			if pricelist[1] == 0:
+				ratio2 = 0
+			else:
+				ratio2 = pricelist[2] / pricelist[1] - 1
 			ifratio2 = 1
 			ifinput = 0
 
@@ -155,11 +161,12 @@ def xujia(mid):
 	#return text,pubtime
 def get_ruman_mid():
 	es = Elasticsearch([{'host': '219.224.134.216', 'port': '9201'}])
-	query_body = {"size":100,"query": {"match": {"rumor_label" :1}}}
-	res = es.search(index='rumor_hot_list', doc_type="2016-11-27",body=query_body, request_timeout=100)
+	query_body = {"size":5000,"query": {"match": {"rumor_label" :1}}}
+	res = es.search(index='rumor_hot_list',body=query_body, request_timeout=100)#,doc_type='2016-11-27'
 	hits = res['hits']['hits']
 	if len(hits):
 		midlist = [i['_source']['mid'] for i in hits]
+	print len(midlist)
 	return midlist
 
 if __name__ == '__main__':

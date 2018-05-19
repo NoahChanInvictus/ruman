@@ -22,7 +22,6 @@ def update_day_result():
                 conn.commit()
             except Exception, e:
                 print e
-                break
 
 def delete_holders():
     conn = default_db()
@@ -38,7 +37,6 @@ def delete_holders():
             conn.commit()
         except Exception, e:
             print e
-            break
 
 def delete_holders_pct():
     conn = default_db()
@@ -54,9 +52,42 @@ def delete_holders_pct():
             conn.commit()
         except Exception, e:
             print e
-            break
 
+def update_day_label():
+    conn = default_db()
+    cur = conn.cursor()
+    sql = "SELECT * FROM %s" % (TABLE_DAY)
+    cur.execute(sql)
+    results = cur.fetchall()
+    num = len(results)
+    for result in results:
+        print num
+        update = "UPDATE %s SET %s = '%d' WHERE %s = %d" % (TABLE_DAY,DAY_MANIPULATE_LABEL,1,DAY_ID,result[DAY_ID])
+        try:
+            cur.execute(update)
+            conn.commit()
+        except Exception, e:
+            print e
+        num -= 1
+
+def delete_day_type():
+    conn = default_db()
+    cur = conn.cursor()
+    sql = "SELECT * FROM %s WHERE %s = '%d'" % (TABLE_DAY,DAY_MANIPULATE_TYPE,5)
+    cur.execute(sql)
+    results = cur.fetchall()
+    num = len(results)
+    for result in results:
+        print num
+        delete = "DELETE FROM %s WHERE %s = %d" % (TABLE_DAY,DAY_ID,result[DAY_ID])
+        try:
+            cur.execute(delete)
+            conn.commit()
+        except Exception, e:
+            print e
+        num -= 1
 
 if __name__=="__main__":
-    update_day_result()
+    #update_day_label()
     #delete_holders_pct()
+    delete_day_type()

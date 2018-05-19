@@ -144,7 +144,7 @@ def gaosongzhuan():
                         stock_name=result[NETPROFIT_STOCK_NAME]
                         stock_id=result[NETPROFIT_STOCK_ID]
 
-                        checksql="SELECT * FROM %s where %s = '%s' and %s = '%d'"%(TABLE_DAY,DAY_STOCK_ID,stock_id,DAY_MANIPULATE_TYPE,2)
+                        checksql="SELECT * FROM %s where %s = '%s' and %s = '%d'" % (TABLE_DAY,DAY_STOCK_ID,stock_id,DAY_MANIPULATE_TYPE,2)
                         cur.execute(checksql)
                         checkresults = cur.fetchall()
                         checknum = 0
@@ -168,7 +168,7 @@ def gaosongzhuan():
                         order = 'insert into ' + TABLE_DAY + '(stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate)values\
                         ("%s","%s","%s","%s","%f","%s","%d","%s","%d","%s")' % (stock_name,stock_id,to_tradeday(a,b,-1),recent,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate)
                         try:
-                            cur.execute(order)
+                            cur.execute(order)#TABLE_DAY
                             conn.commit()
                         except Exception, e:
                             print e
