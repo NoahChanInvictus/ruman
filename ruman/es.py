@@ -11,7 +11,8 @@ import pymysql.cursors
 from config import *
 from db import get_stock
 
-es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
+es214 = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
+es216 = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 
 def defaultDatabase():
 	conn = mysql.connect(host=SQL_HOST,user=SQL_USER,password=SQL_PASSWD,db=DEFAULT_DB,charset=SQL_CHARSET,cursorclass=pymysql.cursors.DictCursor)
@@ -27,6 +28,17 @@ def get_stock(id):
 	dic = {DAY_STOCK_ID:thing[DAY_STOCK_ID],DAY_START_DATE:thing[DAY_START_DATE],DAY_END_DATE:thing[DAY_END_DATE],DAY_INDUSTRY_CODE:thing[DAY_INDUSTRY_CODE]}
 	return dic
 
+def get_user(uid):
+	uid = int(uid)
+	query_body = {"size":10,"query":{"match":{"uid":uid}}}
+
+	res = es216.search(index=WEBOUSER_INDEX, doc_type='user', body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+	if len(hits):
+		return hits[0]['_source']['nick_name']
+	else:
+		return str(uid)
+
 def manipulateAnnouncement(id):   #展示操纵期内公告详情
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
@@ -37,7 +49,7 @@ def manipulateAnnouncement(id):   #展示操纵期内公告详情
 		"filter":{"range":{"publish_time":{"gte": start_time,"lte": end_time}}}
 	}}}
 
-	res = es.search(index=DIC_ANNOUNCEMENT['index'], doc_type=DIC_ANNOUNCEMENT['type'], body=query_body,request_timeout=100)
+	res = es214.search(index=DIC_ANNOUNCEMENT['index'], doc_type=DIC_ANNOUNCEMENT['type'], body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 	result = []
 	if(len(hits)):
@@ -80,7 +92,7 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 		"query":{"match":{"stock_id":stock_id}},
 		"filter":{"range":{"date":{"gte": start_date,"lte": end_date}}}
 	}}}
-	res = es.search(index=DIC_LARGE_TRANS['index'], doc_type=DIC_LARGE_TRANS['type'], body=query_body,request_timeout=100)
+	res = es214.search(index=DIC_LARGE_TRANS['index'], doc_type=DIC_LARGE_TRANS['type'], body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 
 	result=[]
@@ -100,7 +112,6 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 	return result
 
 def manipulateRumantext(id):
-	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 	cur = defaultDatabase()
 	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %('manipulate_day',DAY_ID,id)
 	cur.execute(stocksql)
@@ -115,7 +126,7 @@ def manipulateRumantext(id):
 
 	query_body = {"size":10,"query": {"bool": {"must": [{"match": {"mid": mid}}]}}}
 	for index in indexs:
-		res = es.search(index=index, doc_type="text",body=query_body, request_timeout=100)
+		res = es216.search(index=index, doc_type="text",body=query_body, request_timeout=100)
 		hits = res['hits']['hits']
 		if len(hits):
 			item = hits[0]["_source"]
@@ -126,7 +137,6 @@ def manipulateRumantext(id):
 		return {}
 
 def manipulateRumancomment(id):
-	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 	cur = defaultDatabase()
 	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %('manipulate_day',DAY_ID,id)
 	cur.execute(stocksql)
@@ -142,7 +152,7 @@ def manipulateRumancomment(id):
 	query_body = {"size":10,"query": {"bool": {"must": [{"match": {"root_mid": mid}},{"match": {"message_type": 2}}]}}}
 	result = []
 	for index in indexs:
-		res = es.search(index=index, doc_type="text",body=query_body, request_timeout=100)
+		res = es216.search(index=index, doc_type="text",body=query_body, request_timeout=100)
 		hits = res['hits']['hits']
 		if len(hits):
 			for hit in hits:
@@ -150,7 +160,7 @@ def manipulateRumancomment(id):
 				item = hit["_source"]
 				dic['publish_time'] = ts2date(item['timestamp'])
 				dic['text'] = item['text']
-				dic['author'] = item['uid']
+				dic['author'] = get_user(item['uid'])
 				result.append(dic)
 	result = sorted(result, key= lambda x:(x['publish_time']),reverse=True)
 	return result
@@ -160,7 +170,7 @@ def hotspotPropagate(id,source):
 		"query":{"match":{"news_id":id}}
 	}}}
 
-	res = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source, body=query_body,request_timeout=100)
+	res = es214.search(index=TOPIC_ABOUT_INDEX, doc_type=source, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 
 	result = []
@@ -181,7 +191,7 @@ def hotspotPropagate(id,source):
 				dic['url'] = item['_source']['url']
 			elif source == TOPIC_ABOUT_DOCTYPE[2]:
 				dic['title'] = item['_source']['content']
-				dic['author'] = item['_source']['user_id']
+				dic['author'] = get_user(item['_source']['user_id'])
 				dic['keyword'] = item['_source']['k']
 				dic['url'] = item['_source']['url']
 			elif source == TOPIC_ABOUT_DOCTYPE[3]:
@@ -221,7 +231,7 @@ def hotspotTopicaxis(id,source):
 				{"match": {"cluster_id": cluster_num}}]
 		}}}
 
-		res = es.search(index=CLUSTER_INDEX, doc_type="type1", body=query_body,request_timeout=100)
+		res = es214.search(index=CLUSTER_INDEX, doc_type="type1", body=query_body,request_timeout=100)
 		hits = res['hits']['hits']
 		if len(hits) <= CLUSTER_OVER:
 			hits_all.extend(hits)
@@ -262,7 +272,6 @@ def hotspotTopicaxis(id,source):
 	return result
 
 def hotspotandrumanText():
-	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 	cur = defaultDatabase()
 
 	query_body = {"size":5000,"query":{"match_all": {}}}
@@ -270,7 +279,7 @@ def hotspotandrumanText():
 
 	cur.execute(sql)
 	results = cur.fetchall()
-	res = es.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
+	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 	result = []
 
@@ -296,9 +305,8 @@ def hotspotandrumanText():
 	return result
 
 def hotspotandrumanUser(id,indextype,ifruman):
-	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
 	indexbody = {'rumor_label':ifruman}
-	es.update(index=RUMORLIST_INDEX, doc_type=indextype, body={"doc":indexbody},id=id)#
+	es216.update(index=RUMORLIST_INDEX, doc_type=indextype, body={"doc":indexbody},id=id)#
 
 if __name__=="__main__":
 	hotspotandrumanUser('AWNwZ-Rv4t5ntoGO_aKI','2016-11-23',1)
