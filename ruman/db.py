@@ -153,10 +153,11 @@ def manipulateWarningUser(id,ifmanipulate):
 		conn.commit()
 	except Exception, e:
 		print e
-
-	sql = "SELECT * FROM %s WHERE %s <= '%s'" % (TABLE_DAY,DAY_ID,id)
+	time.sleep(1)
+	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_DAY,DAY_ID,id)
 	cur.execute(sql)
 	results = cur.fetchall()
+	#print results[0][DAY_MANIPULATE_LABEL],ifmanipulate
 	if len(results):
 		if results[0][DAY_MANIPULATE_LABEL] == ifmanipulate:
 			return True
@@ -760,5 +761,5 @@ if __name__=="__main__":
 	#manipulateWarningText()
 	#manipulateHolderspct(1096)
 	#hotspotWordcloud(2,'bbs')
-	if manipulateWarningUser(428,1):
+	if manipulateWarningUser(1807,1):
 		print 1
