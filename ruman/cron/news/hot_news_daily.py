@@ -110,10 +110,10 @@ def get_hot_news(theday):
         print e
     return result
 def hot_news_daily(theday):
-    today_result = hot_news(theday)
-    print len(today_result),'hot news in',theday
-    save_results(theday,today_result)
-    print 'hot news saved!'
+    # today_result = hot_news(theday)
+    # print len(today_result),'hot news in',theday
+    # save_results(theday,today_result)
+    # print 'hot news saved!'
     result = get_hot_news(theday)
     print 'There are',len(result),'hot news in',theday
     for news in result:
