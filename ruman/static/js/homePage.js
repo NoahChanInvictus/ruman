@@ -19,6 +19,15 @@ require.config({
     }
 });
 
+// 疑似谣言 数 ====
+    var rumorWarning_url='/homePage/rumorWarning';
+    public_ajax.call_request('get',rumorWarning_url,rumorWarning);
+    function rumorWarning(data){
+        $('.mid-1 .company-1').text(data.weeknum);
+        $('.mid-1 .company-2').text(data.monthnum);
+        $('.mid-1 .company-3').text(data.seasonnum);
+    }
+
 // 操纵预警数 ====
     var manipulateWarning_url='/homePage/manipulateWarning';
     public_ajax.call_request('get',manipulateWarning_url,manipulateWarning);
@@ -27,7 +36,6 @@ require.config({
         $('.mid-2 .company-2').text(data.monthnum);
         $('.mid-2 .company-3').text(data.seasonnum);
     }
-
 
 // 滚动信息 ====
     var rumanText_url='/homePage/hotspotandrumanText';
@@ -120,131 +128,152 @@ require.config({
         }
     }
 
-// 左上 谣言态势
-    //一个月时间
-    function get7DaysBefore(date,m){
-        var date = date || new Date(),
-            timestamp, newDate;
-        if(!(date instanceof Date)){
-            date = new Date(date);
-        }
-        timestamp = date.getTime();
-        newDate = new Date(timestamp - m * 24 * 3600 * 1000);
-        return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
-    };
-    var day30=[];
-    for (var a=0;a < 30;a++){
-        day30.push(get7DaysBefore(new Date(),a));
-    }
-    var day30Data=[];
-    for (var b=0;b< 30;b++){
-        day30Data.push(Math.round(Math.random()*(20-5)+5));
-    }
+// 左上 谣言态势 ====
+    // 假数据
+        // //一个月时间
+        // function get7DaysBefore(date,m){
+        //     var date = date || new Date(),
+        //         timestamp, newDate;
+        //     if(!(date instanceof Date)){
+        //         date = new Date(date);
+        //     }
+        //     timestamp = date.getTime();
+        //     newDate = new Date(timestamp - m * 24 * 3600 * 1000);
+        //     return [newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate()].join('-');
+        // };
+        // var day30=[];
+        // for (var a=0;a < 30;a++){
+        //     day30.push(get7DaysBefore(new Date(),a));
+        // }
+        // var day30Data=[];
+        // for (var b=0;b< 30;b++){
+        //     day30Data.push(Math.round(Math.random()*(20-5)+5));
+        // }
 
-    var option = {
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                lineStyle: {
-                    color: '#57617B'
-                }
-            }
-        },
-        grid: {
-            left: '4%',
-            right: '10%',
-            bottom: '8%',
-            // top:'20%',
-            top: gridTop,
-            containLabel: true
-        },
-        xAxis: [{
-            type: 'category',
-            name:'时间',
-            nameRotate:'-90',
-            nameTextStyle:{
-                color:'#fff'
-            },
-            boundaryGap: false,
-            axisLine: {
-                lineStyle: {
-                    color: '#57617B'
-                }
-            },
-            axisLabel: {
-                textStyle: {
-                    color: '#fff',
-                }
-            },
-            data: day30.reverse(),
-        }],
-        yAxis: [{
-            type: 'value',
-            name:'数目',
-            nameTextStyle:{
-                color:'#fff'
-            },
-            axisTick: {
-                show: false
-            },
-            axisLine: {
-                lineStyle: {
-                    color: '#57c4d3'
-                }
-            },
-            axisLabel: {
-                margin: 10,
-                textStyle: {
-                    fontSize: 14,
-                    color:'white',
-                }
-            },
-            splitLine: {
-                lineStyle: {
-                    color: '#57617B'
-                }
-            }
-        }],
-        series: [
-            {
-                name: '',
-                type: 'line',
-                smooth: true,
-                symbol: 'circle',
-                symbolSize: 5,
-                showSymbol: false,
-                lineStyle: {
-                    normal: {
-                        width: 1,
-                    }
-                },
-                areaStyle: {
-                    normal: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(137, 189, 27, 0.8)'
-                        }, {
-                            offset: 1,
-                            color: 'rgba(137, 189, 27, 0)'
-                        }], false),
-                        shadowColor: 'rgba(0, 0, 0, 0.1)',
-                        shadowBlur: 10
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        color: 'rgb(137,189,27)',
-                        borderColor: 'rgba(137,189,2,0.27)',
-                        borderWidth: 12
-                    }
-                },
-                data: day30Data,
-            }
-        ]
-    };
     function line() {
         var myChart = echarts.init(document.getElementById('picChart-2'));
-        myChart.setOption(option);
+        myChart.showLoading({
+            text: '加载中...',
+            color: '#c23531',
+            // textColor: '#000',
+            textColor: '#c23531',
+            maskColor: 'rgba(0,0,0,.1)',
+            // zlevel: 0
+        })
+
+        var rumorWarningNum_url = '/homePage/rumorWarningNum/';
+        public_ajax.call_request('get',rumorWarningNum_url,rumorWarningNum);
+
+        function rumorWarningNum(data){
+
+            var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
+                    }
+                },
+                grid: {
+                    left: '4%',
+                    right: '10%',
+                    bottom: '8%',
+                    // top:'20%',
+                    top: gridTop,
+                    containLabel: true
+                },
+                xAxis: [{
+                    type: 'category',
+                    name:'时间',
+                    nameRotate:'-90',
+                    nameTextStyle:{
+                        color:'#fff'
+                    },
+                    boundaryGap: false,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff',
+                        }
+                    },
+                    // data: day30.reverse(),
+                    data: data.date,
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name:'数目',
+                    nameTextStyle:{
+                        color:'#fff'
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#57c4d3'
+                        }
+                    },
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 14,
+                            color:'white',
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#57617B'
+                        }
+                    }
+                }],
+                series: [
+                    {
+                        name: '',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'circle',
+                        symbolSize: 5,
+                        showSymbol: false,
+                        lineStyle: {
+                            normal: {
+                                width: 1,
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(137, 189, 27, 0.8)'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgba(137, 189, 27, 0)'
+                                }], false),
+                                shadowColor: 'rgba(0, 0, 0, 0.1)',
+                                shadowBlur: 10
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: 'rgb(137,189,27)',
+                                borderColor: 'rgba(137,189,2,0.27)',
+                                borderWidth: 12
+                            }
+                        },
+                        // data: day30Data,
+                        data: data.count
+                    }
+                ]
+            };
+
+            myChart.hideLoading();
+            myChart.setOption(option);
+        }
+
     }
     line();
 
@@ -354,6 +383,15 @@ require.config({
 // 右上 气泡图 热点事件
     function bar_2() {
         var myChart = echarts.init(document.getElementById('picChart-5'),'chalk');
+        myChart.showLoading({
+            text: '加载中...',
+            color: '#c23531',
+            // textColor: '#000',
+            textColor: '#c23531',
+            maskColor: 'rgba(0,0,0,.1)',
+            // zlevel: 0
+        })
+
         var data = [
             [
                 [28604,77,17096869,'Australia',1990],
@@ -363,72 +401,83 @@ require.config({
                 [28599,75,4986705,'Finland',1990],
                 [29476,77.1,56943299,'France',1990],[31476,75.4,78958237,'Germany',1990],[28666,78.1,254830,'Iceland',1990],[1777,57.7,870601776,'India',1990],[29550,79.1,122249285,'Japan',1990],[2076,67.9,20194354,'North Korea',1990],[12087,72,42972254,'South Korea',1990],[24021,75.4,3397534,'New Zealand',1990],[43296,76.8,4240375,'Norway',1990],[10088,70.8,38195258,'Poland',1990],[19349,69.6,147568552,'Russia',1990],[10670,67.3,53994605,'Turkey',1990],[26424,75.7,57110117,'United Kingdom',1990],[37062,75.4,252847810,'United States',1990]
             ],
-            [[44056,81.8,23968973,'Australia',2015],[43294,81.7,35939927,'Canada',2015],[13334,76.9,1376048943,'China',2015],[21291,78.5,11389562,'Cuba',2015],[38923,80.8,5503457,'Finland',2015],[37599,81.9,64395345,'France',2015],[44053,81.1,80688545,'Germany',2015],[42182,82.8,329425,'Iceland',2015],[5903,66.8,1311050527,'India',2015],[36162,83.5,126573481,'Japan',2015],[1390,71.4,25155317,'North Korea',2015],[34644,80.7,50293439,'South Korea',2015],[34186,80.6,4528526,'New Zealand',2015],[64304,81.6,5210967,'Norway',2015],[24787,77.3,38611794,'Poland',2015],[23038,73.13,143456918,'Russia',2015],[19360,76.5,78665830,'Turkey',2015],[38225,81.4,64715810,'United Kingdom',2015],[53354,79.1,321773631,'United States',2015]]
+            [
+                [44056,81.8,23968973,'Australia',2015],[43294,81.7,35939927,'Canada',2015],[13334,76.9,1376048943,'China',2015],[21291,78.5,11389562,'Cuba',2015],[38923,80.8,5503457,'Finland',2015],[37599,81.9,64395345,'France',2015],[44053,81.1,80688545,'Germany',2015],[42182,82.8,329425,'Iceland',2015],[5903,66.8,1311050527,'India',2015],[36162,83.5,126573481,'Japan',2015],[1390,71.4,25155317,'North Korea',2015],[34644,80.7,50293439,'South Korea',2015],[34186,80.6,4528526,'New Zealand',2015],[64304,81.6,5210967,'Norway',2015],[24787,77.3,38611794,'Poland',2015],[23038,73.13,143456918,'Russia',2015],[19360,76.5,78665830,'Turkey',2015],[38225,81.4,64715810,'United Kingdom',2015],[53354,79.1,321773631,'United States',2015]
+            ]
         ];
-        var option = {
-            backgroundColor:'transparent',
-            grid: {
-                left: '4%',
-                right: '15%',
-                bottom: '4%',
-                // top:'20%',
-                top: gridTop,
-                containLabel: true
-            },
-            xAxis: {
-                name:'评论数',
-                nameRotate:'-90',
-                nameGap:25,//坐标轴名称与轴线之间的距离。
-                splitLine: {
-                    lineStyle: {
-                        type: 'dashed'
-                    }
-                }
-            },
-            yAxis: {
-                name:'转发数',
-                splitLine: {
-                    lineStyle: {
-                        type: 'dashed'
+
+        var hotspotbubbleChart_url = '/homePage/hotspotbubbleChart/';
+        public_ajax.call_request('get',hotspotbubbleChart_url,hotspotbubbleChart);
+        function hotspotbubbleChart(data){
+            var option = {
+                backgroundColor:'transparent',
+                grid: {
+                    left: '4%',
+                    right: '15%',
+                    bottom: '4%',
+                    // top:'20%',
+                    top: gridTop,
+                    containLabel: true
+                },
+                xAxis: {
+                    name:'评论数',
+                    nameRotate:'-90',
+                    nameGap:25,//坐标轴名称与轴线之间的距离。
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
                     }
                 },
-                scale: true
-            },
-            series: [
-                {
-                name: '',
-                data: data[0],
-                type: 'scatter',
-                symbolSize: function (data) {
-                    return Math.sqrt(data[2]) / 5e2/2;
+                yAxis: {
+                    name:'转发数',
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    },
+                    scale: true
                 },
-                label: {
-                    emphasis: {
-                        show: true,
-                        formatter: function (param) {
-                            return param.data[3];
+                series: [
+                    {
+                        name: '',
+                        // data: data[0],
+                        data: data,
+                        type: 'scatter',
+                        symbolSize: function (data) {
+                            return Math.sqrt(data[2]) / 5e2/2;
                         },
-                        position: 'top'
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(120, 36, 50, 0.5)',
-                        shadowOffsetY: 5,
-                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
-                            offset: 0,
-                            color: 'rgb(251, 118, 123)'
-                        }, {
-                            offset: 1,
-                            color: 'rgb(204, 46, 72)'
-                        }])
-                    }
-                }
-            },
+                        label: {
+                            emphasis: {
+                                show: true,
+                                formatter: function (param) {
+                                    return param.data[3];
+                                },
+                                position: 'top'
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(120, 36, 50, 0.5)',
+                                shadowOffsetY: 5,
+                                color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                                    offset: 0,
+                                    color: 'rgb(251, 118, 123)'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgb(204, 46, 72)'
+                                }])
+                            }
+                        }
+                    },
                 ]
-        };
-        myChart.setOption(option);
+            };
+
+            myChart.hideLoading()
+            myChart.setOption(option);
+        }
+
     }
     bar_2();
 
