@@ -3,7 +3,7 @@ import sys
 reload(sys)
 sys.path.append('../../')
 from config import *
-from es import es
+from es import es214 as es
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
 from elasticsearch.helpers import bulk

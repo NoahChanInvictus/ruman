@@ -7,7 +7,7 @@ import csv
 
 def phgrocery(text):
     # result_text = []
-    model_grocery = Grocery('model_redian')
+    model_grocery = Grocery('model_redian_5')
     model_grocery.load()
 
     result = int(model_grocery.predict(text).predicted_y)

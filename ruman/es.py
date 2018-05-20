@@ -319,6 +319,21 @@ def hotspotandrumanUser(id,indextype,ifruman):
 	else:
 		return False
 
+def hotspot_source_distribute():
+	query_body = {
+		"query":{
+			"match_all":{}
+		}
+	}
+	result = {}
+	count_sum = 0
+	for source in TOPIC_ABOUT_DOCTYPE:
+		mtype_count = es214.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['total']
+		result[source] = mtype_count
+		count_sum += mtype_count
+	for k,v in result.iteritems():
+		result[k] = v*1.0/count_sum
+	return result
 
 if __name__=="__main__":
 	hotspotandrumanUser('AWNwZ-Rv4t5ntoGO_aKI','2016-11-23',1)

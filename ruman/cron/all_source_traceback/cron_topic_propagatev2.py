@@ -11,7 +11,7 @@ Fifteenminutes = 60*15
 # MTYPE_COUNT = 5
 from config import *
 # from db import defaultDatabase
-from es import es
+from es import es214 as es
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
 from elasticsearch.helpers import bulk

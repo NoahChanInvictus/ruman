@@ -711,6 +711,46 @@ def hotspotWordcloud(id,source):
 		return result
 	else:
 		return {}
+def homepageWordcloud():
+	# result = []
+	cur = defaultDatabase()
+	conn = defaultDatabaseConn()
+
+	# sql = "SELECT * FROM %s WHERE %s = '%d' and %s = '%s'" %(TABLE_WORDCLOUD,WORDCLOUD_NEWS_ID,id,WORDCLOUD_SOURCE,source)
+	sql = "select * from " + TABLE_WORDCLOUD
+	cur.execute(sql)
+	results = cur.fetchall()
+	
+	result = []
+	total_dict = {}
+	if results is not None:
+		count = 0
+		for item in results:
+			count += 1
+			wordsstr = item[WORDCLOUD_WORDS]
+			wordstrlist = wordsstr.split(',')
+			for wordstr in wordstrlist[:-1]:
+				# dic = {}
+				word = wordstr.split(':')[0]
+				wordnum = wordstr.split(':')[1]
+				if total_dict.has_key(word):
+					total_dict[word] += int(wordnum)
+				else:
+					total_dict[word] = int(wordnum)
+				# dic['name'] = word
+				# dic['value'] = int(wordnum)
+				# result.append(dic)
+			if count == 2000:
+				break
+		for k,v in total_dict.iteritems():
+			result.append({'name':k,'value':v})
+
+		result = sorted(result, key= lambda x:(x['value']), reverse=True)[:100]
+		return result
+	else:
+		return {}
+
+	# return result
 
 
 
