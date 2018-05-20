@@ -55,11 +55,13 @@ body.modal-open {
     z-index: 9999999999999999999999999;
 }
 .modal-header {
-    background: #09344e!important;
+    /* background: #09344e!important; */
+    background: #136270!important;
     color: white!important;
 }
 .modal-body,.modal-footer {
-    background: #041b29!important;
+    /* background: #041b29!important; */
+    background: #02525d!important;
     color: white!important;
 }
 .table-hover>tbody>tr:hover {

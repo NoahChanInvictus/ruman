@@ -29,7 +29,7 @@ require.config({
     }
 
 
-// 滚动信息
+// 滚动信息 ====
     var rumanText_url='/homePage/hotspotandrumanText';
     public_ajax.call_request('get',rumanText_url,rumanText);
     function rumanText(data){
@@ -94,7 +94,7 @@ require.config({
 
     }
     // $('#scroll input.chk').on('change',function(){
-    $('#scroll').on('change','input.chk',function(){
+    $('#scroll').on('change','input.chk',function(){  //给动态生成的元素绑定事件
         var _id = $(this).parent('span.parspan').attr('_id');
         var _type= $(this).parent('span.parspan').attr('datatype');
 
@@ -248,9 +248,32 @@ require.config({
     }
     line();
 
-// 左中 热点信息源分布
-    function pie_1() {
-        var myChart = echarts.init(document.getElementById('picChart-3'),'chalk');
+// 左中 热点信息源分布 ====
+    var myChart_pie_1 = echarts.init(document.getElementById('picChart-3'),'chalk');
+    myChart_pie_1.showLoading({
+        text: '加载中...',
+        color: '#c23531',
+        // textColor: '#000',
+        textColor: '#c23531',
+        maskColor: 'rgba(0,0,0,.1)',
+        // zlevel: 0
+    });
+
+    var hotspotSourceDistribute_url='/homePage/hotspotSourceDistribute/';
+    public_ajax.call_request('get',hotspotSourceDistribute_url,pie_1);
+
+    function pie_1(data) {
+        // var myChart = echarts.init(document.getElementById('picChart-3'),'chalk');
+        var seriesData = [];
+        seriesData.push(
+            {value:data.webo, name:'微博'},
+            {value:data.bbs, name:'论坛'},
+            {value:data.zhihu, name:'知乎'},
+            {value:data.news_new, name:'新闻'},
+            {value:data.forum, name:'贴吧'},
+            {value:data.wechat, name:'微信'},
+        )
+
         var option = {
             backgroundColor:'transparent',
             title : {
@@ -260,7 +283,8 @@ require.config({
             },
             tooltip : {
                 trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                // formatter: "{a} <br/>{b} : {c} ({d}%)"
+                formatter: "{b} : {d}%"
             },
             grid: {
                 left: '4%',
@@ -284,7 +308,7 @@ require.config({
                 pageIconInactiveColor: '#fff',
                 pageTextStyle:{color:'#fff'},
                 padding: 6,
-                data: ['微博','论坛','知乎','App','新闻']
+                data: ['微博','论坛','知乎','新闻','贴吧','微信']
             },
             series : [
                 {
@@ -292,13 +316,14 @@ require.config({
                     type: 'pie',
                     radius : '55%',
                     center: ['65%', '50%'],
-                    data: [
-                        {value:768, name:'微博'},
-                        {value:453, name:'论坛'},
-                        {value:1548, name:'知乎'},
-                        {value:Math.round(Math.random()*1000), name:'App'},
-                        {value:Math.round(Math.random()*1000), name:'新闻'},
-                    ],
+                        // data: [
+                        //     {value:768, name:'微博'},
+                        //     {value:453, name:'论坛'},
+                        //     {value:1548, name:'知乎'},
+                        //     {value:Math.round(Math.random()*1000), name:'App'},
+                        //     {value:Math.round(Math.random()*1000), name:'新闻'},
+                        // ],
+                    data:seriesData,
                     label:{
                         normal:{
                             show:true,
@@ -320,9 +345,11 @@ require.config({
                 }
             ]
         };
-        myChart.setOption(option);
+        myChart_pie_1.hideLoading();
+        // myChart.setOption(option);
+        myChart_pie_1.setOption(option);
     }
-    pie_1();
+    // pie_1();
 
 // 右上 气泡图 热点事件
     function bar_2() {
@@ -405,7 +432,7 @@ require.config({
     }
     bar_2();
 
-// 左下 热点词图
+// 左下 热点词图 ====
     function keywords() {
         require(
             [
@@ -416,112 +443,135 @@ require.config({
             function (ec) {
                 // 基于准备好的dom，初始化echarts图表
                 var myChart = ec.init(document.getElementById('picChart-4'),'chalk');
-                var option = {
-                    title: {
-                        text: '',
-                    },
-                    tooltip: {
-                        show: true,
-                    },
-                    series: [{
-                        type: 'wordCloud',
-                        size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
-                        textRotation : [0, 45, 90, -45],
-                        textPadding: 0,
-                        autoSize: {
-                            // enable: true,
-                            // minSize: 18
+                myChart.showLoading({
+                    text: '加载中...',
+                    color: '#c23531',
+                    // textColor: '#000',
+                    textColor: '#c23531',
+                    maskColor: 'rgba(0,0,0,.1)',
+                    // zlevel: 0
+                });
+
+                var hotspotWordCloud_url='/homePage/hotspotWordCloud/';
+                public_ajax.call_request('get',hotspotWordCloud_url,keywordsfun);
+
+                function keywordsfun(data){
+
+                    for(var i=0;i<data.length;i++){
+                        data[i].itemStyle = createRandomItemStyle()
+                    }
+                    var option = {
+                        title: {
+                            text: '',
                         },
-                        data: [
-                            {
-                                name: "我要金蛋",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
+                        tooltip: {
+                            show: true,
+                        },
+                        series: [{
+                            type: 'wordCloud',
+                            size: ['100%', '90%','100%','90%','100%','20%','10%','20%'],
+                            textRotation : [0, 45, 90, -45],
+                            textPadding: 0,
+                            autoSize: {
+                                // enable: true,
+                                // minSize: 18
                             },
-                            {
-                                name: "屹农金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "理财去",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "联投银帮",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "弘信宝",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "网惠金融",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "晶行财富",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "孺牛金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "摩根浦捷贷",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "知屋理财",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "沪臣地方金融",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "升隆财富",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "冰融贷",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "靠谱鸟",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "速溶360",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "存米网",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                            {
-                                name: "太保金服",
-                                value: 999,
-                                itemStyle: createRandomItemStyle()
-                            },
-                        ]
-                    }]
-                };
-                myChart.setOption(option);
+                            data: data
+                            // 假数据
+                                // data: [
+                                //     {
+                                //         name: "我要金蛋",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "屹农金服",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "理财去",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "联投银帮",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "弘信宝",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "网惠金融",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "晶行财富",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "孺牛金服",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "摩根浦捷贷",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "知屋理财",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "沪臣地方金融",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "升隆财富",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "冰融贷",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "靠谱鸟",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "速溶360",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "存米网",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                //     {
+                                //         name: "太保金服",
+                                //         value: 999,
+                                //         itemStyle: createRandomItemStyle()
+                                //     },
+                                // ]
+                        }]
+                    };
+
+                    myChart.hideLoading()
+                    myChart.setOption(option);
+                }
+
             }
         );
     }
@@ -564,7 +614,8 @@ require.config({
                 subtext: ''
             },
             tooltip : {
-                trigger: 'axis'
+                trigger: 'axis',
+                formatter: "{b} : {c}"
             },
             grid: {
                 left: '0%',
@@ -587,7 +638,7 @@ require.config({
              dataZoom: [
                 {
                     type: 'slider',
-                    show: true,
+                    show: false,
                     xAxisIndex: [0],
                     start: 1,
                     end: 100
@@ -602,6 +653,7 @@ require.config({
                 // },
                 {
                     type: 'inside',
+                    show: false,
                     xAxisIndex: [0],
                     start: 1,
                     end: 35
@@ -623,20 +675,21 @@ require.config({
                     data : xData,
                     axisLabel:{
                         // interval:0,
-                        rotate:45,//倾斜度 -90 至 90 默认为0
+                        rotate:0,//倾斜度 -90 至 90 默认为0
                         // margin:2,
                         // textStyle:{
                         //     fontWeight:"bolder",
                         //     color:"#000000"
                         // }
                         formatter: function(value,index){
-                            if(value.length > 4){
-                                return value.substr(0,4)+'...';
+                            if(value.length > 2){
+                                return value.substr(0,2)+'..';
                             }else {
                                 return value;
                             }
                         }
                     },
+                    fontSize:8
                 }
             ],
             yAxis : [

@@ -316,6 +316,28 @@
         </div>
     </div>
 
+    <!-- 模态框 -->
+    <!-- 是否谣言 提示框 -->
+    <div class="modal fade" id="success" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">温馨提示</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="coverbody">
+                        <p style="text-align: center;font-size: 18px;font-weight: 400;">修改成功</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block my_js %}
@@ -336,7 +358,7 @@
             'navigation': 'true',
             'loopBottom':'true',
             'navigationPosition': 'right',
-            'fixedElements':'#nav',
+            'fixedElements':'#nav, #success',
             // 'navigationTooltips': ['疑似操纵预警','预警态势','操纵影响','行业分布','操纵类型','市值分布']
             'navigationTooltips': ['疑似操纵预警','预警态势','操纵影响','行业分布','操纵类型','板块分布']
         });
