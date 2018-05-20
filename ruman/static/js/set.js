@@ -156,9 +156,9 @@
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
                         if(row.ifthis == 1){
-                            return '<span class="this-stock" style="cursor:pointer;" onclick="jumpFrame_1(\''+row.name+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                            return '<span class="this-stock" style="cursor:pointer;" onclick="jumpFrame_1(\''+row.name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                         }else {
-                            return '<span style="cursor:pointer;" onclick="jumpFrame_1(\''+row.name+'\',\''+row.id+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                            return '<span style="cursor:pointer;" onclick="jumpFrame_1(\''+row.name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                         }
                     }
                 },
@@ -167,13 +167,15 @@
 
         $('#Manipulating_details_content center.loading').hide();
     }
-    // 跳转详情页
-        function jumpFrame_1(name,id) {
-            var html = '';
-            html='/index/setDetail?stock='+name+'&id='+id;
 
-            window.open(html);
-        }
+    // 跳转详情页
+    function jumpFrame_1(stock, id, manipulate_type_num) {
+        var html = '';
+        stock=escape(stock);
+        html='/index/setDetail?stock='+stock+'&id='+id +'&manipulate_type_num='+manipulate_type_num;
+        // window.location.href=html;
+        window.open(html);
+    }
 
 //舆情分析
     if(manipulate_type_num == 4){ //显示 虚假消息 舆情分析
