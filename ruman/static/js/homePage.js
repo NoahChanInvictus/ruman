@@ -684,7 +684,7 @@ require.config({
                     color:'#f6a38e'
                 }
             },
-             dataZoom: [
+            dataZoom: [
                 {
                     type: 'slider',
                     show: false,

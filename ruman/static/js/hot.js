@@ -3,10 +3,10 @@
     public_ajax.call_request('get',card_url,card);
 
     function card(data){
-        $('#card .type-1').text(data.title);
-        $('#card .type-4').text(data.web);
-        $('#card .type-2').text(data.in_time);
-        $('#card .type-3').text(data.key_word);
+        $('#card .type-1').text(data.title).attr('title',data.title);
+        $('#card .type-4').text(data.web).attr('title',data.web);
+        $('#card .type-2').text(data.in_time).attr('title',data.in_time);
+        $('#card .type-3').text(data.key_word).attr('title',data.key_word);
         $('#card .type-5').text(data.url).attr('title',data.url).attr('href',data.url);
 
         $('#card .hotContent #hotContent').text(data.content)
