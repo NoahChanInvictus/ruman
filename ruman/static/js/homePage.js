@@ -93,7 +93,8 @@ require.config({
 
 
     }
-    $('#scroll input.chk').on('change',function(){
+    // $('#scroll input.chk').on('change',function(){
+    $('#scroll').on('change','input.chk',function(){
         var _id = $(this).parent('span.parspan').attr('_id');
         var _type= $(this).parent('span.parspan').attr('datatype');
 
@@ -110,7 +111,7 @@ require.config({
         // console.log(ifruman);
         var rumanUser_url = '/homePage/hotspotandrumanUser?id='+_id+'&indextype='+_type + '&ifruman='+ifruman;
         console.log(rumanUser_url);
-        // public_ajax.call_request('get',rumanUser_url,rumanUser);
+        public_ajax.call_request('get',rumanUser_url,rumanUser);
     })
 
     function rumanUser(data){

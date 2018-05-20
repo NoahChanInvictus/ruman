@@ -194,3 +194,7 @@ body {
 center {
     font-size: 16px;
 }
+
+.modal-dialog{
+    top:100px;
+}

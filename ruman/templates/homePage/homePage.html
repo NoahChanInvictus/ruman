@@ -3,40 +3,21 @@
 {% block my_css %}
     <meta charset="UTF-8">
     <title>金融市场谣言识别与溯源系统</title>
-    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <!-- <script src="/static/js/jquery-3.2.1.min.js"></script>
 
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="/static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/css/public_nav.css">
+    <link rel="stylesheet" href="/static/css/public_nav.css"> -->
+    <link rel="stylesheet" href="/static/css/modalANDtable.css">
     <link rel="stylesheet" href="/static/css/homePage.css">
     <style type="text/css">
         center.load {
             color:#fff;
+            margin-top:30px;
         }
     </style>
-{% endblock %}
-
-{% block js %}
-    <script>
-        !function() {
-            var html = document.documentElement;
-            var setFontSize = function() {
-                var width = html.offsetWidth;
-                html.style.fontSize = width / 13.66+ 'px';
-            };
-            var timer;
-            var setDelay = function() {
-                return clearTimeout(timer), (timer = setTimeout(setFontSize, 150));
-            }
-            window.addEventListener('pageshow', function(evt) {
-                return evt.persisted && setDelay();
-            });
-            window.addEventListener('resize', setDelay);
-            setFontSize();
-        }();
-    </script>
 {% endblock %}
 
 {% block main %}
@@ -54,103 +35,104 @@
         <div class="word-2">
             <div id="scroll">
                 <center class="load" style="margin-top:30px;">正在努力加载中...</center>
-                <!-- <p>
-                    <span title="">国家发布雄安新区新资讯，新政策的颁布</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>微博</span>
-                    <span>房价</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d1" class="chk"/><label for="checkbox_d1"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">快递行业在政策促进下稳步前进，新政策的颁布</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>知乎</span>
-                    <span>运输</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d2" class="chk"/><label for="checkbox_d2"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">新能源汽车不断被尝试，多家公司涉足新</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>论坛</span>
-                    <span>能源</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d3" class="chk"/><label for="checkbox_d3"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">北京市发布医疗改革新办法</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>知乎</span>
-                    <span>医改</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d4" class="chk"/><label for="checkbox_d4"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">传统煤炭产业再度进入大众视线，能源产</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>论坛</span>
-                    <span>行业</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d5" class="chk"/><label for="checkbox_d5"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">北京市发布医疗改革新办法，医改给人们</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>微博</span>
-                    <span>卫生</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d6" class="chk"/><label for="checkbox_d6"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">国家发布雄安新区新资讯，新政策的颁布，新政策的颁布</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>百度</span>
-                    <span>建设</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d7" class="chk"/><label for="checkbox_d7"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">快递行业在政策促进下稳步前进，快递业，新政策的颁布</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>知乎</span>
-                    <span>快递</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d8" class="chk"/><label for="checkbox_d8"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">锂矿产形势大好，或将成为今后主流趋势，新政策的颁布</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>论坛</span>
-                    <span>资源</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d9" class="chk"/><label for="checkbox_d9"></label>
-                    </span>
-                </p>
-                <p>
-                    <span title="">快递行业在政策促进下稳步前进，新政策的颁布</span>
-                    <span title="">2017-11-11 11:22</span>
-                    <span>微博</span>
-                    <span>顺丰</span>
-                    <span>
-                        <input type="checkbox" id="checkbox_d10" class="chk"/><label for="checkbox_d10"></label>
-                    </span>
-                </p> -->
+                <!-- 假数据 -->
+                    <!-- <p>
+                        <span title="">国家发布雄安新区新资讯，新政策的颁布</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>微博</span>
+                        <span>房价</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d1" class="chk"/><label for="checkbox_d1"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">快递行业在政策促进下稳步前进，新政策的颁布</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>知乎</span>
+                        <span>运输</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d2" class="chk"/><label for="checkbox_d2"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">新能源汽车不断被尝试，多家公司涉足新</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>论坛</span>
+                        <span>能源</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d3" class="chk"/><label for="checkbox_d3"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">北京市发布医疗改革新办法</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>知乎</span>
+                        <span>医改</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d4" class="chk"/><label for="checkbox_d4"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">传统煤炭产业再度进入大众视线，能源产</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>论坛</span>
+                        <span>行业</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d5" class="chk"/><label for="checkbox_d5"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">北京市发布医疗改革新办法，医改给人们</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>微博</span>
+                        <span>卫生</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d6" class="chk"/><label for="checkbox_d6"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">国家发布雄安新区新资讯，新政策的颁布，新政策的颁布</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>百度</span>
+                        <span>建设</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d7" class="chk"/><label for="checkbox_d7"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">快递行业在政策促进下稳步前进，快递业，新政策的颁布</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>知乎</span>
+                        <span>快递</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d8" class="chk"/><label for="checkbox_d8"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">锂矿产形势大好，或将成为今后主流趋势，新政策的颁布</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>论坛</span>
+                        <span>资源</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d9" class="chk"/><label for="checkbox_d9"></label>
+                        </span>
+                    </p>
+                    <p>
+                        <span title="">快递行业在政策促进下稳步前进，新政策的颁布</span>
+                        <span title="">2017-11-11 11:22</span>
+                        <span>微博</span>
+                        <span>顺丰</span>
+                        <span>
+                            <input type="checkbox" id="checkbox_d10" class="chk"/><label for="checkbox_d10"></label>
+                        </span>
+                    </p> -->
             </div>
         </div>
     </div>
     <div class="top_mid">
         <div class="mid-1">
             <div class="title" style="text-align: center;">
-                <img src="../static/images/chart-2.png" style="width:0.25rem;height:0.25rem;">
+                <img src="/static/images/chart-2.png" style="width:0.25rem;height:0.25rem;">
                 <span style="font-size:0.2rem;vertical-align: middle;">疑似谣言数</span>
             </div>
             <div class="picChart-top" style="margin-top:0.15rem;">
@@ -170,7 +152,7 @@
         </div>
         <div class="mid-2">
             <div class="title" style="text-align: center;">
-                <img src="../static/images/chart-2.png" style="width:0.25rem;height:0.25rem;">
+                <img src="/static/images/chart-2.png" style="width:0.25rem;height:0.25rem;">
                 <span style="font-size:0.2rem;vertical-align: middle;">疑似操纵数</span>
             </div>
             <div class="picChart-top" style="margin-top:0.15rem;">
@@ -192,7 +174,7 @@
 
     <div class="left_top">
         <div class="title">
-            <img src="../static/images/chart-3.png">
+            <img src="/static/images/chart-3.png">
             <span>谣言态势</span>
         </div>
         <div class="picChart-2">
@@ -201,7 +183,7 @@
     </div>
     <div class="left_mid">
         <div class="title">
-            <img src="../static/images/chart-1.png">
+            <img src="/static/images/chart-1.png">
             <span>热点信息源分布</span>
         </div>
         <div class="picChart-3">
@@ -210,7 +192,7 @@
     </div>
     <div class="bottom_left">
         <div class="title">
-            <img src="../static/images/chart-5.png">
+            <img src="/static/images/chart-5.png">
             <!-- <span>谣言波及行业分布</span> -->
             <span>热点词</span>
         </div>
@@ -223,7 +205,7 @@
 
     <div class="top_right">
         <div class="title" style="text-align: right;padding-right:0.3rem;">
-            <img src="../static/images/chart-4.png">
+            <img src="/static/images/chart-4.png">
             <!-- <span>谣言热词</span> -->
             <span>热点事件</span>
         </div>
@@ -235,7 +217,7 @@
     </div>
     <div class="right_mid">
         <div class="title" style="text-align: right;padding-right:0.3rem;">
-            <img src="../static/images/chart-6.png">
+            <img src="/static/images/chart-6.png">
             <span>操纵态势</span>
         </div>
         <div class="picChart-6">
@@ -245,7 +227,7 @@
     </div>
     <div class="bottom_right">
         <div class="title" style="text-align: right;padding-right:0.3rem;">
-            <img src="../static/images/chart-7.png">
+            <img src="/static/images/chart-7.png">
             <span>操纵板块分布</span>
         </div>
         <div class="picChart-7">
@@ -271,6 +253,7 @@
     </div>
 </div>
 
+<!-- 是否谣言 提示框 -->
 <div class="modal fade" id="success" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -280,8 +263,12 @@
             </div>
             <div class="modal-body">
                 <div class="coverbody">
-                    <p style="text-align: center;font-size: 18px;color: #fff;font-weight: 900;">修改成功</p>
+                    <p style="text-align: center;font-size: 18px;font-weight: 400;">修改成功</p>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
     </div>
@@ -289,12 +276,11 @@
 {% endblock %}
 
 {% block my_js %}
-<script src="../static/js/publicNav.js"></script>
+<!-- <script src="../static/js/publicNav.js"></script>
 <script src="../static/js/bootstrap.min.js"></script>
 <script src="../static/echarts/echarts.min.js"></script>
 <script src="../static/js/chalk.js"></script>
-<script src="../static/js/echarts-2/build/dist/echarts.js"></script>
-<script src="../static/js/homePage.js"></script>
+<script src="../static/js/echarts-2/build/dist/echarts.js"></script> -->
 <script>
     $('#container').height($(window).height());
     $('#nav').hover(function () {
@@ -309,4 +295,6 @@
         $(this).css({borderBottom:'none'});
     })
 </script>
+<script src="/static/js/homePage.js"></script>
+
 {% endblock %}
