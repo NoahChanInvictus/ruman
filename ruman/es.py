@@ -7,6 +7,7 @@ from elasticsearch import Elasticsearch
 from time_utils import *
 import pymysql as mysql
 import pymysql.cursors
+import time
 
 from config import *
 from db import get_stock
@@ -291,6 +292,8 @@ def hotspotandrumanText():
 		dic['keyword'] = thing[HOT_NEWS_KEY_WORD]
 		dic['ifruman'] = 0
 		result.append(dic)
+	result = sorted(result, key= lambda x:(x['publish_time']),reverse=True)[:10]   #只取时间最近的前十个
+	resultes = []
 	for hit in hits[:10]:
 		dic = {}
 		dic['title'] = hit['_source']['text']
@@ -300,17 +303,20 @@ def hotspotandrumanText():
 		dic['ifruman'] = hit['_source']['rumor_label']
 		dic['id'] = hit['_id']
 		dic['type'] = hit['_type']
-		result.append(dic)
+		resultes.append(dic)
+	resultes = sorted(result, key= lambda x:(x['publish_time']),reverse=True)[:10]   #只取时间最近的前十个
+	result.extend(resultes)
 
 	return result
 
 def hotspotandrumanUser(id,indextype,ifruman):
 	indexbody = {'rumor_label':ifruman}
 	es216.update(index=RUMORLIST_INDEX, doc_type=indextype, body={"doc":indexbody},id=id)#
-
-	query_body = {"size":10,"query":{"macth": {"_id":id}}}
+	time.sleep(1)
+	query_body = {"size":10,"query":{"term": {"_id":id}}}
 	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
+	#print ifruman,hits[0]["_source"]["rumor_label"]
 	if len(hits):
 		if hits[0]["_source"]["rumor_label"] == ifruman:
 			return True
@@ -335,5 +341,18 @@ def hotspot_source_distribute():
 		result[k] = v*1.0/count_sum
 	return result
 
+def hotspotbubbleChart():
+	query_body = {"size":5000,"query":{"match_all": {}}}
+
+	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+
+	result = [[hit['_source']['comment'],hit['_source']['retweeted'],' '.join(hit['_source']['query_kwds'][:2]),hit['_source']['timestamp']] for hit in hits]
+	result = sorted(result,key= lambda x:(x[3]),reverse=True)[:20]   #提取前20个，按时间排序
+
+	resultnew = [i[:3] for i in result]
+	return resultnew
+
 if __name__=="__main__":
-	hotspotandrumanUser('AWNwZ-Rv4t5ntoGO_aKI','2016-11-23',1)
+	if hotspotandrumanUser('4045387100156573','2016-11-25',0):
+		print 1
