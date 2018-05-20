@@ -110,10 +110,10 @@ def get_hot_news(theday):
         print e
     return result
 def hot_news_daily(theday):
-    # today_result = hot_news(theday)
-    # print len(today_result),'hot news in',theday
-    # save_results(theday,today_result)
-    # print 'hot news saved!'
+    today_result = hot_news(theday)
+    print len(today_result),'hot news in',theday
+    save_results(theday,today_result)
+    print 'hot news saved!'
     result = get_hot_news(theday)
     print 'There are',len(result),'hot news in',theday
     for news in result:
@@ -145,7 +145,8 @@ def hot_news_daily(theday):
 
 
 if __name__ == '__main__':
-    hot_news_daily('2018-04-20')
+    # hot_news_daily('2018-04-20')
+    hot_news_daily('2018-04-21')
     # print today_result[0]
     # text = '美国财长说漏一句话世界都惊了,美元对人民币狂跌'
     # print phgrocery(text)
