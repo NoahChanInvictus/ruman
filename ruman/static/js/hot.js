@@ -306,8 +306,8 @@
     // $(".fishBone").fishBone(data);
 
     var fishSource_val = $('#fishSource_select').val();
-    // var propagate_url = '/hotSpot/hotspotReport/propagate/?source='+fishSource_val+'&id='+id;
-    var propagate_url = '/hotSpot/hotspotReport/propagate/?source=bbs&id=1';
+    var propagate_url = '/hotSpot/hotspotReport/propagate/?source='+fishSource_val+'&id='+id;
+    // var propagate_url = '/hotSpot/hotspotReport/propagate/?source=bbs&id=1';
     public_ajax.call_request('get',propagate_url,propagate);
     function propagate(data){
         $(".fishBone").empty().append('<center>加载中...</center>');
@@ -334,9 +334,12 @@
 
             $('.fishBone li.item:last').hide();
         }
+
+        $('#spread-pie-3 center.loading').hide();
     }
     // 更新下拉框
         $('#fishSource_select').change(function(){
+            $('#spread-pie-3').empty().append('<center class="loading">正在加载中...</center>');
             // console.log($(this).val());
             propagate_url = '/hotSpot/hotspotReport/propagate/?source='+$(this).val()+'&id='+id;
             public_ajax.call_request('get',propagate_url,propagate);
@@ -599,7 +602,7 @@
                             '</dd>';
                 }
             }
-
+            $('.VivaTimeline center.loading').hide();
             $('.VivaTimeline dl').empty().html(str);
 
             $('.VivaTimeline').vivaTimeline({
@@ -607,9 +610,12 @@
                 carouselTime: 2000//轮播间隔
             });
         }
+
+
     }
 
     $('#semanticsSource_select').change(function(){
+        $('.VivaTimeline dl').empty().append('<center class="loading">正在加载中...</center>');
         topic_source_val = $(this).val();
         topicaxis_url = '/hotSpot/hotspotReport/topicaxis/?source='+topic_source_val+'&id='+id;
         public_ajax.call_request('get',topicaxis_url,topicaxis);

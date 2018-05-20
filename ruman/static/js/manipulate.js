@@ -247,9 +247,18 @@
         })
         function rumanUser(data){
             if(data.status == 'ok'){
-                $('#success').modal('show')
+                $('#success .modal-body p').empty().text('修改成功');
+                $('#success').modal('show');
+                $('.modal-backdrop').css({position:'static'});
+            }else {
+                $('#success .modal-body p').empty().text('修改失败');
+                $('#success').modal('show');
                 $('.modal-backdrop').css({position:'static'});
             }
+            // 模态框关闭之后重新请求表格
+            $('#Success').on('hidden.bs.modal', function () {
+                public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+            })
         }
 
 

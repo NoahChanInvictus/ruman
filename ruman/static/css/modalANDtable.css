@@ -110,6 +110,7 @@ body.modal-open {
 }
 .bootstrap-table .table>thead>tr>th {
     width:6%;
+    border-top:none;
 }
 .pagination>li>a {
     background:rgba(8,23,44,0.35);
@@ -126,3 +127,4 @@ body.modal-open {
 .pagination>li>a:focus, .pagination>li>a:hover {
     color: white;
 }
+
