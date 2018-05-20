@@ -149,8 +149,8 @@ def xujia(mid):
 			
 			if ifinput:
 				print stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate,mid
-				order = 'insert into ' + 'manipulate_day' + '(stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate,mid)values\
-				("%s","%s","%s","%s","%f","%s","%d","%s","%d","%s","%s")' % (stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate,mid)
+				order = 'insert into ' + 'manipulate_day' + '(stock_name,stock_id,manipulate_label,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate,mid)values\
+				("%s","%s","%d","%s","%s","%f","%s","%d","%s","%d","%s","%s")' % (stock_name,stock_id,1,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate,mid)
 				try:
 					cur.execute(order)
 					conn.commit()

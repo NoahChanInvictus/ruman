@@ -29,6 +29,21 @@ def hotspotandruman_user():
 	else:
 		return json.dumps({'status':'fail'},ensure_ascii=False)
 
+@homePage.route('/hotspotbubbleChart/',methods=['POST','GET'])
+def hotspotbubble_chart():
+	result = hotspotbubbleChart()
+	return json.dumps(result,ensure_ascii=False)
+
+@homePage.route('/rumorWarning/',methods=['POST','GET'])
+def rumor_warning():
+	result = rumorWarning()
+	return json.dumps(result,ensure_ascii=False)
+
+@homePage.route('/rumorWarningNum/',methods=['POST','GET'])
+def rumor_warning_num():
+	result = rumorWarningNum()
+	return json.dumps(result,ensure_ascii=False)
+
 @homePage.route('/manipulateWarning/',methods=['POST','GET'])
 def manipulate_warning():
 	result = manipulateWarning()

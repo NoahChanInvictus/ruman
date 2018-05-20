@@ -7,6 +7,7 @@ from elasticsearch import Elasticsearch
 from time_utils import *
 import pymysql as mysql
 import pymysql.cursors
+import time
 
 from config import *
 from db import get_stock
@@ -283,7 +284,7 @@ def hotspotandrumanText():
 	hits = res['hits']['hits']
 	result = []
 
-	for thing in results[:10]:
+	for thing in results:
 		dic = {}
 		dic['title'] = thing[HOT_NEWS_TITLE]
 		dic['publish_time'] = ts2date(float(thing[HOT_NEWS_IN_TIME]))
@@ -291,7 +292,9 @@ def hotspotandrumanText():
 		dic['keyword'] = thing[HOT_NEWS_KEY_WORD]
 		dic['ifruman'] = 0
 		result.append(dic)
-	for hit in hits[:10]:
+	result = sorted(result, key= lambda x:(x['publish_time']),reverse=True)[:10]   #只取时间最近的前十个
+	resultes = []
+	for hit in hits:
 		dic = {}
 		dic['title'] = hit['_source']['text']
 		dic['publish_time'] = ts2date(hit['_source']['timestamp'])
@@ -300,17 +303,22 @@ def hotspotandrumanText():
 		dic['ifruman'] = hit['_source']['rumor_label']
 		dic['id'] = hit['_id']
 		dic['type'] = hit['_type']
-		result.append(dic)
+		resultes.append(dic)
+	resultes = sorted(resultes, key= lambda x:(x['publish_time']),reverse=True)[:10]   #只取时间最近的前十个
+	#print len(resultes)
+	result.extend(resultes)
+	#print len(result)
 
 	return result
 
 def hotspotandrumanUser(id,indextype,ifruman):
 	indexbody = {'rumor_label':ifruman}
 	es216.update(index=RUMORLIST_INDEX, doc_type=indextype, body={"doc":indexbody},id=id)#
-
-	query_body = {"size":10,"query":{"macth": {"_id":id}}}
+	time.sleep(1)
+	query_body = {"size":10,"query":{"term": {"_id":id}}}
 	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
+	#print ifruman,hits[0]["_source"]["rumor_label"]
 	if len(hits):
 		if hits[0]["_source"]["rumor_label"] == ifruman:
 			return True
@@ -335,5 +343,86 @@ def hotspot_source_distribute():
 		result[k] = v*1.0/count_sum
 	return result
 
+def find_topic_num(en_name):   #用于搜索事件对应文本数，展示气泡图
+	query_body = {"size":5000,"query":{"match_all": {}}}
+
+	res = es216.search(index=en_name, body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+
+	return len(hits)
+
+def hotspotbubbleChart():
+	query_body = {"size":5000,"query":{"match_all": {}}}
+
+	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+
+	result = [[hit['_source']['comment'],hit['_source']['retweeted'],370601776,' '.join(hit['_source']['query_kwds'][:2]),hit['_source']['timestamp']] for hit in hits if hit['_source']['retweeted'] >= 30 and hit['_source']['comment'] >= 50 and hit['_source']['retweeted'] <= 1000 and hit['_source']['comment'] <= 1000]
+	result = sorted(result,key= lambda x:(x[4]),reverse=True)[:20]   #提取前20个，按时间排序
+
+	resultnew = [i[:4] for i in result]
+	return resultnew
+
+def rumorWarningNum():
+	theday = '2016-11-26'
+	dayago = ts2datetime(datetime2ts(theday) - 10*24*3600)
+	#print theday,onemonthago
+	datelist = []
+	countlist = []
+	query_body = {"size":2000,"query":{ "match": {"rumor_label" :1}}}
+	for day in get_datelist(int(dayago.split('-')[0]),int(dayago.split('-')[1]),int(dayago.split('-')[2]),\
+		int(theday.split('-')[0]),int(theday.split('-')[1]),int(theday.split('-')[2])):
+		#print day
+		
+		res = es216.search(index=RUMORLIST_INDEX, doc_type=day, body=query_body,request_timeout=100)
+		hits = res['hits']['hits']
+		datelist.append(day)
+
+		if len(hits):
+			countlist.append(len(hits))
+		else:
+			countlist.append(0)
+
+	result = {'date':datelist,'count':countlist}
+	return result
+
+def rumorWarning():
+	theday = '2016-11-26'
+	weekago = ts2datetime(datetime2ts(theday) - 6*24*3600)   #要记得少一天
+	monthago = ts2datetime(datetime2ts(theday) - 29*24*3600)
+	seasonago = ts2datetime(datetime2ts(theday) - 89*24*3600)
+	weeknum = 0
+	monthnum = 0
+	seasonnum = 0
+	query_body = {"size":2000,"query":{ "match": {"rumor_label" :1}}}
+
+	for day in get_datelist(int(weekago.split('-')[0]),int(weekago.split('-')[1]),int(weekago.split('-')[2]),\
+		int(theday.split('-')[0]),int(theday.split('-')[1]),int(theday.split('-')[2])):
+
+		res = es216.search(index=RUMORLIST_INDEX, doc_type=day, body=query_body,request_timeout=100)
+		hits = res['hits']['hits']
+		
+		weeknum += len(hits)
+
+	for day in get_datelist(int(monthago.split('-')[0]),int(monthago.split('-')[1]),int(monthago.split('-')[2]),\
+		int(theday.split('-')[0]),int(theday.split('-')[1]),int(theday.split('-')[2])):
+
+		res = es216.search(index=RUMORLIST_INDEX, doc_type=day, body=query_body,request_timeout=100)
+		hits = res['hits']['hits']
+		
+		monthnum += len(hits)
+
+	for day in get_datelist(int(seasonago.split('-')[0]),int(seasonago.split('-')[1]),int(seasonago.split('-')[2]),\
+		int(theday.split('-')[0]),int(theday.split('-')[1]),int(theday.split('-')[2])):
+
+		res = es216.search(index=RUMORLIST_INDEX, doc_type=day, body=query_body,request_timeout=100)
+		hits = res['hits']['hits']
+		
+		seasonnum += len(hits)
+
+	return {'weeknum':weeknum,'monthnum':monthnum,'seasonnum':seasonnum}
+
+
+
 if __name__=="__main__":
-	hotspotandrumanUser('AWNwZ-Rv4t5ntoGO_aKI','2016-11-23',1)
+	rumorWarning()
