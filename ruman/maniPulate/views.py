@@ -28,7 +28,10 @@ def manipulate_warning_user():
 	id = int(request.args.get('id',''))
 	ifmanipulate = int(request.args.get('ifmanipulate',''))
 	result = manipulateWarningUser(id,ifmanipulate)
-	return json.dumps(result,ensure_ascii=False)
+	if result:
+		return json.dumps({'status':'ok'},ensure_ascii=False)
+	else:
+		return json.dumps({'status':'fail'},ensure_ascii=False)
 
 @maniPulate.route('/manipulateWarningNum/',methods=['POST','GET'])
 def manipulate_warning_num():
