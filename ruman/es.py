@@ -259,7 +259,7 @@ def hotspotTopicaxis(id,source):
 			monthdic[ymonth] = [date]
 		else:
 			monthdic[ymonth].append(date)
-	l = [{"date":date,"text":datedic[date]} for date in sorted(datedic.keys(),reverse=True)]
+	l = [{"date":date,"text":datedic[date][:3]} for date in sorted(datedic.keys(),reverse=True)]
 	result = []
 	for ymonth in monthdic.keys():
 		ll = []
@@ -307,6 +307,18 @@ def hotspotandrumanText():
 def hotspotandrumanUser(id,indextype,ifruman):
 	indexbody = {'rumor_label':ifruman}
 	es216.update(index=RUMORLIST_INDEX, doc_type=indextype, body={"doc":indexbody},id=id)#
+
+	query_body = {"size":10,"query":{"macth": {"_id":id}}}
+	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+	if len(hits):
+		if hits[0]["_source"]["rumor_label"] == ifruman:
+			return True
+		else:
+			return False
+	else:
+		return False
+
 def hotspot_source_distribute():
 	query_body = {
 		"query":{
@@ -322,5 +334,6 @@ def hotspot_source_distribute():
 	for k,v in result.iteritems():
 		result[k] = v*1.0/count_sum
 	return result
+
 if __name__=="__main__":
 	hotspotandrumanUser('AWNwZ-Rv4t5ntoGO_aKI','2016-11-23',1)
