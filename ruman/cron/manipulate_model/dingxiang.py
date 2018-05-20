@@ -266,8 +266,8 @@ def insert_sql(df):
         marketplate = result[STOCK_LIST_PLATE]
         industry_code = result[STOCK_LIST_INDUSTRY_CODE]
         print stock_name,stock_id,start_date,end_date,industry_name,increase_ratio,manipulate_type,ifend,marketplate,industry_code
-        order = 'insert into ' + TABLE_DAY + '(stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate)values\
-        ("%s","%s","%s","%s","%f","%s","%d","%s","%d","%s")' % (stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate)
+        order = 'insert into ' + TABLE_DAY + '(stock_name,stock_id,manipulate_label,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate)values\
+        ("%s","%s","%d","%s","%s","%f","%s","%d","%s","%d","%s")' % (stock_name,stock_id,1,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate)
         try:
             cur.execute(order)
             conn.commit()

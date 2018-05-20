@@ -56,7 +56,7 @@ def delete_holders_pct():
 def update_day_label():
     conn = default_db()
     cur = conn.cursor()
-    sql = "SELECT * FROM %s" % (TABLE_DAY)
+    sql = "SELECT * FROM %s WHERE %s = '0'" % (TABLE_DAY,DAY_MANIPULATE_LABEL)
     cur.execute(sql)
     results = cur.fetchall()
     num = len(results)
@@ -88,6 +88,6 @@ def delete_day_type():
         num -= 1
 
 if __name__=="__main__":
-    #update_day_label()
+    update_day_label()
     #delete_holders_pct()
-    delete_day_type()
+    #delete_day_type()

@@ -165,8 +165,8 @@ def gaosongzhuan():
                         marketplate=c[0][STOCK_LIST_PLATE]
                         industry_code=c[0][STOCK_LIST_INDUSTRY_CODE]
                         print date,stock_name,stock_id,b,end_date,industry_name,increase_ratio,manipulate_type,ifend,marketplate,industry_code
-                        order = 'insert into ' + TABLE_DAY + '(stock_name,stock_id,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate)values\
-                        ("%s","%s","%s","%s","%f","%s","%d","%s","%d","%s")' % (stock_name,stock_id,to_tradeday(a,b,-1),recent,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate)
+                        order = 'insert into ' + TABLE_DAY + '(stock_name,stock_id,manipulate_label,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate)values\
+                        ("%s","%s","%d","%s","%s","%f","%s","%d","%s","%d","%s")' % (stock_name,stock_id,1,to_tradeday(a,b,-1),recent,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate)
                         try:
                             cur.execute(order)#TABLE_DAY
                             conn.commit()
