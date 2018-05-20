@@ -154,6 +154,17 @@ def manipulateWarningUser(id,ifmanipulate):
 	except Exception, e:
 		print e
 
+	sql = "SELECT * FROM %s WHERE %s <= '%s'" % (TABLE_DAY,DAY_ID,id)
+	cur.execute(sql)
+	results = cur.fetchall()
+	if len(results):
+		if results[0][DAY_MANIPULATE_LABEL] == ifmanipulate:
+			return True
+		else:
+			return False
+	else:
+		return False
+
 def manipulateWarningNum(date):   #获取周、月、季内每天预警的次数并画图展示，方法类似Warning
 	cur = defaultDatabase()
 	theday = SHOW_DATE   #需改为today()
@@ -637,8 +648,9 @@ def hotspotEvolution(id,frequency,source):
 	sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_HOTNEWS,HOT_NEWS_ID,id)
 	cur.execute(sql)
 	results = cur.fetchone()
-	theday = '2017-09-08 00:00:00'#'2018-01-01 00:00:00'
-	thedayts = date2ts(theday)
+	thedayts = int(results[HOT_NEWS_IN_TIME])
+	#theday = '2017-09-08 00:00:00'#'2018-01-01 00:00:00'
+	#thedayts = date2ts(theday)
 	sql = "SELECT * FROM %s WHERE %s = '%d' and %s = '%s'" %(TABLE_PROPAGATE,PROPAGATE_NEWS_ID,id,PROPAGATE_SOURCE,source)
 	df = pd.read_sql(sql,conn)
 	if frequency == 1:
@@ -748,4 +760,5 @@ if __name__=="__main__":
 	#manipulateWarningText()
 	#manipulateHolderspct(1096)
 	#hotspotWordcloud(2,'bbs')
-	manipulateWarningUser(1,0)
+	if manipulateWarningUser(428,1):
+		print 1

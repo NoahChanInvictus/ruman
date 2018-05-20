@@ -24,7 +24,15 @@ def hotspotandruman_user():
 	ifruman = int(request.args.get('ifruman',''))
 	indextype = request.args.get('indextype','')
 	result = hotspotandrumanUser(id,indextype,ifruman)
-	return {'status':'ok'}
+	if result:
+		return json.dumps({'status':'ok'},ensure_ascii=False)
+	else:
+		return json.dumps({'status':'fail'},ensure_ascii=False)
+
+@homePage.route('/hotspotbubbleChart/',methods=['POST','GET'])
+def hotspotbubble_chart():
+	result = hotspotbubbleChart()
+	return json.dumps(result,ensure_ascii=False)
 
 @homePage.route('/manipulateWarning/',methods=['POST','GET'])
 def manipulate_warning():
