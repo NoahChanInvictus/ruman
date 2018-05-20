@@ -349,10 +349,10 @@ def hotspotbubbleChart():
 	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 
-	result = [[hit['_source']['comment'],hit['_source']['retweeted'],' '.join(hit['_source']['query_kwds'][:2]),hit['_source']['timestamp']] for hit in hits]
-	result = sorted(result,key= lambda x:(x[3]),reverse=True)[:20]   #提取前20个，按时间排序
+	result = [[hit['_source']['comment'],hit['_source']['retweeted'],870601776,' '.join(hit['_source']['query_kwds'][:2]),hit['_source']['timestamp']] for hit in hits]
+	result = sorted(result,key= lambda x:(x[4]),reverse=True)[:20]   #提取前20个，按时间排序
 
-	resultnew = [i[:3] for i in result]
+	resultnew = [i[:4] for i in result]
 	return resultnew
 
 def rumorWarningNum():
