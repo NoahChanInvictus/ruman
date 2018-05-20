@@ -357,7 +357,7 @@ def hotspotbubbleChart():
 	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 
-	result = [[hit['_source']['comment'],hit['_source']['retweeted'],370601776,' '.join(hit['_source']['query_kwds'][:2]),hit['_source']['timestamp']] for hit in hits if hit['_source']['retweeted'] >= 30 and hit['_source']['comment'] >= 50]
+	result = [[hit['_source']['comment'],hit['_source']['retweeted'],370601776,' '.join(hit['_source']['query_kwds'][:2]),hit['_source']['timestamp']] for hit in hits if hit['_source']['retweeted'] >= 30 and hit['_source']['comment'] >= 50 and hit['_source']['retweeted'] <= 1000 and hit['_source']['comment'] <= 1000]
 	result = sorted(result,key= lambda x:(x[4]),reverse=True)[:20]   #提取前20个，按时间排序
 
 	resultnew = [i[:4] for i in result]
