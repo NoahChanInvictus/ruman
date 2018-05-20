@@ -138,6 +138,7 @@ def manipulateWarningText():   #列出预警文本
 		dic['manipulate_type_num'] = i[DAY_MANIPULATE_TYPE]
 		dic['industry_name'] = i[DAY_INDUSTRY_NAME]
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
+		dic['ifmanipulate'] = i[DAY_MANIPULATE_LABEL]
 		dic['id'] = i[DAY_ID]
 		result.append(dic)
 	result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
@@ -420,7 +421,8 @@ def manipulateHistory(id):   #给出该股票的历史操纵数据
 		else:
 			dic['manipulate_type'] = u'散布信息牟利'
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
-		dic['name'] = i[DAY_STOCK_NAME] + u'(' + i[DAY_STOCK_ID] + u')'
+		dic['manipulate_type_num'] = i[DAY_MANIPULATE_TYPE]
+		dic['name'] = i[DAY_STOCK_NAME]
 		if id ==dic['id']:
 			dic['ifthis'] = 1
 			dicthis = dic
@@ -433,6 +435,33 @@ def manipulateHistory(id):   #给出该股票的历史操纵数据
 	return result
 
 def manipulatePrice(id):   #获取本次操作期间的股价和收益率
+	conn = defaultDatabaseConn()
+	stock = get_stock(id)
+	stock_id = stock[DAY_STOCK_ID]
+	start_date = stock[DAY_START_DATE]
+	end_date = stock[DAY_END_DATE]
+	industry = stock[DAY_INDUSTRY_CODE]
+	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_MARKET_DAILY,MARKET_DATE,last2tradedate(start_date),MARKET_DATE,end_date)
+	df = pd.read_sql(sql,conn)
+	datelist = sorted(list(set(df[MARKET_DATE])))   #获取日期列表
+	industryprice = []
+	price = []
+	for date in datelist:
+		industryprice.append(mean(df[(df[MARKET_DATE] == date) & (df[MARKET_INDUSTRY_CODE] == industry)][MARKET_PRICE]))   #获取同行业价格平均值列表
+		price.append(float(df[(df[MARKET_DATE] == date) & (df[MARKET_STOCK_ID] == stock_id)][MARKET_PRICE]))   #获取本股票价格列表
+	industry_ratio = []
+	ratio = []
+	D_value = []
+	for num in range(1,len(price)):
+		a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
+		b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
+		industry_ratio.append(a)
+		ratio.append(b)
+		D_value.append(b - a)   #差值绝对值
+	result = {'date':datelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
+	return result
+'''
+def manipulatePrice_old(id):   #获取本次操作期间的股价和收益率
 	conn = defaultDatabaseConn()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
@@ -457,7 +486,7 @@ def manipulatePrice(id):   #获取本次操作期间的股价和收益率
 		ratio.append(b)
 		D_value.append(b - a)   #差值绝对值
 	result = {'date':datelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
-	return result
+	return result'''
 
 def manipulateSeasonbox(id):   #获得季度下拉框
 	conn = defaultDatabaseConn()
@@ -670,6 +699,46 @@ def hotspotWordcloud(id,source):
 		return result
 	else:
 		return {}
+def homepageWordcloud():
+	# result = []
+	cur = defaultDatabase()
+	conn = defaultDatabaseConn()
+
+	# sql = "SELECT * FROM %s WHERE %s = '%d' and %s = '%s'" %(TABLE_WORDCLOUD,WORDCLOUD_NEWS_ID,id,WORDCLOUD_SOURCE,source)
+	sql = "select * from " + TABLE_WORDCLOUD
+	cur.execute(sql)
+	results = cur.fetchall()
+	
+	result = []
+	total_dict = {}
+	if results is not None:
+		count = 0
+		for item in results:
+			count += 1
+			wordsstr = item[WORDCLOUD_WORDS]
+			wordstrlist = wordsstr.split(',')
+			for wordstr in wordstrlist[:-1]:
+				# dic = {}
+				word = wordstr.split(':')[0]
+				wordnum = wordstr.split(':')[1]
+				if total_dict.has_key(word):
+					total_dict[word] += int(wordnum)
+				else:
+					total_dict[word] = int(wordnum)
+				# dic['name'] = word
+				# dic['value'] = int(wordnum)
+				# result.append(dic)
+			if count == 2000:
+				break
+		for k,v in total_dict.iteritems():
+			result.append({'name':k,'value':v})
+
+		result = sorted(result, key= lambda x:(x['value']), reverse=True)[:100]
+		return result
+	else:
+		return {}
+
+	# return result
 
 
 

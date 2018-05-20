@@ -25,7 +25,7 @@ def manipulatewarning(theday):
 
 def warning_all(year1,month1,day1,year2,month2,day2):
     for date in get_tradelist(year1,month1,day1,year2,month2,day2):
-        warning(date)
+        manipulatewarning(date)
 
 if __name__=="__main__":
     #warning('2016-01-05')
