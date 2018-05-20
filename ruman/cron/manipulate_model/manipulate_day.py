@@ -68,7 +68,7 @@ def insertday(theday,tradelist):
             manipulate_type = a.iloc[num]['manipulate_type']
             ifend = 0
             market_plate = platedict[stock_id]
-            order = 'insert into manipulate_day ( stock_id,stock_name,start_date,end_date,increase_ratio,industry_name,industry_code,manipulate_type,ifend,market_plate)values("%s", "%s","%s","%s","%f","%s","%s","%d","%d", "%s")' % (stock_id,stock_name,start_date,end_date,increase_ratio,industry_name,industry_code,manipulate_type,ifend,market_plate)
+            order = 'insert into manipulate_day ( stock_id,stock_name,manipulate_label,start_date,end_date,increase_ratio,industry_name,industry_code,manipulate_type,ifend,market_plate)values("%s", "%s","%d","%s","%s","%f","%s","%s","%d","%d", "%s")' % (stock_id,stock_name,1,start_date,end_date,increase_ratio,industry_name,industry_code,manipulate_type,ifend,market_plate)
             try:
                 cur.execute(order)
                 conn.commit()
