@@ -162,7 +162,7 @@ def save_cluster(news_id,cluster_data):
         if count % 1000 == 0:
             success, _ = bulk(es, ACTIONS, raise_on_error=True, request_timeout=400)
             ACTIONS = []
-            print 'in',count,'has been inserted!'
+            print 'in',doc_type,count,'has been inserted!'
     # 最后把余下的也bulk进去
     if ACTIONS != []:
         success, _ = bulk(es, ACTIONS, raise_on_error=True, request_timeout=400)
