@@ -343,13 +343,21 @@ def hotspot_source_distribute():
 		result[k] = v*1.0/count_sum
 	return result
 
+def find_topic_num(en_name):   #用于搜索事件对应文本数，展示气泡图
+	query_body = {"size":5000,"query":{"match_all": {}}}
+
+	res = es216.search(index=en_name, body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+
+	return len(hits)
+
 def hotspotbubbleChart():
 	query_body = {"size":5000,"query":{"match_all": {}}}
 
 	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 
-	result = [[hit['_source']['comment'],hit['_source']['retweeted'],870601776,' '.join(hit['_source']['query_kwds'][:2]),hit['_source']['timestamp']] for hit in hits]
+	result = [[hit['_source']['comment'],hit['_source']['retweeted'],370601776,' '.join(hit['_source']['query_kwds'][:2]),hit['_source']['timestamp']] for hit in hits if hit['_source']['retweeted'] >= 30 and hit['_source']['comment'] >= 50]
 	result = sorted(result,key= lambda x:(x[4]),reverse=True)[:20]   #提取前20个，按时间排序
 
 	resultnew = [i[:4] for i in result]
