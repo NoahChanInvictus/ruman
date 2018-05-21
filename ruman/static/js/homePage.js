@@ -154,9 +154,10 @@ require.config({
         var myChart = echarts.init(document.getElementById('picChart-2'));
         myChart.showLoading({
             text: '加载中...',
-            color: '#c23531',
-            // textColor: '#000',
-            textColor: '#c23531',
+            // color: '#c23531',
+            color: '#fff',
+            // textColor: '#c23531',
+            textColor: '#fff',
             maskColor: 'rgba(0,0,0,.1)',
             // zlevel: 0
         })
@@ -281,9 +282,10 @@ require.config({
     var myChart_pie_1 = echarts.init(document.getElementById('picChart-3'),'chalk');
     myChart_pie_1.showLoading({
         text: '加载中...',
-        color: '#c23531',
-        // textColor: '#000',
-        textColor: '#c23531',
+        // color: '#c23531',
+        color: '#fff',
+        // textColor: '#c23531',
+        textColor: '#fff',
         maskColor: 'rgba(0,0,0,.1)',
         // zlevel: 0
     });
@@ -385,9 +387,10 @@ require.config({
         var myChart = echarts.init(document.getElementById('picChart-5'),'chalk');
         myChart.showLoading({
             text: '加载中...',
-            color: '#c23531',
-            // textColor: '#000',
-            textColor: '#c23531',
+            // color: '#c23531',
+            color: '#fff',
+            // textColor: '#c23531',
+            textColor: '#fff',
             maskColor: 'rgba(0,0,0,.1)',
             // zlevel: 0
         })
@@ -493,12 +496,15 @@ require.config({
                 // 基于准备好的dom，初始化echarts图表
                 var myChart = ec.init(document.getElementById('picChart-4'),'chalk');
                 myChart.showLoading({
-                    text: '加载中...',
-                    color: '#c23531',
-                    // textColor: '#000',
-                    textColor: '#c23531',
-                    maskColor: 'rgba(0,0,0,.1)',
-                    // zlevel: 0
+                    text:'加载中...',
+                    textStyle:{
+                        color:'#fff',
+                    },
+                    effect:'dynamicLine',//'spin' | 'bar' | 'ring' | 'whirling' | 'dynamicLine' | 'bubble'，加载动画
+                    effectOption:{
+                        // echarts2 修改 加载背景色,
+                        backgroundColor:'rgba(0,0,0,.1)',
+                    }
                 });
 
                 var hotspotWordCloud_url='/homePage/hotspotWordCloud/';
@@ -630,9 +636,10 @@ require.config({
     var myChart_bar_4 = echarts.init(document.getElementById('picChart-6'),'chalk');
     myChart_bar_4.showLoading({
         text: '加载中...',
-        color: '#c23531',
-        // textColor: '#000',
-        textColor: '#c23531',
+        // color: '#c23531',
+        color: '#fff',
+        // textColor: '#c23531',
+        textColor: '#fff',
         maskColor: 'rgba(0,0,0,.1)',
         // zlevel: 0
     });
@@ -776,9 +783,12 @@ require.config({
     var myChart_pie_2 = echarts.init(document.getElementById('picChart-7'),'chalk');
     myChart_pie_2.showLoading({
         text: '加载中...',
-        color: '#c23531',
-        textColor: '#c23531',
+        // color: '#c23531',
+        color: '#fff',
+        // textColor: '#c23531',
+        textColor: '#fff',
         maskColor: 'rgba(0,0,0,.1)',
+        // zlevel: 0
     });
 
     var manipulatePane_url='/homePage/manipulatePanel';
