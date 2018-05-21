@@ -55,11 +55,13 @@ body.modal-open {
     z-index: 9999999999999999999999999;
 }
 .modal-header {
-    background: #09344e!important;
+    /* background: #09344e!important; */
+    background: #136270!important;
     color: white!important;
 }
 .modal-body,.modal-footer {
-    background: #041b29!important;
+    /* background: #041b29!important; */
+    background: #02525d!important;
     color: white!important;
 }
 .table-hover>tbody>tr:hover {
@@ -108,6 +110,7 @@ body.modal-open {
 }
 .bootstrap-table .table>thead>tr>th {
     width:6%;
+    border-top:none;
 }
 .pagination>li>a {
     background:rgba(8,23,44,0.35);
@@ -124,3 +127,4 @@ body.modal-open {
 .pagination>li>a:focus, .pagination>li>a:hover {
     color: white;
 }
+

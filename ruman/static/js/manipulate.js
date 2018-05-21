@@ -200,14 +200,21 @@
                     }
                 },
                 {
-                    title: "处理",//标题
-                    field: "",//键名
+                    title: "是否操纵",//标题
+                    field: "ifmanipulate",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<input type="checkbox" id="checkbox_d'+index+'" class="chk"/><label for="checkbox_d'+index+'"></label>';
+                        var str = '';
+                        if(row.ifmanipulate == 0){ //不是谣言 checkbox 为不选中
+                            str = '<input type="checkbox" id="checkbox_d'+(index+1)+'" class="chk" _id="'+row.id+'" /><label for="checkbox_d'+(index+1)+'"></label>';
+                        }else if(row.ifmanipulate == 1){// 是谣言 选中 checkbox
+                            str = '<input type="checkbox" checked=checked id="checkbox_d'+(index+1)+'" class="chk" _id="'+row.id+'" /><label for="checkbox_d'+(index+1)+'"></label>';
+                        }
+                        // return '<input type="checkbox" id="checkbox_d'+index+'" class="chk"/><label for="checkbox_d'+index+'"></label>';
+                        return str;
                     }
                 },
             ],
@@ -221,6 +228,39 @@
         $('#recordingTable center.loading').hide();
         $('.recordingTable .fixed-table-toolbar .search input').attr('placeholder','请输入查询内容');
     };
+    // 是否操纵
+        $('#recordingTable').on('change','input.chk',function(){
+            var _id = $(this).attr('_id');
+
+            console.log('===========================');
+            // console.log($(this).is(':checked'));
+            var ifmanipulate = '';
+            if($(this).is(':checked')){
+                ifmanipulate = '1';
+            }else {
+                ifmanipulate = '0';
+            }
+
+            var rumanUser_url = '/maniPulate/manipulateWarningUser?id='+_id+'&ifmanipulate='+ifmanipulate;
+            console.log(rumanUser_url);
+            public_ajax.call_request('get',rumanUser_url,rumanUser);
+        })
+        function rumanUser(data){
+            if(data.status == 'ok'){
+                $('#success .modal-body p').empty().text('修改成功');
+                $('#success').modal('show');
+                $('.modal-backdrop').css({position:'static'});
+            }else {
+                $('#success .modal-body p').empty().text('修改失败');
+                $('#success').modal('show');
+                $('.modal-backdrop').css({position:'static'});
+            }
+            // 模态框关闭之后重新请求表格
+            $('#Success').on('hidden.bs.modal', function () {
+                public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+            })
+        }
+
 
     // 跳转详情页
     function jumpFrame_1(stock, id, manipulate_type_num) {
@@ -242,7 +282,7 @@
         maskColor: 'rgba(0,0,0,.4)',
         zlevel: 0
     });
-    var warningNum_url='/maniPulate/manipulateWarningNum?date=7';
+    var warningNum_url='/maniPulate/manipulateWarningNum?date=90';
     public_ajax.call_request('get',warningNum_url,warningNum);
     function warningNum(data){
         var tit='疑似操纵预警次数';
@@ -360,7 +400,7 @@
         maskColor: 'transparent',
         zlevel: 0
     });
-    var influnce_url='/maniPulate/manipulateInfluence?date=7';
+    var influnce_url='/maniPulate/manipulateInfluence?date=90';
     public_ajax.call_request('get',influnce_url,influnce);
     function influnce(data){
         var ratio = data.ratio;
@@ -451,7 +491,7 @@
         maskColor: 'transparent',
         zlevel: 0
     });
-    var Industry_url='/maniPulate/manipulateIndustry?date=7';
+    var Industry_url='/maniPulate/manipulateIndustry?date=90';
     public_ajax.call_request('get',Industry_url,Industry);
     function Industry(data){
         var industry = data.industry;
@@ -553,7 +593,7 @@
         maskColor: 'transparent',
         zlevel: 0
     });
-    var manipulateType_url='/maniPulate/manipulateType?date=7';
+    var manipulateType_url='/maniPulate/manipulateType?date=90';
     public_ajax.call_request('get',manipulateType_url,manipulateType);
     function manipulateType(data){
         var type = data.type;
@@ -639,7 +679,7 @@
         maskColor: 'transparent',
         zlevel: 0
     });
-    var Panel_url='/maniPulate/manipulatePanel?date=7';
+    var Panel_url='/maniPulate/manipulatePanel?date=90';
     public_ajax.call_request('get',Panel_url,Panel);
     function Panel(data){
         var PANEL = data.PANEL;

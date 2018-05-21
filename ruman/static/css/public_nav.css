@@ -194,3 +194,14 @@ body {
 center {
     font-size: 16px;
 }
+center.load {
+    color:#fff;
+    margin-top:30px;
+}
+
+.modal-dialog{
+    top:100px;
+}
+.page-list {
+    display:none !important;
+}
