@@ -75,7 +75,7 @@ def get_allsource_content(news_id,size=10000):
     for source in TOPIC_ABOUT_DOCTYPE:
         iter_results = {}
         # print TOPIC_ABOUT_INDEX,query_body
-        es_result = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body)['hits']['hits']
+        es_result = es.search(index=TOPIC_ABOUT_INDEX, doc_type=source,body=query_body,timeout=400)['hits']['hits']
         # print len(es_result)
         iter_dict = {source:es_result}
         allsource_result.update(iter_dict)

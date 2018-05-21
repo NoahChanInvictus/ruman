@@ -46,8 +46,8 @@ def hot_news(theday):
             iter_source['key'] = ' '.join(keywords)
             iter_source.update({'text_id':news['_id']})
             today_result.append(iter_source)
-        if len(today_result) % 100 == 0:
-            print len(today_result)
+        # if len(today_result) % 100 == 0:
+        #     print len(today_result)
             # today_result.append(news['_source'].update({'text_id':news['_id'],'date':theday}))
     return today_result
 def save_results(theday,data):
@@ -57,7 +57,8 @@ def save_results(theday,data):
             (web,title,url,abstract,author,comments,tend,content,in_time,text_id,panel,key_word,date) \
             values ('%s','%s','%s','%s','%s','%i','%f','%s','%s','%s','%s','%s','%s')" % (item['web'].encode('utf-8'),item['title'].encode('utf-8'),item['url'].encode('utf-8'),\
                                             item['abstract'].encode('utf-8'),item['author'].encode('utf-8'),int(item['comments']),float(item['tend']),\
-                                            item['content'].encode('utf-8'),item['in_time'],item['text_id'],item['panel'].encode('utf-8'),item['key'].encode('utf-8'),theday)
+                                            # item['content'].encode('utf-8'),item['in_time'],item['text_id'],item['panel'].encode('utf-8'),item['key'].encode('utf-8'),theday)
+                                            item['content'].encode('utf-8'),item['publish_time'],item['text_id'],item['panel'].encode('utf-8'),item['key'].encode('utf-8'),theday)
         try:
             cur.execute(order)
             # conn.commit()
@@ -96,7 +97,7 @@ def get_all_news(theday):
         "facets": { }
     } 
     
-    es_result = es.search(index=index_name, doc_type='type1',body=es_search_options)['hits']['hits']
+    es_result = es.search(index=index_name, doc_type='type1',body=es_search_options,timeout=400)['hits']['hits']
     
     return es_result
 def get_hot_news(theday):
@@ -128,6 +129,8 @@ def hot_news_daily(theday):
         all_source_match(news_id,key_word)        #读取并保存各个通道的相关文本
         print 'load data finished!'
 
+        #将保存到topic_about表中的所有文本按new_id和渠道去重
+
         # print 'propagate compute start!'
         # propagateTask(news_id,theday,240)           #计算120天的多通道溯源记录     正式版应该倒查7天
         # print 'propagate compute end!'
@@ -146,7 +149,7 @@ def hot_news_daily(theday):
 
 if __name__ == '__main__':
     # hot_news_daily('2018-04-20')
-    hot_news_daily('2018-04-21')
+    hot_news_daily('2018-04-22')
     # print today_result[0]
     # text = '美国财长说漏一句话世界都惊了,美元对人民币狂跌'
     # print phgrocery(text)

@@ -8,11 +8,12 @@ from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
 from elasticsearch.helpers import bulk
 from tgrocery import Grocery
+from duplicate import duplicate
 model_fintext = Grocery('../fintext_classify/model_fintext')
 model_fintext.load()
 
 
-def match_topic_kw(news_id,keywords_list,source,doc_type,size=10000):
+def match_topic_kw(news_id,keywords_list,source,doc_type,size=1000):
     result = []
     keyword_str = ''.join(keywords_list)
     # 通过一组关键词查找相关文本
@@ -47,10 +48,12 @@ def match_topic_kw(news_id,keywords_list,source,doc_type,size=10000):
         # print len(result)
     return result
 
-def save_topic_es(data,index,doc_type):
+def save_topic_es(data,unique_data,index,doc_type):
     ACTIONS = []
     count = 0
     for item in data:
+        if item in unique_data:
+            item['unique'] = 1
         action = { 
                     "_op_type":"index" ,
                     "_index":index,  
@@ -72,7 +75,11 @@ def all_source_match(news_id,keywords_list):
     for source,doc_type in TYPE1_DICT.iteritems():
         result = match_topic_kw(news_id,keywords_list,source,doc_type)
         print len(result),'fintext in',source
-        save_topic_es(result,index=TOPIC_ABOUT_INDEX,doc_type=source)
+        # 标记不重复文本
+        unique_result = duplicate(result)
+        print len(unique_result),'unique fintext in',source
+
+        save_topic_es(result,unique_result,index=TOPIC_ABOUT_INDEX,doc_type=source)
         print 'insert complete in',source
 if __name__ == '__main__':
     # main()
