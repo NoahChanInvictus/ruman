@@ -216,9 +216,11 @@ CLUSTER_NUM = 60
 CLUSTER_OVER = 200
 
 # 多通道溯源
-TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1','news_new':'type1'}
+# TYPE1_DICT = {'bbs':'type1','forum':'type1','webo':'type1','wechat':'type1','zhihu':'type1','news_new':'type1'}
+TYPE1_DICT = {'weixin_news':'type1','weibo_news':'type1','bbs_news':'type1','news_new':'type1'}
 TOPIC_ABOUT_INDEX = 'topic_about'
-TOPIC_ABOUT_DOCTYPE = ['bbs','forum','webo','wechat','zhihu','news_new']
+# TOPIC_ABOUT_DOCTYPE = ['bbs','forum','webo','wechat','zhihu','news_new']
+TOPIC_ABOUT_DOCTYPE = ['weixin_news','weibo_news','bbs_news','news_new']
 CLUSTER_INDEX = 'clustering'
 
 #热点新闻

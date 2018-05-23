@@ -60,7 +60,8 @@ def get_allsource_content(news_id,size=10000):
         # }
         # },
         
-        {"term":{"news_id":news_id,}}
+        {"term":{"news_id":news_id,}},
+        {"term":{"unique":1}},      
         
         ],
         "must_not": [ ],
@@ -172,22 +173,25 @@ def clustering_main(news_id):
     
     for source,es_result in all_result.iteritems():
         print len(all_result[source]),'text need to be clusterd'
-        content_list = text_proprocess(source,es_result)
-        # content_list = text_proprocess('zhihu',es_result)
-        kmeans_result = kmeans(content_list)
-        print 'kmeans finished'
-        final_result = []
-        for i in range(len(es_result)):
-            iter_result = es_result[i]['_source']
-            iter_result['source'] = source
-            # print type(int(kmeans_result[i]))
-            iter_result['text_id'] = es_result[i]['_id']
-            iter_result['cluster_id'] = int(kmeans_result[i])
-            final_result.append(iter_result)
-            # print kmeans_result[i],content_list[i]
-        # print final_result[0]
-    # return final_result
-        save_cluster(news_id,final_result)
+        if len(all_result[source]) < 100:            # 如果文本太少就不聚类了
+            final_result = []
+        else:
+            content_list = text_proprocess(source,es_result)
+            # content_list = text_proprocess('zhihu',es_result)
+            kmeans_result = kmeans(content_list)
+            print 'kmeans finished'
+            final_result = []
+            for i in range(len(es_result)):
+                iter_result = es_result[i]['_source']
+                iter_result['source'] = source
+                # print type(int(kmeans_result[i]))
+                iter_result['text_id'] = es_result[i]['_id']
+                iter_result['cluster_id'] = int(kmeans_result[i])
+                final_result.append(iter_result)
+                # print kmeans_result[i],content_list[i]
+            # print final_result[0]
+        # return final_result
+            save_cluster(news_id,final_result)
 
 if __name__ == '__main__':
     clustering_main(2)

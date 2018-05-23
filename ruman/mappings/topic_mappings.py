@@ -36,7 +36,8 @@ def topic_mapping():
             #         # "up_level":{"type":"string", "index":"not_analyzed"},           #上一层公司
             #     }
             # },
-            "forum":{
+            # "forum":{
+            "forum_news":{
                 "properties":{
                     "fid":{"type":"string","index":"not_analyzed"},
                     "it":{"type":"long","index":"not_analyzed"},
@@ -71,7 +72,8 @@ def topic_mapping():
                 }
             },
             
-            "wechat":{
+            # "wechat":{
+            "weixin_news":{
                 "properties":{
                     "abstract":{"type":"string"},
                     "author":{"type":"string", "index":"not_analyzed"},
@@ -93,7 +95,8 @@ def topic_mapping():
 
                 }
             },
-            "bbs":{
+            # "bbs":{
+            "bbs_news":{
                 "properties":{
                     "author":{"type":"string", "index":"not_analyzed"},
                     "board_name":{"type":"string", "index":"not_analyzed"},
@@ -117,7 +120,8 @@ def topic_mapping():
 
                 }
             },
-            "zhihu":{
+            # "zhihu":{
+            "zhihu_news":{
                 "properties":{
                     "zid":{"type":"string", "index":"not_analyzed"},
                     "author":{"type":"string", "index":"not_analyzed"},
@@ -138,7 +142,8 @@ def topic_mapping():
                     "news_id":{"type":"long"}
                 }
             },
-            "webo":{
+            # "webo":{
+            "weibo_news":{
                 "properties":{
                     "wid":{"type":"string", "index":"not_analyzed"},
                     "url":{"type":"string", "index":"not_analyzed"},
