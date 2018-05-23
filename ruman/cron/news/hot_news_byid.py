@@ -21,6 +21,7 @@ from all_source_traceback.clusteringv2 import clustering_main
 from tgrocery import Grocery
 model_fintext = Grocery('../fintext_classify/model_fintext')
 model_fintext.load()
+import csv
 
 
 es = Elasticsearch([{'host':ES_HOST,'port':ES_PORT}])
@@ -147,12 +148,78 @@ def hot_news_daily(theday):
         except Exception,e:
             print e
 
+def compute_by_textid(text_id):
+    cur = defaultDatabase()
+    order = "select * from " + TABLE_HOTNEWS + " where binary text_id='%s'" % (text_id)
+    try:
+        cur.execute(order)
+        result = cur.fetchall()
+    except Exception,e:
+        print e
+    if not result:
+        return
+    news_id =  result[0]['id']
+    print 'news id:',news_id
+
+    # 判断是否计算完了，如果计算完了忽略之
+    order = "select * from " + TABLE_WORDCLOUD + " where news_id='%i'" % (news_id)
+    try:
+        cur.execute(order)
+        result = cur.fetchall()
+    except Exception,e:
+        print e
+    if result:
+        print '该条文本已经计算完成'
+    else:
+        print '该条文本并未计算完成'
+        print '即将启动计算'
+
+
+        try:
+            print 'load all source data start!'
+            all_source_match(news_id,key_word)        #读取并保存各个通道的相关文本
+            print 'load data finished!'
+
+            #将保存到topic_about表中的所有文本按new_id和渠道去重
+
+            print 'propagate compute start!'
+            propagateTask(news_id,theday,7)           #计算120天的多通道溯源记录     正式版应该倒查7天
+            print 'propagate compute end!'
+
+            print 'word cloud start!'
+            word_cloud_main(news_id)                    #计算词云并存储
+            print 'word cloud end!'
+
+            print 'clustering start!'
+            clustering_main(news_id)                    #观点聚类
+            print 'clustering end!'
+            # break
+        except Exception,e:
+            print e
+def read_target():
+    result = []
+    file = open('./news_front.csv')
+    csv_file = csv.reader(file)
+    for row in csv_file:
+        text_id = row[1]
+        result.append(text_id)
+    return result
+
+def main():
+    count = 1
+    targets = read_target()
+    for target in targets:
+        compute_by_textid(target)
+        count += 1
+        print count
 
 
 
 if __name__ == '__main__':
+    # compute_by_textid('AWNN50Y7vel9p8sC-9t6')
+    main()
     # hot_news_daily('2018-04-20')
-    hot_news_daily('2018-04-26')
+    # hot_news_daily('2018-04-26')
     # print today_result[0]
     # text = '美国财长说漏一句话世界都惊了,美元对人民币狂跌'
     # print phgrocery(text)
