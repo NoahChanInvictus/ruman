@@ -111,10 +111,12 @@ def get_hot_news(theday):
         print e
     return result
 def hot_news_daily(theday):
-    today_result = hot_news(theday)
-    print len(today_result),'hot news in',theday
-    save_results(theday,today_result)
-    print 'hot news saved!'
+    cur = defaultDatabase()
+    # today_result = hot_news(theday)
+    # print len(today_result),'hot news in',theday
+    # save_results(theday,today_result)
+    # print 'hot news saved!'
+
     result = get_hot_news(theday)
     print 'There are',len(result),'hot news in',theday
     for news in result:
@@ -123,36 +125,48 @@ def hot_news_daily(theday):
         news_id = news['id']
         print 'news id:',news_id
 
-        
+        # 判断是否计算完了，如果计算完了忽略之
+        order = "select * from " + TABLE_WORDCLOUD + " where news_id='%i'" % (news_id)
         try:
-
-            print 'load all source data start!'
-            all_source_match(news_id,key_word)        #读取并保存各个通道的相关文本
-            print 'load data finished!'
-
-            #将保存到topic_about表中的所有文本按new_id和渠道去重
-
-            print 'propagate compute start!'
-            propagateTask(news_id,theday,7)           #计算120天的多通道溯源记录     正式版应该倒查7天
-            print 'propagate compute end!'
-
-            print 'word cloud start!'
-            word_cloud_main(news_id)                    #计算词云并存储
-            print 'word cloud end!'
-
-            print 'clustering start!'
-            clustering_main(news_id)                    #观点聚类
-            print 'clustering end!'
-            # break
+            cur.execute(order)
+            result = cur.fetchall()
         except Exception,e:
             print e
+        if result:
+            print '该条文本已经计算完成'
+        else:
+            print '该条文本并未计算完成'
+            print '即将启动计算'
+
+            try:
+
+                print 'load all source data start!'
+                all_source_match(news_id,key_word)        #读取并保存各个通道的相关文本
+                print 'load data finished!'
+
+                #将保存到topic_about表中的所有文本按new_id和渠道去重
+
+                print 'propagate compute start!'
+                propagateTask(news_id,theday,7)           #计算120天的多通道溯源记录     正式版应该倒查7天
+                print 'propagate compute end!'
+
+                print 'word cloud start!'
+                word_cloud_main(news_id)                    #计算词云并存储
+                print 'word cloud end!'
+
+                print 'clustering start!'
+                clustering_main(news_id)                    #观点聚类
+                print 'clustering end!'
+                # break
+            except Exception,e:
+                print e
 
 
 
 
 if __name__ == '__main__':
     # hot_news_daily('2018-04-20')
-    hot_news_daily('2018-04-26')
+    hot_news_daily('2018-04-21')
     # print today_result[0]
     # text = '美国财长说漏一句话世界都惊了,美元对人民币狂跌'
     # print phgrocery(text)
