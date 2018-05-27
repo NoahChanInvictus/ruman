@@ -2,7 +2,16 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
     '建筑业','交通运输、仓储业','信息技术业','批发和零售贸易','金融、保险业',
     '房地产业','社会服务业','传播与文化产业','综合类'];
 
-//第一屏
+// 预警数 ====
+    var rumorWarning_url='/rumor/rumorWarning';
+    public_ajax.call_request('get',rumorWarning_url,rumorWarning);
+    function rumorWarning(data){
+        $('.firstScreen .com-1').text(data.weeknum);
+        $('.firstScreen .com-2').text(data.monthnum);
+        $('.firstScreen .com-3').text(data.seasonnum);
+    }
+
+//第一屏 ====
     var earlyWarningdata=[
             {'a':'2017-05-01 00:00','b':'万科建立新安小镇','c':'所长别开枪是我','d':'股吧','e':'65','f':'53',
                 'g':'50000','h':'房地产,达赖,维权','i':'是'},
@@ -41,15 +50,24 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
             {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'沈小司司','d':'知乎','e':'44','f':'30',
                 'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
         ]
-    var earlyWarning_url='';
-    // public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+    var earlyWarning_url='/rumor/get_rumor_list/';
+    public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     function earlyWarning(data) {
+        // console.log(data)
+        // 将某条置顶
+        // for(var i=0;i<data.length;i++){
+        //     if(data[i].en_name == 'le-shi-shou-kuan-4045705104264682'){
+        //         var thisdata = data.splice(i,1);
+        //     }
+        // }
+        // data = thisdata.concat(data);
+        // console.log(data);
         $('#recordingTable').bootstrapTable('load', data);
         $('#recordingTable').bootstrapTable({
             data:data,
             search: true,//是否搜索
             pagination: true,//是否分页
-            pageSize: 5,//单页记录数
+            pageSize: 10,//单页记录数
             pageList: [15,20,25],//分页步进值
             sidePagination: "client",//服务端分页
             searchAlign: "left",
@@ -65,31 +83,46 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
             columns: [
                 {
                     title: "主题",//标题
-                    field: "b",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-
-                },
-                {
-                    title: "发布时间",//标题
-                    field: "a",//键名
+                    field: "text",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.a==''||row.a=='null'||row.a=='unknown'||!row.a){
+                        var str = '';
+                        if(row.text.length > 14){
+                            str = row.text.slice(0,14)+'...';
+                        }else {
+                            str = row.text;
+                        }
+                        if (row.text==''||row.text=='null'||row.text=='unknown'||!row.text){
                             return '未知';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.a+'\')" title="进入画像">'+row.a+'</span>';
+                            return '<span style="cursor:pointer;color:white;" title="'+row.text+'">'+str+'</span>';
+                        };
+                    }
+                },
+                {
+                    title: "发布时间",//标题
+                    field: "timestamp",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        var str = '';
+
+                        if (row.timestamp==''||row.timestamp=='null'||row.timestamp=='unknown'||!row.timestamp){
+                            return '未知';
+                        }else {
+                            str = getLocalTime(row.timestamp);
+                            return str;
                         };
                     }
                 },
                 {
                     title: "发布者",//标题
-                    field: "c",//键名
+                    field: "uid",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -97,7 +130,7 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
                 },
                 {
                     title: "评论数",//标题
-                    field: "e",//键名
+                    field: "comment",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -106,7 +139,7 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
                 },
                 {
                     title: "转发数",//标题
-                    field: "f",//键名
+                    field: "retweeted",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -122,21 +155,21 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
                 // },
                 {
                     title: "关键词",//标题
-                    field: "h",//键名
+                    field: "query_kwds",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                 },
                 {
-                    title: "监测详情",//标题
+                    title: "谣言详情",//标题
                     field: "",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1()" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.uid+'\',\''+row.en_name+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
                 {
@@ -152,14 +185,17 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
                 },
             ],
         });
+        $('#recordingTable center.load').hide();
     };
-    earlyWarning(earlyWarningdata);
+    // earlyWarning(earlyWarningdata);
     // 跳转详情页
-    function jumpFrame_1() {
-        var html='/index/lieDetail';
+    function jumpFrame_1(uid, en_name) {
+        var html='/index/lieDetail/?uid='+uid+'&en_name='+en_name;
             window.open(html);
 
     }
+
+
 
 // 气泡图
     var data = [
@@ -168,91 +204,178 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
         [[44056,81.8,23968973,'Australia',2015],[43294,81.7,35939927,'Canada',2015],[13334,76.9,1376048943,'China',2015],[21291,78.5,11389562,'Cuba',2015],[38923,80.8,5503457,'Finland',2015],[37599,81.9,64395345,'France',2015],[44053,81.1,80688545,'Germany',2015],[42182,82.8,329425,'Iceland',2015],[5903,66.8,1311050527,'India',2015],[36162,83.5,126573481,'Japan',2015],[1390,71.4,25155317,'North Korea',2015],[34644,80.7,50293439,'South Korea',2015],[34186,80.6,4528526,'New Zealand',2015],[64304,81.6,5210967,'Norway',2015],[24787,77.3,38611794,'Poland',2015],[23038,73.13,143456918,'Russia',2015],[19360,76.5,78665830,'Turkey',2015],[38225,81.4,64715810,'United Kingdom',2015],[53354,79.1,321773631,'United States',2015]]
     ];
     var option2,txt2,color;
-    function dotOption(x,y) {
-        option2 = {
-            backgroundColor:'transparent',
-            title: {
-                text: txt2,
-                x:'center'
-            },
-            grid: {
-                left: '0%',
-                right: '11%',
-                bottom: '0%',
-                top:'7%',
-                containLabel: true
-            },
-            xAxis: {
-                name:x,
-                splitLine: {
-                    lineStyle: {
-                        type: 'dashed'
-                    }
-                }
-            },
-            yAxis: {
-                name:y,
-                splitLine: {
-                    lineStyle: {
-                        type: 'dashed'
-                    }
-                },
-                scale: true
-            },
-            series: [{
-                name: '',
-                data: data[0],
-                type: 'scatter',
-                symbolSize: function (data) {
-                    return Math.sqrt(data[2]) / 5e2;
-                },
-                label: {
-                    normal:{
-                        show:true,
-                        position:'inside',
-                        color:'#fff',
-                        formatter:  function (param) {
-                            return param.data[3];
-                        },
-                    },
-                    // emphasis: {
-                    //     show: true,
-                    //     formatter: function (param) {
-                    //         return param.data[3];
-                    //     },
-                    //     position: 'top'
-                    // }
-                },
-                itemStyle: {
-                    normal: {
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(120, 36, 50, 0.5)',
-                        shadowOffsetY: 5,
-                        color: color
-                    }
-                }
-            }]
-        };
-    }
+    // function dotOption(x,y) {
+    //     option2 = {
+    //         backgroundColor:'transparent',
+    //         title: {
+    //             text: txt2,
+    //             x:'center'
+    //         },
+    //         grid: {
+    //             left: '0%',
+    //             right: '11%',
+    //             bottom: '0%',
+    //             top:'7%',
+    //             containLabel: true
+    //         },
+    //         xAxis: {
+    //             name:x,
+    //             splitLine: {
+    //                 lineStyle: {
+    //                     type: 'dashed'
+    //                 }
+    //             }
+    //         },
+    //         yAxis: {
+    //             name:y,
+    //             splitLine: {
+    //                 lineStyle: {
+    //                     type: 'dashed'
+    //                 }
+    //             },
+    //             scale: true
+    //         },
+    //         series: [{
+    //             name: '',
+    //             data: data[0],
+    //             type: 'scatter',
+    //             symbolSize: function (data) {
+    //                 return Math.sqrt(data[2]) / 5e2;
+    //             },
+    //             label: {
+    //                 normal:{
+    //                     show:true,
+    //                     position:'inside',
+    //                     color:'#fff',
+    //                     formatter:  function (param) {
+    //                         return param.data[3];
+    //                     },
+    //                 },
+    //                 // emphasis: {
+    //                 //     show: true,
+    //                 //     formatter: function (param) {
+    //                 //         return param.data[3];
+    //                 //     },
+    //                 //     position: 'top'
+    //                 // }
+    //             },
+    //             itemStyle: {
+    //                 normal: {
+    //                     shadowBlur: 10,
+    //                     shadowColor: 'rgba(120, 36, 50, 0.5)',
+    //                     shadowOffsetY: 5,
+    //                     color: color
+    //                 }
+    //             }
+    //         }]
+    //     };
+    // }
     function dot2() {
         txt2='造谣/传谣分布';
         var myChart = echarts.init(document.getElementById('propagation'),'chalk');
-        color = new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
-            offset: 0,
-            color: 'rgb(251, 118, 123)'
-        }, {
-            offset: 1,
-            color: 'rgb(204, 46, 72)'
-        }])
-        dotOption('评论数','转发数');
-        myChart.setOption(option2);
+        // color = new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+        //     offset: 0,
+        //     color: 'rgb(251, 118, 123)'
+        // }, {
+        //     offset: 1,
+        //     color: 'rgb(204, 46, 72)'
+        // }])
+        myChart.showLoading({
+            text: '加载中...',
+            color: '#c23531',
+            // textColor: '#000',
+            textColor: '#c23531',
+            maskColor: 'rgba(0,0,0,.1)',
+            // zlevel: 0
+        })
+
+        var rumorbubbleChart_url = '/rumor/rumorbubbleChart/';
+        public_ajax.call_request('get',rumorbubbleChart_url,rumorbubbleChart);
+        function rumorbubbleChart(data){
+            var option = {
+                backgroundColor:'transparent',
+                title: {
+                    text: txt2,
+                    x:'center'
+                },
+                grid: {
+                    left: '0%',
+                    right: '11%',
+                    bottom: '0%',
+                    top:'7%',
+                    containLabel: true
+                },
+                xAxis: {
+                    name: '评论数',
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    }
+                },
+                yAxis: {
+                    name:'转发数',
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    },
+                    scale: true
+                },
+                series: [{
+                    name: '',
+                    data: data,
+                    type: 'scatter',
+                    symbolSize: function (data) {
+                        return Math.sqrt(data[2]) / 5e2;
+                    },
+                    label: {
+                        normal:{
+                            show:true,
+                            position:'inside',
+                            color:'#fff',
+                            formatter:  function (param) {
+                                return param.data[3];
+                            },
+                        },
+                        // emphasis: {
+                        //     show: true,
+                        //     formatter: function (param) {
+                        //         return param.data[3];
+                        //     },
+                        //     position: 'top'
+                        // }
+                    },
+                    itemStyle: {
+                        normal: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(120, 36, 50, 0.5)',
+                            shadowOffsetY: 5,
+                            color: color
+                        }
+                    }
+                }]
+            };
+
+            myChart.hideLoading();
+            myChart.setOption(option);
+        }
+
+
+        // dotOption('评论数','转发数');
+        // myChart.setOption(option2);
     }
     // dot2();
 
 //造谣者 传播者 表格
+
     var tjs=[{a:'21343532',b:'213',c:'43'},{a:'21343532',b:'213',c:'43'},{a:'21343532',b:'213',c:'43'},{a:'21343532',b:'213',c:'43'},
         {a:'875321412',b:'342',c:'743'},{a:'875321412',b:'342',c:'743'},{a:'875321412',b:'342',c:'743'},
         {a:'564214312',b:'564',c:'123'},{a:'564214312',b:'564',c:'123'},{a:'564214312',b:'564',c:'123'}]
+
+    var rumorMonger_url='/rumor/rumorMonger?date=7';
+    public_ajax.call_request('get',rumorMonger_url,spreadRank);
+
     function spreadRank(data) {
         $('#spreadRank').bootstrapTable('load', data);
         $('#spreadRank').bootstrapTable({
@@ -286,22 +409,22 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
                 },
                 {
                     title: "发布者ID",//标题
-                    field: "a",//键名
+                    field: "uid",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
-                    // formatter: function (value, row, index) {
-                    //     if (row.a==''||row.a=='null'||row.a=='unknown'||!row.a){
-                    //         return '未知';
-                    //     }else {
-                    //         return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.a+'\')" title="进入画像">'+row.a+'</span>';
-                    //     };
-                    // }
+                    formatter: function (value, row, index) {
+                        if (row.uid==''||row.uid=='null'||row.uid=='unknown'||!row.uid){
+                            return '未知';
+                        }else {
+                            return row.uid;
+                        };
+                    }
                 },
                 {
                     title: "疑似谣言发布数",//标题
-                    field: "b",//键名
+                    field: "announce",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -309,7 +432,7 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
                 },
                 {
                     title: "疑似谣言评论数",//标题
-                    field: "c",//键名
+                    field: "comment",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -318,12 +441,22 @@ var industry=['农、林、\n牧、渔业','采掘业','制造业','电力、煤
                 },
             ],
         });
+        $('#spreadRank center.load').hide();
+
 
         // 表格画完后 获取高度 赋给 气泡图 再显示 气泡图
             $('#propagation').css('height',$('#spread-1').outerHeight(true));
             dot2();
     };
-    spreadRank(tjs);
+    // spreadRank(tjs);
+    // 更改下拉框
+    $('#five_select').change(function (){
+        $('#spreadRank center.load').show();
+
+        // console.log($(this).val());
+        rumorMonger_url = '/rumor/rumorMonger?date='+$(this).val();
+        public_ajax.call_request('get',rumorMonger_url,spreadRank);
+    })
 
 
 

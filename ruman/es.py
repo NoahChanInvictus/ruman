@@ -29,6 +29,14 @@ def get_stock(id):
 	dic = {DAY_STOCK_ID:thing[DAY_STOCK_ID],DAY_START_DATE:thing[DAY_START_DATE],DAY_END_DATE:thing[DAY_END_DATE],DAY_INDUSTRY_CODE:thing[DAY_INDUSTRY_CODE]}
 	return dic
 
+def get_news(id):
+	cur = defaultDatabase()
+	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_HOTNEWS,HOT_NEWS_ID,id)
+	cur.execute(stocksql)
+	thing = cur.fetchone()
+	dic = {HOT_NEWS_IN_TIME:int(thing[HOT_NEWS_IN_TIME])}
+	return dic
+
 def get_user(uid):
 	uid = int(uid)
 	query_body = {"size":10,"query":{"match":{"uid":uid}}}
@@ -131,8 +139,13 @@ def manipulateRumantext(id):
 		hits = res['hits']['hits']
 		if len(hits):
 			item = hits[0]["_source"]
-			text = item['text']
-			return {'text':text}
+			dic = {}
+			dic['text'] = item['text']
+			dic['ifrumor'] = '是'
+			dic['publish_time'] = ts2date(item['timestamp'])
+			dic['author'] = get_user(item['uid'])
+			dic['source'] = '微博'
+			return dic
 			break
 	if len(hits) == 0:
 		return {}
@@ -162,13 +175,20 @@ def manipulateRumancomment(id):
 				dic['publish_time'] = ts2date(item['timestamp'])
 				dic['text'] = item['text']
 				dic['author'] = get_user(item['uid'])
+				dic['source'] = '微博'
 				result.append(dic)
 	result = sorted(result, key= lambda x:(x['publish_time']),reverse=True)
 	return result
 
 def hotspotPropagate(id,source):
-	query_body = {"size":15000,"query":{ "filtered": {
-		"query":{"match":{"news_id":id}}
+	publish_time = get_news(id)[HOT_NEWS_IN_TIME]
+	timendays = publish_time - 7*24*3600   #可更改
+	#query_body = {"size":15000,"query": {"bool": {"must": [{"match":{"news_id":id}},{"match": {"unique": 1}}]}}}
+	query_body = {"size":15000,"query": { "filtered": {
+		"query":{"bool": {"must": [
+			{"match": {"news_id": id}},
+			{"match": {"unique": 1}}]}},
+		"filter":{"range":{"publish_time":{"gte": timendays,"lte": publish_time}}}
 	}}}
 
 	res = es214.search(index=TOPIC_ABOUT_INDEX, doc_type=source, body=query_body,request_timeout=100)
@@ -183,28 +203,18 @@ def hotspotPropagate(id,source):
 			if source == TOPIC_ABOUT_DOCTYPE[0]:
 				dic['title'] = item['_source']['title']
 				dic['author'] = item['_source']['author']
-				dic['keyword'] = item['_source']['k']
-				dic['url'] = item['_source']['u']
+				dic['keyword'] = item['_source']['key']
+				dic['url'] = item['_source']['url']
 			elif source == TOPIC_ABOUT_DOCTYPE[1]:
-				dic['title'] = item['_source']['title']
-				dic['author'] = item['_source']['author']
-				dic['keyword'] = item['_source']['k']
+				dic['title'] = item['_source']['content']
+				dic['author'] = item['_source']['nickname']
+				dic['keyword'] = item['_source']['topic']
 				dic['url'] = item['_source']['url']
 			elif source == TOPIC_ABOUT_DOCTYPE[2]:
-				dic['title'] = item['_source']['content']
-				dic['author'] = get_user(item['_source']['user_id'])
-				dic['keyword'] = item['_source']['k']
-				dic['url'] = item['_source']['url']
-			elif source == TOPIC_ABOUT_DOCTYPE[3]:
 				dic['title'] = item['_source']['title']
 				dic['author'] = item['_source']['author']
-				dic['keyword'] = item['_source']['k']
+				dic['keyword'] = item['_source']['key']
 				dic['url'] = item['_source']['url']
-			elif source == TOPIC_ABOUT_DOCTYPE[4]:
-				dic['title'] = item['_source']['title']
-				dic['author'] = item['_source']['author']
-				dic['keyword'] = item['_source']['k']
-				dic['url'] = item['_source']['u']
 			else:
 				dic['title'] = item['_source']['title']
 				dic['author'] = item['_source']['web']
@@ -212,7 +222,7 @@ def hotspotPropagate(id,source):
 				dic['url'] = item['_source']['url']
 			result.append(dic)
 		result = sorted(result, key= lambda x:(x['publish_time']))
-		return result[:10]
+		return result
 	else:
 		return []
 
@@ -226,7 +236,7 @@ def hotspotTopicaxis(id,source):
 	}}}'''
 	hits_all = []
 	for cluster_num in range(CLUSTER_NUM):#
-		query_body = {"size":10,"query":{"bool": {"must": [
+		query_body = {"size":10000,"query":{"bool": {"must": [
 				{"match": {"news_id": id}},
 				{"match": {"source": source}},
 				{"match": {"cluster_id": cluster_num}}]
@@ -242,11 +252,11 @@ def hotspotTopicaxis(id,source):
 	monthdic = {}
 	for item in hits_all:
 		date = ts2datetime(int(item['_source']['publish_time']))
-		if source == TOPIC_ABOUT_DOCTYPE[2]:
+		if source == TOPIC_ABOUT_DOCTYPE[1]:
 			if date not in datedic.keys():
-				datedic[date] = [{"title":'这个是标题',"content":item['_source']['content']}]   #item['_source']['title']
+				datedic[date] = [{"title":'',"content":item['_source']['content']}]   #item['_source']['title']
 			else:
-				datedic[date].append({"title":'这个是标题',"content":item['_source']['content']})
+				datedic[date].append({"title":'',"content":item['_source']['content']})
 		else:
 			if date not in datedic.keys():
 				datedic[date] = [{"title":item['_source']['title'],"content":item['_source']['content']}]
@@ -267,9 +277,49 @@ def hotspotTopicaxis(id,source):
 		for date in l:
 			if date['date'] in monthdic[ymonth]:
 				ll.append(date)
-		result.append({'month':ymonth,'monthtext':ll})
+		result.append({'month':ymonth,'monthtext':ll[:7]})
 	result = sorted(result, key= lambda x:(x['month']),reverse=True)
-	result = result[:3]
+	result = result
+	return result
+def newhotspotcombineText():
+	cur = defaultDatabase()
+
+	# query_body = {"size":5000,"query":{"match_all": {}}}
+	query_body = {"size":5000,"query":{"term": {"rumor_label":0}}}
+	sql = "SELECT * FROM %s WHERE ifshow=2 " % (TABLE_HOTNEWS)
+
+	cur.execute(sql)
+	results = cur.fetchall()
+	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
+	hits = res['hits']['hits']
+	result = []
+
+	for thing in results:
+		dic = {}
+		dic['title'] = thing[HOT_NEWS_TITLE]
+		dic['publish_time'] = ts2date(float(thing[HOT_NEWS_IN_TIME]))
+		dic['source'] = '新闻'
+		dic['keyword'] = thing[HOT_NEWS_KEY_WORD]
+		dic['id'] = thing['id']
+		dic['publisher'] = thing['web']
+		result.append(dic)
+	result = sorted(result, key= lambda x:(x['publish_time']),reverse=True)   #只取时间最近的前十个
+	resultes = []
+	for hit in hits:
+		dic = {}
+		dic['title'] = hit['_source']['text']
+		dic['publish_time'] = ts2date(hit['_source']['timestamp'])
+		dic['source'] = '微博'
+		dic['keyword'] = hit['_source']['keywords_string'].replace('&',' ')
+		# dic['ifruman'] = hit['_source']['rumor_label']
+		dic['id'] = hit['_id']
+		# dic['type'] = hit['_type']
+		dic['publisher'] = hit['_source']['uid']
+		resultes.append(dic)
+	resultes = sorted(resultes, key= lambda x:(x['publish_time']),reverse=True)[:10]   #只取时间最近的前十个
+	#print len(resultes)
+	result.extend(resultes)
+	#print len(result)
 	return result
 
 def hotspotandrumanText():

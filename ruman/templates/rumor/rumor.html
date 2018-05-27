@@ -40,6 +40,42 @@
         #nav {background: rgba(18, 146, 175, 0.93);}
         #nav .nav_middle, #nav .nav_right {display: block;}
         /*======*/
+        .page-list {
+            display:none !important;
+        }
+        /* 搜索框 */
+        #container .searchbox {
+            /* float:right; */
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .firstScreen .fixed-table-toolbar{
+            display:block;
+        }
+        .firstScreen .fixed-table-toolbar .search {
+            width:20%;
+            position:absolute;
+            /* top:2%; */
+            top:0;
+            /* right:100px; */
+            right:60px;
+            margin:0;
+        }
+        .firstScreen .fixed-table-toolbar .search input{
+            height:30px;
+            padding: 3px 6px;
+            background: transparent;
+            border: 1px solid silver;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        .firstScreen .fixed-table-toolbar .search input:focus{
+            background: #f8f8f8;
+            color: #3c3c3c;
+        }
     </style>
 {% endblock %}
 
@@ -49,15 +85,15 @@
             <div class="topTitle" style="margin: 0.1rem auto;">
                 <dl>
                     <dd>本周预警数</dd>
-                    <dt class="com-1">22</dt>
+                    <dt class="com-1">加载中...</dt>
                 </dl>
                 <dl>
                     <dd>本月预警数</dd>
-                    <dt class="com-2">43</dt>
+                    <dt class="com-2">加载中...</dt>
                 </dl>
                 <dl>
                     <dd>本季度预警数</dd>
-                    <dt class="com-3">213</dt>
+                    <dt class="com-3">加载中...</dt>
                 </dl>
                 <!-- <dl>
                     <dd>本周波及人数</dd>
@@ -72,17 +108,21 @@
                     <dt class="com-6">732</dt>
                 </dl> -->
             </div>
-            <div style="color: white;font-weight:700;font-size:0.24rem;position: relative;">
-                <h3 style="color: white;display: inline-block;"><i class="icon icon-eye-open"></i>&nbsp;疑似谣言预警</h3>
-                <div class="search">
-                    <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/>
+            <div style="color: white;font-size:0.24rem;position: relative;" class="clearfix">
+                <h3 style="float:left;font-weight:700;margin:10px 0;"><i class="icon icon-eye-open"></i>&nbsp;疑似谣言预警</h3>
+                <div class="searchbox">
+                    <!-- <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/> -->
                     <!--<button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>-->
-                    <button type="button" class="btn btn-primary btn-sm">确定</button>
+                    <button type="button" class="btn btn-primary btn-sm" style="vertical-align:top;">确定</button>
+                </div>
+
+                <div class="recordingTable" style="font-size: 0.14rem!important;">
+                    <div id="recordingTable">
+                        <center class="load">正在加载中...</center>
+                    </div>
                 </div>
             </div>
-            <div class="recordingTable" style="margin-top: 0.1rem;font-size: 0.14rem!important;">
-                <div id="recordingTable"></div>
-            </div>
+
         </div>
 
         <div class="section fiveScreen" style="padding-bottom: .3rem;">
@@ -91,20 +131,24 @@
                 <div class="lieOpt">
                     <span class="ct-tit">呈现方式：</span>
                     <select id="five_select">
-                        <option value="最近一周">最近一周</option>
-                        <option value="最近一个月">最近一个月</option>
-                        <option value="最近三个月">最近三个月</option>
-                        <option value="最近半年">最近半年</option>
-                        <option value="最近一年">最近一年</option>
+                        <option value="7">最近一周</option>
+                        <option value="30">最近一个月</option>
+                        <option value="90">最近三个月</option>
+                        <option value="180">最近半年</option>
+                        <option value="365">最近一年</option>
                     </select>
                 </div>
             </div>
             <div id="spread" style="overflow: hidden;margin-top:0.1rem;">
                 <div id="spread-1" style="width:48%;float: left;">
                     <!--<h4 style="color: white;display: inline-block;"><i class="icon icon-comment"></i>&nbsp;十大造谣者</h4>-->
-                    <div id="spreadRank"></div>
+                    <div id="spreadRank">
+                        <center class="load">正在加载中...</center>
+                    </div>
                 </div>
-                <div id="propagation" style="width:48%;height: 4.5rem;float: right"></div>
+                <div id="propagation" style="width:48%;height: 4.5rem;float: right">
+
+                </div>
             </div>
 
         </div>

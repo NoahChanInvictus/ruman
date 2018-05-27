@@ -11,7 +11,7 @@
     <style>
         <!---->
         /* #nav .nav_left h3 {color: #333!important;} */
-        #nav .nav_middle .main_li:nth-of-type(5) {
+        #nav .nav_middle .main_li:nth-of-type(6) {
             -webkit-transform: scale(1.3);
             -moz-transform: scale(1.3);
             -ms-transform: scale(1.3);
@@ -45,26 +45,51 @@
         .fixed-table-toolbar .search {width: 100%;}
         .fixed-table-toolbar .search input {text-align: center;background: transparent;}
         .bootstrap-table .table>thead>tr>th {width: 5%;}
-        .bootstrap-table #Bulletin_content.table>thead>tr>th:nth-of-type(2) {width: 15%}
-        .bootstrap-table #Bulletin_content.table>thead>tr>th:nth-of-type(3) {width: 80%}
+        .bootstrap-table #Bulletin_content.table>thead>tr>th:nth-of-type(2) {width: 15%;}
+        .bootstrap-table #Bulletin_content.table>thead>tr>th:nth-of-type(3) {width: 80%;}
         .bootstrap-table #Bulletin_content.table>thead>tr>th:nth-of-type(1),
         .bootstrap-table #Bulletin_content.table>thead>tr>th:nth-of-type(4) {
             width: 1%;
         }
-        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(1){width: 5%}
-        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(3){width: 15%}
+        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(1){width: 5%;}
+        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(3){width: 5%;}
         .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(2),
-        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(5) {width:3%}
-        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(4) {width: 70%}
+        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(5) {width:5%;}
+        .bootstrap-table #opinion.table>thead>tr>th:nth-of-type(4) {width: 27%;}
+
+        /* 历史信用表格 */
+        #creditHistory_content thead th {
+            width:4%;
+        }
+        #creditHistory_content thead th:nth-of-type(3) {
+            width:10%;
+        }
+
+        /* 虚假消息 新增字段 */
+        .False_info {
+            text-indent: 2em;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .False_info span {
+            cursor:pointer;
+            display: inline-block;
+            background: #ccc;
+            border-radius: 5px;
+            text-align: center;
+            text-indent: 0;
+            padding: 2px 5px;
+            margin-right: 36px;
+        }
     </style>
 {% endblock %}
 
 {% block main %}
     <div id="container">
-        <div style="text-align: right;">
-            <!-- <span class="top-1 btn btn-primary">一键取证</span> -->
+        <!-- <div style="text-align: right;">
+            <span class="top-1 btn btn-primary">一键取证</span>
             <span class="top btn btn-primary">一键报告</span>
-        </div>
+        </div> -->
         <div style="text-align: center; margin-bottom:20px;">
             <span style="font-size: 36px;">“<span id="title-1"></span>”操纵预警报告</span>
         </div>
@@ -105,19 +130,6 @@
             </div>
         </div>
 
-        <!-- 虚假消息 -->
-        <div id="False_message" class="main_content">
-            <h3 style="margin-bottom: 0.1rem;"><i class="icon icon-certificate"></i>&nbsp;虚假消息</h3>
-            <p class="False_content">加载中...</p>
-        </div>
-        <!--舆情分析-->
-        <div id="Public_opinion" class="main_content" style="margin-top: 0.02rem;">
-            <h3 style="margin-bottom: 0.1rem;"><i class="icon icon-bullhorn"></i>&nbsp;舆情分析</h3>
-            <div class="opinion">
-                <div id="opinion"></div>
-            </div>
-        </div>
-
         <!-- 价格与收益率 -->
         <div id="Price">
             <h3><i class="icon icon-signin"></i>&nbsp;价格与收益率</h3>
@@ -131,8 +143,49 @@
             <div class="clearfix">
                 <div id="Price_1" class="half" style="margin-right:2%;"></div>
                 <div id="Price_2" class="half"></div>
+
+                <!-- <div id="Price_3" class="half" style="margin-right:2%;"></div>
+                <div id="Price_4" class="half"></div> -->
             </div>
         </div>
+
+        <div id="trading" class="main_content">
+            <h3><i class="icon icon-glass"></i>&nbsp;成交量与成交额</h3>
+            <div class="clearfix">
+                <div id="Price_3" class="half" style="margin-right:2%;"></div>
+                <div id="Price_4" class="half"></div>
+            </div>
+        </div>
+
+        <!-- 交易分析 大宗交易-->
+        <div id="Transaction_analysis" class="main_content">
+            <h3><i class="icon icon-random"></i>&nbsp;交易分析</h3>
+
+            <div class="anaDown">
+                <!-- <b>万科大宗交易</b> -->
+                <b class="stock-name"></b><b>大宗交易</b>
+            </div>
+            <div class="Transaction-2">
+                <div id="Transaction-2">
+                    <center class="loading">正在加载中...</center>
+                </div>
+            </div>
+        </div>
+
+        <!-- 财报数据 -->
+        <div id="profit" class="main_content">
+            <h3><i class="icon icon-calendar"></i>&nbsp;财报数据</h3>
+
+            <div class="anaDown">
+                <!-- <b class="stock-name">万科</b><b>大宗交易</b> -->
+            </div>
+            <div class="profit-content">
+                <div id="profit-content">
+                    <center class="loading">正在加载中...</center>
+                </div>
+            </div>
+        </div>
+
         <!-- 公告信息 -->
         <div id="Bulletin_information" style="margin:0.02rem 0">
             <h3><i class="icon icon-comments-alt"></i>&nbsp;公告信息</h3>
@@ -142,43 +195,87 @@
                 </div>
             </div>
         </div>
-        <!-- 交易分析 -->
-        <div id="Transaction_analysis" class="main_content">
-            <h3><i class="icon icon-random"></i>&nbsp;交易分析</h3>
-            <div class="anaDown">
-                <!-- <b>万科前十大股东</b> -->
-                <b class="stock-name">万科</b><b>前十大股东</b>
-                <select class="_time2">
-                    <!-- <option value="1">2017年第一季度</option>
-                    <option value="2">2017年第二季度</option>
-                    <option value="3">2017年第三季度</option> -->
-                </select>
+
+        <!-- 虚假消息 操纵相关消息 -->
+        <div id="False_message" class="main_content">
+            <h3 style="margin-bottom: 0.1rem;"><i class="icon icon-certificate"></i>&nbsp;操纵相关消息</h3>
+            <p class="False_content">加载中...</p>
+            <p class="False_info">
+                <span>是否虚假消息：<b class="isType-1">是</b></span>
+                <span>发布时间：<b class="isType-2">2018-5-27</b></span>
+                <span>发布者：<b class="isType-3">新浪财经</b></span>
+                <span>来源：<b class="isType-4">微博</b></span>
+            </p>
+        </div>
+
+        <!--舆情分析-->
+        <div id="Public_opinion" class="main_content" style="margin-top: 0.02rem;">
+            <h3 style="margin-bottom: 0.1rem;"><i class="icon icon-bullhorn"></i>&nbsp;舆情分析</h3>
+            <div class="opinion">
+                <div id="opinion"></div>
             </div>
+        </div>
+
+
+        <!-- 股权分析 前十大股东 -->
+        <div id="Stock" class="main_content clearfix" style="margin:0.02rem 0">
+            <div class="clearfix">
+                <h3 style="float:left;"><i class="icon icon-list-alt"></i>&nbsp;前十大股东</h3>
+
+                <div class="" style="float:right;">
+                    <!-- <b>万科前十大股东</b> -->
+                    <!-- <b class="stock-name">万科</b><b>前十大股东</b> -->
+                    <select class="_time2">
+                        <!-- <option value="1">2017年第一季度</option>
+                        <option value="2">2017年第二季度</option>
+                        <option value="3">2017年第三季度</option> -->
+                    </select>
+                </div>
+            </div>
+
             <div class="Transaction-1">
                 <div id="Transaction-1">
                     <center class="loading">正在加载中...</center>
                 </div>
             </div>
-            <div class="anaDown">
-                <!-- <b>万科大宗交易</b> -->
-                <b class="stock-name">万科</b><b>大宗交易</b>
-            </div>
-            <div class="Transaction-2">
-                <div id="Transaction-2">
-                    <center class="loading">正在加载中...</center>
-                </div>
-            </div>
         </div>
-        <!-- 股权分析 -->
-        <div id="Stock" class="main_content" style="margin:0.02rem 0">
-            <h3><i class="icon icon-list-alt"></i>&nbsp;股权分析</h3>
-            <div class="clearfix">
+
+        <!-- 股权结构 -->
+        <div id="Shareholding" class="main_content clearfix" style="margin:0.02rem 0">
+            <h3 class="pull-left"><i class="icon icon-sitemap"></i>&nbsp;股权结构</h3>
+            <div class="pull-right clearfix">
+                <select class="shareholding_time">
+                    <!-- <option value="1">2017年第一季度</option> -->
+                </select>
+            </div>
+
+            <div class="clearfix pull-left" style="width:100%;">
                 <div id="Stock_1" class="half" style="margin-right:2%;">
 
                 </div>
                 <div id="Stock_2" class="half"></div>
             </div>
+
+
+            <div class="clearfix pull-left" style="width:100%;">
+                <div id="Stock_3" class="half" style="margin-right:2%;">
+
+                </div>
+                <div id="Stock_4" class="half"></div>
+            </div>
         </div>
+
+        <!-- 历史信用 -->
+        <div id="creditHistory" class="main_content clearfix" style="margin:0.02rem 0">
+            <h3 class=""><i class="icon icon-list-ul"></i>&nbsp;历史信用</h3>
+            <div class="creditHistory_content">
+                <div id="creditHistory_content">
+                    <center class="loading">正在加载中...</center>
+                </div>
+            </div>
+        </div>
+
+
 
     </div>
 {% endblock %}
@@ -222,8 +319,8 @@
             });
             $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
             $('#nav .nav_left h3').css({color:'#333'});
-            $('#nav .nav_middle .main_li .li_a').eq(4).addClass('s1');
-            $('#nav .nav_middle .main_li .li_a').eq(4).find('i').addClass('s1');
+            $('#nav .nav_middle .main_li .li_a').eq(5).addClass('s1');
+            $('#nav .nav_middle .main_li .li_a').eq(5).find('i').addClass('s1');
             window.onscroll=function () {
                 $('#nav').css({backgroundColor:'#777'});
                 $('#nav .nav_left h3').css({color:'white'});
@@ -231,8 +328,8 @@
                 $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
                 $('#nav .nav_middle .main_li .li_a').css({color:'white'});
                 $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
-                $('#nav .nav_middle .main_li .li_a').eq(4).removeClass('s1').addClass('s2');
-                $('#nav .nav_middle .main_li .li_a').eq(4).find('i').removeClass('s1').addClass('s2');
+                $('#nav .nav_middle .main_li .li_a').eq(5).removeClass('s1').addClass('s2');
+                $('#nav .nav_middle .main_li .li_a').eq(5).find('i').removeClass('s1').addClass('s2');
                 $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
                 if ($(document).scrollTop()==0){
                     $('#nav').css({backgroundColor:'#fff'});
@@ -242,8 +339,8 @@
                     $('#nav .nav_middle .main_li .li_a').css({color:'black'});
                     $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
                     // $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
-                    $('#nav .nav_middle .main_li .li_a').eq(4).removeClass('s2').addClass('s1');
-                    $('#nav .nav_middle .main_li .li_a').eq(4).find('i').removeClass('s2').addClass('s1');
+                    $('#nav .nav_middle .main_li .li_a').eq(5).removeClass('s2').addClass('s1');
+                    $('#nav .nav_middle .main_li .li_a').eq(5).find('i').removeClass('s2').addClass('s1');
                     $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
                 }
             };

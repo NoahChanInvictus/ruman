@@ -1,7 +1,7 @@
 
 // 微博热点 页面 js
 
-//第一屏
+//第一屏 ====
     var earlyWarningdata=[
         {'a':'2017-05-01 00:00','b':'万科建立新安小镇','c':'所长别开枪是我','d':'股吧','e':'65','f':'53',
             'g':'50000','h':'房地产,达赖,维权','i':'是'},
@@ -40,9 +40,10 @@
         {'a':'2017-07-01 00:00','b':'格力入股天津一汽','c':'沈小司司','d':'知乎','e':'44','f':'30',
             'g':'30000','h':'汽车能源,比亚迪,天然气,汽油','i':'是'},
     ]
-    var earlyWarning_url='';
-    // public_ajax.call_request('get',earlyWarning_url,earlyWarning);
+    var earlyWarning_url='/hotSpotweibo/get_hotSpotweibo_list/';
+    public_ajax.call_request('get',earlyWarning_url,earlyWarning);
     function earlyWarning(data) {
+        console.log(data)
         $('#recordingTable').bootstrapTable('load', data);
         $('#recordingTable').bootstrapTable({
             data:data,
@@ -64,31 +65,46 @@
             columns: [
                 {
                     title: "主题",//标题
-                    field: "b",//键名
-                    sortable: true,//是否可排序
-                    order: "desc",//默认排序方式
-                    align: "center",//水平
-                    valign: "middle",//垂直
-
-                },
-                {
-                    title: "发布时间",//标题
-                    field: "a",//键名
+                    field: "text",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        if (row.a==''||row.a=='null'||row.a=='unknown'||!row.a){
+                        var str = '';
+                        if(row.text.length > 14){
+                            str = row.text.slice(0,14)+'...';
+                        }else {
+                            str = row.text;
+                        }
+                        if (row.text==''||row.text=='null'||row.text=='unknown'||!row.text){
                             return '未知';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.a+'\')" title="进入画像">'+row.a+'</span>';
+                            return '<span style="cursor:pointer;color:white;" title="'+row.text+'">'+str+'</span>';
+                        };
+                    }
+                },
+                {
+                    title: "发布时间",//标题
+                    field: "timestamp",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        var str = '';
+
+                        if (row.timestamp==''||row.timestamp=='null'||row.timestamp=='unknown'||!row.timestamp){
+                            return '未知';
+                        }else {
+                            str = getLocalTime(row.timestamp);
+                            return str;
                         };
                     }
                 },
                 {
                     title: "发布者",//标题
-                    field: "c",//键名
+                    field: "uid",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -96,7 +112,7 @@
                 },
                 {
                     title: "评论数",//标题
-                    field: "e",//键名
+                    field: "comment",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -105,7 +121,7 @@
                 },
                 {
                     title: "转发数",//标题
-                    field: "f",//键名
+                    field: "retweeted",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -121,7 +137,7 @@
                 // },
                 {
                     title: "关键词",//标题
-                    field: "h",//键名
+                    field: "query_kwds",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
                     align: "center",//水平
@@ -135,7 +151,7 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1()" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.uid+'\',\''+row.en_name+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
                     }
                 },
                 {
@@ -151,12 +167,13 @@
                 },
             ],
         });
+        $('#recordingTable center.load').hide();
     };
-    earlyWarning(earlyWarningdata);
+    // earlyWarning(earlyWarningdata);
     // 跳转详情页
-    function jumpFrame_1() {
-        var html='/index/hotweiboDetail';
-            window.open(html);
+    function jumpFrame_1(uid, en_name) {
+        var html='/index/hotweiboDetail/?uid='+uid+'&en_name='+en_name;
+        window.open(html);
 
     }
 

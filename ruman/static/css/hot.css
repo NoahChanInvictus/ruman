@@ -22,16 +22,19 @@
     max-width: 32%;
     min-width: 32%;
     margin-right: 0.5%;
+    margin-bottom:0;
+    vertical-align: middle;
 }
 #container .infor .inforLine b {
     display: inline-block;
     white-space: nowrap;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-overflow: ellipsis;
     max-width: 1.8rem;
     text-align: left;
-    position: relative;
-    top: 0.05rem;
+    /* position: relative; */
+    /* top: 0.05rem; */
+    vertical-align: middle;
 }
 #container .infor p {
     font-size: 0.14rem;
@@ -96,7 +99,7 @@
     .hotContent {
         min-width:100%;
         max-width:100%;
-        margin:0 !important;
+        /* margin:0 !important; */
         max-height:400px;
         overflow:auto;
 
@@ -609,13 +612,9 @@
     #container .lieOpt {
         display: inline-block;
         font-size: 0.14rem;
-        /* margin-left: 0.3rem; */
-        margin-left: 0.1rem;
+        margin-left: 0.3rem;
     }
-    #container #five_select ,
-    #container #time_select,
-    #container #wordCloud_select
-    {
+    #container #five_select {
         /* display: inline-block;
         padding: 0.02rem 0.07rem;
         border: 0.01rem solid silver;

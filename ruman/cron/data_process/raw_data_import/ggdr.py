@@ -81,6 +81,24 @@ def dingzeng_date(words1,words2,words3,line):
     else:
         return False
 
+def gaosongzhuanpanduan(words1,words2,line):
+    num = 0
+    for i in words1:
+        if i in line:
+            num += 1
+    if num:
+        number = 0
+        for i in words2:
+            if i in line:
+                number += 1
+        if number:
+            return False
+        else:
+            return True
+    else:
+        return False
+
+
 def dingzeng_start(line):
     words1 = ['非公开发行','向特定对象发行','定向发行','非公开增发','向特定对象增发','定向增发']
     words2 = '预案'
@@ -92,6 +110,14 @@ def dingzeng_end(line):
     words2 = '审核通过'
     words3 = ['不','未','债券','更正','更新','补充','英文','回复','修正']
     return dingzeng_date(words1,words2,words3,line)
+
+def gaosongzhuanword(line):
+    words1 = ['利润分配','分配利润','分红派息','权益分派','资本公积金转增股本','分红派息']
+    words2 = ['不']
+    '''['回复','律师','调整','不','未','高级','变更','投资','进展','停牌','提示','注册','补充','独董','意见','建议','保荐','承诺','专项','问询','独立董事','会计'\
+    ,'财务','修正','修订','更正','停牌','批复','批准','获准','同意','答复','审核','填补','变动','下滑','策划','更换','完善','中止','终止','到期失效','撤回','放弃','纪要'\
+    ,'通过','审核通过','结果','审核结果','受理','转让保荐书','复核报告','权益价值评估说明书','论证分析报告','提醒性公告','议案','提示性公告','评估报告','披露','提示','复牌','承诺','函']'''
+    return gaosongzhuanpanduan(words1,words2,line)
 
 def getkind(line):   #简单分类器
     if '资产置换' in line or '资产重组' in line or '购买资产' in line or '收购' in line:
@@ -106,7 +132,7 @@ def getkind(line):   #简单分类器
     elif '减持' in line:
         a = 4
         #print '类别：大股东减持'
-    elif '利润分配' in line or '分配利润' in line or '分红派息' in line:
+    elif gaosongzhuanword(line):
         a = 5
         #print '类别：利润分配'
     elif '关联交易' in line:
@@ -195,10 +221,68 @@ def delete():
             print num
         num += 1
 
+def update_type11():
+    es = Elasticsearch([{'host':'219.224.134.214','port':9202}])
+    query_body = {"size":2100000,"query":{ "term" :{"type": 11}}}
 
+    res = es.search(index="announcement", doc_type="basic_info", body=query_body,request_timeout=100)
+    hits = res['hits']['hits']
+    print len(hits)
 
+    num = 0
+    for hit in hits:
+        update = 0
+        if '不' not in hit['_source']['title']:
+            for word in ['利润分配','分配利润','分红派息','权益分派','资本公积金转增股本','分红派息']:
+                if word in hit['_source']['title']:
+                    update = 1
+                    break
+        if update:
+            indexbody = {'type':5}
+            es.update(index="announcement", doc_type="basic_info", body={"doc":indexbody},id=hit['_id'])#
+        if num % 1000 == 0:
+            print num
+        num += 1
+
+def update_type5():
+    es = Elasticsearch([{'host':'219.224.134.214','port':9202}])
+    query_body = {"size":20000,"query":{ "term" :{"type": 11}}}
+
+    res = es.search(index="announcement", doc_type="basic_info", body=query_body,request_timeout=100)
+    hits = res['hits']['hits']
+    print len(hits)
+
+    num = 0
+    for hit in hits:
+        for word in ['回复','律师','调整','不','未','高级','变更','投资','进展','停牌','提示','注册','补充','独董','意见','建议','保荐','承诺','专项','问询','独立董事','会计'\
+    ,'财务','修正','修订','更正','停牌','批复','批准','获准','同意','答复','审核','填补','变动','下滑','策划','更换','完善','中止','终止','到期失效','撤回','放弃','纪要'\
+    ,'通过','审核通过','结果','审核结果','受理','转让保荐书','复核报告','权益价值评估说明书','论证分析报告','提醒性公告','议案','提示性公告','评估报告','披露','提示','复牌','承诺','函']:
+            if word in hit['_source']["title"]:
+                indexbody = {'type':11}
+                es.update(index="announcement", doc_type="basic_info", body={"doc":indexbody},id=hit['_id'])#
+                break
+        if num % 1000 == 0:
+            print num
+        num += 1
+
+def update_type5_pro():
+    es = Elasticsearch([{'host':'219.224.134.214','port':9202}])
+    query_body = {"size":2000000,"query":{ "term" :{"type": 5}}}
+
+    res = es.search(index="announcement", doc_type="basic_info", body=query_body,request_timeout=100)
+    hits = res['hits']['hits']
+    print len(hits)
+
+    num = 0
+    for hit in hits:
+        indexbody = {'type':11}
+        es.update(index="announcement", doc_type="basic_info", body={"doc":indexbody},id=hit['_id'])#
+        if num % 1000 == 0:
+            print num
+        num += 1
 
 if __name__ == '__main__':
-    ggdr(2018,3,7,2018,5,15)
+    #ggdr(2018,3,7,2018,5,15)
     #ggdr_today()
     #delete()
+    update_type11()

@@ -137,6 +137,21 @@ body {
     box-shadow: inset 0 0 0.2rem rgba(0, 0, 0, 0.1), 0 0 0.1rem rgba(245, 146, 146, 0.4);
 }
 
+.chk + label.disabled {
+    cursor: not-allowed;
+    margin: 0;
+    background-color: #FFF;
+    padding:0.09rem;
+    border-radius: 0.07rem;
+    display: inline-block;
+    position: relative;
+    /*margin-right: 30px;*/
+    background: #ccc;
+    width: 0.44rem;
+    height: 0.1rem;
+    box-shadow: inset 0 0 0.2rem rgba(0, 0, 0, 0.1), 0 0 0.1rem rgba(245, 146, 146, 0.4);
+}
+
 .chk + label:before {
     content: ' ';
     position: absolute;

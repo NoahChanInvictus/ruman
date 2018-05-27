@@ -21,16 +21,18 @@
     max-width: 30%;
     min-width: 30%;
     margin-right: 0.5%;
+    margin-bottom: 0;
 }
 #container .infor .inforLine b {
     display: inline-block;
     white-space: nowrap;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-overflow: ellipsis;
     max-width: 1.8rem;
     text-align: left;
-    position: relative;
-    top: 0.05rem;
+    /* position: relative; */
+    /* top: 0.05rem; */
+    vertical-align: middle;
 }
 #container .infor p {
     font-size: 0.14rem;
@@ -39,8 +41,12 @@
 }
 #container .infor p span {
     display: inline-block;
-    width: 0.7rem;
+    /* width: 0.7rem; */
     text-align: right;
+    text-align:left;
+}
+#hotContent{
+    text-indent: 2em;
 }
 /**/
 #container #mainContent li a {
@@ -49,7 +55,7 @@
 }
 #container #mainContent #content ._table {
     /* padding: 0.1rem; */
-    background:rgba(245, 243, 243, 0.71);
+    /* background:rgba(245, 243, 243, 0.71); */
 }
 /* #container #mainContent #content ._table.active { */
 #container #mainContent #content ._table{
@@ -80,11 +86,7 @@
 /**/
 /* lvlei1-11 */
 /* 基本信息 */
-#container .infor p span {
-    display: inline-block;
-    width: 30%;
-    text-align: right;
-}
+
 /* 语义分析 */
 /* 原帖内容 */
 .word-1-content{
@@ -520,7 +522,6 @@
     margin:0 auto;
 }
 /* lvlei1-11 */
-
 /* LLLLLL */
     .evolution-chat {
         height:4rem;
@@ -580,7 +581,7 @@
     } */
     #container #spread-2 .spreadRank th,
     #container #spread-2 .spreadRank td {
-        width: 24%;
+        /* width: 24%; */
     }
     #container #spread .spreadRank tr {
         border-bottom: 1px solid #333;
@@ -605,7 +606,7 @@
         padding: 10px 10px 10px 30px;
         /* background: #06162d; */
         background: #e7e5e5;
-        margin:16px 10px;
+        /* margin:16px 10px; */
     }
     .center_rel .center_icon {
         position: absolute;
@@ -644,9 +645,11 @@
         }
         /* 社交特征 */
         .attentioncontent-1 {
-            width:25%;
+            /* width:20%; */
+            width:100%;
             float: left;
-            padding:10px;
+            padding:8px;
+            cursor:pointer;
         }
         .attentioncontent-1 span ,
         .attentioncontent-2 span {
@@ -658,3 +661,117 @@
             font-size:14px;
             padding:5px 10px;
         }
+
+/* 相关微博 */
+    .userWeibo .page-list ,
+    #word-3 .page-list {
+        display:none;
+    }
+    .userWeibo .pagination a ,
+    #word-3 .pagination a {
+        font-size:14px !important;
+        padding: 6px 12px !important;
+    }
+    .userWeibo td ,
+    #word-3  td {
+        border:none !important;
+        text-align:left !important;
+    }
+    .userWeibo div.pagination-detail,
+    .userWeibo div.pagination ,
+    #word-3 div.pagination-detail,
+    #word-3 div.pagination {
+        padding:0 8px;
+    }
+    .userWeibo tbody,
+    .userWeibo tbody tr,
+    .userWeibo tbody td,
+    #word-3  tbody,
+    #word-3 tbody tr,
+    #word-3 tbody td{
+        display:block;
+        width:100%;
+    }
+    #userWeibo ,
+    #word-3content  {
+        border:none;
+    }
+/* 社交特征 */
+    #attention-1 .page-list,
+    #attention-2 .page-list {
+        display:none;
+    }
+    #attention-1 .pagination a,
+    #attention-2 .pagination a {
+        font-size:14px !important;
+        padding: 6px 12px !important;
+    }
+    #attention-1 td,
+    #attention-2 td {
+        width: 100%;
+        display: inline-block;
+        padding: 0;
+        border: none;
+    }
+     #attention-1 tr,
+     #attention-2 tr {
+        float:left;
+        width: 20%;
+    }
+    #attention-1 tbody,
+    #attention-2 tbody{
+        display: inline-block;
+        width: 100%;
+    }
+    #attention-1Table,
+    #attention-2Table {
+        border: none;
+    }
+    #attention-1 div.pagination-detail,
+    #attention-1 div.pagination,
+    #attention-2 div.pagination-detail,
+    #attention-2 div.pagination {
+        margin:0;
+    }
+p.load {
+    text-align:center;
+}
+
+
+/* 语义分析下 观点微博 */
+#word-3 p.opinion {
+    /* padding-left:20px; */
+    padding-left:14px;
+    /* margin:5px 0; */
+    margin:14px 0;
+}
+#word-3 p.opinion span.opinionChild {
+    cursor:pointer;
+    /* background-color: #f5f5f5; */
+    background-color: #ccc;
+    /* margin:0 10px; */
+    margin-right: 10px;
+    padding: 5px 8px;
+    border-radius:5px;
+}
+#word-3 p.opinion span.opinionChild:hover,
+#word-3 p.opinion span.opinionChild.active {
+    /* background-color: #4fc1e9; */
+    background-color: #23527c;
+    color:#fff;
+}
+/* 溯源分析 下拉框*/
+#container .lieOpt {
+    display: inline-block !important;
+    font-size: 0.14rem !important;
+    margin-left: 0.3rem !important;
+}
+#container .lieOpt select{
+    background: transparent;
+    border: 1px solid silver;
+    border-radius: 5px;
+    /* padding: 3px 7px; */
+    color: #333;
+    text-align: center;
+    margin: 0;
+}

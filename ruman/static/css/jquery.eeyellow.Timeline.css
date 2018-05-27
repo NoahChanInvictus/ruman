@@ -63,7 +63,10 @@
     /* LL */
 
     padding: 10px 20px;
-    color: #4fc1e9;
+    // color: #4fc1e9;
+    color: #333;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .VivaTimeline dl dd .events {
@@ -115,7 +118,8 @@
     padding: 0 15px;
 
     /* LL */
-    max-height:350px;
+    // max-height:350px;
+    max-height:150px;
     overflow:auto;
     word-break: break-all;
 }
@@ -143,8 +147,9 @@
 
 .VivaTimeline dl dd.pos-right .time {
     /* margin-left: -100px; */
-    margin-left: -120px;/* LL */
-    text-align: right
+    margin-left: -140px;
+    /* margin-left: -1.49406642rem/* 210px */;
+    text-align: right;
 }
 
 .VivaTimeline dl dd.pos-right .events {
@@ -233,3 +238,13 @@
         margin-right: 4%;
     }
 }
+
+
+/* LL */
+// .VivaTimeline dl dd.pos-right .events{
+//     right: 20px;
+// }
+// .VivaTimeline dl dd.pos-left .events{
+//     left: 20px;
+// }
+/* LL */

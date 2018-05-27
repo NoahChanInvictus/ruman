@@ -11,10 +11,12 @@ from sql_utils import *
 def get_profit(year,q):
     conn = default_db()
     cur = conn.cursor()
-    net_profits = ts.get_profit_data(year,q)
-    for i in net_profits.index:
-        stock_id = net_profits.loc[i]['code']
-        stock_name = net_profits.loc[i]['name']
+    net_profits_df = ts.get_profit_data(year,q)
+    num = len(net_profits_df.index)
+    for i in net_profits_df.index:
+    	print num,year,q
+        stock_id = net_profits_df.loc[i]['code']
+        stock_name = net_profits_df.loc[i]['name']
         if q == 1:
             date = '%d-01-01' % (year)
         elif q == 2:
@@ -23,13 +25,24 @@ def get_profit(year,q):
             date = '%d-07-01' % (year)
         else:
             date = '%d-10-01' % (year)
-        net_profit = net_profits.loc[i]['net_profits']
-        order = 'insert into %s ( %s,%s,%s,%s)values("%s", "%s","%s","%f")' % (TABLE_NETPROFIT,NETPROFIT_STOCK_ID,NETPROFIT_STOCK_NAME,NETPROFIT_DATE,NETPROFIT_NETPROFIT,stock_id,stock_name,date,net_profit)
+        roe = net_profits_df.loc[i]['roe']
+        net_profit_ratio = net_profits_df.loc[i]['net_profit_ratio']
+        gross_profit_rate = net_profits_df.loc[i]['gross_profit_rate']
+        net_profits = net_profits_df.loc[i]['net_profits']
+        eps = net_profits_df.loc[i]['eps']
+        business_income = net_profits_df.loc[i]['business_income']
+        bips = net_profits_df.loc[i]['bips']
+
+        order = 'insert into %s ( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s)values("%s", "%s","%s","%f","%f","%f","%f","%f","%f","%f")'\
+            % (TABLE_NETPROFIT,NETPROFIT_STOCK_ID,NETPROFIT_STOCK_NAME,NETPROFIT_DATE,NETPROFIT_ROE,NETPROFIT_NET_PROFIT_RATIO,\
+            NETPROFIT_GROSS_PROFIT_RATE,NETPROFIT_NET_PROFITS,NETPROFIT_EPS,NETPROFIT_BUSINESS_INCOME,NETPROFIT_BIPS,\
+            stock_id,stock_name,date,roe,net_profit_ratio,gross_profit_rate,net_profits,eps,business_income,bips)
         try:  
             cur.execute(order)
             conn.commit()
         except Exception, e:
             print e
+        num -= 1
 
 def test():
     conn = default_db()
@@ -59,9 +72,9 @@ def test():
         print n
 
 if __name__ == '__main__':
-    '''
-    for year in range(2012,2018):
+    
+    for year in range(2011,2018):
         for quarter in range(1,5):
             print year,quarter
-            get_profit(year,quarter)'''
-    test()
+            get_profit(year,quarter)
+    #test()

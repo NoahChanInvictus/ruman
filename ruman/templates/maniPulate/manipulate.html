@@ -11,14 +11,15 @@
     <link rel="stylesheet" href="/static/css/modalANDtable.css">
     <link rel="stylesheet" href="/static/css/manipulate.css">
     <style>
-        #nav .nav_middle .main_li:nth-of-type(5) {
+        /* 因为隐藏了 旧的 微博热点和溯源分析 */
+        #nav .nav_middle .main_li:nth-of-type(6) {
             -webkit-transform: scale(1.3);
             -moz-transform: scale(1.3);
             -ms-transform: scale(1.3);
             -o-transform: scale(1.3);
             transform: scale(1.3);
         }
-        #nav .nav_middle .main_li:nth-of-type(5) a, #nav .nav_middle .main_li:nth-of-type(5) a i{
+        #nav .nav_middle .main_li:nth-of-type(6) a, #nav .nav_middle .main_li:nth-of-type(6) a i{
             color: #ffbf1d !important;
         }
         #fullPage-nav li .active span, .fullPage-slidesNav .active span {background: transparent;}
@@ -44,15 +45,23 @@
             color:#fff;
             text-align:center;
         }
-        /* 显示搜索框 */
+        /* 搜索框 */
+        #container .searchbox {
+            /* float:right; */
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
         .recordingTable .fixed-table-toolbar{
             display:block;
         }
         .recordingTable .fixed-table-toolbar .search {
             width:20%;
             position:absolute;
-            top:2%;
-            right:100px;
+            /* top:2%; */
+            top:0;
+            /* right:100px; */
+            right:60px;
             margin:0;
         }
         .recordingTable .fixed-table-toolbar .search input{
@@ -76,7 +85,7 @@
 
     <div id="container" class="fullpage">
         <div class="section firstScreen" style="padding-top: 1rem;">
-            <div class="topTitle" style="margin: 0.1rem auto;">
+            <div class="topTitle" style="margin: 0.1rem auto;margin-top:0;">
                 <dl>
                     <dd>本周预警数</dd>
                     <dt class="com-1">加载中...</dt>
@@ -93,12 +102,12 @@
 
             <div style="position:relative;">
 
-                <div style="color: white;font-weight:700;font-size:0.24rem;position: relative;">
-                    <h3 style="color: white;display: inline-block;"><i class="icon icon-eye-open"></i>&nbsp;疑似操纵预警</h3>
-                    <div class="search">
+                <div style="color: white;font-weight:700;font-size:0.24rem;position: relative;" class="clearfix">
+                    <h3 style="float:left;font-weight:700;margin:10px 0;"><i class="icon icon-eye-open"></i>&nbsp;疑似操纵预警</h3>
+                    <div class="searchbox">
                         <!-- <input size="30" type="text" placeholder="请输入查询内容" class="searchWord"/> -->
-                        <button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button>
-                        <button type="button" class="btn btn-primary btn-sm">确定</button>
+                        <!-- <button type="button" class="btn btn-primary btn-sm moreSitu" title="显示更多筛选条件"><i class="icon icon-plus"></i></button> -->
+                        <button type="button" class="btn btn-primary btn-sm" style="vertical-align:top;">确定</button>
                     </div>
                 </div>
                 <div class="content" style="display: none;margin:5px 0 0 40px;">
@@ -193,7 +202,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="recordingTable" style="margin-top: 0.1rem;font-size: 0.14rem!important;">
+                <div class="recordingTable" style="font-size: 0.14rem!important;">
                     <div id="recordingTable"></div>
                 </div>
             </div>
@@ -205,9 +214,9 @@
                 <div class="trendOpt">
                     <span class="ct-tit">呈现方式：</span>
                     <select id="second_select_1">
-                        <option value="90" selected>按季度</option>
-                        <option value="30">按月</option>
-                        <option value="7">按周</option>
+                        <option value="90" selected>最近三个月</option>
+                        <option value="30">最近一个月</option>
+                        <option value="7">最近一周</option>
                     </select>
                 </div>
             </div>
@@ -220,9 +229,9 @@
                 <div class="influeOpt">
                     <span class="ct-tit">呈现方式：</span>
                     <select id="third_select_1">
-                        <option value="90" selected>按季度</option>
-                        <option value="30">按月</option>
-                        <option value="7">按周</option>
+                        <option value="90" selected>最近三个月</option>
+                        <option value="30">最近一个月</option>
+                        <option value="7">最近一周</option>
                     </select>
                 </div>
             </div>
@@ -262,7 +271,9 @@
                 <div id="pie-2" style="width:33%;">
                     <h4 style="color: white;display: inline-block;"><i class="icon icon-bar-chart"></i>&nbsp;操纵类型分布</h4>
                     <select id="five_select">
-                        <option value="90" selected>最近三个月</option>
+                        <option value="1234" selected>全部</option>
+                        <option value="365">最近一年</option>
+                        <option value="90">最近三个月</option>
                         <option value="30">最近一个月</option>
                         <option value="7">最近一周</option>
                     </select>

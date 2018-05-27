@@ -159,6 +159,10 @@ def compute_by_textid(text_id):
     if not result:
         return
     news_id =  result[0]['id']
+    content = result[0]['content']
+    key_word = result[0]['key_word']
+    news_id = result[0]['id']
+    theday = result[0]['date']
     print 'news id:',news_id
 
     # 判断是否计算完了，如果计算完了忽略之
@@ -176,6 +180,7 @@ def compute_by_textid(text_id):
 
 
         try:
+            
             print 'load all source data start!'
             all_source_match(news_id,key_word)        #读取并保存各个通道的相关文本
             print 'load data finished!'
@@ -198,7 +203,7 @@ def compute_by_textid(text_id):
             print e
 def read_target():
     result = []
-    file = open('./news_front.csv')
+    file = open('./news_front2.csv')
     csv_file = csv.reader(file)
     for row in csv_file:
         text_id = row[1]
@@ -206,12 +211,12 @@ def read_target():
     return result
 
 def main():
-    count = 1
+    count = 0
     targets = read_target()
-    for target in targets:
-        compute_by_textid(target)
+    for target in targets:        
         count += 1
-        print count
+        compute_by_textid(target)
+        # print count
 
 
 

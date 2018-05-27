@@ -1,0 +1,137 @@
+Traceback (most recent call last):
+  File "utils.py", line 10, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+ImportError: No module named user_portrait.info_consume.model
+Traceback (most recent call last):
+  File "utils.py", line 4, in <module>
+    sys.path.append('../../../')
+NameError: name 'sys' is not defined
+No handlers could be found for logger "thrift.transport.sslcompat"
+Traceback (most recent call last):
+  File "utils.py", line 11, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+  File "../../../user_portrait/__init__.py", line 9, in <module>
+    from user_portrait.attribute.views import mod as attributeModule
+  File "../../../user_portrait/attribute/views.py", line 7, in <module>
+    from search import search_attribute_portrait, search_location, search_ip, search_mention, search_activity,\
+  File "../../../user_portrait/attribute/search.py", line 44, in <module>
+    from keyword_extraction import get_weibo_single
+ImportError: No module named keyword_extraction
+Traceback (most recent call last):
+  File "utils.py", line 11, in <module>
+    from user_portrait.global_config import db, es_user_profile
+ImportError: No module named user_portrait.global_config
+Traceback (most recent call last):
+  File "utils.py", line 270, in <module>
+    get_gexf("laohu","2016-08-04",11)
+  File "utils.py", line 86, in get_gexf
+    f.write(result)
+TypeError: must be string or buffer, not list
+Traceback (most recent call last):
+  File "utils.py", line 261, in <module>
+    get_gexf("laohu","2016-08-04",11)
+  File "utils.py", line 80, in get_gexf
+    result=gexf_process(result)
+  File "utils.py", line 26, in gexf_process
+    data = json.loads(data)
+  File "/usr/lib/python2.7/json/__init__.py", line 326, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python2.7/json/decoder.py", line 366, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+Traceback (most recent call last):
+  File "utils.py", line 261, in <module>
+    get_gexf("laohu","2016-08-04",11)
+  File "utils.py", line 78, in get_gexf
+    print "get_gexf_result="+result
+TypeError: cannot concatenate 'str' and 'list' objects
+[]
+Traceback (most recent call last):
+  File "utils.py", line 261, in <module>
+    get_gexf("laohu","2016-08-04",11)
+  File "utils.py", line 80, in get_gexf
+    result=gexf_process(result)
+  File "utils.py", line 26, in gexf_process
+    data = json.loads(data)
+  File "/usr/lib/python2.7/json/__init__.py", line 326, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python2.7/json/decoder.py", line 366, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+[]
+<type 'list'>
+Traceback (most recent call last):
+  File "utils.py", line 261, in <module>
+    get_gexf("laohu","2016-08-04",11)
+  File "utils.py", line 80, in get_gexf
+    result=gexf_process(result)
+  File "utils.py", line 26, in gexf_process
+    data = json.loads(data)
+  File "/usr/lib/python2.7/json/__init__.py", line 326, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python2.7/json/decoder.py", line 366, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+[]
+<type 'list'>
+Traceback (most recent call last):
+  File "utils.py", line 261, in <module>
+    get_gexf("laohu","2016-08-04",11)
+  File "utils.py", line 80, in get_gexf
+    result=gexf_process(result)
+  File "utils.py", line 26, in gexf_process
+    data = json.loads(data)
+  File "/usr/lib/python2.7/json/__init__.py", line 326, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python2.7/json/decoder.py", line 366, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+Traceback (most recent call last):
+  File "utils.py", line 10, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+ImportError: No module named user_portrait.info_consume.model
+Traceback (most recent call last):
+  File "utils.py", line 11, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+ImportError: No module named user_portrait.info_consume.model
+Traceback (most recent call last):
+  File "utils.py", line 11, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+ImportError: No module named user_portrait.info_consume.model
+Traceback (most recent call last):
+  File "utils.py", line 11, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+ImportError: No module named user_portrait.info_consume.model
+No handlers could be found for logger "thrift.transport.sslcompat"
+Traceback (most recent call last):
+  File "utils.py", line 11, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+  File "../../../user_portrait/__init__.py", line 9, in <module>
+    from user_portrait.attribute.views import mod as attributeModule
+  File "../../../user_portrait/attribute/views.py", line 7, in <module>
+    from search import search_attribute_portrait, search_location, search_ip, search_mention, search_activity,\
+  File "../../../user_portrait/attribute/search.py", line 44, in <module>
+    from keyword_extraction import get_weibo_single
+ImportError: No module named keyword_extraction
+No handlers could be found for logger "thrift.transport.sslcompat"
+Traceback (most recent call last):
+  File "utils.py", line 11, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+  File "../../../user_portrait/__init__.py", line 9, in <module>
+    from user_portrait.attribute.views import mod as attributeModule
+  File "../../../user_portrait/attribute/views.py", line 7, in <module>
+    from search import search_attribute_portrait, search_location, search_ip, search_mention, search_activity,\
+  File "../../../user_portrait/attribute/search.py", line 44, in <module>
+    from keyword_extraction import get_weibo_single
+ImportError: No module named keyword_extraction
+No handlers could be found for logger "thrift.transport.sslcompat"
+Traceback (most recent call last):
+  File "utils.py", line 11, in <module>
+    from user_portrait.info_consume.model import TrendMaker, TrendPusher,TopicIdentification
+  File "../../../user_portrait/__init__.py", line 9, in <module>
+    from user_portrait.attribute.views import mod as attributeModule
+  File "../../../user_portrait/attribute/views.py", line 7, in <module>
+    from search import search_attribute_portrait, search_location, search_ip, search_mention, search_activity,\
+  File "../../../user_portrait/attribute/search.py", line 44, in <module>
+    from keyword_extraction import get_weibo_single
+ImportError: No module named keyword_extraction
