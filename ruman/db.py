@@ -486,8 +486,10 @@ def manipulatePrice(id):   #获取本次操作期间的股价和收益率
 		ratio = []
 		D_value = []
 		for num in range(1,len(price)):
-			a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
-			b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
+			#a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
+			#b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
+			a = (industryprice[num] - industryprice[1]) / industryprice[1]
+			b = (price[num] - price[1]) / price[1]
 			industry_ratio.append(a)
 			ratio.append(b)
 			D_value.append(b - a)   #差值绝对值
@@ -502,17 +504,17 @@ def manipulatePrice(id):   #获取本次操作期间的股价和收益率
 		industryprice = []
 		price = []
 		for time in timelist:
-			industryprice.append(dfother[dfother[WEIPAN_SHOW_TIME] == time].iloc[0][WEIPAN_SHOW_PRICE])
+			#industryprice.append(dfother[dfother[WEIPAN_SHOW_TIME] == time].iloc[0][WEIPAN_SHOW_PRICE])
 			price.append(dfself[dfself[WEIPAN_SHOW_TIME] == time].iloc[0][WEIPAN_SHOW_PRICE])
 		industry_ratio = []
 		ratio = []
 		D_value = []
-		for num in range(1,len(price)):
-			a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
-			b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
-			industry_ratio.append(a)
-			ratio.append(b)
-			D_value.append(b - a)   #差值绝对值
+		# for num in range(1,len(price)):
+		# 	a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
+		# 	b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
+		# 	industry_ratio.append(a)
+		# 	ratio.append(b)
+		# 	D_value.append(b - a)   #差值绝对值
 		result = {'date':timelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
 		return result
 
