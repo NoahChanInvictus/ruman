@@ -17,6 +17,7 @@
     padding: 0.2rem;
     font-size: 0.14rem;
     background: rgba(245, 243, 243, 0.71);
+    margin: 0.02rem 0;
 }
 /* 基本信息 */
 #container .infor .inforLine {
@@ -93,17 +94,21 @@
     background: rgba(245, 243, 243, 0.71);
 }
 /* 交易分析 */
-#Transaction_analysis ._time2{
+#Transaction_analysis ._time2,
+#Stock ._time2,
+#Shareholding .shareholding_time{
     float: right;
     border: 1px solid silver;
     border-radius: 5px;
     background: transparent;
 }
-#Transaction_analysis .anaDown {
+#Transaction_analysis .anaDown ,
+#Stock .anaDown {
     overflow: hidden;
     padding: 0.1rem;
 }
-#Transaction_analysis .anaDown b {
+#Transaction_analysis .anaDown b ,
+#Stock .anaDown b {
     font-weight: 900;
     font-size: 0.18rem;
 }

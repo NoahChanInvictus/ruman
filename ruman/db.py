@@ -7,6 +7,8 @@ sys.setdefaultencoding('utf-8')
 import pymysql as mysql
 import pymysql.cursors
 import pandas as pd
+import csv
+from elasticsearch import Elasticsearch
 from operator import itemgetter, attrgetter
 from numpy import mean
 import tushare as ts
@@ -68,8 +70,8 @@ def get_stock(id):   #通过day的id获取股票代码等数据
 	stocksql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_DAY,DAY_ID,id)
 	cur.execute(stocksql)
 	thing = cur.fetchone()
-	dic = {DAY_STOCK_ID:thing[DAY_STOCK_ID],DAY_START_DATE:thing[DAY_START_DATE],DAY_END_DATE:thing[DAY_END_DATE],DAY_INDUSTRY_CODE:thing[DAY_INDUSTRY_CODE]}
-	return dic
+	#dic = {DAY_STOCK_ID:thing[DAY_STOCK_ID],DAY_START_DATE:thing[DAY_START_DATE],DAY_END_DATE:thing[DAY_END_DATE],DAY_INDUSTRY_CODE:thing[DAY_INDUSTRY_CODE]}
+	return thing
 
 def manipulateWarning():   #预警数合计总览,目前为了展示theday为定值，如果部署则改为today()
 	cur = defaultDatabase()
@@ -114,11 +116,13 @@ def manipulateWarningText():   #列出预警文本
 	cur.execute(sql)
 	results = cur.fetchall()
 	result = []
+	resultother = []
 	for i in results:   #选取所有文本并展示
 		dic = {}
 		dic['stock_name'] = i[DAY_STOCK_NAME]
 		dic['stock_id'] = i[DAY_STOCK_ID]
 		dic['start_date'] = i[DAY_START_DATE]
+		dic['name'] = i[DAY_STOCK_NAME] + '(' + i[DAY_STOCK_ID] + ')'
 		if i[DAY_END_DATE] != theday:   #只为了展示而这么写，主要还是i[DAY_IFEND]，因为包含了前五日的情况
 			dic['end_date'] = i[DAY_END_DATE]
 			dic['manipulate_state'] = u'已完成操纵'
@@ -139,9 +143,18 @@ def manipulateWarningText():   #列出预警文本
 		dic['industry_name'] = i[DAY_INDUSTRY_NAME]
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
 		dic['ifmanipulate'] = i[DAY_MANIPULATE_LABEL]
+		if i[DAY_IFPUNISH]:
+			dic['ifpunish'] = '是'
+		else:
+			dic['ifpunish'] = '否'
 		dic['id'] = i[DAY_ID]
-		result.append(dic)
+		if i['ifshow'] == 1:
+			result.append(dic)
+		else:
+			resultother.append(dic)
 	result = sorted(result, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)   #按照特定顺序排序
+	resultother = sorted(resultother, key= lambda x:(x['end_date'], x['start_date'], x['increase_ratio']), reverse=True)
+	result.extend(resultother)
 	return result
 
 def manipulateWarningUser(id,ifmanipulate):
@@ -334,8 +347,12 @@ def manipulateType(date):   #根据day表统计不同操纵类型的股票并展
 		frequency="week"
 	elif date == 30:
 		frequency = "month"
-	else:
+	elif date == 90:
 		frequency = "season"
+	elif date == 365:
+		frequency = "year"
+	else:
+		frequency = "all"
 	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_TYPE,TYPE_DATE,theday,TYPE_FREQUENCY,frequency)
 	cur.execute(sql)
 	results = cur.fetchone()
@@ -430,11 +447,13 @@ def manipulateHistory(id):   #给出该股票的历史操纵数据
 			dic['manipulate_type'] = u'高送转'
 		elif i[DAY_MANIPULATE_TYPE] == 3:
 			dic['manipulate_type'] = u'定向增发'
-		else:
+		elif i[DAY_MANIPULATE_TYPE] == 4:
 			dic['manipulate_type'] = u'散布信息牟利'
+		else:
+			dic['manipulate_type'] = u'尾盘操纵'
 		dic['increase_ratio'] = i[DAY_INCREASE_RATIO]
 		dic['manipulate_type_num'] = i[DAY_MANIPULATE_TYPE]
-		dic['name'] = i[DAY_STOCK_NAME]
+		dic['name'] = i[DAY_STOCK_NAME] + '(' + i[DAY_STOCK_ID] + ')'
 		if id ==dic['id']:
 			dic['ifthis'] = 1
 			dicthis = dic
@@ -453,25 +472,53 @@ def manipulatePrice(id):   #获取本次操作期间的股价和收益率
 	start_date = stock[DAY_START_DATE]
 	end_date = stock[DAY_END_DATE]
 	industry = stock[DAY_INDUSTRY_CODE]
-	sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_MARKET_DAILY,MARKET_DATE,last2tradedate(start_date),MARKET_DATE,end_date)
-	df = pd.read_sql(sql,conn)
-	datelist = sorted(list(set(df[MARKET_DATE])))   #获取日期列表
-	industryprice = []
-	price = []
-	for date in datelist:
-		industryprice.append(mean(df[(df[MARKET_DATE] == date) & (df[MARKET_INDUSTRY_CODE] == industry)][MARKET_PRICE]))   #获取同行业价格平均值列表
-		price.append(float(df[(df[MARKET_DATE] == date) & (df[MARKET_STOCK_ID] == stock_id)][MARKET_PRICE]))   #获取本股票价格列表
-	industry_ratio = []
-	ratio = []
-	D_value = []
-	for num in range(1,len(price)):
-		a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
-		b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
-		industry_ratio.append(a)
-		ratio.append(b)
-		D_value.append(b - a)   #差值绝对值
-	result = {'date':datelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
-	return result
+	manipulate_type = stock[DAY_MANIPULATE_TYPE]
+	if manipulate_type != 5:
+		sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s'" % (TABLE_MARKET_DAILY,MARKET_DATE,last2tradedate(start_date),MARKET_DATE,end_date)
+		df = pd.read_sql(sql,conn)
+		datelist = sorted(list(set(df[MARKET_DATE])))   #获取日期列表
+		industryprice = []
+		price = []
+		for date in datelist:
+			industryprice.append(mean(df[(df[MARKET_DATE] == date) & (df[MARKET_INDUSTRY_CODE] == industry)][MARKET_PRICE]))   #获取同行业价格平均值列表
+			price.append(float(df[(df[MARKET_DATE] == date) & (df[MARKET_STOCK_ID] == stock_id)][MARKET_PRICE]))   #获取本股票价格列表
+		industry_ratio = []
+		ratio = []
+		D_value = []
+		for num in range(1,len(price)):
+			#a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
+			#b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
+			a = (industryprice[num] - industryprice[1]) / industryprice[1]
+			b = (price[num] - price[1]) / price[1]
+			industry_ratio.append(a)
+			ratio.append(b)
+			D_value.append(b - a)   #差值绝对值
+		result = {'date':datelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
+		return result
+	else:   #尾盘操纵必为1天，开始结束日期相同
+		sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_WEIPAN_SHOW,WEIPAN_SHOW_STOCK_ID,stock_id,WEIPAN_SHOW_DATE,end_date)
+		df = pd.read_sql(sql,conn)
+		timelist = sorted(list(set(df[WEIPAN_SHOW_TIME])))
+		dfself = df[df[WEIPAN_SHOW_IFSELF] == 1]
+		dfother = df[df[WEIPAN_SHOW_IFSELF] == 0]
+		industryprice = []
+		price = []
+		for time in timelist:
+			#industryprice.append(dfother[dfother[WEIPAN_SHOW_TIME] == time].iloc[0][WEIPAN_SHOW_PRICE])
+			price.append(dfself[dfself[WEIPAN_SHOW_TIME] == time].iloc[0][WEIPAN_SHOW_PRICE])
+		industry_ratio = []
+		ratio = []
+		D_value = []
+		# for num in range(1,len(price)):
+		# 	a = (industryprice[num] - industryprice[num - 1]) / industryprice[num - 1]   #同行业收益率
+		# 	b = (price[num] - price[num - 1]) / price[num - 1]   #本股票收益率
+		# 	industry_ratio.append(a)
+		# 	ratio.append(b)
+		# 	D_value.append(b - a)   #差值绝对值
+		result = {'date':timelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
+		return result
+
+
 '''
 def manipulatePrice_old(id):   #获取本次操作期间的股价和收益率
 	conn = defaultDatabaseConn()
@@ -500,10 +547,80 @@ def manipulatePrice_old(id):   #获取本次操作期间的股价和收益率
 	result = {'date':datelist[1:],'industry_price':industryprice[1:],'price':price[1:],'industry_ratio':industry_ratio,'ratio':ratio,'D_value':D_value}
 	return result'''
 
+def manipulateTrading(id):
+	conn = defaultDatabaseConn()
+	stock = get_stock(id)
+	stock_id = stock[DAY_STOCK_ID]
+	start_date = stock[DAY_START_DATE]
+	end_date = stock[DAY_END_DATE]
+	manipulate_type = stock[DAY_MANIPULATE_TYPE]
+	if manipulate_type != 5:
+		sql = "SELECT * FROM %s WHERE %s >= '%s' and %s <= '%s' and %s = '%s'" % (TABLE_TRADING,TRADING_DATE,lasttradedate(start_date),TRADING_DATE,end_date,TRADING_STOCK_ID,stock_id)
+		df = pd.read_sql(sql,conn)
+		datelist = sorted(list(set(df[MARKET_DATE])))
+		volumelist = [df[df[TRADING_DATE] == date].iloc[0][TRADING_VOLUME] for date in datelist]
+		amtlist = [df[df[TRADING_DATE] == date].iloc[0][TRADING_AMT] for date in datelist]
+		result = {'date':datelist,'volume':volumelist,'amt':amtlist}
+		return result
+	else:
+		sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_WEIPAN_SHOW,WEIPAN_SHOW_STOCK_ID,stock_id,WEIPAN_SHOW_DATE,end_date)
+		df = pd.read_sql(sql,conn)
+		timelist = sorted(list(set(df[WEIPAN_SHOW_TIME])))
+		dfself = df[df[WEIPAN_SHOW_IFSELF] == 1]
+		dfother = df[df[WEIPAN_SHOW_IFSELF] == 0]
+		volumelist = []
+		amtlist = []
+		for time in timelist:
+			volumelist.append(dfother[dfother[WEIPAN_SHOW_TIME] == time].iloc[0][WEIPAN_SHOW_VOLUME])
+			amtlist.append(dfself[dfself[WEIPAN_SHOW_TIME] == time].iloc[0][WEIPAN_SHOW_AMT])
+		result = {'date':datelist,'volume':volumelist,'amt':amtlist}
+		return result
+
+def manipulateProfit(id):
+	conn = defaultDatabaseConn()
+	stock = get_stock(id)
+	stock_id = stock[DAY_STOCK_ID]
+	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_NETPROFIT,NETPROFIT_STOCK_ID,stock_id)
+	df = pd.read_sql(sql,conn)
+	datelist = sorted(list(set(df[NETPROFIT_DATE])),reverse=True)
+	result = []
+	for date in datelist:
+		datedic = df[df[NETPROFIT_DATE] == date].iloc[0]
+		year = int(date.split('-')[0])
+		month = int(date.split('-')[1])
+		dic = {}
+		if month == 1:
+			season = '%s年第一季度' % (year)
+		elif month == 4:
+			season = '%s年第二季度' % (year)
+		elif month == 7:
+			season = '%s年第三季度' % (year)
+		else:
+			season = '%s年第四季度' % (year)
+		dic['date'] = season
+		dic['roe'] = datedic[NETPROFIT_ROE]
+		dic['net_profit_ratio'] = datedic[NETPROFIT_NET_PROFIT_RATIO]
+		dic['gross_profit_rate'] = datedic[NETPROFIT_GROSS_PROFIT_RATE]
+		dic['net_profits'] = datedic[NETPROFIT_NET_PROFITS]
+		dic['eps'] = datedic[NETPROFIT_EPS]
+		dic['business_income'] = datedic[NETPROFIT_BUSINESS_INCOME]
+		dic['bips'] = datedic[NETPROFIT_BIPS]
+		result.append(dic)
+	return result
+
 def manipulateSeasonbox(id):   #获得季度下拉框
 	conn = defaultDatabaseConn()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
+	end_date = stock[DAY_END_DATE]
+	if int(end_date.split('-')[1]) in [1,2,3]:
+		end_season = '%s-04-01' % (end_date.split('-')[0])
+	elif int(end_date.split('-')[1]) in [4,5,6]:
+		end_season = '%s-07-01' % (end_date.split('-')[0])
+	elif int(end_date.split('-')[1]) in [7,8,9]:
+		end_season = '%s-10-01' % (end_date.split('-')[0])
+	else:
+		end_season = '%d-01-01' % (int(end_date.split('-')[0]) + 1)
 	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_HOLDERS_SHOW,ES_HOLDERS_SHOW_STOCK_ID,stock_id)
 	df = pd.read_sql(sql,conn)
 	datelist = sorted(list(set(df[ES_HOLDERS_SHOW_DATE])))   #获取数据库存在数据的季度
@@ -519,18 +636,21 @@ def manipulateSeasonbox(id):   #获得季度下拉框
 			month = int(date.split('-')[1])
 			day = int(date.split('-')[2])
 			if month == 1:
-				season = '%s年第一季度' % (year)
+				season = '%s年第四季度' % (year - 1)
 				seasonid = date
 			elif month == 4:
-				season = '%s年第二季度' % (year)
+				season = '%s年第一季度' % (year)
 				seasonid = date
 			elif month == 7:
-				season = '%s年第三季度' % (year)
+				season = '%s年第二季度' % (year)
 				seasonid = date
 			elif month == 10:
-				season = '%s年第四季度' % (year)
+				season = '%s年第三季度' % (year)
 				seasonid = date
-			result.append({'season':season,'seasonid':seasonid})
+			if end_season == date:
+				result.append({'season':season,'seasonid':seasonid,'show':1})
+			else:
+				result.append({'season':season,'seasonid':seasonid})
 	else:
 		season = '无'
 		seasonid = 'Nodata'
@@ -579,10 +699,60 @@ def manipulateLargetrans(id):   #展示大宗交易记录
 	result = sorted(result, key= lambda x:(x['date']), reverse=True)
 	return result'''
 
-def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比例的数据
+def manipulateSeasonboxpct(id):
+	conn = defaultDatabaseConn()
+	stock = get_stock(id)
+	stock_id = stock[DAY_STOCK_ID]
+	end_date = stock[DAY_END_DATE]
+	if int(end_date.split('-')[1]) in [1,2,3]:
+		end_season = '%s-04-01' % (end_date.split('-')[0])
+	elif int(end_date.split('-')[1]) in [4,5,6]:
+		end_season = '%s-07-01' % (end_date.split('-')[0])
+	elif int(end_date.split('-')[1]) in [7,8,9]:
+		end_season = '%s-10-01' % (end_date.split('-')[0])
+	else:
+		end_season = '%d-01-01' % (int(end_date.split('-')[0]) + 1)
+	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_STOCK_ID,stock_id)
+	df = pd.read_sql(sql,conn)
+	datelist = sorted(list(set(df[ES_HOLDERS_PCT_DATE])))   #获取数据库存在数据的季度
+	datelistcopy = datelist[:]
+	'''
+	for date in datelistcopy:   #若该季度数据前两大股东为None则不显示
+		a = df[(df[ES_HOLDERS_SHOW_STOCK_ID] == stock_id) & (df[ES_HOLDERS_SHOW_DATE] == date)]
+		if a.iloc[0][ES_HOLDERS_SHOW_HOLDER_NAME] == u'None' and a.iloc[1][ES_HOLDERS_SHOW_HOLDER_NAME] == u'None':
+			datelist.remove(date)'''
+	result = []
+	if len(datelist):   #如果里面有的话返回对应的标签
+		for date in datelist:
+			year = int(date.split('-')[0])
+			month = int(date.split('-')[1])
+			day = int(date.split('-')[2])
+			if month == 1:
+				season = '%s年第四季度' % (year - 1)
+				seasonid = date
+			elif month == 4:
+				season = '%s年第一季度' % (year)
+				seasonid = date
+			elif month == 7:
+				season = '%s年第二季度' % (year)
+				seasonid = date
+			elif month == 10:
+				season = '%s年第三季度' % (year)
+				seasonid = date
+			if end_season == date:
+				result.append({'season':season,'seasonid':seasonid,'show':1})
+			else:
+				result.append({'season':season,'seasonid':seasonid})
+	else:
+		season = '无'
+		seasonid = 'Nodata'
+	return result
+
+def manipulateHolderspct(id,seasonid):   #获取机构投资者和十大股东所占比例的数据
 	cur = defaultDatabase()
 	stock = get_stock(id)
 	stock_id = stock[DAY_STOCK_ID]
+	'''
 	start_date = stock[DAY_START_DATE]
 	end_date = stock[DAY_END_DATE]
 	year1 = int(start_date.split('-')[0])
@@ -593,7 +763,8 @@ def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比�
 	day2 = int(end_date.split('-')[2])
 	datelist = get_season(year1,month1,day1,year2,month2,day2)
 	date = datelist[-1]
-	print date
+	print date'''
+	date = seasonid
 	sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_STOCK_ID,stock_id,ES_HOLDERS_PCT_DATE,date)
 	cur.execute(sql)
 	results = cur.fetchone()
@@ -604,12 +775,88 @@ def manipulateHolderspct(id):   #获取机构投资者和十大股东所占比�
 		result = {}
 	return result
 
-def hotspotText():
+def manipulateHolderspctline(id):
 	cur = defaultDatabase()
-	sql = "SELECT * FROM " + TABLE_HOTNEWS + " order by %s desc" % (HOT_NEWS_IN_TIME)
+	conn = defaultDatabaseConn()
+	stock = get_stock(id)
+	stock_id = stock[DAY_STOCK_ID]
+	sql = "SELECT * FROM %s WHERE %s = '%s'" % (TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_STOCK_ID,stock_id)
+	df = pd.read_sql(sql,conn)
+	datelist = sorted(list(set(df[ES_HOLDERS_PCT_DATE])))
+	seasonlist = []
+	top10list = []
+	instlist = []
+
+	for date in datelist:
+		year = int(date.split('-')[0])
+		month = int(date.split('-')[1])
+		day = int(date.split('-')[2])
+		if month == 1:
+			seasonlist.append('%s年第四季度' % (year - 1))
+		elif month == 4:
+			seasonlist.append('%s年第一季度' % (year))
+		elif month == 7:
+			seasonlist.append('%s年第二季度' % (year))
+		elif month == 10:
+			seasonlist.append('%s年第三季度' % (year))
+		sql = "SELECT * FROM %s WHERE %s = '%s' and %s = '%s'" % (TABLE_HOLDERS_PCT,ES_HOLDERS_PCT_STOCK_ID,stock_id,ES_HOLDERS_PCT_DATE,date)
+		cur.execute(sql)
+		results = cur.fetchone()
+		top10list.append(results[ES_HOLDERS_PCT_HOLDER_TOP10PCT])
+		instlist.append(results[ES_HOLDERS_PCT_HOLDER_PCTBYINST])
+	result = {'season':seasonlist,'top10':top10list,'inst':instlist}
+	return result
+
+def manipulateCredit(id):
+	cur = defaultDatabase()
+	conn = defaultDatabaseConn()
+	stock = get_stock(id)
+	stock_id = stock[DAY_STOCK_ID]
+	end_date = stock[DAY_END_DATE]
+	# end_date = '2018-05-27'
+	sql = "SELECT * FROM %s WHERE %s = '%s' and %s <= '%s' ORDER BY %s DESC" % (TABLE_PUNISH,PUNISH_STOCK_ID,stock_id,PUNISH_PUNISH_TIME,end_date,PUNISH_PUNISH_TIME)
 	cur.execute(sql)
 	results = cur.fetchall()
+	result = []
+	for i in results:
+		dic = {}
+		dic['date'] = i[PUNISH_PUNISH_TIME]
+		dic['type'] = i[PUNISH_PUNISH_NAME]
+		dic['abstract'] = i[PUNISH_ABSTRACT]
+		result.append(dic)
+	return result
+
+def hotspotText():
+	cur = defaultDatabase()
+	sql = "SELECT * FROM " + TABLE_HOTNEWS + " WHERE ifshow = '1'"
+	cur.execute(sql)
+	results = cur.fetchall()
+	results = sorted(results, key= lambda x:(x[HOT_NEWS_IN_TIME]), reverse=False)
+	'''
+	idlist = []
+	file = open('./ruman/hotSpot/news_wenben.csv')
+	file2 = open('./ruman/hotSpot/news_0523.csv')
+	csv_file = csv.reader(file)
+	csv_file2 = csv.reader(file2)
+	text_id_first_list = []
+	text_id_end_list = []
+	for row in csv_file:
+		text_id = row[1]
+		idlist.append(text_id)
+	for row in csv_file2:
+		text_id = row[1]
+		idlist.append(text_id)
+	for text_id in idlist:
+		sql = "SELECT * FROM %s WHERE %s = '%s'" %(TABLE_HOTNEWS,HOT_NEWS_TEXT_ID,text_id)
+		cur.execute(sql)
+		idresults = cur.fetchall()
+		if len(idresults):
+			text_id_first_list.append(idresults[0][HOT_NEWS_ID])
 	#results = sorted(results, key= lambda x:(x[HOT_NEWS_IN_TIME]), reverse=True)   #按照特定顺序排序
+	result = []
+	resultmiddle = []
+	resultend = []
+	#num = 0'''
 	result = []
 	for i in results:   #选取所有文本并展示
 		dic = {}
@@ -627,7 +874,17 @@ def hotspotText():
 		dic['key_word'] = i[HOT_NEWS_KEY_WORD]
 		#dic['date'] = i[HOT_NEWS_DATE]
 		dic['id'] = i[HOT_NEWS_ID]
+		#if i[HOT_NEWS_ID] in text_id_first_list:
+		#	result.append(dic)
 		result.append(dic)
+			#num += 1
+			#print num
+		#elif i[HOT_NEWS_ID] in text_id_end_list:
+		#	resultend.append(dic)
+		#else:
+		#	resultmiddle.append(dic)
+	#result.extend(resultmiddle)
+	#result.extend(resultend)
 	return result
 
 def hotspotbasicMessage(id):
@@ -712,6 +969,7 @@ def hotspotWordcloud(id,source):
 		return result
 	else:
 		return {}
+
 def homepageWordcloud():
 	# result = []
 	cur = defaultDatabase()
@@ -752,7 +1010,40 @@ def homepageWordcloud():
 		return {}
 
 	# return result
+'''
+def nouse():
+	df =pd.DataFrame(columns=['mid','uid','text'])
+	cur = defaultDatabase()
+	conn = defaultDatabaseConn()
+	es = Elasticsearch([{'host': ES_HOST_WEB0, 'port': ES_PORT_WEB0}])
+	sql = "SELECT * FROM %s WHERE %s = '%d'" %(TABLE_DAY+'_old',DAY_MANIPULATE_TYPE,4)
+	cur.execute(sql)
+	results = cur.fetchall()
+	num = 0
+	for i in results:
+		print i['mid']
 
+
+		mid = i['mid']
+
+		indexs=["flow_text_2016-11-07","flow_text_2016-11-08","flow_text_2016-11-11","flow_text_2016-11-12"\
+		,"flow_text_2016-11-13","flow_text_2016-11-14","flow_text_2016-11-15","flow_text_2016-11-16"\
+		,"flow_text_2016-11-17","flow_text_2016-11-18","flow_text_2016-11-19","flow_text_2016-11-20"\
+		,"flow_text_2016-11-21","flow_text_2016-11-22","flow_text_2016-11-23","flow_text_2016-11-24"\
+		,"flow_text_2016-11-25","flow_text_2016-11-26","flow_text_2016-11-27"]
+
+		query_body = {"size":10,"query": {"bool": {"must": [{"match": {"mid": mid}}]}}}
+		for index in indexs:
+			res = es.search(index=index, doc_type="text",body=query_body, request_timeout=100)
+			hits = res['hits']['hits']
+			if len(hits):
+				item = hits[0]["_source"]
+				text = item['text']
+				uid = item['uid']
+				break
+		df.loc[num] = [mid,uid,text]
+		num += 1
+	df.to_csv('rumor.csv',encoding='utf_8_sig')'''
 
 
 
@@ -761,5 +1052,6 @@ if __name__=="__main__":
 	#manipulateWarningText()
 	#manipulateHolderspct(1096)
 	#hotspotWordcloud(2,'bbs')
-	if manipulateWarningUser(1807,1):
-		print 1
+	#if manipulateWarningUser(1807,1):
+	#	print 1
+	nouse()

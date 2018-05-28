@@ -102,6 +102,10 @@ def after_two_season(theday):
     else:
         return get_datelist(year+1,4,1,year+1,6,30)
 
+def after_one_year(theday):
+    year=int(theday.split('-')[0])
+    return get_datelist(year + 1,1,1,year + 1,12,31)
+
 def increaseratio(lastday,nowday,stock):
     conn = default_db()
     cur = conn.cursor()
@@ -117,21 +121,27 @@ def increaseratio(lastday,nowday,stock):
 def gaosongzhuan():
     conn = default_db()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM %s where %s < 0 order by %s asc" % (TABLE_NETPROFIT,NETPROFIT_NETPROFIT,NETPROFIT_DATE))
+    cur.execute("SELECT * FROM %s where %s < 0 order by %s asc" % (TABLE_NETPROFIT,NETPROFIT_NETPROFIT,NETPROFIT_DATE))# and date = '2015-10-01' and stock_id = '600401' 
     results = cur.fetchall()
     index_name=DIC_ANNOUNCEMENT['index']
     type_name= DIC_ANNOUNCEMENT['type']
+    resultsnew = [i for i in results if int(i[NETPROFIT_DATE].split('-')[1]) == 10]
 
-    for result in results:
-        datelists = after_two_season(result['date'])
+    for result in resultsnew:
+        #print '-'*20
+        #datelists = after_two_season(result['date'])
+        datelists = after_one_year(result['date'])
         es = Elasticsearch([{'host': '219.224.134.214', 'port': '9202'}])
-        query_body = {"query": {"bool": {"must": [{"term": {"basic_info.type": "5"}},{"term": {"basic_info.stock_id": result['stock_id']}}]}}}
+        query_body = {"size":100,"query": {"bool": {"must": [{"term": {"basic_info.type": "5"}},{"term": {"basic_info.stock_id": result['stock_id']}}]}}}
         res = es.search(index=index_name, doc_type=type_name, body=query_body,request_timeout=100)
         hits = res['hits']['hits']
+        #if result['stock_id'] == '300083':
+        #    print len(hits)
         gaosognzhuan=[]
         if len(hits):
             for hit in hits:
                 b= ts2datetime(hit["_source"]['publish_time'])
+                #print b
                 if b in datelists:
                     print result[NETPROFIT_STOCK_NAME],b,result[NETPROFIT_STOCK_ID],result[NETPROFIT_DATE]
                     sql="SELECT * FROM %s where %s = '%s'"%(TABLE_STOCK_LIST,STOCK_LIST_STOCK_ID,result[NETPROFIT_STOCK_ID])
@@ -143,8 +153,8 @@ def gaosongzhuan():
                         date=result[NETPROFIT_DATE]
                         stock_name=result[NETPROFIT_STOCK_NAME]
                         stock_id=result[NETPROFIT_STOCK_ID]
-
-                        checksql="SELECT * FROM %s where %s = '%s' and %s = '%d'" % (TABLE_DAY,DAY_STOCK_ID,stock_id,DAY_MANIPULATE_TYPE,2)
+                        '''
+                        checksql="SELECT * FROM %s where %s = '%s' and %s = '%d'" % (TABLE_DAY+'_gao',DAY_STOCK_ID,stock_id,DAY_MANIPULATE_TYPE,2)
                         cur.execute(checksql)
                         checkresults = cur.fetchall()
                         checknum = 0
@@ -152,9 +162,7 @@ def gaosongzhuan():
                             for checkresult in checkresults:
                                 if howmany_day_between(checkresult[DAY_START_DATE],last) <= 5:
                                     checknum = 1
-                                    break
-                        if checknum:
-                            break
+                                    break'''
 
                         start_date=last
                         end_date=recent
@@ -165,14 +173,15 @@ def gaosongzhuan():
                         marketplate=c[0][STOCK_LIST_PLATE]
                         industry_code=c[0][STOCK_LIST_INDUSTRY_CODE]
                         print date,stock_name,stock_id,b,end_date,industry_name,increase_ratio,manipulate_type,ifend,marketplate,industry_code
-                        order = 'insert into ' + TABLE_DAY + '(stock_name,stock_id,manipulate_label,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate)values\
+                        #if checknum != 1:
+                        
+                        order = 'insert into ' + TABLE_DAY+'_gaonew' + '(stock_name,stock_id,manipulate_label,start_date,end_date,increase_ratio,industry_name,manipulate_type,industry_code,ifend,market_plate)values\
                         ("%s","%s","%d","%s","%s","%f","%s","%d","%s","%d","%s")' % (stock_name,stock_id,1,to_tradeday(a,b,-1),recent,increase_ratio,industry_name,manipulate_type,industry_code,ifend,marketplate)
                         try:
                             cur.execute(order)#TABLE_DAY
                             conn.commit()
                         except Exception, e:
                             print e
-                        break
 
 if __name__=="__main__":
     gaosongzhuan()

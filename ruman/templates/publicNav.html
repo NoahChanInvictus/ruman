@@ -62,6 +62,7 @@
     <!-- <link rel="stylesheet" href="/static/css/modalANDtable.css"> -->
 
     <link rel="stylesheet" href="/static/css/public_nav.css">
+
     {% endblock %}
     <!-- css结束 -->
 
@@ -96,8 +97,8 @@
             </a>
             <p class="line"></p>
         </li>
-
-        <li class="main_li">
+        <!-- 隐藏  合为热点监测了 -->
+        <li class="main_li" style="display:none;">
             <a class="list_two li_a" href="/hotSpotweibo">
                 <!-- <i class="icon icon-screenshot"></i>&nbsp;热点监测 -->
                 <!-- 热点监测分为两个 微博热点copy谣言监测-->
@@ -105,9 +106,18 @@
             </a>
             <p class="line"></p>
         </li>
-        <li class="main_li">
+        <!-- 隐藏  合为热点监测了 -->
+        <li class="main_li" style="display:none;">
             <a class="list_two li_a" href="/hotSpot">
-                <i class="icon icon-screenshot"></i>&nbsp;新闻热点
+                <i class="icon icon-screenshot"></i>&nbsp;溯源分析
+            </a>
+            <p class="line"></p>
+        </li>
+
+        <!-- 微博热点和溯源分析 合为热点监测 -2018-5-26 -->
+        <li class="main_li">
+            <a class="list_two li_a" href="/newHotSpot">
+                <i class="icon icon-screenshot"></i>&nbsp;热点监测
             </a>
             <p class="line"></p>
         </li>
@@ -166,7 +176,9 @@
 
 <!-- JS文件 -->
 {% block js %}
-<script src="/static/js/jquery-3.2.1.min.js"></script>
+<!-- <script src="/static/js/jquery-3.2.1.min.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script><!-- 为了鱼骨图js中的.size()方法 -->
+
 <script src="/static/js/publicNav.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/bootstrap-table.min.js"></script>

@@ -1,0 +1,403 @@
+{% extends "publicNav.html" %}
+{% block title %}<title>热点详情</title>{% endblock %}
+
+{% block my_css %}
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/public_nav.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/static/css/jquery.eeyellow.Timeline.css" />
+
+    <!-- <link rel="stylesheet" href="/static/css/hot.css"> -->
+    <link rel="stylesheet" href="/static/css/newHotspotDetail_news.css">
+    <style>
+        <!---->
+        /* #nav .nav_left h3 {color: #333!important;} */
+        #nav .nav_middle .main_li:nth-of-type(5) {
+            -webkit-transform: scale(1.3);
+            -moz-transform: scale(1.3);
+            -ms-transform: scale(1.3);
+            -o-transform: scale(1.3);
+            transform: scale(1.3);
+        }
+        /*#nav .nav_middle .main_li:nth-of-type(4) a, #nav .nav_middle .main_li:nth-of-type(4) a i{*/
+            /*color: #08F!important;*/
+        /*}*/
+        .s1 {color: #08F!important;}
+        .s2 {color: #ff9645!important;}
+        #nav {background: #fff;box-shadow: 0 2px 5px rgba(41,46,51,0.15);color: #0e0e0e;}
+        #nav .nav_middle .main_li .li_a,#nav .nav_right span {color: #0e0e0e;}
+        #nav .nav_middle .main_li .line {background-color: #08F;}
+        #nav .nav_right span {border: 1px solid #787878;}
+        #nav .nav_middle, #nav .nav_right {display: block;}
+        #nav .nav_right span:hover {
+            background: #2ad1ff !important;
+            color: white!important;
+        }
+        <!---->
+        .riskValueTable .fixed-table-toolbar .search,.publicityTable .fixed-table-toolbar .search {
+            display: none;
+        }
+        .riskValueTable .bootstrap-table .table thead>tr>th,.publicityTable .bootstrap-table .table thead>tr>th{
+            width: 5%;
+        }
+
+        /* jquery.eeyellow.Timeline.css 中的内容*/
+        .VivaTimeline dl dd.pos-right .time {
+            /* margin-left: -100px; */
+            /* margin-left: -120px; *//* LL */
+            /* margin-left: -.95335667rem; */
+            /* text-align: right; */
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/static/css/fishBone.css">
+{% endblock %}
+
+{% block main %}
+    <div id="container">
+        <!-- <div style="text-align: right;">
+            <span class="top-1 btn btn-primary">一键取证</span>
+        </div> -->
+        <div style="text-align: center;margin-bottom: 20px;">
+            <span id="title" style="font-size: 36px;">热点监测详情报告</span>
+        </div>
+        <!-- 基本信息 -->
+        <div id="card">
+            <h3 style="display: inline-block;font-weight:700;"><i class="icon icon-bullhorn"></i>&nbsp;核心新闻</h3>
+            <div class="infor">
+                <p class="infor-1 inforLine" style="min-width:65%;">
+                    <span>标题：</span>&nbsp;<b class="type-1" style="max-width:85%;">加载中...</b>
+                </p>
+                <p class="infor-4 inforLine">
+                    <span>发布网站：</span>&nbsp;<b class="type-4">加载中...</b>
+                </p>
+                <p class="infor-2 inforLine">
+                    <span>发布时间：</span>&nbsp;<b class="type-2">加载中... </b>
+                </p>
+                <p class="infor-3 inforLine">
+                    <span>关键词：</span>&nbsp;<b class="type-3">加载中...</b>
+                </p>
+                <p class="infor-5 inforLine">
+                    <span>新闻链接：</span>&nbsp;<a class="type-5" target="_blank">加载中...</a>
+                </p>
+                <!-- <p class="infor-4 inforLine">
+                    <span>发布渠道：</span>&nbsp;<b class="type-4">股吧</b>
+                </p>
+                <p class="infor-5 inforLine">
+                    <span>是否辟谣：</span>&nbsp;<b class="type-5">是</b>
+                </p>
+                <p class="infor-6 inforLine">
+                    <span>预警理由：</span>&nbsp;<b class="type-6">热点捏造</b>
+                </p> -->
+                <p class="hotContent">
+                    <span>内容：</span>&nbsp;<span id="hotContent" style="display:inline;">加载中...</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="content" id="mainContent" style="margin: 0.2rem 0;">
+            <ul id="myTabs" class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#spread" role="tab" data-toggle="tab"><b class="icon icon-rss"></b>&nbsp;传播分析</a>
+                </li>
+
+                <li role="presentation" class="">
+                    <a href="#word" role="tab" data-toggle="tab"><b class="icon icon-comment"></b>&nbsp;语义分析</a>
+                </li>
+                <li role="presentation" class="">
+                    <a href="#evolution" role="tab" data-toggle="tab"><b class="icon icon-magic"></b>&nbsp;演化分析</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="tabContent">
+                <!-- 传播分析 -->
+                <div role="tabpanel" class="_table tab-pane clearfix spread active" id="spread">
+                    <h3 style="display: inline-block;font-weight:700;"><i class="icon icon-asterisk"></i>&nbsp;传播分析</h3>
+                    <!-- <div class="fishBone" id="spread-pie-3">
+                        <a class="prev"></a>
+                        <a class="next"></a>
+                        <div class="line"></div>
+                        <div class="fish_box"></div>
+                    </div> -->
+                    <div class="lieOpt">
+                        <!-- <span class="ct-tit">呈现方式：</span> -->
+                        <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
+                        <select id="fishSource_select">
+                            <option value="news_new" selected>新闻</option>
+                            <option value="weibo_news">微博</option>
+                            <option value="zhihu">知乎</option>
+                            <option value="forum">贴吧</option>
+                            <option value="bbs_news">论坛</option>
+                            <option value="weixin_news">微信</option>
+                        </select>
+                    </div>
+                    <div class="fishBone" id="spread-pie-3">
+                        <center>正在努力加载中...</center>
+                    </div>
+                </div>
+
+                <!-- 语义分析 -->
+                <div role="tabpanel" class="_table tab-pane clearfix semantics" id="word">
+                    <h3 style=";font-weight:700;"><i class="icon icon-comments-alt"></i>&nbsp;语义分析</h3>
+                    <p class="tit" style="display:inline-block;">
+                        <span class="tit-1"></span>
+                        <span style="font-size: 0.18rem;">关键词云</span>
+                    </p>
+                    <div class="lieOpt">
+                        <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
+                        <select id="wordCloud_select" class="lieOpt">
+                            <option value="news_new" selected>新闻</option>
+                            <option value="weibo_news">微博</option>
+                            <option value="zhihu">知乎</option>
+                            <option value="forum">贴吧</option>
+                            <option value="bbs_news">论坛</option>
+                            <option value="weixin_news">微信</option>
+                        </select>
+                    </div>
+                    <div class="semanticsbox" id="word-cloud" style="height:3rem;">
+                    </div>
+                    <!-- 时间轴 -->
+                    <p class="tit" style="display:inline-block;">
+                        <span class="tit-1"></span>
+                        <span style="font-size: 0.18rem;">主题分析</span>
+                    </p>
+                    <div class="lieOpt">
+                        <!-- <span class="ct-tit">呈现方式：</span> -->
+                        <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
+                        <select id="semanticsSource_select">
+                            <option value="news_new" selected>新闻</option>
+                            <option value="weibo_news">微博</option>
+                            <option value="zhihu">知乎</option>
+                            <option value="forum">贴吧</option>
+                            <option value="bbs_news">论坛</option>
+                            <option value="weixin_news">微信</option>
+                        </select>
+                    </div>
+                    <div class="semanticsbox" id="timebox">
+                        <div class="VivaTimeline">
+                            <dl>
+                                <dt>May 2016</dt>
+                                <dd class="pos-left clearfix">
+                                    <div class="circ"></div>
+                                    <div class="time">Feb 03</div>
+                                    <div class="events">
+                                        <div class="events-header">加载中...</div>
+                                        <div class="events-body">
+                                            <div class="row">
+                                                <!-- <div class="col-md-6 pull-left">
+                                                    <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog01.jpeg" />
+                                                </div> -->
+                                                <div class="events-desc">
+                                                    <center>加载中...</center>
+                                                </div>
+                                            </div>
+                                            <!-- 假数据 -->
+                                                <!-- <div class="row">
+                                                    <div class="col-md-6 pull-left">
+                                                        <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog02.jpeg" />
+                                                    </div>
+                                                    <div class="events-desc">
+                                                        Morbi at nisi vitae mauris pretium egestas. Morbi placerat risus ligula, nec placerat urna porta vel. Nullam sollicitudin orci quis odio eleifend, ut facilisis orci lobortis. Vivamus sed lobortis odio. Nam volutpat, leo a ullamcorper luctus, sapien libero auctor est, sed semper massa turpis sed quam. Mauris posuere, libero in ultricies dignissim, lacus purus egestas urna, nec semper lorem tellus non eros. Nam at bibendum libero. Curabitur a ante et orci cursus tincidunt. Vivamus dictum, libero et rhoncus congue, nulla erat mollis dui, vitae cursus dui justo quis velit. In a tellus arcu. Nam at lobortis nisl. Donec consequat placerat eros, quis elementum mauris sodales a. Maecenas id feugiat velit. Phasellus dictum eleifend varius. Cras nec orci turpis. Aenean ut turpis nibh.
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 pull-left">
+                                                        <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/dog03.jpeg" />
+                                                    </div>
+                                                    <div class="events-desc">
+                                                        Cras condimentum, metus ut vehicula euismod, odio massa pulvinar neque, id gravida neque est et sem. Proin consequat id nibh quis molestie. Quisque vehicula purus id purus elementum facilisis. Phasellus sodales nibh quis neque rhoncus aliquet. Nunc eget ipsum efficitur, pretium arcu et, gravida purus. Phasellus tempor lacus ac enim pulvinar elementum. Integer aliquet justo lacinia nunc tempus vulputate.
+                                                    </div>
+                                                </div> -->
+                                        </div>
+                                        <div class="events-footer">
+                                            123
+                                        </div>
+                                    </div>
+                                </dd>
+                                <dt>Feb 2016</dt>
+                                <dd class="pos-right clearfix">
+                                    <div class="circ"></div>
+                                    <div class="time">Jan 21</div>
+                                    <div class="events">
+                                        <div class="events-header">加载中...</div>
+                                        <div class="events-body">
+                                            <div class="row">
+                                                <!-- <div class="col-md-6 pull-left">
+                                                    <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/cat01.jpeg" />
+                                                </div> -->
+                                                <div class="events-desc">
+                                                    <center>加载中...</center>
+                                                </div>
+                                            </div>
+                                            <!-- 假数据 -->
+                                                <!-- <div class="row">
+                                                    <div class="col-md-6 pull-left">
+                                                        <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/cat02.jpeg" />
+                                                    </div>
+                                                    <div class="events-desc">
+                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 pull-left">
+                                                        <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/cat03.jpeg" />
+                                                    </div>
+                                                    <div class="events-desc">
+                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                                    </div>
+                                                </div> -->
+                                        </div>
+                                        <div class="events-footer">
+
+                                        </div>
+                                    </div>
+                                </dd>
+                                <dd class="pos-left clearfix">
+                                    <div class="circ"></div>
+                                    <div class="time">Jan 07</div>
+                                    <div class="events">
+                                        <div class="events-header">加载中...</div>
+                                        <div class="events-body">
+                                            <div class="row">
+                                                <!-- <div class="col-md-6 pull-left">
+                                                    <img class="events-object img-responsive img-rounded" src="/static/images/VivaTimeline/rabbit01.jpeg" />
+                                                </div> -->
+                                                <div class="events-desc">
+                                                    <center>加载中...</center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </dd>
+                                <dt>Jan 2016</dt>
+                                <dt>Dec 2015</dt>
+                                <dt>Oct 2015</dt>
+                                <dt>Sep 2015</dt>
+                                <dt>Aug 2015</dt>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 演化分析 -->
+                <div role="tabpanel" class="_table tab-pane clearfix analysis" id="evolution">
+                    <h3 style="display: inline-block;font-weight:700;"><i class="icon icon-random"></i>&nbsp;演化分析</h3>
+                    <div class="lieOpt">
+                        <span class="ct-tit">呈现方式：</span>
+                        <select id="time_select">
+                            <option value="1" selected>按天</option>
+                            <option value="7">按周</option>
+                            <option value="30">按月</option>
+                        </select>
+                        <span class="ct-tit" style="margin-left: 0.1rem;">渠道：</span>
+                        <select id="five_select">
+                            <option value="news_new" selected>新闻</option>
+                            <option value="weibo_news">微博</option>
+                            <option value="zhihu">知乎</option>
+                            <option value="forum">贴吧</option>
+                            <option value="bbs_news">论坛</option>
+                            <option value="weixin_news">微信</option>
+                        </select>
+                    </div>
+
+
+                    <div id="analysis" style="width: 100%;height: 3rem;"></div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block my_js %}
+   <!--  <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/publicNav.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap-table.min.js"></script>
+    <script src="/static/js/bootstrap-table-zh-CN.min.js"></script>
+    <script src="/static/echarts/echarts.min.js"></script>
+    <script src="/static/js/chalk.js"></script>
+    <script src="/static/js/echarts-2/build/dist/echarts.js"></script> -->
+
+
+    <!-- <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>.size()方法弃用了 -->
+    <script type="text/javascript" src="/static/js/jquery.SuperSlide.2.1.1.js"></script> <!-- 基于jquery-superSlide鱼骨图插件 -->
+    <script type="text/javascript" src="/static/js/fishBone.js"></script> <!-- 基于jquery-superSlide鱼骨图插件 -->
+
+
+    <script type="text/javascript" src="/static/js/jquery.eeyellow.Timeline.js"></script> <!-- 时间轴插件 -->
+
+
+    <script>
+        var id = {{id}};
+
+        //=========================== nav
+            $('#nav .nav_middle .main_li .li_a').on('mouseover',function () {
+                $(this).siblings('.line').css({left:'0%'});
+                if ($(document).scrollTop()!=0){
+                    $(this).css({color:'#ff9645'});
+                    $(this).find('i').css({color:'#ff9645'});
+                }else {
+                    $(this).css({color:'#08F'});
+                    $(this).find('i').css({color:'#08F'});
+                }
+            }).on('mouseout',function () {
+                $(this).siblings('.line').css({left:'-100%'});
+                if ($(document).scrollTop()!=0){
+                    $(this).css({color:'#fff'});
+                    $(this).find('i').css({color:'#fff'});
+                }else {
+                    $(this).css({color:'#000'});
+                    $(this).find('i').css({color:'#000'});
+                }
+            });
+            $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+            $('#nav .nav_left h3').css({color:'#333'});
+            $('#nav .nav_middle .main_li .li_a').eq(4).addClass('s1');
+            $('#nav .nav_middle .main_li .li_a').eq(4).find('i').addClass('s1');
+            window.onscroll=function () {
+                $('#nav').css({backgroundColor:'#777'});
+                $('#nav .nav_left h3').css({color:'white'});
+                $('#nav .nav_left img').attr('src','/static/images/logo.png');
+                $('#nav .nav_middle .main_li .line').css({backgroundColor:'#ff9645'});
+                $('#nav .nav_middle .main_li .li_a').css({color:'white'});
+                $('#nav .nav_middle .main_li .li_a i').css({color:'white'});
+                $('#nav .nav_middle .main_li .li_a').eq(4).removeClass('s1').addClass('s2');
+                $('#nav .nav_middle .main_li .li_a').eq(4).find('i').removeClass('s1').addClass('s2');
+                $('#nav .nav_right span').css({color:'#fff',background:'#35baee'});
+                if ($(document).scrollTop()==0){
+                    $('#nav').css({backgroundColor:'#fff'});
+                    $('#nav .nav_left h3').css({color:'black'});
+                    $('#nav .nav_left img').attr('src','/static/images/logoDetail.png');
+                    $('#nav .nav_middle .main_li .line').css({backgroundColor:'#08F'});
+                    $('#nav .nav_middle .main_li .li_a').css({color:'black'});
+                    $('#nav .nav_middle .main_li .li_a i').css({color:'black'});
+                    $('#nav .nav_middle .main_li .li_a').eq(4).removeClass('s2').addClass('s1');
+                    $('#nav .nav_middle .main_li .li_a').eq(4).find('i').removeClass('s2').addClass('s1');
+                    $('#nav .nav_right span').css({color:'#0e0e0e',background:'white'});
+                }
+            };
+
+
+        $(document).ready(function () {
+
+
+            // 纵向时间轴
+            // $('.VivaTimeline').vivaTimeline({
+            //     carousel: true,
+            //     carouselTime: 2000
+            // });
+        });
+
+
+        $(function() {
+
+        });
+    </script>
+
+    <!-- <script src="/static/js/hot.js"></script> -->
+    <script src="/static/js/newHotspotDetail_news.js"></script>
+{% endblock %}

@@ -34,18 +34,19 @@ def create(start_date,end_date,industry_dict_big):
     w.start()
     allmarket = w.wset("SectorConstituent",u"date=" + ts2datetimestrnew(datetimestr2ts('2018-03-01')) + ";sector=全部A股").Data  #[1]为代码，[2]为名字
     print len(allmarket[1])
-    for num in range(len(allmarket[1])):   #对于所有股票获取其股价数据today()
+    for num in range(len(allmarket[1])):   #对于所有股票获取其s股价数据   today()
         name = allmarket[2][num]
         code = allmarket[1][num]
         print code,name,num
         try:
             data1 = w.wsd(code, "close,turn", start_date, end_date, "Fill=Previous")
             data2 = w.wsd(code, "close", start_date, end_date, "Fill=Previous;PriceAdj=B")
-            data3 = w.wsd(code, "industry_CSRC12", today(), today(), "industryType=5")
+            data3 = w.wsd(code, "industry_CSRC12", '2018-03-01', '2018-03-01', "industryType=5")
             for datenum in range(len(data1.Times)):
                 stock_id = code.split('.')[0]
                 stock_name = name
                 industry_name = data3.Data[0][0].split('-')[0]
+                #print industry_name
                 industry_code = industry_dict_big[industry_name]
                 datestr = datetime2datestr(data1.Times[datenum])
                 if type(data1.Data[0][datenum]) == float or type(data1.Data[0][datenum]) == int:
@@ -66,9 +67,39 @@ def create(start_date,end_date,industry_dict_big):
                     conn.commit()
                 except Exception, e:
                     print e
+        
         except Exception, e:
             print e
             pass
+
+def trading(start_date,end_date):
+    conn = default_db()
+    cur = conn.cursor()
+    w.start()
+    allmarket = w.wset("SectorConstituent",u"date=" + ts2datetimestrnew(datetimestr2ts('2018-03-01')) + ";sector=全部A股").Data  #[1]为代码，[2]为名字
+    print len(allmarket[1])
+    for num in range(len(allmarket[1])):   #对于所有股票获取其s股价数据   today()
+        name = allmarket[2][num]
+        code = allmarket[1][num]
+        print code,name,num
+        try:
+            data = w.wsd(code, "volume,amt", start_date, end_date, "Fill=Previous")
+            for datenum in range(len(data.Times)):
+                stock_id = code.split('.')[0]
+                stock_name = name
+                datestr = datetime2datestr(data.Times[datenum])
+                volume = data.Data[0][datenum]
+                amt = data.Data[1][datenum]
+                order = 'insert into trading ( stock_id,stock_name,date,volume,amt)values("%s","%s","%s","%f","%f")' % (stock_id,stock_name,datestr, volume,amt)
+                try:
+                    cur.execute(order)
+                    conn.commit()
+                except Exception, e:
+                    print e
+        except Exception, e:
+            print e
+            pass
+
 '''净利润改为季度数据，故删除以下部分
 def get_profit(trade_list,year,q):
     conn = default_db()
@@ -253,11 +284,13 @@ def update_price(industry_dict_big):   #暂时无用
 '''
 
 if __name__=="__main__":
+    '''
     industry_dict_big = {u'农、林、牧、渔业':u'A',u'采矿业':u'B',u'制造业':u'C',u'电力、热力、燃气及水生产和供应业':u'D',
                         u'建筑业':u'E',u'批发和零售业':u'F',u'交通运输、仓储和邮政业':u'G',u'住宿和餐饮业':u'H',
                         u'信息传输、软件和信息技术服务业':u'I',u'金融业':u'J',u'房地产业':u'K',u'租赁和商务服务业':u'L',
                         u'科学研究和技术服务业':u'M',u'水利、环境和公共设施管理业':u'N',u'居民服务、修理和其他服务业':u'O',
                         u'教育':u'P',u'卫生和社会工作':u'Q',u'文化、体育和娱乐业':u'R',u'综合':u'S'}
-    create('2018-03-05','2018-05-15',industry_dict_big)
+    create('2010-12-30','2011-12-29',industry_dict_big)'''
     #get_market_history()
     #update_price(industry_dict_big)
+    trading('2010-12-30','2018-05-25')

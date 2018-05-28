@@ -81,6 +81,18 @@ def manipulate_price():
 	result = manipulatePrice(id)
 	return json.dumps(result,ensure_ascii=False)
 
+@maniPulate.route('/manipulateReport/trading/',methods=['POST','GET'])
+def manipulate_trading():
+	id = int(request.args.get('id',''))
+	result = manipulateTrading(id)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/profit/',methods=['POST','GET'])
+def manipulate_profit():
+	id = int(request.args.get('id',''))
+	result = manipulateProfit(id)
+	return json.dumps(result,ensure_ascii=False)
+
 @maniPulate.route('/manipulateReport/announcement/',methods=['POST','GET'])
 def manipulate_announcement():
 	id = int(request.args.get('id',''))
@@ -106,10 +118,23 @@ def manipulate_Largetrans():
 	result = manipulateLargetrans(id)
 	return json.dumps(result,ensure_ascii=False)
 
+@maniPulate.route('/manipulateReport/seasonBoxpct/',methods=['POST','GET'])
+def manipulate_seasonbox_pct():
+	id = int(request.args.get('id',''))
+	result = manipulateSeasonboxpct(id)
+	return json.dumps(result,ensure_ascii=False)
+
 @maniPulate.route('/manipulateReport/holderspct/',methods=['POST','GET'])
 def manipulate_holderspct():
 	id = int(request.args.get('id',''))
-	result = manipulateHolderspct(id)
+	seasonid = request.args.get('seasonid','')
+	result = manipulateHolderspct(id,seasonid)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/holderspctline/',methods=['POST','GET'])
+def manipulate_holderspctline():
+	id = int(request.args.get('id',''))
+	result = manipulateHolderspctline(id)
 	return json.dumps(result,ensure_ascii=False)
 
 @maniPulate.route('/manipulateReport/rumantext/',methods=['POST','GET'])
@@ -122,4 +147,10 @@ def manipulate_rumantext():
 def manipulate_rumancomment():
 	id = int(request.args.get('id',''))
 	result = manipulateRumancomment(id)
+	return json.dumps(result,ensure_ascii=False)
+
+@maniPulate.route('/manipulateReport/credit/',methods=['POST','GET'])
+def manipulate_credit():
+	id = int(request.args.get('id',''))
+	result = manipulateCredit(id)
 	return json.dumps(result,ensure_ascii=False)

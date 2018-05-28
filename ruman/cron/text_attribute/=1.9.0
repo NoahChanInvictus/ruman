@@ -1,0 +1,13 @@
+Collecting prompt-toolkit
+  Downloading prompt_toolkit-1.0.9-py2-none-any.whl (241kB)
+Requirement already up-to-date: wcwidth in /usr/local/lib/python2.7/dist-packages (from prompt-toolkit)
+Collecting six>=1.9.0 (from prompt-toolkit)
+  Downloading six-1.10.0-py2.py3-none-any.whl
+Installing collected packages: six, prompt-toolkit
+  Found existing installation: six 1.8.0
+    Uninstalling six-1.8.0:
+      Successfully uninstalled six-1.8.0
+  Found existing installation: prompt-toolkit 1.0.7
+    Uninstalling prompt-toolkit-1.0.7:
+      Successfully uninstalled prompt-toolkit-1.0.7
+Successfully installed prompt-toolkit-1.0.9 six-1.10.0

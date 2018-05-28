@@ -11,24 +11,25 @@ from sql_utils import *
 def insertday(theday,tradelist):
     conn = default_db()
     cur = conn.cursor()
-    endsql = "SELECT * FROM manipulate_day WHERE end_date = '%s' and manipulate_type = '%d'" % (tradelist[tradelist.index(theday) - 6],1)   #获取五个交易日内没有重新操作的股票
+    endsql = "SELECT * FROM manipulate_day_test WHERE end_date = '%s' and manipulate_type = '%d'" % (tradelist[tradelist.index(theday) - 6],1)   #获取五个交易日内没有重新操作的股票
     cur.execute(endsql)
     results = cur.fetchall()
     if len(results):   #令其ifend为1，即已结束本次操纵
         for result in results:
-            endupdate = "UPDATE manipulate_day SET ifend = '%d' WHERE id = '%d'" % (1, result['id'])
+            endupdate = "UPDATE manipulate_day_test SET ifend = '%d' WHERE id = '%d'" % (1, result['id'])
             cur.execute(endupdate)
             conn.commit()
     modelsql = "SELECT * FROM manipulate_result WHERE result = '%d'" % (1)   #获取结果中为1的股票，即模型预测的股票
     df = pd.read_sql(modelsql,conn)
     a = df[df['date'] == theday]
     print len(a.index)
-    notendsql = "SELECT * FROM manipulate_day WHERE end_date >= '%s' and manipulate_type = '%d'" % (tradelist[tradelist.index(theday) - 5],1)   #获取五个交易日内曾操纵过得股票，来进行更新
+    notendsql = "SELECT * FROM manipulate_day_test WHERE end_date >= '%s' and manipulate_type = '%d'" % (tradelist[tradelist.index(theday) - 5],1)   #获取五个交易日内曾操纵过得股票，来进行更新
     cur.execute(notendsql)
     results = cur.fetchall()
     iddict = {}
     for result in results:   #获取id及开始日期、板块
         iddict[result['stock_id']] = [result['id'],result['start_date']]
+    #sprint iddict
     for num in range(len(a.index)):
         stock_id = a.iloc[num]['stock_id']
         print num,stock_id
@@ -49,7 +50,7 @@ def insertday(theday,tradelist):
                     increase_ratio = 0
             else:
                 increase_ratio = 0
-            update = "UPDATE manipulate_day SET end_date = '%s',increase_ratio = '%f' WHERE id = '%d'" % (theday, increase_ratio, iddict[stock_id][0])   #更新结束时间为当天并更新收益率
+            update = "UPDATE manipulate_day_test SET end_date = '%s',increase_ratio = '%f' WHERE id = '%d'" % (theday, increase_ratio, iddict[stock_id][0])   #更新结束时间为当天并更新收益率
             cur.execute(update)
             conn.commit()
         else:   #如果不在延续列表则添加新数据
@@ -68,7 +69,7 @@ def insertday(theday,tradelist):
             manipulate_type = a.iloc[num]['manipulate_type']
             ifend = 0
             market_plate = platedict[stock_id]
-            order = 'insert into manipulate_day ( stock_id,stock_name,manipulate_label,start_date,end_date,increase_ratio,industry_name,industry_code,manipulate_type,ifend,market_plate)values("%s", "%s","%d","%s","%s","%f","%s","%s","%d","%d", "%s")' % (stock_id,stock_name,1,start_date,end_date,increase_ratio,industry_name,industry_code,manipulate_type,ifend,market_plate)
+            order = 'insert into manipulate_day_test ( stock_id,stock_name,manipulate_label,start_date,end_date,increase_ratio,industry_name,industry_code,manipulate_type,ifend,market_plate)values("%s", "%s","%d","%s","%s","%f","%s","%s","%d","%d", "%s")' % (stock_id,stock_name,1,start_date,end_date,increase_ratio,industry_name,industry_code,manipulate_type,ifend,market_plate)
             try:
                 cur.execute(order)
                 conn.commit()
@@ -97,7 +98,8 @@ def update1():
 
 if __name__=="__main__":
     tradelist = get_tradelist(2013,1,1,2018,12,31)
-    for day in get_tradelist(2018,5,3,2018,5,15):
+    for day in get_tradelist(2015,7,3,2018,7,10):
         print day
         insertday(day,tradelist)
+    #insertday('2015-07-03',tradelist)
     #update1()

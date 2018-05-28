@@ -56,7 +56,7 @@ require.config({
                             '<span title="'+data[i].source+'">'+data[i].source+'</span>'+
                             '<span title="'+data[i].keyword+'">'+data[i].keyword+'</span>'+
                             '<span >'+
-                                '<input type="checkbox" disabled=disabled id="checkbox_d'+(i+1)+'" class="chk"/><label for="checkbox_d'+(i+1)+'"></label>'+
+                                '<input type="checkbox" disabled=disabled id="checkbox_d'+(i+1)+'" class="chk"/><label class="disabled" for="checkbox_d'+(i+1)+'"></label>'+
                             '</span>'+
                         '</p>'; //选中checkbox
                 }
@@ -298,12 +298,19 @@ require.config({
         // var myChart = echarts.init(document.getElementById('picChart-3'),'chalk');
         var seriesData = [];
         seriesData.push(
-            {value:data.webo, name:'微博'},
-            {value:data.bbs, name:'论坛'},
-            {value:data.zhihu, name:'知乎'},
+            // {value:data.webo, name:'微博'},
+            // {value:data.bbs, name:'论坛'},
+            // {value:data.zhihu, name:'知乎'},
+            // {value:data.news_new, name:'新闻'},
+            // {value:data.forum, name:'贴吧'},
+            // {value:data.wechat, name:'微信'},
+
+            {value:data.weibo_news, name:'微博'},
+            {value:data.bbs_news, name:'论坛'},
+            {value:0, name:'知乎'},
             {value:data.news_new, name:'新闻'},
-            {value:data.forum, name:'贴吧'},
-            {value:data.wechat, name:'微信'},
+            {value:0, name:'贴吧'},
+            {value:data.weixin_news, name:'微信'},
         )
 
         var option = {
@@ -341,6 +348,7 @@ require.config({
                 pageTextStyle:{color:'#fff'},
                 padding: 6,
                 data: ['微博','论坛','知乎','新闻','贴吧','微信']
+                // data: ['微博','论坛','新闻','微信']
             },
             series : [
                 {

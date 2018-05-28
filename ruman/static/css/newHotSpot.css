@@ -1,0 +1,169 @@
+#container .content{
+    padding: 1.2rem 0 0.5rem;
+    position: relative;
+    z-index: 999;
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    background: transparent!important;
+}
+.tableContent .bootstrap-table {
+    margin: 0 auto;
+    height: auto!important;
+}
+.tableContent .table-no-bordered,
+.tableContent .table>tbody>tr>td,
+.tableContent .fixed-table-container,
+.tableContent .bootstrap-table .table>thead>tr>th,
+.tableContent .bootstrap-table .table,
+.tableContent .table>tbody>tr>td{
+    border: none;
+}
+/* 分页步进值 */
+.fixed-table-pagination .page-list {
+    display: none!important;
+}
+.tableContent .fixed-table-body {
+    height: auto!important;
+    overflow-y: hidden;
+}
+.tableContent .bootstrap-table .table:not(.table-condensed),
+.tableContent .bootstrap-table .table:not(.table-condensed)>tbody>tr>td,
+.tableContent .table>tbody>tr>td{
+    padding: 0!important;
+}
+.tableContent .fixed-table-container thead th .th-inner {padding:0.0000000000001px;}
+/*.fixed-table-container {top: 15px;}*/
+.tableContent .table-hover>tbody>tr:hover {
+    background-color: inherit!important;
+}
+.tableContent .fixed-table-container thead th .both {background-image: none!important;}
+#container .inforContent .main {
+    position: relative;
+    padding: 5px 5px 5px 30px;
+    background: rgb(9, 112, 132);
+    /*background: rgba(88, 88, 88, 0.1);*/
+    margin: 8px auto 0;
+}
+#container .inforContent .main .textFlag {
+    position: absolute;
+    top: 17px;
+    left:8px;
+}
+#container .inforContent .main .option span {
+    display: inline-block;
+    margin-right: 20px;
+}
+#container .inforContent .main .context {
+    margin-top:10px;
+}
+#container .lieOpt .ct-tit {
+    display: inline-block;
+    font-size: 0.16rem;
+    font-weight: 700;
+    color: white;
+}
+#container .lieOpt {
+    display: inline-block;
+    font-size: 0.14rem;
+    margin-left: 0.3rem;
+}
+#container #five_select {
+    display: inline-block;
+    padding: 0.02rem 0.07rem;
+    border: 0.01rem solid silver;
+    border-radius: 0.05rem;
+    font-size: 0.12rem;
+    background: #005b6d;
+    color: white;
+    margin-left: 0.3rem;
+}
+#container #five_select {
+    margin: 0;
+}
+#spread-pie-3 {
+    width:100%;
+    margin:0.1rem 0;
+    height: 4rem/* 400px */;
+    overflow: hidden;
+}
+.fishBone {
+    position: relative;
+    margin-top: 0.2rem;
+}
+.fishBone .fish_box {
+    width: 100%;
+    margin: 0 auto;
+    transition: all linear 0.7s;
+}
+.fishBone .fish_item {
+    position: relative;
+    left: 0.1rem;
+    width:1.7rem;
+    overflow: hidden;
+    margin-right:0.1rem;
+    float: left;
+    padding:0.12rem;
+}
+.fishBone .fish_item li {
+    padding: 5px;
+}
+.fishBone .fish_item .weibo {
+    color: white;
+    width:1.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.fishBone .fish_item .line-point {
+    position: absolute;
+    left: 4px;
+    bottom:0;
+    display: block;
+    height: 0.18rem;
+    width: 0.18rem;
+    background: url('../images/line-point.png') no-repeat 0 0;
+}
+.fishBone .fish_item .top .line-point {
+    top:0;
+}
+.fishBone .next,.fishBone .prev {
+    position: absolute;
+    top: 1.11rem;
+    display: inline-block;
+    width: 0.2rem;
+    height: 0.40rem;
+    cursor: pointer;
+    z-index: 5;
+}
+.fishBone .prev {
+    left: -5px;
+    /*background: url('../images/arrow.png') no-repeat -1px 13px;*/
+    border-top: 20px solid transparent;
+    border-right: 18px solid white;
+    border-bottom: 20px solid transparent;
+}
+.fishBone .next {
+    right: -5px;
+    /*background: url('../images/arrow.png') no-repeat -19px 13px;*/
+    border-top: 20px solid transparent;
+    border-left: 18px solid white;
+    border-bottom: 20px solid transparent;
+}
+.fishBone .prev:hover,.fishBone .next:hover{
+    background-position-y: -28px;
+}
+.fishBone .line {
+    position: absolute;
+    top: 1.3rem;
+    height: 0.01rem;
+    width: 100%;
+    border-bottom: 2px dashed #f1fcff;
+}
+/* 去掉表格下边框 */
+#hotspotTable {
+    border:none;
+}
+#hotspotTable th {
+    border-top:none;
+}

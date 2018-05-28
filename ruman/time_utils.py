@@ -56,6 +56,13 @@ def tostr(year,month,day):
     date = str(year)+'-'+str(month)+'-'+str(day)
     return date
 
+def full_datetime2ts(date):
+    return int(time.mktime(time.strptime(date,'%Y-%m-%d %H:%M:%S')))
+
+
+def ts2datetime_full(ts):
+    return time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(ts))
+
 def get_datelist(year1,month1,day1,year2,month2,day2):
     date_list = []
     begin_date = datetime.datetime.strptime(tostr(year1,month1,day1), "%Y-%m-%d")

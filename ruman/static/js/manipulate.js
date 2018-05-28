@@ -67,7 +67,7 @@
                         if (row.stock_name==''||row.stock_name=='null'||row.stock_name=='unknown'||!row.stock_name){
                             return '未知';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock_name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="'+row.stock_name+'">'+row.stock_name+'</span>';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="'+row.stock_name+'">'+row.stock_name+'</span>';
                         };
                     }
                 },
@@ -83,7 +83,7 @@
                         if (row.stock_id==''||row.stock_id=='null'||row.stock_id=='unknown'||!row.stock_id){
                             return '未知';
                         }else {
-                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock_name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="'+row.stock_id+'">'+row.stock_id+'</span>';
+                            return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="'+row.stock_id+'">'+row.stock_id+'</span>';
                         };
                     }
                 },
@@ -155,7 +155,7 @@
                     }
                 },
                 {
-                    title: "超涨比率",//标题
+                    title: "涨幅",//标题
                     field: "increase_ratio",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
@@ -196,7 +196,22 @@
                     align: "center",//水平
                     valign: "middle",//垂直
                     formatter: function (value, row, index) {
-                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.stock_name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                        return '<span style="cursor:pointer;color:white;" onclick="jumpFrame_1(\''+row.name+'\',\''+row.id+'\',\''+row.manipulate_type_num+'\')" title="查看详情"><i class="icon icon-file-alt"></i></span>';
+                    }
+                },
+                {
+                    title: "是否证监会判罚",//标题
+                    field: "ifpunish",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.ifpunish==''||row.ifpunish=='null' || row.ifpunish==null ||row.ifpunish=='unknown'||!row.ifpunish){
+                            return '未知';
+                        }else {
+                            return row.ifpunish;
+                        };
                     }
                 },
                 {
@@ -405,6 +420,28 @@
     function influnce(data){
         var ratio = data.ratio;
         var num = data.num;
+
+        // 去掉 list 两侧为0 的值
+        var left_i = 0;
+        var right_j = 0;
+        for(var i=0;i<num.length;i++){
+            if(num[i] != 0){
+                left_i = i;
+                break;
+            }
+        }
+        for(var j=num.length-1; j>=0; j--){
+            if(num[j] != 0){
+                right_j = j;
+                break;
+            }
+        }
+        var new_numArr = num.slice(left_i-3,right_j+1+2);
+        var new_ratioArr = ratio.slice(left_i-3,right_j+1+3);
+        // 左右 各加了3个0
+        // console.log(new_numArr);
+        // console.log(new_ratioArr);
+
         var option = {
             backgroundColor:'transparent',
             title: {
@@ -432,7 +469,8 @@
             xAxis: {
                 name:'股价涨幅',
                 type: 'category',
-                data: ratio,
+                // data: ratio,
+                data: new_ratioArr,
                 axisLabel:{
                     interval:0,
                     rotate:90,//倾斜度 -90 至 90 默认为0
@@ -444,7 +482,7 @@
             },
             series: [
                 {
-                    name: '行业数量',
+                    name: '股票数量',
                     type: 'bar',
                     itemStyle:{
                         normal:{color:'#2eade3'},
@@ -460,7 +498,8 @@
                             position: 'top',
                         }
                     },
-                    data: num,
+                    // data: num,
+                    data: new_numArr,
                 },
 
             ]
@@ -535,7 +574,7 @@
             },
             series: [
                 {
-                    name: '行业数量',
+                    name: '股票数量',
                     type: 'bar',
                     itemStyle:{
                         normal:{color:'#ee9080'},
@@ -593,7 +632,7 @@
         maskColor: 'transparent',
         zlevel: 0
     });
-    var manipulateType_url='/maniPulate/manipulateType?date=90';
+    var manipulateType_url='/maniPulate/manipulateType?date=1234';
     public_ajax.call_request('get',manipulateType_url,manipulateType);
     function manipulateType(data){
         var type = data.type;

@@ -127,7 +127,7 @@
                     }
                 },
                 {
-                    title: "超涨比率",//标题
+                    title: "涨幅",//标题
                     field: "increase_ratio",//键名
                     sortable: true,//是否可排序
                     order: "desc",//默认排序方式
@@ -186,7 +186,7 @@
             var rumantext_url = '/maniPulate/manipulateReport/rumantext/?id=' + id;
             public_ajax.call_request('get',rumantext_url,rumantext);
             function rumantext(data){
-                $('#False_message p').empty().text(data.text);
+                $('#False_message p.False_content').empty().text(data.text);
             }
 
         // 舆情分析
@@ -242,6 +242,22 @@
                             }
                         },
                         {
+                            title: "渠道",//标题
+                            field: "source",//键名
+                            sortable: true,//是否可排序
+                            order: "desc",//默认排序方式
+                            align: "center",//水平
+                            valign: "middle",//垂直
+                            formatter: function (value, row, index) {
+                                if (row.source==''||row.source=='null'||row.source=='unknown'||!row.source){
+                                    return '-';
+                                }else {
+                                    return row.source;
+                                    // return '微博';
+                                };
+                            }
+                        },
+                        {
                             title: "内容",//标题
                             field: "text",//键名
                             sortable: true,//是否可排序
@@ -275,12 +291,17 @@
     myChart_1.showLoading();
     var myChart_2 = echarts.init(document.getElementById('Price_2'));
     myChart_2.showLoading();
+    var myPriceChart_3 = echarts.init(document.getElementById('Price_3'));
+    myPriceChart_3.showLoading();
+    var myPriceChart_4 = echarts.init(document.getElementById('Price_4'));
+    myPriceChart_4.showLoading();
 
     var price_url = '/maniPulate/manipulateReport/price/?id=' + id;//id=1 测试
     public_ajax.call_request('get',price_url,Price);
     function Price(data){
         var date_data = data.date || [];
 
+        // 价格变化
         var price_data = data.price || [];
         var industry_price_data = data.industry_price || [];
         for(var i=0;i<industry_price_data.length;i++){
@@ -324,7 +345,7 @@
             },
             yAxis: [
                 {
-                    name:'价格',
+                    name:'价格(元)',
                     type: 'value',
                     axisLabel: {
                         // formatter: '{value} °C'
@@ -375,6 +396,9 @@
         myChart_1.hideLoading();
         myChart_1.setOption(option_1);
 
+        // ===========
+
+        // 收益率变化
         var ratio_data = data.ratio || [];
         var industry_ratio_data = data.industry_ratio || [];
         var D_value_data = data.D_value || [];
@@ -462,6 +486,143 @@
         myChart_2.setOption(option_2);
     }
 
+// 成交量 成交额 变化=========
+    // var trading_url = '/maniPulate/manipulateReport/trading/?id=1920'// 测试的
+    var trading_url = '/maniPulate/manipulateReport/trading/?id=' + id;
+    public_ajax.call_request('get',trading_url,Trading);
+    function Trading(data){
+        var date_data = data.date || [];
+
+        // 成交量变化
+        var volume_data = data.volume || [];
+        // for(var i=0;i<volume_data.length;i++){
+        //     volume_data[i] = volume_data[i]/1000000;
+        // }
+        var option_3 = {
+            title: {
+                // text: '万科收益率变化',
+                text: stock+'成交量变化',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                // data:['大盘指数','万科','差值'],
+                // data:[stock,'同行业平均值','差值'],
+                data:['成交量'],
+                orient:'horizontal',//horizontal
+                // zlevel:99
+                top:'7%',
+                left:'center'
+            },
+            grid: {
+                left: '0%',
+                right: '9%',
+                bottom: '3%',
+                top:'17%',
+                containLabel: true
+            },
+            xAxis:  {
+                name:'时间',
+                type: 'category',
+                boundaryGap: false,
+                // data: ['2017-3-1','2017-3-8','2017-3-15','2017-3-22','2017-3-29','2017-4-5','2017-4-12','2017-2-19'],
+                data: date_data,
+                axisLabel:{
+                    rotate:90
+                }
+            },
+            yAxis: {
+                name:'成交量(股)',
+                type: 'value',
+                axisLabel: {
+                    // formatter: '{value} °C'
+                    // rotate:45
+                },
+
+            },
+            color:['#c23531','#749f83','#2f4554'],
+            series: [
+                {
+                    // name:'万科',
+                    name: stock,
+                    type:'line',
+                    // data:[1, 2, 2, 5, 3, 2, 0,4],
+                    data: volume_data,
+                    showSymbol: true,
+                    hoverAnimation: true,
+                },
+            ]
+        };
+        myPriceChart_3.hideLoading();
+        myPriceChart_3.setOption(option_3);
+
+        // 成交额变化
+        var amt_data = data.amt || [];
+        // for(var i=0;i<amt_data.length;i++){
+        //     amt_data[i] = amt_data[i]/1000000;
+        // }
+        var option_4 = {
+            title: {
+                // text: '万科收益率变化',
+                text: stock+'成交额变化',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                // data:['大盘指数','万科','差值'],
+                // data:[stock,'同行业平均值','差值'],
+                data:['成交额'],
+                orient:'horizontal',//horizontal
+                // zlevel:99
+                top:'7%',
+                left:'center'
+            },
+            grid: {
+                left: '0%',
+                right: '9%',
+                bottom: '3%',
+                top:'17%',
+                containLabel: true
+            },
+            xAxis:  {
+                name:'时间',
+                type: 'category',
+                boundaryGap: false,
+                // data: ['2017-3-1','2017-3-8','2017-3-15','2017-3-22','2017-3-29','2017-4-5','2017-4-12','2017-2-19'],
+                data: date_data,
+                axisLabel:{
+                    rotate:90
+                }
+            },
+            yAxis: {
+                name:'成交额(元)',
+                type: 'value',
+                axisLabel: {
+                    // formatter: '{value} °C'
+                }
+            },
+            color:['#c23531','#749f83','#2f4554'],
+            series: [
+                {
+                    // name:'万科',
+                    name: stock,
+                    type:'line',
+                    // data:[1, 2, 2, 5, 3, 2, 0,4],
+                    data: amt_data,
+                    showSymbol: true,
+                    hoverAnimation: true,
+                },
+            ]
+        };
+        myPriceChart_4.hideLoading();
+        myPriceChart_4.setOption(option_4);
+    }
+
+
 // 公告信息
     var announcement_url = '/maniPulate/manipulateReport/announcement/?id='+id;
     public_ajax.call_request('get',announcement_url,table2);
@@ -526,8 +687,8 @@
                         if (row.title==''||row.title=='null'||row.title=='unknown'||!row.title){
                             return '暂无标题';
                         }else {
-                            if(row.title.length>50){
-                                return '<span title="'+row.title+'">'+row.title.substring(0,150)+'...</span>';
+                            if(row.title.length>150){
+                                return '<span style="cursor:pointer;" title="'+row.title+'">'+row.title.substring(0,150)+'...</span>';
                             }else {
                                 return row.title;
                             }
@@ -561,299 +722,316 @@
         window.open(url);
     }
 
-// 交易分析
-    // 十大股东
-        var top10holders_url = '';
-        //  渲染 下拉框
-        var seasonBox_url = '/maniPulate/manipulateReport/seasonBox?id=' + id;
-        public_ajax.call_request('get',seasonBox_url,seasonBox);
-        function seasonBox(data){
-            if(data){
-                var str = '';
-                for(var i=0;i<data.length;i++){
+// 交易分析 // 十大股东
+    var top10holders_url = '';
+
+
+
+    //  渲染 下拉框
+    var seasonBox_url = '/maniPulate/manipulateReport/seasonBox?id=' + id;
+
+    public_ajax.call_request('get',seasonBox_url,seasonBox);
+    function seasonBox(data){
+        if(data){
+            var str = '';
+            var flag = true;
+            for(var i=0;i<data.length;i++){
+                if(data[i].show == 1 || data[i].show == '1' ){
+                    flag = false;//有默认选项 不必设置最后一个选中
+                    str += '<option value="'+data[i].seasonid+'" selected="selected">'+ data[i].season + '</option>';
+                }else {
                     str += '<option value="'+data[i].seasonid+'">'+ data[i].season + '</option>';
                 }
-                $('._time2').empty().append(str).children('option:last-child').attr('selected','selected');
 
-                top10holders_url = '/maniPulate/manipulateReport/top10holders?id=' + id +'&seasonid=' + $('._time2').val();
-                public_ajax.call_request('get',top10holders_url,table3);
             }
-        }
 
-        // 更新下拉框时
-        $('._time2').change(function(){
-            $('#Transaction-1 center.loading').show();
-            top10holders_url = '/maniPulate/manipulateReport/top10holders?id=' + id +'&seasonid=' + $(this).val();
+            // $('._time2').empty().append(str).children('option:last-child').attr('selected','selected');
+            // $('._time2').empty().append(str);
+            if(flag == true){
+                $('._time2').empty().append(str).children('option:last-child').attr('selected','selected');
+            }else {
+                $('._time2').empty().append(str);
+            }
+
+            top10holders_url = '/maniPulate/manipulateReport/top10holders?id=' + id +'&seasonid=' + $('._time2').val();
             public_ajax.call_request('get',top10holders_url,table3);
+        }
+    }
+
+    // 更新下拉框时
+    $('._time2').change(function(){
+        $('#Transaction-1 center.loading').show();
+        top10holders_url = '/maniPulate/manipulateReport/top10holders?id=' + id +'&seasonid=' + $(this).val();
+        public_ajax.call_request('get',top10holders_url,table3);
+    });
+
+    function table3(data) {
+        $('#Transaction-1 center.loading').show();
+
+        $('#Transaction-1').bootstrapTable('load', data);
+        $('#Transaction-1').bootstrapTable({
+            data:data,
+            search: true,//是否搜索
+            pagination: true,//是否分页
+            pageSize: 5,//单页记录数
+            pageList: [15,20,25],//分页步进值
+            sidePagination: "client",//服务端分页
+            searchAlign: "left",
+            searchOnEnterKey: false,//回车搜索
+            showRefresh: false,//刷新按钮
+            showColumns: false,//列选择按钮
+            buttonsAlign: "right",//按钮对齐方式
+            locale: "zh-CN",//中文支持
+            detailView: false,
+            showToggle:false,
+            sortName:'bci',
+            sortOrder:"desc",
+            columns: [
+                {
+                    title: "排名",//标题
+                    field: "ranking",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        // return index+1;
+                        if (row.ranking==''||row.ranking=='null'||row.ranking=='unknown'||!row.ranking){
+                            return '未知';
+                        }else {
+                            return row.ranking;
+                        };
+                    }
+                },
+                {
+                    title: "股东名称",//标题
+                    field: "holder_name",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.holder_name==''||row.holder_name=='null'||row.holder_name=='unknown'||!row.holder_name||row.holder_name=='none' || row.holder_name=='None'){
+                            return '-';
+                        }else {
+                            return row.holder_name;
+                        };
+                    }
+                },
+                {
+                    title: "方向",//标题
+                    field: "holder_hold_direction",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.holder_hold_direction==''||row.holder_hold_direction=='null'||row.holder_hold_direction=='unknown'||!row.holder_hold_direction){
+                            return '-';
+                        }else {
+                            return row.holder_hold_direction;
+                        };
+                    }
+                },
+                {
+                    title: "持股数量(股)",//标题
+                    field: "holder_quantity",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.holder_quantity=='null'||row.holder_quantity=='unknown'){
+                            return '-';
+                        }else {
+                            return row.holder_quantity;
+                        };
+                    }
+                },
+                {
+                    title: "持股数量变动(股)",//标题
+                    field: "holder_quantity_change",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.holder_quantity_change==''||row.holder_quantity_change=='null'||row.holder_quantity_change=='unknown'||!row.holder_quantity_change){
+                            return '-';
+                        }else {
+                            return row.holder_quantity_change;
+                        };
+                    }
+                },
+                {
+                    title: "占总股本比例(%)",//标题
+                    field: "holder_pct",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.holder_pct==''||row.holder_pct=='null'||row.holder_pct=='unknown'){
+                            return '-';
+                        }else {
+                            return row.holder_pct;
+                        };
+                    }
+                },
+                {
+                    title: "持股比例变动(%)",//标题
+                    field: "holder_pct_change",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.holder_pct_change==''||row.holder_pct_change=='null'||row.holder_pct_change=='unknown'||!row.holder_pct_change){
+                            return '-';
+                        }else {
+                            return row.holder_pct_change;
+                        };
+                    }
+                },
+            ],
         });
 
-        function table3(data) {
-            $('#Transaction-1 center.loading').show();
+        $('#Transaction-1 center.loading').hide();
+    }
 
-            $('#Transaction-1').bootstrapTable('load', data);
-            $('#Transaction-1').bootstrapTable({
-                data:data,
-                search: true,//是否搜索
-                pagination: true,//是否分页
-                pageSize: 5,//单页记录数
-                pageList: [15,20,25],//分页步进值
-                sidePagination: "client",//服务端分页
-                searchAlign: "left",
-                searchOnEnterKey: false,//回车搜索
-                showRefresh: false,//刷新按钮
-                showColumns: false,//列选择按钮
-                buttonsAlign: "right",//按钮对齐方式
-                locale: "zh-CN",//中文支持
-                detailView: false,
-                showToggle:false,
-                sortName:'bci',
-                sortOrder:"desc",
-                columns: [
-                    {
-                        title: "排名",//标题
-                        field: "ranking",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            // return index+1;
-                            if (row.ranking==''||row.ranking=='null'||row.ranking=='unknown'||!row.ranking){
-                                return '未知';
-                            }else {
-                                return row.ranking;
-                            };
-                        }
-                    },
-                    {
-                        title: "股东名称",//标题
-                        field: "holder_name",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.holder_name==''||row.holder_name=='null'||row.holder_name=='unknown'||!row.holder_name||row.holder_name=='none' || row.holder_name=='None'){
-                                return '-';
-                            }else {
-                                return row.holder_name;
-                            };
-                        }
-                    },
-                    {
-                        title: "方向",//标题
-                        field: "holder_hold_direction",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.holder_hold_direction==''||row.holder_hold_direction=='null'||row.holder_hold_direction=='unknown'||!row.holder_hold_direction){
-                                return '-';
-                            }else {
-                                return row.holder_hold_direction;
-                            };
-                        }
-                    },
-                    {
-                        title: "持股数量(股)",//标题
-                        field: "holder_quantity",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.holder_quantity=='null'||row.holder_quantity=='unknown'){
-                                return '-';
-                            }else {
-                                return row.holder_quantity;
-                            };
-                        }
-                    },
-                    {
-                        title: "持股数量变动(股)",//标题
-                        field: "holder_quantity_change",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.holder_quantity_change==''||row.holder_quantity_change=='null'||row.holder_quantity_change=='unknown'||!row.holder_quantity_change){
-                                return '-';
-                            }else {
-                                return row.holder_quantity_change;
-                            };
-                        }
-                    },
-                    {
-                        title: "占总股本比例(%)",//标题
-                        field: "holder_pct",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.holder_pct==''||row.holder_pct=='null'||row.holder_pct=='unknown'){
-                                return '-';
-                            }else {
-                                return row.holder_pct;
-                            };
-                        }
-                    },
-                    {
-                        title: "持股比例变动(%)",//标题
-                        field: "holder_pct_change",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.holder_pct_change==''||row.holder_pct_change=='null'||row.holder_pct_change=='unknown'||!row.holder_pct_change){
-                                return '-';
-                            }else {
-                                return row.holder_pct_change;
-                            };
-                        }
-                    },
-                ],
-            });
+// 大宗交易
+    var Largetrans_url = '/maniPulate/manipulateReport/Largetrans?id=' + id;
+    public_ajax.call_request('get',Largetrans_url,table4);
+    function table4(data) {
+        $('#Transaction-2').bootstrapTable('load', data);
+        $('#Transaction-2').bootstrapTable({
+            data:data,
+            search: true,//是否搜索
+            pagination: true,//是否分页
+            pageSize: 5,//单页记录数
+            pageList: [15,20,25],//分页步进值
+            sidePagination: "client",//服务端分页
+            searchAlign: "left",
+            searchOnEnterKey: false,//回车搜索
+            showRefresh: false,//刷新按钮
+            showColumns: false,//列选择按钮
+            buttonsAlign: "right",//按钮对齐方式
+            locale: "zh-CN",//中文支持
+            detailView: false,
+            showToggle:false,
+            sortName:'bci',
+            sortOrder:"desc",
+            columns: [
+                {
+                    title: "交易日期",//标题
+                    field: "date",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
+                            return '未知';
+                        }else {
+                            return row.date;
+                        };
+                    }
+                },
+                {
+                    title: "成交价(元)",//标题
+                    field: "price",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.price==''||row.price=='null'||row.price=='unknown'||!row.price){
+                            return '未知';
+                        }else {
+                            return row.price;
+                        };
+                    }
+                },
+                {
+                    title: "成交量(万股)",//标题
+                    field: "number",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.number==''||row.number=='null'||row.number=='unknown'||!row.number){
+                            return '-';
+                        }else {
+                            return row.number;
+                        };
+                    }
+                },
+                {
+                    title: "成交额(万元)",//标题
+                    field: "amount",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.amount==''||row.amount=='null'||row.amount=='unknown'||!row.amount){
+                            return '-';
+                        }else {
+                            return row.amount;
+                        };
+                    }
+                },
+                {
+                    title: "折价率(%)",//标题
+                    field: "ratio",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.ratio==''||row.ratio=='null'||row.ratio=='unknown'||!row.ratio){
+                            return '-';
+                        }else {
+                            return row.ratio;
+                        };
+                    }
+                },
+                {
+                    title: "买方营业部",//标题
+                    field: "buyer",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.buyer==''||row.buyer=='null'||row.buyer=='unknown'||!row.buyer){
+                            return '-';
+                        }else {
+                            return row.buyer;
+                        };
+                    }
+                },
+                {
+                    title: "卖方营业部",//标题
+                    field: "seller",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.seller==''||row.seller=='null'||row.seller=='unknown'||!row.seller){
+                            return '-';
+                        }else {
+                            return row.seller;
+                        };
+                    }
+                },
+            ],
+        });
 
-            $('#Transaction-1 center.loading').hide();
-        }
-
-    // 大宗交易
-        var Largetrans_url = '/maniPulate/manipulateReport/Largetrans?id=' + id;
-        public_ajax.call_request('get',Largetrans_url,table4);
-        function table4(data) {
-            $('#Transaction-2').bootstrapTable('load', data);
-            $('#Transaction-2').bootstrapTable({
-                data:data,
-                search: true,//是否搜索
-                pagination: true,//是否分页
-                pageSize: 5,//单页记录数
-                pageList: [15,20,25],//分页步进值
-                sidePagination: "client",//服务端分页
-                searchAlign: "left",
-                searchOnEnterKey: false,//回车搜索
-                showRefresh: false,//刷新按钮
-                showColumns: false,//列选择按钮
-                buttonsAlign: "right",//按钮对齐方式
-                locale: "zh-CN",//中文支持
-                detailView: false,
-                showToggle:false,
-                sortName:'bci',
-                sortOrder:"desc",
-                columns: [
-                    {
-                        title: "交易日期",//标题
-                        field: "date",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
-                                return '未知';
-                            }else {
-                                return row.date;
-                            };
-                        }
-                    },
-                    {
-                        title: "成交价(元)",//标题
-                        field: "price",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.price==''||row.price=='null'||row.price=='unknown'||!row.price){
-                                return '未知';
-                            }else {
-                                return row.price;
-                            };
-                        }
-                    },
-                    {
-                        title: "成交量(万股)",//标题
-                        field: "number",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.number==''||row.number=='null'||row.number=='unknown'||!row.number){
-                                return '-';
-                            }else {
-                                return row.number;
-                            };
-                        }
-                    },
-                    {
-                        title: "成交额(万元)",//标题
-                        field: "amount",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.amount==''||row.amount=='null'||row.amount=='unknown'||!row.amount){
-                                return '-';
-                            }else {
-                                return row.amount;
-                            };
-                        }
-                    },
-                    {
-                        title: "折价率(%)",//标题
-                        field: "ratio",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.ratio==''||row.ratio=='null'||row.ratio=='unknown'||!row.ratio){
-                                return '-';
-                            }else {
-                                return row.ratio;
-                            };
-                        }
-                    },
-                    {
-                        title: "买方营业部",//标题
-                        field: "buyer",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.buyer==''||row.buyer=='null'||row.buyer=='unknown'||!row.buyer){
-                                return '-';
-                            }else {
-                                return row.buyer;
-                            };
-                        }
-                    },
-                    {
-                        title: "卖方营业部",//标题
-                        field: "seller",//键名
-                        sortable: true,//是否可排序
-                        order: "desc",//默认排序方式
-                        align: "center",//水平
-                        valign: "middle",//垂直
-                        formatter: function (value, row, index) {
-                            if (row.seller==''||row.seller=='null'||row.seller=='unknown'||!row.seller){
-                                return '-';
-                            }else {
-                                return row.seller;
-                            };
-                        }
-                    },
-                ],
-            });
-
-            $('#Transaction-2 center.loading').hide();
-        }
+        $('#Transaction-2 center.loading').hide();
+    }
 
 // 股权分析
     // var myChart_3 = echarts.init(document.getElementById('Stock_1'),'chalk');
@@ -862,14 +1040,43 @@
     var myChart_4 = echarts.init(document.getElementById('Stock_2'));
     myChart_4.showLoading();
 
-    var holderspct_url = '/maniPulate/manipulateReport/holderspct?id=' + id;
-    public_ajax.call_request('get',holderspct_url,Stock);
-    function Stock(data){
-        var holder_pctbyinst_data = data.holder_pctbyinst;      //机构投资者持股
-        var holder_notpctbyinst_data = data.holder_notpctbyinst;//非 机构投资者持股
+    var holderspct_url = '';//股权分析的
 
-        var holder_top10pct_data = data.holder_top10pct;        //十大股东
-        var holder_nottop10pct_data = data.holder_nottop10pct;  //非 十大股东
+    var seasonBoxpct_url = '/maniPulate/manipulateReport/seasonBoxpct?id=' + id;
+    public_ajax.call_request('get',seasonBoxpct_url,seasonBoxpct);
+    function seasonBoxpct(data){
+        if(data){
+            var str = '';
+            var flag = true;
+            for(var i=0;i<data.length;i++){
+                if(data[i].show == 1 || data[i].show == '1' ){
+                    flag = false;//有默认选项 不必设置最后一个选中
+                    str += '<option value="'+data[i].seasonid+'" selected="selected">'+ data[i].season + '</option>';
+                }else {
+                    str += '<option value="'+data[i].seasonid+'">'+ data[i].season + '</option>';
+                }
+            }
+
+            $('.shareholding_time').empty().append(str).children('option:last-child').attr('selected','selected');//持股分析的
+            if(flag == true){
+                $('.shareholding_time').empty().append(str).children('option:last-child').attr('selected','selected');//默认选中最后一个
+            }else {
+                $('.shareholding_time').empty().append(str);
+            }
+
+            holderspct_url = '/maniPulate/manipulateReport/holderspct?id=' + id +'&seasonid='+$('.shareholding_time').val();
+            public_ajax.call_request('get',holderspct_url,Stock);
+        }
+    }
+
+    // var holderspct_url = '/maniPulate/manipulateReport/holderspct?id=' + id +'&seasonid='+$('.shareholding_time').val();
+    // public_ajax.call_request('get',holderspct_url,Stock);
+    function Stock(data){
+        var holder_pctbyinst_data = data.holder_pctbyinst.toFixed(2);      //机构投资者持股
+        var holder_notpctbyinst_data = data.holder_notpctbyinst.toFixed(2);//非 机构投资者持股
+
+        var holder_top10pct_data = data.holder_top10pct.toFixed(2);        //十大股东
+        var holder_nottop10pct_data = data.holder_nottop10pct.toFixed(2);  //非 十大股东
 
         var option_3 = {
             backgroundColor:'transparent',
@@ -992,124 +1199,491 @@
         myChart_4.setOption(option_4);
     }
 
-    function Stock_1(){
-        var myChart = echarts.init(document.getElementById('Stock_1'),'chalk');
-        var option = {
-            backgroundColor:'transparent',
-            title : {
-                text: '万科机构投资者持股比例',
-                x:'center',
-                textStyle:{
-                    color:'#333'
-                }
-            },
-            tooltip : {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: ['机构投资者','非机构投资者'],
-                textStyle:{
-                    color:'#333'
-                }
-            },
-            series : [
-                {
-                    name: '投资者',
-                    type: 'pie',
-                    radius : '55%',
-                    center: ['50%', '50%'],
-                    data:[
-                        {value:335, name:'机构投资者'},
-                        {value:166, name:'非机构投资者'},
-                    ],
-                    label: {
-                        normal:{
-                            show: true,
-                            // position:'inner',
-                            formatter: "{b} {d}%",
-                            textStyle: {
-                                // fontWeight:'bolder',
-                                // fontSize : '12',
-                                // color:'#164d8e'
+    // 假数据  已 弃用
+        function Stock_1(){
+            var myChart = echarts.init(document.getElementById('Stock_1'),'chalk');
+            var option = {
+                backgroundColor:'transparent',
+                title : {
+                    text: '万科机构投资者持股比例',
+                    x:'center',
+                    textStyle:{
+                        color:'#333'
+                    }
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['机构投资者','非机构投资者'],
+                    textStyle:{
+                        color:'#333'
+                    }
+                },
+                series : [
+                    {
+                        name: '投资者',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '50%'],
+                        data:[
+                            {value:335, name:'机构投资者'},
+                            {value:166, name:'非机构投资者'},
+                        ],
+                        label: {
+                            normal:{
+                                show: true,
+                                // position:'inner',
+                                formatter: "{b} {d}%",
+                                textStyle: {
+                                    // fontWeight:'bolder',
+                                    // fontSize : '12',
+                                    // color:'#164d8e'
+                                }
+                            }
+                        },
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
                             }
                         }
-                    },
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        }
+        // Stock_1()
+
+        function Stock_2(){
+            var myChart = echarts.init(document.getElementById('Stock_2'),'chalk');
+            var option = {
+                backgroundColor:'transparent',
+                title : {
+                    text: '万科十大股东持股比例',
+                    x:'center',
+                    textStyle:{
+                        color:'#333'
+                    }
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['十大股东','非十大股东'],
+                    textStyle:{
+                        color:'#333'
+                    }
+                },
+                series : [
+                    {
+                        name: '股东',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '50%'],
+                        data:[
+                            {value:111, name:'十大股东'},
+                            {value:789, name:'非十大股东'},
+                        ],
+                        label: {
+                            normal:{
+                                show: true,
+                                // position:'inner',
+                                formatter: "{b} {d}%",
+                                // textStyle: {
+                                //     fontWeight:'bolder',
+                                //     fontSize : '12',
+                                //     color:'#164d8e'
+                                // }
+                            }
+                        },
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
                         }
                     }
-                }
-            ]
-        };
-        myChart.setOption(option);
-    }
-    // Stock_1()
+                ]
+            };
+            myChart.setOption(option)
+        }
+        // Stock_2()
 
-    function Stock_2(){
-        var myChart = echarts.init(document.getElementById('Stock_2'),'chalk');
-        var option = {
-            backgroundColor:'transparent',
-            title : {
-                text: '万科十大股东持股比例',
-                x:'center',
-                textStyle:{
-                    color:'#333'
-                }
+    $('.shareholding_time').change(function(){
+        myChart_3.showLoading();
+        myChart_4.showLoading();
+        holderspct_url = '/maniPulate/manipulateReport/holderspct?id=' + id +'&seasonid='+$(this).val();
+        public_ajax.call_request('get',holderspct_url,Stock);
+    });
+
+    // 折线图
+    var myChart_Stock_3 = echarts.init(document.getElementById('Stock_3'));
+    var myChart_Stock_4 = echarts.init(document.getElementById('Stock_4'));
+    myChart_Stock_3.showLoading();
+    myChart_Stock_4.showLoading();
+    var holderspctline_url = '/maniPulate/manipulateReport/holderspctline?id=' + id;
+    public_ajax.call_request('get',holderspctline_url,holderspctline);
+    function holderspctline(data){
+        var option_Stock_3 = {
+            title: {
+                text: stock+'机构投资者持股比例变化',
+                x: 'center'
             },
-            tooltip : {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            tooltip: {
+                trigger: 'axis'
             },
             legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: ['十大股东','非十大股东'],
-                textStyle:{
-                    color:'#333'
+                data: '机构投资者持股比例变化',
+                orient:'horizontal',
+                top:'7%',
+                left:'center'
+            },
+            grid: {
+                left: '0%',
+                right: '9%',
+                bottom: '0%',
+                top:'17%',
+                containLabel: true
+            },
+            xAxis:  {
+                name:'时间',
+                type: 'category',
+                boundaryGap: false,
+                data: data.season,
+                axisLabel:{
+                    rotate:90
                 }
             },
-            series : [
+            yAxis: {
+                name:'',
+                type: 'value',
+                axisLabel: {
+                    // formatter: '{value} °C'
+                },
+                min:function(value) {
+                    return Math.floor(value.min - 5);//向下取整
+                },
+                // max:function(value) {
+                //     return Math.ceil(value.max + 5);//向上取整
+                // },
+            },
+            // color:['#c23531','#749f83','#2f4554'],
+            series: [
                 {
-                    name: '股东',
-                    type: 'pie',
-                    radius : '55%',
-                    center: ['50%', '50%'],
-                    data:[
-                        {value:111, name:'十大股东'},
-                        {value:789, name:'非十大股东'},
-                    ],
-                    label: {
-                        normal:{
-                            show: true,
-                            // position:'inner',
-                            formatter: "{b} {d}%",
-                            // textStyle: {
-                            //     fontWeight:'bolder',
-                            //     fontSize : '12',
-                            //     color:'#164d8e'
-                            // }
-                        }
-                    },
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
+                    name: '投资者',
+                    type:'line',
+                    data: data.inst,
+                    showSymbol: true,
+                    hoverAnimation: true,
+                },
             ]
         };
-        myChart.setOption(option)
+        myChart_Stock_3.hideLoading();
+        myChart_Stock_3.setOption(option_Stock_3);
+
+        var option_Stock_4 = {
+            title: {
+                text: stock+'十大股东持股比例变化',
+                x: 'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: '十大股东持股比例变化',
+                orient:'horizontal',
+                top:'7%',
+                left:'center'
+            },
+            grid: {
+                left: '0%',
+                right: '9%',
+                bottom: '0%',
+                top:'17%',
+                containLabel: true
+            },
+            xAxis:  {
+                name:'时间',
+                type: 'category',
+                boundaryGap: false,
+                data: data.season,
+                axisLabel:{
+                    rotate:90
+                }
+            },
+            yAxis: {
+                name:'',
+                type: 'value',
+                axisLabel: {
+                    // formatter: '{value} °C'
+                },
+                min:function(value) {
+                    return Math.floor(value.min - 5);//向下取整
+                },
+                // max:function(value) {
+                //     return Math.ceil(value.max + 5);//向上取整
+                // },
+            },
+            // color:['#c23531','#749f83','#2f4554'],
+            series: [
+                {
+                    // name:'万科',
+                    name: '股东',
+                    type:'line',
+                    data: data.top10,
+                    showSymbol: true,
+                    hoverAnimation: true,
+                },
+            ]
+        };
+        myChart_Stock_4.hideLoading();
+        myChart_Stock_4.setOption(option_Stock_4);
     }
-    // Stock_2()
 
+// 财报数据
+    var profit_url = '/maniPulate/manipulateReport/profit?id=' + id;
+    public_ajax.call_request('get',profit_url,profit_table);
+    function profit_table(data) {
+        $('#profit-content').bootstrapTable('load', data);
+        $('#profit-content').bootstrapTable({
+            data:data,
+            search: true,//是否搜索
+            pagination: true,//是否分页
+            pageSize: 5,//单页记录数
+            pageList: [15,20,25],//分页步进值
+            sidePagination: "client",//服务端分页
+            searchAlign: "left",
+            searchOnEnterKey: false,//回车搜索
+            showRefresh: false,//刷新按钮
+            showColumns: false,//列选择按钮
+            buttonsAlign: "right",//按钮对齐方式
+            locale: "zh-CN",//中文支持
+            detailView: false,
+            showToggle:false,
+            sortName:'bci',
+            sortOrder:"desc",
+            columns: [
+                {
+                    title: "季度",//标题
+                    field: "date",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.date=='null'||row.date=='unknown'){
+                            return '未知';
+                        }else {
+                            return row.date;
+                        };
+                    }
+                },
+                {
+                    title: "净资产收益率(%)",//标题
+                    field: "roe",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.roe=='null'||row.roe=='unknown'){
+                            return '未知';
+                        }else {
+                            return row.roe;
+                        };
+                    }
+                },
+                {
+                    title: "净利率(%)",//标题
+                    field: "net_profit_ratio",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.net_profit_ratio=='null'||row.net_profit_ratio=='unknown'){
+                            return '-';
+                        }else {
+                            return row.net_profit_ratio;
+                        };
+                    }
+                },
+                {
+                    title: "毛利率(%)",//标题
+                    field: "gross_profit_rate",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.gross_profit_rate=='null'||row.gross_profit_rate=='unknown'){
+                            return '-';
+                        }else {
+                            return row.gross_profit_rate;
+                        };
+                    }
+                },
+                {
+                    title: "净利润(万元)",//标题
+                    field: "net_profits",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.net_profits=='null'||row.net_profits=='unknown'){
+                            return '-';
+                        }else {
+                            return row.net_profits;
+                        };
+                    }
+                },
+                {
+                    title: "每股收益",//标题
+                    field: "eps",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.eps=='null'||row.eps=='unknown'){
+                            return '-';
+                        }else {
+                            return row.eps;
+                        };
+                    }
+                },
+                {
+                    title: "营业收入(百万元)",//标题
+                    field: "business_income",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.business_income=='null'||row.business_income=='unknown'){
+                            return '-';
+                        }else {
+                            return row.business_income;
+                        };
+                    }
+                },
+                {
+                    title: "每股主营业务收入(元)",//标题
+                    field: "bips",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.bips=='null'||row.bips=='unknown'){
+                            return '-';
+                        }else {
+                            return row.bips;
+                        };
+                    }
+                },
+            ],
+        });
 
+        $('#profit-content center.loading').hide();
+    }
 
+// 历史信用
+    var credit_url = '/maniPulate/manipulateReport/credit/?id='+id;
+    public_ajax.call_request('get',credit_url,creditHistory);
+    // 假数据
+        var creditHistoryData = [
+            {date:'2018-5-26',type:'证监会判罚',content:'你了发货了看法了按时发啦发啦按身份靠你了我看看你发'},
+            {date:'2018-5-26',type:'证监会判罚',content:'你了发货了看法了按时发啦发啦按身份靠你了我看看你发'},
+            {date:'2018-5-26',type:'证监会判罚',content:'你了发货了看法了按时发啦发啦按身份靠你了我看看你发'},
+            {date:'2018-5-26',type:'证监会判罚',content:'你了发货了看法了按时发啦发啦按身份靠你了我看看你发'},
+            {date:'2018-5-26',type:'证监会判罚',content:'你了发货了看法了按时发啦发啦按身份靠你了我看看你发'},
+            {date:'2018-5-26',type:'证监会判罚',content:'你了发货了看法了按时发啦发啦按身份靠你了我看看你发'},
+            {date:'2018-5-26',type:'证监会判罚',content:'你了发货了看法了按时发啦发啦按身份靠你了我看看你发'},
+            {date:'2018-5-26',type:'证监会判罚',content:'你了发货了看法了按时发啦发啦按身份靠你了我看看你发'},
+        ];
+    function creditHistory(data) {
+        $('#creditHistory_content').bootstrapTable('load', data);
+        $('#creditHistory_content').bootstrapTable({
+            data:data,
+            search: true,//是否搜索
+            pagination: true,//是否分页
+            pageSize: 5,//单页记录数
+            pageList: [15,20,25],//分页步进值
+            sidePagination: "client",//服务端分页
+            searchAlign: "left",
+            searchOnEnterKey: false,//回车搜索
+            showRefresh: false,//刷新按钮
+            showColumns: false,//列选择按钮
+            buttonsAlign: "right",//按钮对齐方式
+            locale: "zh-CN",//中文支持
+            detailView: false,
+            showToggle:false,
+            sortName:'bci',
+            sortOrder:"desc",
+            columns: [
+                {
+                    title: "时间",//标题
+                    field: "date",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.date==''||row.date=='null'||row.date=='unknown'||!row.date){
+                            return '未知';
+                        }else {
+                            return row.date;
+                        };
+                    }
+                },
+                {
+                    title: "类型",//标题
+                    field: "type",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.type==''||row.type=='null'||row.type=='unknown'||!row.type){
+                            return '未知';
+                        }else {
+                            return row.type;
+                        };
+                    }
+                },
+                {
+                    title: "摘要",//标题
+                    field: "abstract",//键名
+                    sortable: true,//是否可排序
+                    order: "desc",//默认排序方式
+                    align: "center",//水平
+                    valign: "middle",//垂直
+                    formatter: function (value, row, index) {
+                        if (row.abstract==''||row.abstract=='null'||row.abstract=='unknown'||!row.abstract){
+                            return '暂无标题';
+                        }else {
+                            if(row.abstract.length>150){
+                                return '<span style="cursor:pointer;" title="'+row.abstract+'">'+row.abstract.substring(0,150)+'...</span>';
+                            }else {
+                                return row.abstract;
+                            }
+                        };
+                    }
+                },
+            ],
+        });
 
+        $('#creditHistory_content center.loading').hide();
+    }
+    // creditHistory(creditHistoryData)
