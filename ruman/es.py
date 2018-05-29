@@ -319,12 +319,12 @@ def newhotspotcombineText():
 	cur.execute(sql)
 	results = cur.fetchall()
 	query_body = {
-            'size':400,
-            'query':{
-                "match_all":{}
-        }
-    }
-    res = es216.search(index="rumor_sample",doc_type="weibo", body=query_body)
+			'size':400,
+			'query':{
+				"match_all":{}
+		}
+	}
+	res = es216.search(index="rumor_sample",doc_type="weibo", body=query_body)
 
 	# res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
