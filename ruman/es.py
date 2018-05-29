@@ -286,38 +286,47 @@ def newhotspotcombineText():
 
 	# query_body = {"size":5000,"query":{"match_all": {}}}
 	# query_body = {"size":5000,"query":{"term": {"rumor_label":0}}}
-	query_body = {
-	  "query": {
-		"filtered": {
-		  "filter": {
-			"bool": {
-			  "must": [
-				{
-				  "term": {
-					"cal_status": 1
-				  }
-				},
-				{
-				  "term": {
-					"rumor_label": 0
-				  }
-				},
-				{
-				  "term": {
-					"fin_label": 1
-				  }
-				}
-			  ]
-			}
-		  }
-		}
-	  }
-	}
+	# query_body = {
+	#   "query": {
+	# 	"filtered": {
+	# 	  "filter": {
+	# 		"bool": {
+	# 		  "must": [
+	# 			{
+	# 			  "term": {
+	# 				"cal_status": 1
+	# 			  }
+	# 			},
+	# 			{
+	# 			  "term": {
+	# 				"rumor_label": 0
+	# 			  }
+	# 			},
+	# 			{
+	# 			  "term": {
+	# 				"fin_label": 1
+	# 			  }
+	# 			}
+	# 		  ]
+	# 		}
+	# 	  }
+	# 	}
+	#   }
+	# }
+
 	sql = "SELECT * FROM %s WHERE ifshow=2 " % (TABLE_HOTNEWS)
 
 	cur.execute(sql)
 	results = cur.fetchall()
-	res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
+	query_body = {
+            'size':400,
+            'query':{
+                "match_all":{}
+        }
+    }
+    res = es216.search(index="rumor_sample",doc_type="weibo", body=query_body)
+
+	# res = es216.search(index=RUMORLIST_INDEX, body=query_body,request_timeout=100)
 	hits = res['hits']['hits']
 	result = []
 
