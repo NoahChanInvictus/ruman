@@ -15,6 +15,8 @@ def get_traceback(sampleid,data):
     sample_data = pd.DataFrame(data)
     selected = sample_data.loc[sample_data['id']==sampleid].fillna('nan')
     selected_dict = selected.to_dict(orient= 'records')
+    for item in selected_dict:
+        item['publish_time'] = str(weibo_data['publish_time'])
     selected_dict = sorted(selected_dict,key = lambda x:x['publish_time'])
     return selected_dict
 
