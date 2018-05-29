@@ -22,10 +22,10 @@ def newhotspotandruman_text():
 @newHotSpot.route('/hotspotReport/xw_propagate/')
 def xinwen_hotspot_propagate():
     # id = int(request.args.get('id',''))
-    id = request.args.get('id','')
+    text_id = request.args.get('text_id','')
     # source = request.args.get('source','')
     # result = hotspotPropagate(id,source)
-    result = sample_data_main(id,'news')
+    result = sample_data_main(text_id,'news')
     return json.dumps(result,ensure_ascii=False)
 
 @newHotSpot.route('/hotspotReport/wb_propagate/')
