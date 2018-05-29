@@ -329,6 +329,7 @@ def newhotspotcombineText():
 		dic['keyword'] = thing[HOT_NEWS_KEY_WORD]
 		dic['id'] = thing['id']
 		dic['publisher'] = thing['web']
+		dic['text_id'] = thing['text_id']
 		result.append(dic)
 	result = sorted(result, key= lambda x:(x['publish_time']),reverse=True)   #只取时间最近的前十个
 	resultes = []
@@ -342,6 +343,8 @@ def newhotspotcombineText():
 		dic['id'] = hit['_id']
 		# dic['type'] = hit['_type']
 		dic['publisher'] = hit['_source']['uid']
+		dic['mid'] = hit['_source']['mid']
+
 		resultes.append(dic)
 	resultes = sorted(resultes, key= lambda x:(x['publish_time']),reverse=True)   #只取时间最近的前十个
 	#print len(resultes)
