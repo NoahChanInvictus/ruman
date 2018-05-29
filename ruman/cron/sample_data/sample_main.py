@@ -12,8 +12,8 @@ def read_data_xlsx(path):
 
 def get_traceback(sampleid,data):
     sample_data = pd.DataFrame(data)
-    selected = sample_data.loc[sample_data['id']==sampleid]
-    selected_dict = selected.to_dict(orient= 'records').filllna('nan')
+    selected = sample_data.loc[sample_data['id']==sampleid].fillna('nan')
+    selected_dict = selected.to_dict(orient= 'records')
     selected_dict = sorted(selected_dict,key = lambda x:x['publish_time'])
     return selected_dict
 
