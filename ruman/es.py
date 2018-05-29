@@ -285,7 +285,34 @@ def newhotspotcombineText():
 	cur = defaultDatabase()
 
 	# query_body = {"size":5000,"query":{"match_all": {}}}
-	query_body = {"size":5000,"query":{"term": {"rumor_label":0}}}
+	# query_body = {"size":5000,"query":{"term": {"rumor_label":0}}}
+	query_body = {
+	  "query": {
+		"filtered": {
+		  "filter": {
+			"bool": {
+			  "must": [
+				{
+				  "term": {
+					"cal_status": 1
+				  }
+				},
+				{
+				  "term": {
+					"rumor_label": 0
+				  }
+				},
+				{
+				  "term": {
+					"fin_label": 1
+				  }
+				}
+			  ]
+			}
+		  }
+		}
+	  }
+	}
 	sql = "SELECT * FROM %s WHERE ifshow=2 " % (TABLE_HOTNEWS)
 
 	cur.execute(sql)
@@ -316,8 +343,9 @@ def newhotspotcombineText():
 		# dic['type'] = hit['_type']
 		dic['publisher'] = hit['_source']['uid']
 		resultes.append(dic)
-	resultes = sorted(resultes, key= lambda x:(x['publish_time']),reverse=True)[:10]   #只取时间最近的前十个
+	resultes = sorted(resultes, key= lambda x:(x['publish_time']),reverse=True)   #只取时间最近的前十个
 	#print len(resultes)
+	print len(resultes)
 	result.extend(resultes)
 	#print len(result)
 	return result
